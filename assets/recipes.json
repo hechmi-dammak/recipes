@@ -211,7 +211,7 @@
     },
     {
         "id": 5,
-        "name": "sause",
+        "name": "sauce",
         "spices": [
             {
                 "name": "paprika",
@@ -734,13 +734,13 @@
                 "name": "tomato",
                 "quantity": 1,
                 "size": "medium",
-                "method": "sause with the spices"
+                "method": "sauce with the spices"
             },
             {
                 "name": "garlic",
                 "quantity": 0.125,
                 "measuring": "coffee spoon",
-                "method": "sause with the spices"
+                "method": "sauce with the spices"
             },
             {
                 "name": "pepper",
