@@ -1,0 +1,764 @@
+[
+    {
+        "id": 1,
+        "name": "mosli",
+        "spices": [
+            {
+                "name": "curukum",
+                "quantity": 0.25,
+                "measuring": "coffee spoon"
+            },
+            {
+                "name": "salt",
+                "quantity": 0.25,
+                "measuring": "coffee spoon"
+            },
+            {
+                "name": "tabel and kariwya",
+                "quantity": 0.25,
+                "measuring": "coffee spoon"
+            },
+            {
+                "name": "black pepper",
+                "quantity": 0.25,
+                "measuring": "coffee spoon"
+            }
+        ],
+        "ingredients": [
+            {
+                "name": "chicken leg",
+                "quantity": 1
+            },
+            {
+                "name": "water",
+                "quantity": 3,
+                "measuring": "cups"
+            },
+            {
+                "name": "olive oil",
+                "quantity": 0.125,
+                "measuring": "cups"
+            },
+            {
+                "name": "potato",
+                "quantity": 0.5,
+                "size": "medium"
+            },
+            {
+                "name": "tomato",
+                "quantity": 1,
+                "size": "medium"
+            },
+            {
+                "name": "garlic",
+                "quantity": 0.5,
+                "measuring": "coffee spoon"
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "name": "chebtiya",
+        "spices": [
+            {
+                "name": "paprika",
+                "quantity": 1,
+                "measuring": "coffee spoon"
+            },
+            {
+                "name": "curukum",
+                "quantity": 0.25,
+                "measuring": "coffee spoon"
+            },
+            {
+                "name": "salt",
+                "quantity": 0.5,
+                "measuring": "coffee spoon"
+            },
+            {
+                "name": "black pepper",
+                "quantity": 0.25,
+                "measuring": "coffee spoon"
+            }
+        ],
+        "ingredients": [
+            {
+                "name": "egg",
+                "method": "until it becomes fluid"
+            },
+            {
+                "name": "semolina",
+                "method": "until it covers"
+            },
+            {
+                "name": "potato",
+                "quantity": 1,
+                "size": "medium"
+            },
+            {
+                "name": "onion",
+                "quantity": 1,
+                "size": "medium"
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "name": "torchi",
+        "spices": [
+            {
+                "name": "paprika",
+                "quantity": 0.25,
+                "measuring": "coffee spoon"
+            },
+            {
+                "name": "salt",
+                "quantity": 0.25,
+                "measuring": "coffee spoon"
+            },
+            {
+                "name": "tabel and kariwya",
+                "quantity": 0.125,
+                "measuring": "coffee spoon"
+            }
+        ],
+        "ingredients": [
+            {
+                "name": "tuna",
+                "method": "on top for finish"
+            },
+            {
+                "name": "egg",
+                "quantity": 2,
+                "method": "boiled and cut on top for finish"
+            },
+            {
+                "name": "garlic",
+                "quantity": 0.25,
+                "measuring": "coffee spoon"
+            },
+            {
+                "name": "carrot",
+                "quantity": 1.5,
+                "size": "medium"
+            },
+            {
+                "name": "lemon",
+                "quantity": 0.25,
+                "size": "medium",
+                "method": "juiced"
+            }
+        ]
+    },
+    {
+        "id": 4,
+        "name": "brik 5alit",
+        "spices": [
+            {
+                "name": "paprika",
+                "quantity": 1,
+                "measuring": "coffee spoon"
+            },
+            {
+                "name": "curukum",
+                "quantity": 0.125,
+                "measuring": "coffee spoon"
+            },
+            {
+                "name": "tabel and kariwya",
+                "quantity": 0.125,
+                "measuring": "coffee spoon"
+            },
+            {
+                "name": "salt",
+                "quantity": 0.125,
+                "measuring": "coffee spoon"
+            },
+            {
+                "name": "black pepper",
+                "quantity": 0.125,
+                "measuring": "coffee spoon"
+            }
+        ],
+        "ingredients": [
+            {
+                "name": "chicken or turkey",
+                "quantity": 200,
+                "measuring": "grams",
+                "method": "cut and boiled"
+            },
+            {
+                "name": "egg",
+                "quantity": 1,
+                "method": "boiled and cut(optional)"
+            },
+            {
+                "name": "egg",
+                "quantity": 3
+            },
+            {
+                "name": "potato",
+                "quantity": 1,
+                "size": "medium",
+                "method": "boiled and cut to cubes"
+            },
+            {
+                "name": "parsley",
+                "quantity": 0.5,
+                "measuring": "cups"
+            }
+        ]
+    },
+    {
+        "id": 5,
+        "name": "sause",
+        "spices": [
+            {
+                "name": "paprika",
+                "quantity": 0.5,
+                "measuring": "coffee spoon"
+            },
+            {
+                "name": "tabel and kariwya or kammoun(in case creuvette is added)",
+                "quantity": 0.125,
+                "measuring": "coffee spoon"
+            },
+            {
+                "name": "salt",
+                "quantity": 0.125,
+                "measuring": "coffee spoon"
+            },
+            {
+                "name": "black pepper",
+                "quantity": 0.125,
+                "measuring": "coffee spoon"
+            }
+        ],
+        "ingredients": [
+            {
+                "name": "onion",
+                "quantity": 0.5,
+                "size": "small",
+                "method": "(optional)"
+            },
+            {
+                "name": "tomato",
+                "quantity": 3.5,
+                "size": "medium"
+            },
+            {
+                "name": "water",
+                "quantity": 0.5,
+                "measuring": "cups"
+            },
+            {
+                "name": "olive oil",
+                "quantity": 0.125,
+                "measuring": "cups"
+            },
+            {
+                "name": "garlic",
+                "quantity": 0.25,
+                "measuring": "coffee spoon"
+            },
+            {
+                "name": "pepper",
+                "quantity": 1,
+                "size": "medium"
+            },
+            {
+                "name": "egg",
+                "quantity": 1,
+                "method": "mixed a little at finish"
+            }
+        ]
+    },
+    {
+        "id": 6,
+        "name": "ma9arouna",
+        "spices": [
+            {
+                "name": "paprika",
+                "quantity": 0.5,
+                "measuring": "coffee spoon"
+            },
+            {
+                "name": "tabel and kariwya ",
+                "quantity": 0.125,
+                "measuring": "coffee spoon"
+            },
+            {
+                "name": "salt",
+                "quantity": 0.25,
+                "measuring": "coffee spoon"
+            },
+            {
+                "name": "black pepper",
+                "quantity": 0.125,
+                "measuring": "coffee spoon"
+            }
+        ],
+        "ingredients": [
+            {
+                "name": "onion",
+                "quantity": 0.25,
+                "size": "small",
+                "method": "minced"
+            },
+            {
+                "name": "tomato",
+                "quantity": 1,
+                "size": "medium"
+            },
+            {
+                "name": "water",
+                "quantity": 1,
+                "measuring": "cups"
+            },
+            {
+                "name": "olive oil",
+                "quantity": 0.125,
+                "measuring": "cups"
+            },
+            {
+                "name": "garlic",
+                "quantity": 0.25,
+                "measuring": "coffee spoon"
+            },
+            {
+                "name": "pepper",
+                "quantity": 0.25,
+                "size": "medium"
+            },
+            {
+                "name": "tomato paste",
+                "quantity": 1,
+                "measuring": "table spoon"
+            }
+        ]
+    },
+    {
+        "id": 7,
+        "name": "bor8ol",
+        "spices": [
+            {
+                "name": "paprika",
+                "quantity": 1,
+                "measuring": "coffee spoon"
+            },
+            {
+                "name": "tabel and kariwya",
+                "quantity": 0.25,
+                "measuring": "coffee spoon"
+            },
+            {
+                "name": "curukum",
+                "quantity": 0.25,
+                "measuring": "coffee spoon"
+            },
+            {
+                "name": "salt",
+                "quantity": 0.25,
+                "measuring": "coffee spoon"
+            },
+            {
+                "name": "black pepper",
+                "quantity": 0.25,
+                "measuring": "coffee spoon"
+            }
+        ],
+        "ingredients": [
+            {
+                "name": "9adid",
+                "quantity": 4
+            },
+            {
+                "name": "onion",
+                "quantity": 1,
+                "size": "small"
+            },
+            {
+                "name": "foul",
+                "quantity": 1,
+                "measuring": "cups"
+            },
+            {
+                "name": "jelbena",
+                "quantity": 1,
+                "measuring": "cups"
+            },
+            {
+                "name": "sel9",
+                "quantity": 1,
+                "measuring": "cups"
+            },
+            {
+                "name": "bor8ol",
+                "quantity": 1,
+                "measuring": "cups"
+            },
+            {
+                "name": "olive oil",
+                "quantity": 0.5,
+                "measuring": "cups"
+            },
+            {
+                "name": "garlic",
+                "quantity": 0.25,
+                "measuring": "coffee spoon"
+            },
+            {
+                "name": "tomato paste",
+                "quantity": 0.5,
+                "measuring": "coffee spoon"
+            },
+            {
+                "name": "carrot",
+                "quantity": 1,
+                "size": "medium"
+            },
+            {
+                "name": "parsley",
+                "quantity": 1,
+                "measuring": "cups"
+            }
+        ]
+    },
+    {
+        "id": 8,
+        "name": "rouz(djej/chwebi)",
+        "spices": [
+            {
+                "name": "paprika",
+                "quantity": 1,
+                "measuring": "coffee spoon"
+            },
+            {
+                "name": "tabel and kariwya",
+                "quantity": 0.25,
+                "measuring": "coffee spoon"
+            },
+            {
+                "name": "curukum",
+                "quantity": 0.5,
+                "measuring": "coffee spoon"
+            },
+            {
+                "name": "salt",
+                "quantity": 0.5,
+                "measuring": "coffee spoon"
+            },
+            {
+                "name": "black pepper",
+                "quantity": 0.25,
+                "measuring": "coffee spoon"
+            }
+        ],
+        "ingredients": [
+            {
+                "name": "chicken or chwebi",
+                "quantity": 200,
+                "measuring": "grams"
+            },
+            {
+                "name": "onion",
+                "quantity": 1,
+                "size": "small"
+            },
+            {
+                "name": "jelbena",
+                "quantity": 1,
+                "measuring": "cups"
+            },
+            {
+                "name": "sel9",
+                "quantity": 1,
+                "measuring": "cups"
+            },
+            {
+                "name": "rice",
+                "quantity": 1,
+                "measuring": "cups"
+            },
+            {
+                "name": "olive oil",
+                "quantity": 0.5,
+                "measuring": "cups"
+            },
+            {
+                "name": "garlic",
+                "quantity": 0.5,
+                "measuring": "coffee spoon"
+            },
+            {
+                "name": "tomato paste",
+                "quantity": 1,
+                "measuring": "coffee spoon"
+            },
+            {
+                "name": "carrot",
+                "quantity": 1,
+                "size": "medium"
+            }
+        ]
+    },
+    {
+        "id": 9,
+        "name": "kamouniya",
+        "spices": [
+            {
+                "name": "paprika",
+                "quantity": 0.375,
+                "measuring": "coffee spoon"
+            },
+            {
+                "name": "kammoun",
+                "quantity": 0.125,
+                "measuring": "coffee spoon",
+                "method": "only in the last 2 minutes"
+            },
+            {
+                "name": "curukum",
+                "quantity": 0.0625,
+                "measuring": "coffee spoon"
+            },
+            {
+                "name": "salt",
+                "quantity": 0.125,
+                "measuring": "coffee spoon"
+            },
+            {
+                "name": "black pepper",
+                "quantity": 0.125,
+                "measuring": "coffee spoon"
+            }
+        ],
+        "ingredients": [
+            {
+                "name": "meat and liver",
+                "quantity": 125,
+                "measuring": "grams"
+            },
+            {
+                "name": "onion",
+                "quantity": 0.25,
+                "size": "small",
+                "method": "minced"
+            },
+            {
+                "name": "tomato",
+                "quantity": 1,
+                "size": "medium"
+            },
+            {
+                "name": "olive oil",
+                "quantity": 0.25,
+                "measuring": "cups"
+            },
+            {
+                "name": "garlic",
+                "quantity": 0.25,
+                "measuring": "coffee spoon"
+            },
+            {
+                "name": "tomato paste",
+                "quantity": 0.25,
+                "measuring": "coffee spoon"
+            }
+        ]
+    },
+    {
+        "id": 10,
+        "name": "chakchouka",
+        "spices": [
+            {
+                "name": "paprika",
+                "quantity": 0.5,
+                "measuring": "coffee spoon"
+            },
+            {
+                "name": "tabel and kariwya",
+                "quantity": 0.0625,
+                "measuring": "coffee spoon"
+            },
+            {
+                "name": "curukum",
+                "quantity": 0.0625,
+                "measuring": "coffee spoon"
+            },
+            {
+                "name": "salt",
+                "quantity": 0.125,
+                "measuring": "coffee spoon"
+            },
+            {
+                "name": "black pepper",
+                "quantity": 0.0625,
+                "measuring": "coffee spoon"
+            }
+        ],
+        "ingredients": [
+            {
+                "name": "meat",
+                "quantity": 125,
+                "measuring": "grams"
+            },
+            {
+                "name": "onion",
+                "quantity": 0.25,
+                "size": "medium"
+            },
+            {
+                "name": "tomato",
+                "quantity": 0.25,
+                "size": "medium"
+            },
+            {
+                "name": "olive oil",
+                "quantity": 0.125,
+                "measuring": "cups"
+            },
+            {
+                "name": "garlic",
+                "quantity": 0.25,
+                "measuring": "coffee spoon"
+            },
+            {
+                "name": "tomato paste",
+                "quantity": 0.25,
+                "measuring": "coffee spoon"
+            },
+            {
+                "name": "pepper",
+                "quantity": 0.25,
+                "size": "medium"
+            },
+            {
+                "name": "jelbena",
+                "quantity": 0.25,
+                "measuring": "cups"
+            },
+            {
+                "name": "potato",
+                "quantity": 0.5,
+                "size": "small"
+            }
+        ]
+    },
+    {
+        "id": 11,
+        "name": "tajin",
+        "spices": [
+            {
+                "name": "paprika",
+                "quantity": 0.5,
+                "measuring": "coffee spoon"
+            },
+            {
+                "name": "tabel and kariwya",
+                "quantity": 0.25,
+                "measuring": "coffee spoon"
+            },
+            {
+                "name": "curukum",
+                "quantity": 0.5,
+                "measuring": "coffee spoon"
+            },
+            {
+                "name": "salt",
+                "quantity": 0.125,
+                "measuring": "coffee spoon"
+            },
+            {
+                "name": "black pepper",
+                "quantity": 0.25,
+                "measuring": "coffee spoon"
+            }
+        ],
+        "ingredients": [
+            {
+                "name": "meat and liver",
+                "quantity": 125,
+                "measuring": "grams"
+            },
+            {
+                "name": "potato",
+                "quantity": 0.5,
+                "size": "medium",
+                "method": "fried cubes"
+            },
+            {
+                "name": "parsley",
+                "quantity": 0.5,
+                "measuring": "cups"
+            },
+            {
+                "name": "egg",
+                "method": "until it becomes fluid"
+            }
+        ]
+    },
+    {
+        "id": 12,
+        "name": "kafteji",
+        "spices": [
+            {
+                "name": "paprika",
+                "quantity": 0.0625,
+                "measuring": "coffee spoon"
+            },
+            {
+                "name": "tabel and kariwya",
+                "quantity": 0.0625,
+                "measuring": "coffee spoon"
+            },
+            {
+                "name": "salt",
+                "quantity": 0.0625,
+                "measuring": "coffee spoon"
+            }
+        ],
+        "ingredients": [
+            {
+                "name": "creuvette or chicken (optional)",
+                "quantity": 125,
+                "measuring": "grams"
+            },
+            {
+                "name": "potato",
+                "quantity": 0.5,
+                "size": "medium",
+                "method": "fried cubes"
+            },
+            {
+                "name": "tomato",
+                "quantity": 1,
+                "size": "medium",
+                "method": "sause with the spices"
+            },
+            {
+                "name": "garlic",
+                "quantity": 0.125,
+                "measuring": "coffee spoon",
+                "method": "sause with the spices"
+            },
+            {
+                "name": "pepper",
+                "quantity": 1,
+                "size": "medium",
+                "method": "fried cubes"
+            },
+            {
+                "name": "pumpkin",
+                "quantity": 62.5,
+                "measuring": "grams",
+                "method": "fried cubes"
+            },
+            {
+                "name": "egg",
+                "quantity": 2,
+                "method": "omelette with parsley"
+            }
+        ]
+    }
+]
