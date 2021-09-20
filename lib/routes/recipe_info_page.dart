@@ -4,6 +4,7 @@ import 'package:recipes/models/recipe.dart';
 import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 import 'package:flutter_spinbox/flutter_spinbox.dart';
 import 'dart:math';
+import 'package:recipes/utils/string_extenstions.dart';
 
 class RecipeInfoPage extends StatefulWidget {
   final Recipe recipe;
@@ -34,31 +35,26 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
           ),
           centerTitle: true,
           title: Text(
-            widget.recipe.getName(),
+            widget.recipe.name.capitalize(),
           ),
           actions: [
             IconButton(
                 onPressed: () {
-                  if (widget.recipe.spices != null) {
-                    for (var element in widget.recipe.spices!) {
-                      element.selected = false;
-                    }
-                  }
                   if (widget.recipe.ingredients != null) {
                     for (var element in widget.recipe.ingredients!) {
                       element.selected = false;
                     }
                   }
+                  servings = 4;
                   setState(() {});
                 },
                 icon: const Icon(Icons.refresh))
           ],
         ),
         body: Padding(
-          padding: const EdgeInsets.only(top: 25, left: 10, right: 10),
+          padding: const EdgeInsets.only(top: 25),
           child: SingleChildScrollView(
             child: SizedBox(
-              width: MediaQuery.of(context).size.width - 20,
               child: Column(
                 children: [
                   Container(
@@ -80,7 +76,7 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
                           color: Theme.of(context).colorScheme.secondary),
                       keyboardType: TextInputType.number,
                       min: 1,
-                      max: 10,
+                      max: double.infinity,
                       value: servings.toDouble(),
                       onChanged: (value) {
                         setState(() {
@@ -89,77 +85,72 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
                       },
                     ),
                   ),
-                  widget.recipe.spices!.isNotEmpty
-                      ? Container(
-                          height: 30,
-                          margin: const EdgeInsets.only(bottom: 10),
-                          child: Text(
-                            "Spices",
-                            style: TextStyle(
-                                fontSize: 20,
-                                color: Theme.of(context).primaryColor),
-                          ),
-                        )
-                      : Container(),
-                  widget.recipe.spices != null &&
-                          widget.recipe.spices!.isNotEmpty
-                      ? SizedBox(
-                          height: 150,
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) {
-                              return IngredientCard(
-                                servings: servings,
-                                ingredient: widget.recipe.spices![index],
-                              );
-                            },
-                            itemCount: widget.recipe.spices!.length,
-                          ),
-                        )
-                      : Container(),
-                  widget.recipe.ingredients!.isNotEmpty
-                      ? Container(
-                          height: 30,
-                          margin: const EdgeInsets.only(top: 10, bottom: 10),
-                          child: Text(
-                            "Ingredients",
-                            style: TextStyle(
-                                fontSize: 20,
-                                color: Theme.of(context).primaryColor),
-                          ),
-                        )
-                      : Container(),
-                  widget.recipe.ingredients != null &&
-                          widget.recipe.ingredients!.isNotEmpty
-                      ? SizedBox(
-                          height: 400,
-                          child: GridView.builder(
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              childAspectRatio: 1.5,
-                              crossAxisCount: min(
-                                  2,
-                                  (MediaQuery.of(context).size.width / 350)
-                                      .ceil()),
-                              mainAxisExtent: 300,
-                              crossAxisSpacing: 5.0,
-                              mainAxisSpacing: 5.0,
-                            ),
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) {
-                              return IngredientCard(
-                                ingredient: widget.recipe.ingredients![index],
-                                servings: servings,
-                              );
-                            },
-                            itemCount: widget.recipe.ingredients!.length,
-                          ),
-                        )
-                      : Container()
+                  buildIngredient(context),
                 ],
               ),
             ),
           ),
         ));
+  }
+
+  Widget buildIngredient(BuildContext context) {
+    if (widget.recipe.ingredientsByCategory == null) {
+      return Container();
+    }
+    List<Widget> children = [];
+    widget.recipe.ingredientsByCategory!.forEach((key, value) {
+      children.add(Container(
+        height: 30,
+        margin: const EdgeInsets.only(bottom: 10),
+        child: Text(
+          key.capitalize(),
+          style: TextStyle(fontSize: 20, color: Theme.of(context).primaryColor),
+        ),
+      ));
+      if (key == "spices") {
+        children.add(Container(
+          margin: const EdgeInsets.only(bottom: 10),
+          height: 150,
+          child: ListView.builder(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context, index) {
+              return IngredientCard(
+                servings: servings,
+                ingredient: value[index],
+              );
+            },
+            itemCount: value.length,
+          ),
+        ));
+      } else {
+        children.add(Container(
+          margin: const EdgeInsets.only(bottom: 10),
+          height: 300,
+          child: GridView.builder(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              childAspectRatio: 1.5,
+              crossAxisCount:
+                  min(2, (MediaQuery.of(context).size.width / 350).ceil()),
+              mainAxisExtent: 300,
+              crossAxisSpacing: 5.0,
+              mainAxisSpacing: 5.0,
+            ),
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context, index) {
+              return IngredientCard(
+                ingredient: value[index],
+                servings: servings,
+              );
+            },
+            itemCount: value.length,
+          ),
+        ));
+      }
+    });
+    return Column(
+      children: children,
+    );
   }
 }

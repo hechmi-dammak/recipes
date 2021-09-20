@@ -1,42 +1,72 @@
 import 'package:recipes/models/ingredient.dart';
 
+const String tableRecipes = 'recipes';
+
+class RecipeFields {
+  static final List<String> values = [
+    /// Add all fields
+    id, name, category, ingredients
+  ];
+  static const String id = '_id';
+  static const String name = 'name';
+  static const String category = 'category';
+  static const String ingredients = 'ingredients';
+}
+
 class Recipe {
-  late int id;
-  late String name;
-  List<Ingredient>? spices;
+  int? id;
+  String name;
+  String? category;
   List<Ingredient>? ingredients;
-
-  Recipe({required this.id, required this.name, this.spices, this.ingredients});
-  Recipe.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-    if (json['spices'] != null) {
-      spices = <Ingredient>[];
-      json['spices'].forEach((v) {
-        spices!.add(Ingredient.fromJson(v));
-      });
-    }
-    if (json['ingredients'] != null) {
-      ingredients = <Ingredient>[];
-      json['ingredients'].forEach((v) {
-        ingredients!.add(Ingredient.fromJson(v));
-      });
-    }
+  Map<String, List<Ingredient>>? ingredientsByCategory;
+  Recipe({this.id, required this.name, this.category, this.ingredients}) {
+    initIngredientsByCategory();
   }
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['name'] = name;
-    if (spices != null) {
-      data['spices'] = spices!.map((v) => v.toJson()).toList();
-    }
+  initIngredientsByCategory() {
+    ingredientsByCategory = {};
     if (ingredients != null) {
-      data['ingredients'] = ingredients!.map((v) => v.toJson()).toList();
+      for (var ingredient in ingredients!) {
+        ingredientsByCategory!.update(ingredient.category, (value) {
+          value.add(ingredient);
+          return value;
+        }, ifAbsent: () => List.from([ingredient]));
+      }
     }
-    return data;
   }
 
-  String getName() {
-    return name[0].toUpperCase() + name.substring(1);
+  static Recipe fromJson(Map<String, dynamic> json) => Recipe(
+      id: json[RecipeFields.id] as int?,
+      name: json[RecipeFields.name] as String,
+      category: json[RecipeFields.category] as String,
+      ingredients: getIngridientfromJson(json));
+
+  static getIngridientfromJson(Map<String, dynamic> json) {
+    if (json[RecipeFields.ingredients] == null) return null;
+    List<Ingredient> ingredientstmp = [];
+    json[RecipeFields.ingredients].forEach((v) {
+      ingredientstmp.add(Ingredient.fromJson(v));
+    });
+    return ingredientstmp;
   }
+
+  Map<String, dynamic> toJson() => {
+        RecipeFields.id: id,
+        RecipeFields.name: name,
+        RecipeFields.category: category,
+        RecipeFields.ingredients: ingredients == null
+            ? null
+            : ingredients!.map((v) => v.toJson()).toList(),
+      };
+
+  Recipe copy(
+          {int? id,
+          String? name,
+          String? category,
+          List<Ingredient>? ingredients}) =>
+      Recipe(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        category: category ?? this.category,
+        ingredients: ingredients ?? this.ingredients,
+      );
 }

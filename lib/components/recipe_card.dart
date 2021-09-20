@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:recipes/models/recipe.dart';
 import 'package:recipes/routes/recipe_info_page.dart';
+import 'package:recipes/utils/string_extenstions.dart';
 
 class RecipeCard extends StatelessWidget {
   final Recipe recipe;
@@ -44,8 +45,10 @@ class RecipeCard extends StatelessWidget {
         },
         child: Center(
           child: Text(
-            recipe.getName(),
+            recipe.name.capitalize(),
             style: TextStyle(
+
+                // overflow: TextOverflow.ellipsis,
                 fontSize: 18,
                 color: Theme.of(context).buttonTheme.colorScheme!.onPrimary),
           ),
