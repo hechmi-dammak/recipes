@@ -100,7 +100,7 @@ class _RecipeListFloatingButtonState extends State<RecipeListFloatingButton> {
           foregroundColor: Theme.of(context).colorScheme.onPrimary,
           label: 'Import From File',
           visible: !widget.deleteIsActive,
-          onTap: () => widget.readFromFile,
+          onTap: () async => await widget.readFromFile(),
         ),
         SpeedDialChild(
           child: Icon(Icons.delete, size: iconSize),
