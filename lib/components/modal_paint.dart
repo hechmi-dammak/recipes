@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class ModalPainter extends CustomPainter {
-  Color primary;
-  ModalPainter(this.primary);
+  Color color;
+  ModalPainter(this.color);
   @override
   void paint(Canvas canvas, Size size) {
     final height = size.height;
@@ -25,8 +25,7 @@ class ModalPainter extends CustomPainter {
     // Close line to reset it back
     ovalPath.close();
 
-    paint.color =
-        primary.withGreen(primary.green + 10).withBlue(primary.blue + 10);
+    paint.color = color.withGreen(color.green + 10).withBlue(color.blue + 10);
     canvas.drawPath(ovalPath, paint);
   }
 

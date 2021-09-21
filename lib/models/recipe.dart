@@ -5,7 +5,7 @@ const String tableRecipes = 'recipes';
 class RecipeFields {
   static final List<String> values = [
     /// Add all fields
-    id, name, category, ingredients
+    id, name, category
   ];
   static const String id = '_id';
   static const String name = 'name';
@@ -57,7 +57,11 @@ class Recipe {
             ? null
             : ingredients!.map((v) => v.toJson()).toList(),
       };
-
+  Map<String, dynamic> toJsonForDatabase() => {
+        RecipeFields.id: id,
+        RecipeFields.name: name,
+        RecipeFields.category: category,
+      };
   Recipe copy(
           {int? id,
           String? name,

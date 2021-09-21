@@ -36,14 +36,15 @@ class IngredientCardState extends State<IngredientCard> {
               0.1,
               0.9,
             ],
-            colors: [
-              !(widget.ingredient.selected ?? true)
-                  ? Theme.of(context).colorScheme.secondaryVariant
-                  : Theme.of(context).colorScheme.primary,
-              !(widget.ingredient.selected ?? true)
-                  ? Theme.of(context).colorScheme.secondary
-                  : Theme.of(context).colorScheme.primaryVariant,
-            ],
+            colors: (widget.ingredient.selected ?? false)
+                ? [
+                    Theme.of(context).colorScheme.primary,
+                    Theme.of(context).colorScheme.primaryVariant
+                  ]
+                : [
+                    Theme.of(context).colorScheme.secondaryVariant,
+                    Theme.of(context).colorScheme.secondary
+                  ],
           ),
           boxShadow: [
             BoxShadow(
@@ -118,13 +119,17 @@ class IngredientCardState extends State<IngredientCard> {
         builder: (context) {
           return Container(
             decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
+                color: widget.ingredient.selected ?? false
+                    ? Theme.of(context).primaryColor
+                    : Theme.of(context).colorScheme.secondary,
                 borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(10.0),
                     topRight: Radius.circular(10.0))),
             child: CustomPaint(
               painter: ModalPainter(
-                Theme.of(context).primaryColor,
+                widget.ingredient.selected ?? false
+                    ? Theme.of(context).primaryColor
+                    : Theme.of(context).colorScheme.secondary,
               ),
               child: Column(
                 children: [

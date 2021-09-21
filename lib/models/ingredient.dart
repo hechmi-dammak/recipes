@@ -8,7 +8,8 @@ class IngredientFields {
     quantity,
     measuring,
     size,
-    method
+    method,
+    recipeId
   ];
 
   static const String id = '_id';
@@ -18,6 +19,7 @@ class IngredientFields {
   static const String measuring = 'measuring';
   static const String size = 'size';
   static const String method = 'method';
+  static const String recipeId = 'recipe_id';
 }
 
 class Ingredient {
