@@ -34,8 +34,8 @@ class Ingredient {
 
   Ingredient(
       {this.id,
-      required this.name,
-      required this.category,
+      this.name = "",
+      this.category = "",
       this.quantity,
       this.measuring,
       this.size,
@@ -43,6 +43,16 @@ class Ingredient {
       this.selected = false});
 
   static Ingredient fromJson(Map<String, dynamic> json) => Ingredient(
+      id: json[IngredientFields.id] as int?,
+      name: json[IngredientFields.name] as String,
+      category: json[IngredientFields.category] as String,
+      quantity: json[IngredientFields.quantity] as num?,
+      measuring: json[IngredientFields.measuring] as String?,
+      size: json[IngredientFields.size] as String?,
+      method: json[IngredientFields.method] as String?,
+      selected: false);
+
+  static Ingredient fromDatabaseJson(Map<String, dynamic> json) => Ingredient(
       id: json[IngredientFields.id] as int?,
       name: json[IngredientFields.name] as String,
       category: json[IngredientFields.category] as String,
@@ -60,6 +70,16 @@ class Ingredient {
         IngredientFields.measuring: measuring,
         IngredientFields.size: size,
         IngredientFields.method: method,
+      };
+  Map<String, dynamic> toDatabaseJson(int? recipeId) => {
+        IngredientFields.id: id,
+        IngredientFields.name: name,
+        IngredientFields.category: category,
+        IngredientFields.quantity: quantity,
+        IngredientFields.measuring: measuring,
+        IngredientFields.size: size,
+        IngredientFields.method: method,
+        IngredientFields.recipeId: recipeId
       };
 
   String? getQuantity(int servings) {

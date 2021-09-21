@@ -19,7 +19,13 @@ class Recipe {
   String? category;
   List<Ingredient>? ingredients;
   Map<String, List<Ingredient>>? ingredientsByCategory;
-  Recipe({this.id, required this.name, this.category, this.ingredients}) {
+  bool? selected = false;
+  Recipe(
+      {this.id,
+      this.name = "",
+      this.category,
+      this.ingredients,
+      this.selected = false}) {
     initIngredientsByCategory();
   }
   initIngredientsByCategory() {
@@ -40,8 +46,14 @@ class Recipe {
       category: json[RecipeFields.category] as String,
       ingredients: getIngridientfromJson(json));
 
+  static Recipe fromDatabaseJson(Map<String, dynamic> json) => Recipe(
+      id: json[RecipeFields.id] as int?,
+      name: json[RecipeFields.name] as String,
+      category: json[RecipeFields.category] as String,
+      ingredients: []);
+
   static getIngridientfromJson(Map<String, dynamic> json) {
-    if (json[RecipeFields.ingredients] == null) return null;
+    if (json[RecipeFields.ingredients] == null) return [];
     List<Ingredient> ingredientstmp = [];
     json[RecipeFields.ingredients].forEach((v) {
       ingredientstmp.add(Ingredient.fromJson(v));
@@ -57,7 +69,7 @@ class Recipe {
             ? null
             : ingredients!.map((v) => v.toJson()).toList(),
       };
-  Map<String, dynamic> toJsonForDatabase() => {
+  Map<String, dynamic> toDatabaseJson() => {
         RecipeFields.id: id,
         RecipeFields.name: name,
         RecipeFields.category: category,
