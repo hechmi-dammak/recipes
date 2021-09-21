@@ -1,117 +1,124 @@
-// import 'package:path/path.dart';
-// import 'package:recipes/models/recipe.dart';
-// import 'package:sqflite/sqflite.dart';
-// import 'package:flutter/widgets.dart';
+import 'package:path/path.dart';
+import 'package:recipes/models/ingredient.dart';
+import 'package:recipes/models/recipe.dart';
+import 'package:sqflite/sqflite.dart';
 
+class RecipeRepository {
+  static final RecipeRepository instance = RecipeRepository._init();
 
+  static Database? _database;
 
-// class RecipeRepository {
-//   static final RecipeRepository instance =RecipeRepository._init();
+  RecipeRepository._init();
 
-//   static Database? _database;
+  Future<Database> get database async {
+    if (_database != null) return _database!;
 
-//   RecipeRepository._init();
+    _database = await _initDB('recipes_book.db');
+    return _database!;
+  }
 
-//   Future<Database> get database async {
-//     if (_database != null) return _database!;
+  Future<Database> _initDB(String filePath) async {
+    final dbPath = await getDatabasesPath();
+    final path = join(dbPath, filePath);
 
-//     _database = await _initDB('recipes_book.db');
-//     return _database!;
-//   }
+    return await openDatabase(path,
+        version: 1, onCreate: _createDB, onConfigure: _onConfigure);
+  }
 
-//   Future<Database> _initDB(String filePath) async {
-//     final dbPath = await getDatabasesPath();
-//     final path = join(dbPath, filePath);
+  Future _createDB(Database db, int version) async {
+    const idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';
+    const textType = 'TEXT';
+    const integerType = 'INTEGER';
+    const realType = 'REAL';
 
-//     return await openDatabase(path, version: 1, onCreate: _createDB);
-//   }
+    await db.execute('''
+CREATE TABLE $tableRecipes ( 
+  ${RecipeFields.id} $idType, 
+  ${RecipeFields.name} $textType,
+  ${RecipeFields.category} $textType,
+  )
+''');
+    await db.execute('''
+CREATE TABLE $tableIngredients ( 
+  ${IngredientFields.id} $idType, 
+  ${IngredientFields.name} $textType,
+  ${IngredientFields.category} $textType,
+  ${IngredientFields.quantity} $realType,
+  ${IngredientFields.measuring} $textType,
+  ${IngredientFields.size} $textType,
+  ${IngredientFields.method} $textType,
+  ${IngredientFields.recipe_id} $integerType,
+  FOREIGN KEY ${IngredientFields.recipe_id}) REFERENCES $tableRecipes ( ${RecipeFields.id}) 
+  )
+''');
+  }
 
-//   Future _createDB(Database db, int version) async {
-//     final idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';
-//     final textType = 'TEXT';
-//     final boolType = 'BOOLEAN';
-//     final integerType = 'INTEGER';
+  Future _onConfigure(Database db) async {
+    await db.execute('PRAGMA foreign_keys = ON');
+  }
 
-//     await db.execute('''
-// CREATE TABLE $tableNotes ( 
-//   ${NoteFields.id} $idType, 
-//   ${NoteFields.isImportant} $boolType,
-//   ${NoteFields.number} $integerType,
-//   ${NoteFields.title} $textType,
-//   ${NoteFields.description} $textType,
-//   ${NoteFields.time} $textType
-//   )
-// ''');
-//   }
+  Future<Recipe> create(Recipe recipe) async {
+    final db = await instance.database;
 
-//   Future<Recipe> create(Recipe recipe) async {
-//     final db = await instance.database;
+    final id = await db.insert(tableRecipes, recipe.toJson());
+    return recipe.copy(id: id);
+  }
 
-//     // final json = note.toJson();
-//     // final columns =
-//     //     '${NoteFields.title}, ${NoteFields.description}, ${NoteFields.time}';
-//     // final values =
-//     //     '${json[NoteFields.title]}, ${json[NoteFields.description]}, ${json[NoteFields.time]}';
-//     // final id = await db
-//     //     .rawInsert('INSERT INTO table_name ($columns) VALUES ($values)');
+  Future<Recipe> readRecipe(int id) async {
+    final db = await instance.database;
 
-//     final id = await db.insert(tableRecipes, recipe.toJson());
-//     return recipe.copy(id: id);
-//   }
+    final maps = await db.query(
+      tableRecipes,
+      columns: RecipeFields.values,
+      where: '${RecipeFields.id} = ?',
+      whereArgs: [id],
+    );
 
-//   Future<Note> readNote(int id) async {
-//     final db = await instance.database;
+    if (maps.isNotEmpty) {
+      Recipe recipe = Recipe.fromJson(maps.first);
 
-//     final maps = await db.query(
-//       tableNotes,
-//       columns: NoteFields.values,
-//       where: '${NoteFields.id} = ?',
-//       whereArgs: [id],
-//     );
+      return recipe;
+    } else {
+      throw Exception('ID $id not found');
+    }
+  }
 
-//     if (maps.isNotEmpty) {
-//       return Note.fromJson(maps.first);
-//     } else {
-//       throw Exception('ID $id not found');
-//     }
-//   }
+  Future<List<Note>> readAllNotes() async {
+    final db = await instance.database;
 
-//   Future<List<Note>> readAllNotes() async {
-//     final db = await instance.database;
+    final orderBy = '${NoteFields.time} ASC';
+    // final result =
+    //     await db.rawQuery('SELECT * FROM $tableNotes ORDER BY $orderBy');
 
-//     final orderBy = '${NoteFields.time} ASC';
-//     // final result =
-//     //     await db.rawQuery('SELECT * FROM $tableNotes ORDER BY $orderBy');
+    final result = await db.query(tableNotes, orderBy: orderBy);
 
-//     final result = await db.query(tableNotes, orderBy: orderBy);
+    return result.map((json) => Note.fromJson(json)).toList();
+  }
 
-//     return result.map((json) => Note.fromJson(json)).toList();
-//   }
+  Future<int> update(Note note) async {
+    final db = await instance.database;
 
-//   Future<int> update(Note note) async {
-//     final db = await instance.database;
+    return db.update(
+      tableNotes,
+      note.toJson(),
+      where: '${NoteFields.id} = ?',
+      whereArgs: [note.id],
+    );
+  }
 
-//     return db.update(
-//       tableNotes,
-//       note.toJson(),
-//       where: '${NoteFields.id} = ?',
-//       whereArgs: [note.id],
-//     );
-//   }
+  Future<int> delete(int id) async {
+    final db = await instance.database;
 
-//   Future<int> delete(int id) async {
-//     final db = await instance.database;
+    return await db.delete(
+      tableNotes,
+      where: '${NoteFields.id} = ?',
+      whereArgs: [id],
+    );
+  }
 
-//     return await db.delete(
-//       tableNotes,
-//       where: '${NoteFields.id} = ?',
-//       whereArgs: [id],
-//     );
-//   }
+  Future close() async {
+    final db = await instance.database;
 
-//   Future close() async {
-//     final db = await instance.database;
-
-//     db.close();
-//   }
-// }
+    db.close();
+  }
+}
