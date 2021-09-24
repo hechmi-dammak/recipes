@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 const String tableIngredients = 'ingredients';
 
 class IngredientFields {
@@ -9,6 +11,7 @@ class IngredientFields {
     measuring,
     size,
     method,
+    steps,
     recipeId
   ];
 
@@ -19,6 +22,7 @@ class IngredientFields {
   static const String measuring = 'measuring';
   static const String size = 'size';
   static const String method = 'method';
+  static const String steps = 'steps';
   static const String recipeId = 'recipe_id';
 }
 
@@ -31,6 +35,7 @@ class Ingredient {
   String? size;
   String? method;
   bool? selected;
+  List<String>? steps;
 
   Ingredient(
       {this.id,
@@ -40,6 +45,7 @@ class Ingredient {
       this.measuring,
       this.size,
       this.method,
+      this.steps,
       this.selected = false});
 
   static Ingredient fromJson(Map<String, dynamic> json) => Ingredient(
@@ -49,6 +55,7 @@ class Ingredient {
       quantity: json[IngredientFields.quantity] as num?,
       measuring: json[IngredientFields.measuring] as String?,
       size: json[IngredientFields.size] as String?,
+      steps: json[IngredientFields.steps] as List<String>?,
       method: json[IngredientFields.method] as String?,
       selected: false);
 
@@ -60,6 +67,9 @@ class Ingredient {
       measuring: json[IngredientFields.measuring] as String?,
       size: json[IngredientFields.size] as String?,
       method: json[IngredientFields.method] as String?,
+      steps: json[IngredientFields.steps] == null
+          ? null
+          : jsonDecode(json[IngredientFields.steps]),
       selected: false);
 
   Map<String, dynamic> toJson() => {
@@ -70,6 +80,7 @@ class Ingredient {
         IngredientFields.measuring: measuring,
         IngredientFields.size: size,
         IngredientFields.method: method,
+        IngredientFields.steps: steps,
       };
   Map<String, dynamic> toDatabaseJson(int? recipeId) => {
         IngredientFields.id: id,
@@ -79,7 +90,8 @@ class Ingredient {
         IngredientFields.measuring: measuring,
         IngredientFields.size: size,
         IngredientFields.method: method,
-        IngredientFields.recipeId: recipeId
+        IngredientFields.steps: jsonEncode(steps),
+        IngredientFields.recipeId: recipeId,
       };
 
   String? getQuantity(int servings) {

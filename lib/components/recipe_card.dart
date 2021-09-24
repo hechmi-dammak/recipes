@@ -5,14 +5,14 @@ import 'package:recipes/utils/string_extenstions.dart';
 import 'package:flutter/services.dart';
 
 class RecipeCard extends StatefulWidget {
-  final bool deleteIsActive;
-  final Function deleteIsActiveFunction;
+  final bool selectionIsActive;
+  final Function selectionIsActiveFunction;
   final Recipe recipe;
   const RecipeCard(
       {Key? key,
       required this.recipe,
-      required this.deleteIsActive,
-      required this.deleteIsActiveFunction})
+      required this.selectionIsActive,
+      required this.selectionIsActiveFunction})
       : super(key: key);
 
   @override
@@ -24,10 +24,10 @@ class _RecipeCardState extends State<RecipeCard> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        if (widget.deleteIsActive) {
+        if (widget.selectionIsActive) {
           setState(() {
             widget.recipe.selected = !(widget.recipe.selected ?? true);
-            widget.deleteIsActiveFunction();
+            widget.selectionIsActiveFunction();
           });
         } else {
           Navigator.push(
@@ -42,7 +42,7 @@ class _RecipeCardState extends State<RecipeCard> {
         HapticFeedback.vibrate();
         setState(() {
           widget.recipe.selected = !(widget.recipe.selected ?? true);
-          widget.deleteIsActiveFunction();
+          widget.selectionIsActiveFunction();
         });
       },
       child: Container(

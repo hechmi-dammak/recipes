@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:recipes/components/floating_action_button.dart';
 import 'package:recipes/components/recipe_card.dart';
@@ -6,6 +8,7 @@ import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 import 'package:recipes/service/json_operations.dart';
 import 'package:recipes/service/recipe_operations.dart';
 import 'package:flutter/foundation.dart';
+import 'package:file_picker/file_picker.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -17,14 +20,16 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  Directory? rootPath;
   List<Recipe>? _recipes;
-  bool deleteIsActive = false;
+  bool selectionIsActive = false;
   bool loading = true;
   RecipeOperations recipeOperations = RecipeOperations.instance;
   JsonOperations jsonOperations = JsonOperations.instance;
+
   Future<void> initRecipes() async {
     _recipes = await recipeOperations.readAllForList();
-    updateDeleteIsActive();
+    updateSelectionIsActive();
     setState(() {
       loading = false;
     });
@@ -48,7 +53,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
-  bool _deleteIsActive() {
+  bool _selectionIsActive() {
     if (_recipes == null) return false;
     for (var recipe in _recipes!) {
       if (recipe.selected ?? false) {
@@ -58,9 +63,9 @@ class _HomePageState extends State<HomePage> {
     return false;
   }
 
-  void updateDeleteIsActive([bool? deleteIsActive]) {
+  void updateSelectionIsActive([bool? selectionIsActive]) {
     setState(() {
-      this.deleteIsActive = deleteIsActive ?? _deleteIsActive();
+      this.selectionIsActive = selectionIsActive ?? _selectionIsActive();
     });
   }
 
@@ -77,7 +82,7 @@ class _HomePageState extends State<HomePage> {
       }
     }
     loading = false;
-    updateDeleteIsActive();
+    updateSelectionIsActive();
     setState(() {});
   }
 
@@ -86,7 +91,7 @@ class _HomePageState extends State<HomePage> {
     for (var recipe in _recipes!) {
       recipe.selected = value;
     }
-    updateDeleteIsActive();
+    updateSelectionIsActive();
     setState(() {});
   }
 
@@ -97,6 +102,60 @@ class _HomePageState extends State<HomePage> {
     initRecipes();
   }
 
+  importFromFile() async {
+    // deinitRecipes();
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['recipe'],
+    );
+
+    // initRecipes();
+  }
+
+  exportToFile() async {
+    showDialog(
+        context: context,
+        builder: (BuildContext dialogContext) {
+          // holding this dialog context
+          return AlertDialog(
+            title: const Text(
+              'Pick a name for the file',
+            ),
+            actions: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  TextButton(
+                    child: const Text('cancel'),
+                    onPressed: () => Navigator.of(context, rootNavigator: true)
+                        .pop('dialog'),
+                  ),
+                  TextButton(
+                    child: const Text('confirm'),
+                    onPressed: () => {},
+                  ),
+                ],
+              )
+            ],
+            content: const TextField(
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(), labelText: 'File name'),
+            ),
+          );
+        });
+    // deinitRecipes();
+    // setState(() {
+    //   loading = true;
+    // });
+    String? result = await FilePicker.platform
+        .getDirectoryPath(dialogTitle: "Select where to save to file");
+
+    // print(result!);
+
+    // initRecipes();
+  }
+
+  saveToFile() async {}
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -123,9 +182,10 @@ class _HomePageState extends State<HomePage> {
         floatingActionButton: RecipeListFloatingButton(
             setSelectAllValue: setSelectAllValue,
             deleteSelected: deleteSelected,
-            deleteIsActiveFunction: updateDeleteIsActive,
-            deleteIsActive: deleteIsActive,
-            readFromFile: readFromFile),
+            importFromFile: importFromFile,
+            selectionIsActiveFunction: updateSelectionIsActive,
+            selectionIsActive: selectionIsActive,
+            exportToFile: exportToFile),
         body: RefreshIndicator(
           onRefresh: _reloadData,
           child: _recipes != null && !loading
@@ -144,8 +204,8 @@ class _HomePageState extends State<HomePage> {
                       itemBuilder: (context, index) {
                         return RecipeCard(
                             recipe: _recipes![index],
-                            deleteIsActive: deleteIsActive,
-                            deleteIsActiveFunction: updateDeleteIsActive);
+                            selectionIsActive: selectionIsActive,
+                            selectionIsActiveFunction: updateSelectionIsActive);
                       },
                     )
                   : ListView(

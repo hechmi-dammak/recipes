@@ -49,6 +49,7 @@ class DataBaseRepository {
           ${IngredientFields.measuring} $textType,
           ${IngredientFields.size} $textType,
           ${IngredientFields.method} $textType,
+          ${IngredientFields.steps} $textType,
           ${IngredientFields.recipeId} $integerType,
           FOREIGN KEY (${IngredientFields.recipeId}) REFERENCES $tableRecipes ( ${RecipeFields.id}) 
         )

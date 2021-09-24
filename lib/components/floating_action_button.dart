@@ -5,18 +5,19 @@ import 'package:recipes/service/json_operations.dart';
 import 'package:recipes/service/recipe_operations.dart';
 
 class RecipeListFloatingButton extends StatefulWidget {
-  final bool deleteIsActive;
-  final Function readFromFile;
-
-  final Function deleteIsActiveFunction;
+  final bool selectionIsActive;
+  final Function exportToFile;
+  final Function importFromFile;
+  final Function selectionIsActiveFunction;
   final Function deleteSelected;
 
   final Function setSelectAllValue;
   const RecipeListFloatingButton(
       {Key? key,
-      required this.deleteIsActive,
-      required this.readFromFile,
-      required this.deleteIsActiveFunction,
+      required this.selectionIsActive,
+      required this.exportToFile,
+      required this.importFromFile,
+      required this.selectionIsActiveFunction,
       required this.deleteSelected,
       required this.setSelectAllValue})
       : super(key: key);
@@ -34,10 +35,8 @@ class _RecipeListFloatingButtonState extends State<RecipeListFloatingButton> {
   @override
   Widget build(BuildContext context) {
     return SpeedDial(
-      backgroundColor: widget.deleteIsActive
-          ? Theme.of(context).colorScheme.secondary
-          : Theme.of(context).colorScheme.primary,
-      icon: widget.deleteIsActive ? Icons.delete : Icons.note_add,
+      backgroundColor: Theme.of(context).colorScheme.primary,
+      icon: Icons.insert_drive_file_rounded,
       renderOverlay: false,
       activeIcon: Icons.close,
       spacing: 3,
@@ -53,64 +52,50 @@ class _RecipeListFloatingButtonState extends State<RecipeListFloatingButton> {
       animationSpeed: 200,
       children: [
         SpeedDialChild(
-          child: Icon(Icons.delete_forever, size: iconSize),
-          backgroundColor: Theme.of(context).colorScheme.secondaryVariant,
-          foregroundColor: Theme.of(context).colorScheme.onSecondary,
-          label: 'Delete selected',
-          visible: widget.deleteIsActive,
-          onTap: () => widget.deleteSelected(),
+          child: Icon(Icons.note_add_rounded, size: iconSize),
+          backgroundColor: Theme.of(context).colorScheme.primaryVariant,
+          foregroundColor: Theme.of(context).colorScheme.onPrimary,
+          label: 'Create new',
+          onTap: () {},
+        ),
+        SpeedDialChild(
+          child: Icon(Icons.upload_file_rounded, size: iconSize),
+          backgroundColor: Theme.of(context).colorScheme.primaryVariant,
+          foregroundColor: Theme.of(context).colorScheme.onPrimary,
+          label: 'Import From File',
+          onTap: () async => await widget.importFromFile(),
+        ),
+        SpeedDialChild(
+          child: ImageIcon(const AssetImage('assets/export_file.png'),
+              size: iconSize),
+          backgroundColor: Theme.of(context).colorScheme.primaryVariant,
+          foregroundColor: Theme.of(context).colorScheme.onPrimary,
+          label: 'Export to File',
+          visible: widget.selectionIsActive,
+          onTap: () async => await widget.exportToFile(),
         ),
         SpeedDialChild(
           child: Icon(Icons.check_circle_rounded, size: iconSize),
-          backgroundColor: Theme.of(context).colorScheme.secondaryVariant,
-          foregroundColor: Theme.of(context).colorScheme.onSecondary,
+          backgroundColor: Theme.of(context).colorScheme.primaryVariant,
+          foregroundColor: Theme.of(context).colorScheme.onPrimary,
           label: 'Check all',
-          visible: widget.deleteIsActive,
           onTap: () => widget.setSelectAllValue(true),
         ),
         SpeedDialChild(
           child: Icon(Icons.radio_button_unchecked_rounded, size: iconSize),
-          backgroundColor: Theme.of(context).colorScheme.primaryVariant,
-          foregroundColor: Theme.of(context).colorScheme.onPrimary,
+          backgroundColor: Theme.of(context).colorScheme.secondaryVariant,
+          foregroundColor: Theme.of(context).colorScheme.onSecondary,
           label: 'Uncheck all',
-          visible: widget.deleteIsActive,
+          visible: widget.selectionIsActive,
           onTap: () => widget.setSelectAllValue(false),
         ),
         SpeedDialChild(
-          child: Icon(Icons.note_add, size: iconSize),
-          backgroundColor: Theme.of(context).colorScheme.primaryVariant,
-          foregroundColor: Theme.of(context).colorScheme.onPrimary,
-          label: 'Add',
-          visible: widget.deleteIsActive,
-          onTap: () {
-            widget.deleteIsActiveFunction(false);
-          },
-        ),
-        SpeedDialChild(
-          child: Icon(Icons.post_add_rounded, size: iconSize),
-          backgroundColor: Theme.of(context).colorScheme.primaryVariant,
-          foregroundColor: Theme.of(context).colorScheme.onPrimary,
-          label: 'Create new',
-          visible: !widget.deleteIsActive,
-          onTap: () {},
-        ),
-        SpeedDialChild(
-          child: Icon(Icons.upload_file, size: iconSize),
-          backgroundColor: Theme.of(context).colorScheme.primaryVariant,
-          foregroundColor: Theme.of(context).colorScheme.onPrimary,
-          label: 'Import From File',
-          visible: !widget.deleteIsActive,
-          onTap: () async => await widget.readFromFile(),
-        ),
-        SpeedDialChild(
-          child: Icon(Icons.delete, size: iconSize),
+          child: Icon(Icons.delete_forever_rounded, size: iconSize),
           backgroundColor: Theme.of(context).colorScheme.secondaryVariant,
           foregroundColor: Theme.of(context).colorScheme.onSecondary,
-          label: 'Delete',
-          visible: !widget.deleteIsActive,
-          onTap: () {
-            widget.deleteIsActiveFunction(true);
-          },
+          label: 'Delete selected',
+          visible: widget.selectionIsActive,
+          onTap: () => widget.deleteSelected(),
         ),
       ],
     );
