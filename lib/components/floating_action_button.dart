@@ -1,7 +1,6 @@
-// import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:recipes/service/json_operations.dart';
+import 'package:recipes/routes/recipe_create_page.dart';
 import 'package:recipes/service/recipe_operations.dart';
 
 class RecipeListFloatingButton extends StatefulWidget {
@@ -31,7 +30,6 @@ class _RecipeListFloatingButtonState extends State<RecipeListFloatingButton> {
   double iconSize = 30;
   var isDialOpen = ValueNotifier<bool>(false);
   RecipeOperations recipeOperations = RecipeOperations.instance;
-  JsonOperations jsonOperations = JsonOperations.instance;
   @override
   Widget build(BuildContext context) {
     return SpeedDial(
@@ -56,7 +54,12 @@ class _RecipeListFloatingButtonState extends State<RecipeListFloatingButton> {
           backgroundColor: Theme.of(context).colorScheme.primaryVariant,
           foregroundColor: Theme.of(context).colorScheme.onPrimary,
           label: 'Create new',
-          onTap: () {},
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const RecipeCreatePage()),
+            );
+          },
         ),
         SpeedDialChild(
           child: Icon(Icons.upload_file_rounded, size: iconSize),

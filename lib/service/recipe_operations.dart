@@ -79,6 +79,7 @@ class RecipeOperations {
           }
         }
       }
+      recipe.id = null;
       final id = await db.insert(tableRecipes, recipe.toDatabaseJson());
 
       final List<Ingredient> ingredients = recipe.ingredients == null
@@ -89,6 +90,22 @@ class RecipeOperations {
       result.add(recipe);
     }
     return result;
+  }
+
+  Future<List<String>> getAllCategories() async {
+    final db = await dbProvider.database;
+    List<String> categories = [];
+    final maps = await db.query(
+      tableRecipes,
+      distinct: true,
+      columns: [RecipeFields.category],
+    );
+    if (maps.isNotEmpty) {
+      for (var recipe in maps) {
+        categories.add(recipe[RecipeFields.category].toString());
+      }
+    }
+    return categories;
   }
 
   Future<List<Recipe>> readAll() async {

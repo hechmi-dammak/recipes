@@ -1,14 +1,17 @@
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:recipes/components/app_bar.dart';
+import 'package:recipes/components/empty_recipe_list.dart';
 import 'package:recipes/components/floating_action_button.dart';
+import 'package:recipes/components/loading_widget.dart';
 import 'package:recipes/components/recipe_card.dart';
 import 'package:recipes/models/recipe.dart';
-import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
-import 'package:recipes/service/json_operations.dart';
 import 'package:recipes/service/recipe_operations.dart';
-import 'package:flutter/foundation.dart';
-import 'package:file_picker/file_picker.dart';
+import 'package:recipes/utils/show_snack_bar.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -25,10 +28,9 @@ class _HomePageState extends State<HomePage> {
   bool selectionIsActive = false;
   bool loading = true;
   RecipeOperations recipeOperations = RecipeOperations.instance;
-  JsonOperations jsonOperations = JsonOperations.instance;
-
+  final _fileNameController = TextEditingController();
   Future<void> initRecipes() async {
-    _recipes = await recipeOperations.readAllForList();
+    _recipes = await recipeOperations.readAll();
     updateSelectionIsActive();
     setState(() {
       loading = false;
@@ -51,6 +53,12 @@ class _HomePageState extends State<HomePage> {
     loading = true;
     initRecipes();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _fileNameController.dispose();
+    super.dispose();
   }
 
   bool _selectionIsActive() {
@@ -95,90 +103,101 @@ class _HomePageState extends State<HomePage> {
     setState(() {});
   }
 
-  readFromFile() async {
-    deinitRecipes();
-    List<Recipe> recipes = await jsonOperations.readJson();
-    await recipeOperations.createAll(recipes);
-    initRecipes();
-  }
-
   importFromFile() async {
-    // deinitRecipes();
     FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['recipe'],
+      type: FileType.any,
+      // allowedExtensions: ['recipe'],
     );
+    if (result == null || result.count == 0) {
+      showInSnackBar(
+          "you must pick a file that has the extension recipe", context);
+      return;
+    }
+    setState(() {
+      loading = true;
+    });
+    File file = File(result.files.single.path!);
+    final response = await file.readAsString();
+    final data = await json.decode(response);
+    List<Recipe> recipes = [];
+    data.forEach((item) {
+      recipes.add(Recipe.fromJson(item));
+    });
 
-    // initRecipes();
+    await recipeOperations.createAll(recipes);
+
+    initRecipes();
   }
 
   exportToFile() async {
     showDialog(
+        useRootNavigator: false,
         context: context,
         builder: (BuildContext dialogContext) {
           // holding this dialog context
-          return AlertDialog(
-            title: const Text(
-              'Pick a name for the file',
-            ),
-            actions: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  TextButton(
-                    child: const Text('cancel'),
-                    onPressed: () => Navigator.of(context, rootNavigator: true)
-                        .pop('dialog'),
-                  ),
-                  TextButton(
-                    child: const Text('confirm'),
-                    onPressed: () => {},
-                  ),
-                ],
-              )
-            ],
-            content: const TextField(
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(), labelText: 'File name'),
+          return Scaffold(
+            backgroundColor: Colors.transparent,
+            body: AlertDialog(
+              title: const Text(
+                'Pick a name for the file',
+              ),
+              actions: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    TextButton(
+                      child: const Text('cancel'),
+                      onPressed: () {
+                        Navigator.of(context, rootNavigator: true)
+                            .pop('dialog');
+                        _fileNameController.clear();
+                      },
+                    ),
+                    TextButton(
+                      child: const Text('confirm'),
+                      onPressed: () async {
+                        if (_fileNameController.text == "") {
+                          showInSnackBar(
+                              "File name shouldn't be empty", dialogContext);
+                          return;
+                        }
+
+                        String? result = await FilePicker.platform
+                            .getDirectoryPath(
+                                dialogTitle: "Select where to save to file");
+                        if (result == null) {
+                          showInSnackBar(
+                              "You must choose a directory", dialogContext);
+                          return;
+                        }
+                        String fileLocation =
+                            result + "/" + _fileNameController.text + '.recipe';
+                        exportSelectedDataToFile(fileLocation);
+
+                        Navigator.of(context, rootNavigator: true)
+                            .pop('dialog');
+                        _fileNameController.clear();
+                      },
+                    ),
+                  ],
+                )
+              ],
+              content: TextField(
+                controller: _fileNameController,
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(), labelText: 'File name'),
+              ),
             ),
           );
         });
-    // deinitRecipes();
-    // setState(() {
-    //   loading = true;
-    // });
-    String? result = await FilePicker.platform
-        .getDirectoryPath(dialogTitle: "Select where to save to file");
-
-    // print(result!);
-
-    // initRecipes();
   }
 
-  saveToFile() async {}
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Theme.of(context).backgroundColor,
-        appBar: NewGradientAppBar(
-          gradient: LinearGradient(
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-            stops: const [
-              0.1,
-              0.6,
-            ],
-            colors: [
-              Theme.of(context).colorScheme.primary,
-              Theme.of(context).colorScheme.primaryVariant,
-            ],
-          ),
-          centerTitle: true,
-          title: const Text(
-            'Recipes List',
-          ),
-        ),
+        appBar: customAppBar(context, title: 'Recipes List'),
         floatingActionButton: RecipeListFloatingButton(
             setSelectAllValue: setSelectAllValue,
             deleteSelected: deleteSelected,
@@ -188,8 +207,9 @@ class _HomePageState extends State<HomePage> {
             exportToFile: exportToFile),
         body: RefreshIndicator(
           onRefresh: _reloadData,
-          child: _recipes != null && !loading
-              ? _recipes!.isNotEmpty
+          child: LoadingWidget(
+              loading: loading,
+              child: _recipes != null && _recipes!.isNotEmpty
                   ? GridView.builder(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       gridDelegate:
@@ -208,34 +228,31 @@ class _HomePageState extends State<HomePage> {
                             selectionIsActiveFunction: updateSelectionIsActive);
                       },
                     )
-                  : ListView(
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  top: MediaQuery.of(context).size.height / 6,
-                                  left: 10,
-                                  right: 10),
-                              child: const Center(
-                                  child: Text(
-                                "No recipes exists yet.\nPress import to load new recipes or you can  create your own.",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                ),
-                                textAlign: TextAlign.center,
-                              )),
-                            ),
-                          ],
-                        )
-                      ],
-                    )
-              : const Center(
-                  child: CircularProgressIndicator(),
-                ),
+                  : const EmptyRecipeList()),
         ),
       ),
     );
+  }
+
+  void exportSelectedDataToFile(String fileLocation) async {
+    if (_recipes == null) {
+      return;
+    }
+    setState(() {
+      loading = true;
+    });
+    List result = [];
+    for (Recipe recipe in _recipes!) {
+      if (recipe.selected ?? false) {
+        result.add(recipe.toJson());
+      }
+    }
+
+    File file = File(fileLocation);
+    await file.writeAsString(json.encode(result));
+
+    setState(() {
+      loading = false;
+    });
   }
 }

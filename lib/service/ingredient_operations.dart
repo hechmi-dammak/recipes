@@ -81,6 +81,22 @@ class IngredientOperations {
     return ingredients;
   }
 
+  Future<List<String>> getAllCategories() async {
+    final db = await dbProvider.database;
+    List<String> categories = [];
+    final maps = await db.query(
+      tableIngredients,
+      distinct: true,
+      columns: [IngredientFields.category],
+    );
+    if (maps.isNotEmpty) {
+      for (var ingredient in maps) {
+        categories.add(ingredient[IngredientFields.category].toString());
+      }
+    }
+    return categories;
+  }
+
   Future<int> deleteByRecipeId(int recipeId) async {
     final db = await dbProvider.database;
 
@@ -96,6 +112,7 @@ class IngredientOperations {
     final db = await dbProvider.database;
     final List<Ingredient> result = [];
     for (var ingredient in ingredients) {
+      ingredient.id = null;
       final id = await db.insert(
           tableIngredients, ingredient.toDatabaseJson(recipeId));
       result.add(ingredient.copy(id: id));
