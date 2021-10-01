@@ -30,6 +30,9 @@ class _RecipeCreatePageState extends State<RecipeCreatePage> {
 
   void initData() async {
     _recipeCategories = await recipeOperations.getAllCategories();
+    setState(() {
+      loading = false;
+    });
   }
 
   @override
@@ -43,11 +46,12 @@ class _RecipeCreatePageState extends State<RecipeCreatePage> {
                 child: CircularProgressIndicator(),
               )
             : SingleChildScrollView(
-                child: SizedBox(
+                child: Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 12.0),
                   child: Column(
                     children: [
                       Container(
-                          margin: const EdgeInsets.only(bottom: 15, top: 15),
+                          margin: const EdgeInsets.symmetric(vertical: 15),
                           child: ServingSpinBox(
                               changeServingFunction: (double value) {
                                 setState(() {
@@ -61,100 +65,22 @@ class _RecipeCreatePageState extends State<RecipeCreatePage> {
                           key: _recipeFormKey,
                           child: Column(
                             children: [
-                              TextFormField(
-                                decoration:
-                                    const InputDecoration(label: Text('Name')),
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Please specify a name';
-                                  }
-                                  return null;
-                                },
+                              Container(
+                                margin: const EdgeInsets.only(bottom: 15),
+                                child: TextFormField(
+                                  decoration: const InputDecoration(
+                                      label: Text('Name')),
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please specify a name';
+                                    }
+                                    return null;
+                                  },
+                                ),
                               ),
-                              Row(
-                                children: [
-                                  DropdownButtonFormField(
-                                    value: _recipe.category,
-                                    items: _recipeCategories
-                                        .map<DropdownMenuItem<String>>(
-                                            (String value) {
-                                      return DropdownMenuItem<String>(
-                                          child: Text(value), value: value);
-                                    }).toList(),
-                                  ),
-                                  IconButton(
-                                      onPressed: () {
-                                        showDialog(
-                                            useRootNavigator: false,
-                                            context: context,
-                                            builder:
-                                                (BuildContext dialogContext) {
-                                              // holding this dialog context
-                                              return Scaffold(
-                                                backgroundColor:
-                                                    Colors.transparent,
-                                                body: AlertDialog(
-                                                  title: const Text(
-                                                    'Create a new category',
-                                                  ),
-                                                  actions: <Widget>[
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      children: [
-                                                        TextButton(
-                                                          child: const Text(
-                                                              'cancel'),
-                                                          onPressed: () {
-                                                            Navigator.of(
-                                                                    context,
-                                                                    rootNavigator:
-                                                                        true)
-                                                                .pop('dialog');
-                                                            _categoryController
-                                                                .clear();
-                                                          },
-                                                        ),
-                                                        TextButton(
-                                                          child: const Text(
-                                                              'confirm'),
-                                                          onPressed: () async {
-                                                            if (_categoryController
-                                                                    .text ==
-                                                                "") {
-                                                              showInSnackBar(
-                                                                  "Category shouldn't be empty",
-                                                                  dialogContext);
-                                                              return;
-                                                            }
-                                                            _recipeCategories.add(
-                                                                _categoryController
-                                                                    .text);
-
-                                                            _categoryController
-                                                                .clear();
-                                                          },
-                                                        ),
-                                                      ],
-                                                    )
-                                                  ],
-                                                  content: TextField(
-                                                    controller:
-                                                        _categoryController,
-                                                    decoration:
-                                                        const InputDecoration(
-                                                            border:
-                                                                OutlineInputBorder(),
-                                                            labelText:
-                                                                'Category'),
-                                                  ),
-                                                ),
-                                              );
-                                            });
-                                      },
-                                      icon: const Icon(Icons.add))
-                                ],
+                              Container(
+                                margin: const EdgeInsets.only(bottom: 15),
+                                child: buildCategory(context),
                               ),
                             ],
                           ),
@@ -166,5 +92,134 @@ class _RecipeCreatePageState extends State<RecipeCreatePage> {
               ),
       ),
     );
+  }
+
+  Widget buildCategory(BuildContext context) {
+    return Row(
+      children: [
+        Flexible(
+          flex: 5,
+          child: Container(
+            decoration: gradientDecoation(context),
+            child: DropdownButtonFormField<String>(
+              dropdownColor: Theme.of(context).colorScheme.secondary,
+              style: TextStyle(
+                  color: Theme.of(context).colorScheme.onSecondary,
+                  fontSize: 18),
+              decoration: InputDecoration(
+                  border: InputBorder.none,
+                  labelStyle: TextStyle(
+                      color: Theme.of(context).colorScheme.onSecondary),
+                  labelText: 'Category'),
+              iconSize: 40,
+              value: _recipe.category,
+              onChanged: (String? newValue) {
+                setState(() {
+                  _recipe.category = newValue!;
+                });
+              },
+              items: _recipeCategories
+                  .map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                    child: Text(value), value: value);
+              }).toList(),
+            ),
+          ),
+        ),
+        Flexible(
+          flex: 1,
+          child: TextButton(
+              onPressed: () {
+                addNewRecipeCategory(context);
+              },
+              child: Container(
+                  height: 80,
+                  width: double.infinity,
+                  decoration: gradientDecoation(context),
+                  child: const Icon(Icons.add))),
+        )
+      ],
+    );
+  }
+
+  BoxDecoration gradientDecoation(BuildContext context) {
+    return BoxDecoration(
+      borderRadius: BorderRadius.circular(10),
+      color: Theme.of(context).buttonTheme.colorScheme!.primary,
+      gradient: LinearGradient(
+        begin: Alignment.topRight,
+        end: Alignment.bottomLeft,
+        stops: const [
+          0.1,
+          0.9,
+        ],
+        colors: [
+          Theme.of(context).colorScheme.secondaryVariant,
+          Theme.of(context).colorScheme.secondary
+        ],
+      ),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.grey.withOpacity(0.25),
+          spreadRadius: 2,
+          blurRadius: 2,
+          offset: const Offset(1, 1), // changes position of shadow
+        ),
+      ],
+    );
+  }
+
+  Future<dynamic> addNewRecipeCategory(BuildContext context) {
+    return showDialog(
+        useRootNavigator: false,
+        context: context,
+        builder: (BuildContext dialogContext) {
+          // holding this dialog context
+          return Scaffold(
+            backgroundColor: Colors.transparent,
+            body: AlertDialog(
+              title: const Text(
+                'Create a new category',
+              ),
+              actions: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    TextButton(
+                      child: const Text('cancel'),
+                      onPressed: () {
+                        Navigator.of(context, rootNavigator: true)
+                            .pop('dialog');
+                        _categoryController.clear();
+                      },
+                    ),
+                    TextButton(
+                      child: const Text('confirm'),
+                      onPressed: () async {
+                        if (_categoryController.text == "") {
+                          showInSnackBar(
+                              "Category shouldn't be empty", dialogContext);
+                          return;
+                        }
+                        _recipeCategories.add(_categoryController.text);
+                        setState(() {
+                          _recipe.category = _categoryController.text;
+                        });
+                        Navigator.of(context, rootNavigator: true)
+                            .pop('dialog');
+                        _categoryController.clear();
+                      },
+                    ),
+                  ],
+                )
+              ],
+              content: TextField(
+                controller: _categoryController,
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(), labelText: 'Category'),
+              ),
+            ),
+          );
+        });
   }
 }

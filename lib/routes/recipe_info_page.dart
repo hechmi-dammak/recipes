@@ -77,7 +77,7 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
                       IngredientsList(
                           servings: servings,
                           ingredientsByCategory:
-                              _recipe!.ingredientsByCategory),
+                              _recipe?.ingredientsByCategory),
                     ],
                   ),
                 ),
