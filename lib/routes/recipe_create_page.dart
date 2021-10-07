@@ -68,8 +68,26 @@ class _RecipeCreatePageState extends State<RecipeCreatePage> {
                               Container(
                                 margin: const EdgeInsets.only(bottom: 15),
                                 child: TextFormField(
-                                  decoration: const InputDecoration(
-                                      label: Text('Name')),
+                                  decoration: InputDecoration(
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    fillColor:
+                                        Theme.of(context).backgroundColor,
+                                    filled: true,
+                                    label: const Text('Name'),
+                                    enabledBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                          width: 3,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .secondary),
+                                    ),
+                                  ),
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
                                       return 'Please specify a name';

@@ -43,6 +43,7 @@ dependencies:
   permission_handler: ^8.1.6
   path_provider: ^2.0.5
   file_picker: ^4.1.1
+  get: ^4.3.8
 
 dev_dependencies:
   flutter_test:
@@ -55,9 +56,11 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^1.0.0
 flutter_icons:
-  image_path: assets/recipes_icon.png
+  image_path: "assets/recipes_icon_full.png"
   android: true
   ios: true
+  adaptive_icon_background: "#4ABBA4"
+  adaptive_icon_foreground: "assets/recipes_icon_shadow_only3.png"
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

@@ -14,9 +14,20 @@ class ServingSpinBox extends StatelessWidget {
       incrementIcon: const Icon(Icons.keyboard_arrow_right_rounded, size: 50),
       decrementIcon: const Icon(Icons.keyboard_arrow_left_rounded, size: 50),
       decoration: InputDecoration(
-          label: Text("Servings",
-              style: TextStyle(
-                  fontSize: 20, color: Theme.of(context).primaryColor))),
+        label: Text("Servings",
+            style:
+                TextStyle(fontSize: 20, color: Theme.of(context).primaryColor)),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Theme.of(context).colorScheme.primary),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        fillColor: Theme.of(context).backgroundColor,
+        filled: true,
+        enabledBorder: UnderlineInputBorder(
+          borderSide: BorderSide(
+              width: 3, color: Theme.of(context).colorScheme.secondary),
+        ),
+      ),
       textStyle: TextStyle(
           fontSize: 18, color: Theme.of(context).colorScheme.secondary),
       keyboardType: TextInputType.number,
