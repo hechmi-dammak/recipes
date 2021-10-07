@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:recipes/components/decorations/theme.dart';
+import 'package:recipes/controller/recipe_info_controller.dart';
 import 'package:recipes/routes/home_page.dart';
-import 'package:recipes/utils/them.dart';
+
+import 'controller/recipes_controller.dart';
 
 void main() {
+  Get.put(RecipesController());
+  Get.put(RecipeInfoController());
   runApp(const MyApp());
 }
 
@@ -11,7 +17,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Recipes',
       theme: AplicationTheme.getTheme()

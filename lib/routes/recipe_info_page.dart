@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:recipes/components/app_bar.dart';
+import 'package:get/get.dart';
 import 'package:recipes/components/ingredient_list.dart';
-import 'package:recipes/components/loading_widget.dart';
-import 'package:recipes/components/serving_spin_box.dart';
-import 'package:recipes/models/recipe.dart';
-import 'package:recipes/service/recipe_operations.dart';
-import 'package:recipes/utils/string_extenstions.dart';
+import 'package:recipes/components/utils/app_bar.dart';
+import 'package:recipes/components/utils/loading_widget.dart';
+import 'package:recipes/components/utils/serving_spin_box.dart';
+import 'package:recipes/controller/recipe_info_controller.dart';
 
 class RecipeInfoPage extends StatefulWidget {
   final int? recipeId;
@@ -16,74 +15,71 @@ class RecipeInfoPage extends StatefulWidget {
 }
 
 class _RecipeInfoPageState extends State<RecipeInfoPage> {
-  Recipe? _recipe;
-  bool loading = true;
-  RecipeOperations recipeOperations = RecipeOperations.instance;
-  int servings = 4;
+  RecipeInfoController recipeInfoController = RecipeInfoController.find;
+
   @override
   void initState() {
-    _initRecipe();
-    super.initState();
-  }
+    recipeInfoController.initRecipe(widget.recipeId);
 
-  Future<void> _initRecipe() async {
-    if (widget.recipeId == null) {
-      _recipe = Recipe();
-    } else {
-      _recipe = await recipeOperations.read(widget.recipeId!);
-    }
-    setState(() {
-      loading = false;
-    });
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-          backgroundColor: Theme.of(context).backgroundColor,
-          appBar: customAppBar(context,
-              title: _recipe == null ? "" : _recipe!.name.capitalize(),
-              actions: [
-                IconButton(
-                    onPressed: () {
-                      if (_recipe!.ingredients != null) {
-                        for (var element in _recipe!.ingredients!) {
-                          element.selected = false;
-                        }
-                      }
-                      servings = 4;
-                      setState(() {});
-                    },
-                    icon: const Icon(Icons.refresh))
-              ]),
-          body: RefreshIndicator(
-            onRefresh: _initRecipe,
-            child: LoadingWidget(
-              loading: loading,
-              child: SingleChildScrollView(
-                child: SizedBox(
-                  child: Column(
-                    children: [
-                      Container(
-                          margin: const EdgeInsets.only(bottom: 15, top: 15),
-                          child: ServingSpinBox(
-                              changeServingFunction: (double value) {
-                                setState(() {
-                                  servings = value.toInt();
-                                });
-                              },
-                              servings: servings)),
-                      IngredientsList(
-                          servings: servings,
-                          ingredientsByCategory:
-                              _recipe?.ingredientsByCategory),
-                    ],
+    return GetBuilder<RecipeInfoController>(
+      builder: (recipeInfoController) {
+        return SafeArea(
+          child: Scaffold(
+              backgroundColor: Theme.of(context).backgroundColor,
+              appBar: customAppBar(context,
+                  title: recipeInfoController.recipe.name.capitalize!,
+                  actions: [
+                    IconButton(
+                        onPressed: () {
+                          if (recipeInfoController.recipe.ingredients != null) {
+                            for (var element
+                                in recipeInfoController.recipe.ingredients!) {
+                              element.selected = false;
+                            }
+                          }
+                          recipeInfoController.setServingDefaultValue();
+                          setState(() {});
+                        },
+                        icon: const Icon(Icons.refresh))
+                  ]),
+              body: LoadingWidget(
+                loading: recipeInfoController.loading.value,
+                child: RefreshIndicator(
+                  onRefresh: () =>
+                      recipeInfoController.initRecipe(widget.recipeId),
+                  child: SingleChildScrollView(
+                    child: SizedBox(
+                      child: Column(
+                        children: [
+                          Container(
+                              margin:
+                                  const EdgeInsets.only(bottom: 15, top: 15),
+                              child: ServingSpinBox(
+                                  changeServingFunction: (double value) {
+                                    setState(() {
+                                      recipeInfoController.servings.value =
+                                          value.toInt();
+                                    });
+                                  },
+                                  servings:
+                                      recipeInfoController.servings.value)),
+                          IngredientsList(
+                              servings: recipeInfoController.servings.value,
+                              ingredientsByCategory: recipeInfoController
+                                  .recipe.ingredientsByCategory),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
-          )),
+              )),
+        );
+      },
     );
   }
 }

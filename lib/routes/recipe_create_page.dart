@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:recipes/components/app_bar.dart';
-import 'package:recipes/components/serving_spin_box.dart';
+import 'package:get/get.dart';
+import 'package:recipes/components/utils/app_bar.dart';
+import 'package:recipes/components/decorations/input_decoration.dart';
+import 'package:recipes/components/utils/serving_spin_box.dart';
+import 'package:recipes/components/utils/show_snack_bar.dart';
 import 'package:recipes/models/recipe.dart';
 import 'package:recipes/service/recipe_operations.dart';
-import 'package:recipes/utils/show_snack_bar.dart';
 
 class RecipeCreatePage extends StatefulWidget {
   const RecipeCreatePage({Key? key}) : super(key: key);
@@ -68,26 +70,8 @@ class _RecipeCreatePageState extends State<RecipeCreatePage> {
                               Container(
                                 margin: const EdgeInsets.only(bottom: 15),
                                 child: TextFormField(
-                                  decoration: InputDecoration(
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .primary),
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    fillColor:
-                                        Theme.of(context).backgroundColor,
-                                    filled: true,
-                                    label: const Text('Name'),
-                                    enabledBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                          width: 3,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .secondary),
-                                    ),
-                                  ),
+                                  decoration:
+                                      getInputDecoration(context, "Name"),
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
                                       return 'Please specify a name';
@@ -187,57 +171,48 @@ class _RecipeCreatePageState extends State<RecipeCreatePage> {
     );
   }
 
-  Future<dynamic> addNewRecipeCategory(BuildContext context) {
-    return showDialog(
-        useRootNavigator: false,
-        context: context,
-        builder: (BuildContext dialogContext) {
-          // holding this dialog context
-          return Scaffold(
-            backgroundColor: Colors.transparent,
-            body: AlertDialog(
-              title: const Text(
-                'Create a new category',
+  addNewRecipeCategory(BuildContext context) {
+    Get.dialog(Scaffold(
+      backgroundColor: Colors.transparent,
+      body: AlertDialog(
+        title: const Text(
+          'Create a new category',
+        ),
+        actions: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              TextButton(
+                child: const Text('cancel'),
+                onPressed: () {
+                  Get.back();
+                  _categoryController.clear();
+                },
               ),
-              actions: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    TextButton(
-                      child: const Text('cancel'),
-                      onPressed: () {
-                        Navigator.of(context, rootNavigator: true)
-                            .pop('dialog');
-                        _categoryController.clear();
-                      },
-                    ),
-                    TextButton(
-                      child: const Text('confirm'),
-                      onPressed: () async {
-                        if (_categoryController.text == "") {
-                          showInSnackBar(
-                              "Category shouldn't be empty", dialogContext);
-                          return;
-                        }
-                        _recipeCategories.add(_categoryController.text);
-                        setState(() {
-                          _recipe.category = _categoryController.text;
-                        });
-                        Navigator.of(context, rootNavigator: true)
-                            .pop('dialog');
-                        _categoryController.clear();
-                      },
-                    ),
-                  ],
-                )
-              ],
-              content: TextField(
-                controller: _categoryController,
-                decoration: const InputDecoration(
-                    border: OutlineInputBorder(), labelText: 'Category'),
+              TextButton(
+                child: const Text('confirm'),
+                onPressed: () async {
+                  if (_categoryController.text == "") {
+                    showInSnackBar("Category shouldn't be empty", context);
+                    return;
+                  }
+                  _recipeCategories.add(_categoryController.text);
+                  setState(() {
+                    _recipe.category = _categoryController.text;
+                  });
+                  Get.back();
+
+                  _categoryController.clear();
+                },
               ),
-            ),
-          );
-        });
+            ],
+          )
+        ],
+        content: TextField(
+          controller: _categoryController,
+          decoration: getInputDecoration(context, 'Category'),
+        ),
+      ),
+    ));
   }
 }

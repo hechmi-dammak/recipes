@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:recipes/components/modal_paint.dart';
+import 'package:recipes/components/decoration/modal_paint.dart';
 import 'package:recipes/models/ingredient.dart';
 import 'dart:math';
 
@@ -137,7 +137,7 @@ class IngredientCardState extends State<IngredientCard> {
                     margin: const EdgeInsets.only(top: 10),
                     child: ListTile(
                       leading: Text(
-                        "Name",
+                        "Name:",
                         style: TextStyle(
                             overflow: TextOverflow.ellipsis,
                             fontSize: 20,
@@ -165,7 +165,7 @@ class IngredientCardState extends State<IngredientCard> {
                       margin: const EdgeInsets.only(top: 10),
                       child: ListTile(
                         leading: Text(
-                          "Quantity",
+                          "Quantity:",
                           style: TextStyle(
                               overflow: TextOverflow.ellipsis,
                               fontSize: 16,
@@ -193,7 +193,7 @@ class IngredientCardState extends State<IngredientCard> {
                       margin: const EdgeInsets.only(top: 10),
                       child: ListTile(
                         leading: Text(
-                          "method",
+                          "Method:",
                           style: TextStyle(
                               overflow: TextOverflow.ellipsis,
                               fontSize: 16,

@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:recipes/models/ingredient.dart';
-import 'package:recipes/utils/string_extenstions.dart';
+import 'package:get/get.dart';
 
 import 'ingredient_card.dart';
 
@@ -24,7 +24,7 @@ class IngredientsList extends StatelessWidget {
         height: 30,
         margin: const EdgeInsets.only(bottom: 10),
         child: Text(
-          key.capitalize(),
+          key.capitalize!,
           style: TextStyle(fontSize: 20, color: Theme.of(context).primaryColor),
         ),
       ));
