@@ -7,17 +7,18 @@ import 'package:recipes/components/utils/show_snack_bar.dart';
 import 'package:recipes/controller/recipes_controller.dart';
 import 'package:recipes/routes/recipe_create_page.dart';
 
-class RecipeListFloatingButton extends StatefulWidget {
-  const RecipeListFloatingButton({
+class RecipeCreateFloatingButton extends StatefulWidget {
+  const RecipeCreateFloatingButton({
     Key? key,
   }) : super(key: key);
 
   @override
-  _RecipeListFloatingButtonState createState() =>
-      _RecipeListFloatingButtonState();
+  _RecipeCreateFloatingButtonState createState() =>
+      _RecipeCreateFloatingButtonState();
 }
 
-class _RecipeListFloatingButtonState extends State<RecipeListFloatingButton> {
+class _RecipeCreateFloatingButtonState
+    extends State<RecipeCreateFloatingButton> {
   @override
   void dispose() {
     _fileNameController.dispose();
@@ -76,30 +77,20 @@ class _RecipeListFloatingButtonState extends State<RecipeListFloatingButton> {
                   label: 'File name',
                   controller: _fileNameController,
                   confirm: () async {
-                    try {
-                      if (_fileNameController.text == "") {
-                        showInSnackBar("File name shouldn't be empty.");
-                        return;
-                      }
-                      String? result = await FilePicker.platform
-                          .getDirectoryPath(
-                              dialogTitle: "Select where to save to file");
-                      if (result == null) {
-                        showInSnackBar("You must choose a directory.");
-                        return;
-                      }
-                      await recipesController.exportSelectedDataToFile(
-                          "$result/${_fileNameController.text}.recipe");
-                      Get.back();
-
-                      showInSnackBar(
-                          "Recipes are exported to file ${_fileNameController.text}.",
-                          status: true);
-                      _fileNameController.clear();
-                    } catch (e) {
-                      showInSnackBar(
-                          "Failed to  export to file" + e.toString());
+                    if (_fileNameController.text == "") {
+                      showInSnackBar("File name shouldn't be empty");
+                      return;
                     }
+                    String? result = await FilePicker.platform.getDirectoryPath(
+                        dialogTitle: "Select where to save to file");
+                    if (result == null) {
+                      showInSnackBar("You must choose a directory");
+                      return;
+                    }
+                    recipesController.exportSelectedDataToFile(
+                        "$result/${_fileNameController.text}.recipe");
+                    Get.back();
+                    _fileNameController.clear();
                   }),
             ),
             SpeedDialChild(

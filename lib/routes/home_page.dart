@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:recipes/components/recipe_list_page/empty_recipe_list.dart';
 import 'package:recipes/components/recipe_list_page/floating_action_button.dart';
 import 'package:recipes/components/recipe_list_page/recipe_card.dart';
 import 'package:recipes/components/utils/app_bar.dart';
-import 'package:recipes/components/decorations/recipe_list_page/empty_recipe_list.dart';
 import 'package:recipes/components/utils/loading_widget.dart';
 import 'package:recipes/controller/recipes_controller.dart';
 

@@ -2,22 +2,20 @@ import 'package:get/get.dart';
 import 'package:recipes/models/recipe.dart';
 import 'package:recipes/service/recipe_operations.dart';
 
-class RecipeInfoController extends GetxController {
+class RecipeCreateController extends GetxController {
   final int defaultServingValue = 4;
   var recipe = Recipe().obs;
-  var servings = 4.obs;
+  var servings = Rx<int>(4);
   var loading = false.obs;
-  static RecipeInfoController get find => Get.find<RecipeInfoController>();
+  var recipeCategories = <String>[];
+  static RecipeCreateController get find => Get.find<RecipeCreateController>();
   RecipeOperations recipeOperations = RecipeOperations.instance;
 
-  Future<void> initRecipe(int? recipeId) async {
+  Future<void> initRecipe() async {
     loading.value = true;
-    if (recipeId == null) {
-      recipe.value = Recipe();
-    } else {
-      recipe.value = await recipeOperations.read(recipeId);
-    }
+    recipe.value = Recipe();
     setServingValue();
+    recipeCategories = await recipeOperations.getAllCategories();
     loading.value = false;
     update();
   }
@@ -28,5 +26,10 @@ class RecipeInfoController extends GetxController {
       return;
     }
     servings.value = defaultServingValue;
+  }
+
+  addNewCategory(String category) {
+    recipeCategories.add(category);
+    update();
   }
 }

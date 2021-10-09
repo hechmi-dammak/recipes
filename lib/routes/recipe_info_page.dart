@@ -32,17 +32,18 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
           child: Scaffold(
               backgroundColor: Theme.of(context).backgroundColor,
               appBar: customAppBar(context,
-                  title: recipeInfoController.recipe.name.capitalize!,
+                  title: recipeInfoController.recipe.value.name.capitalize!,
                   actions: [
                     IconButton(
                         onPressed: () {
-                          if (recipeInfoController.recipe.ingredients != null) {
-                            for (var element
-                                in recipeInfoController.recipe.ingredients!) {
+                          if (recipeInfoController.recipe.value.ingredients !=
+                              null) {
+                            for (var element in recipeInfoController
+                                .recipe.value.ingredients!) {
                               element.selected = false;
                             }
                           }
-                          recipeInfoController.setServingDefaultValue();
+                          recipeInfoController.setServingValue();
                           setState(() {});
                         },
                         icon: const Icon(Icons.refresh))
@@ -60,18 +61,15 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
                               margin:
                                   const EdgeInsets.only(bottom: 15, top: 15),
                               child: ServingSpinBox(
-                                  changeServingFunction: (double value) {
-                                    setState(() {
-                                      recipeInfoController.servings.value =
-                                          value.toInt();
-                                    });
-                                  },
+                                  changeServingFunction: (double value) =>
+                                      recipeInfoController
+                                          .setServingValue(value.toInt()),
                                   servings:
                                       recipeInfoController.servings.value)),
                           IngredientsList(
                               servings: recipeInfoController.servings.value,
                               ingredientsByCategory: recipeInfoController
-                                  .recipe.ingredientsByCategory),
+                                  .recipe.value.ingredientsByCategory),
                         ],
                       ),
                     ),

@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-InputDecoration getInputDecoration(BuildContext context, String label) {
+InputDecoration getInputDecoration(String label) {
   return InputDecoration(
     label: Text(label,
-        style: TextStyle(fontSize: 20, color: Theme.of(context).primaryColor)),
+        style: TextStyle(
+            fontSize: 20, color: Theme.of(Get.context!).primaryColor)),
     focusedBorder: OutlineInputBorder(
-      borderSide:
-          BorderSide(width: 3, color: Theme.of(context).colorScheme.primary),
+      borderSide: BorderSide(
+          width: 3, color: Theme.of(Get.context!).colorScheme.primary),
       borderRadius: BorderRadius.circular(10),
     ),
-    fillColor: Theme.of(context).backgroundColor,
+    fillColor: Theme.of(Get.context!).backgroundColor,
     filled: true,
     enabledBorder: UnderlineInputBorder(
-      borderSide:
-          BorderSide(width: 3, color: Theme.of(context).colorScheme.secondary),
+      borderSide: BorderSide(
+          width: 3, color: Theme.of(Get.context!).colorScheme.secondary),
     ),
   );
 }

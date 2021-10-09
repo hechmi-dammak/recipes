@@ -16,8 +16,7 @@ class RecipesController extends GetxController {
 
   Future<void> loadRecipes() async {
     loading.value = true;
-    recipes.removeWhere((element) => true);
-    recipes.addAll(await recipeOperations.readAll());
+    recipes = await recipeOperations.readAll();
     updateSelectionIsActive();
     loading.value = false;
     update();
@@ -26,11 +25,6 @@ class RecipesController extends GetxController {
   setRecipeSelected(int index) {
     recipes[index].selected = !(recipes[index].selected ?? true);
     updateSelectionIsActive();
-    update();
-  }
-
-  unloadRecipes() {
-    recipes.removeWhere((element) => true);
     update();
   }
 
@@ -48,6 +42,7 @@ class RecipesController extends GetxController {
   }
 
   void deleteSelectedRecipes() async {
+    loading.value = true;
     var _copyRecipes = recipes.toList();
     for (Recipe recipe in _copyRecipes) {
       if ((recipe.selected ?? false) && (recipe.id != null)) {
@@ -57,6 +52,7 @@ class RecipesController extends GetxController {
     }
     updateSelectionIsActive();
     update();
+    loading.value = false;
   }
 
   void setSelectAllValue([bool value = false]) {
@@ -67,7 +63,7 @@ class RecipesController extends GetxController {
     update();
   }
 
-  void exportSelectedDataToFile(String fileLocation) async {
+  Future exportSelectedDataToFile(String fileLocation) async {
     List result = [];
     for (Recipe recipe in recipes) {
       if (recipe.selected ?? false) {
@@ -79,23 +75,27 @@ class RecipesController extends GetxController {
   }
 
   importFromFile(context) async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.any,
-    );
-    if (result == null || result.count == 0) {
-      showInSnackBar(
-          "you must pick a file that has the extension recipe", context);
-      return;
-    }
-    loading.value = true;
-    final response = await File(result.files.single.path!).readAsString();
-    final data = await json.decode(response);
-    List<Recipe> recipes = [];
-    data.forEach((item) {
-      recipes.add(Recipe.fromJson(item));
-    });
+    try {
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.any,
+      );
+      if (result == null || result.count == 0) {
+        showInSnackBar("You must pick a file that has the extension recipe.");
+        return;
+      }
+      loading.value = true;
+      final response = await File(result.files.single.path!).readAsString();
+      final data = await json.decode(response);
+      List<Recipe> recipes = [];
+      data.forEach((item) {
+        recipes.add(Recipe.fromJson(item));
+      });
 
-    await recipeOperations.createAll(recipes);
-    loadRecipes();
+      await recipeOperations.createAll(recipes);
+      loadRecipes();
+    } catch (e) {
+      showInSnackBar("Failed to  import from file" + e.toString());
+    }
+    showInSnackBar("Recipe are imported.", status: true);
   }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinbox/flutter_spinbox.dart';
-
-import '../decorations/input_decoration.dart';
+import 'package:recipes/components/decoration/input_decoration.dart';
 
 class ServingSpinBox extends StatelessWidget {
   final int servings;
@@ -15,7 +14,7 @@ class ServingSpinBox extends StatelessWidget {
     return SpinBox(
       incrementIcon: const Icon(Icons.keyboard_arrow_right_rounded, size: 50),
       decrementIcon: const Icon(Icons.keyboard_arrow_left_rounded, size: 50),
-      decoration: getInputDecoration(context, "Servings"),
+      decoration: getInputDecoration("Servings"),
       textStyle: TextStyle(
           fontSize: 18, color: Theme.of(context).colorScheme.secondary),
       keyboardType: TextInputType.number,
