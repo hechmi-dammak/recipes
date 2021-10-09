@@ -108,7 +108,8 @@ class IngredientOperations {
   }
 
   Future<List<Ingredient>> createAll(
-      List<Ingredient> ingredients, int? recipeId) async {
+      List<Ingredient>? ingredients, int? recipeId) async {
+    if (ingredients == null || ingredients.isEmpty) return [];
     final db = await dbProvider.database;
     final List<Ingredient> result = [];
     for (var ingredient in ingredients) {

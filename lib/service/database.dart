@@ -1,6 +1,7 @@
 import 'package:path/path.dart';
 import 'package:recipes/models/ingredient.dart';
 import 'package:recipes/models/recipe.dart';
+import 'package:recipes/models/step.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DataBaseRepository {
@@ -51,6 +52,15 @@ class DataBaseRepository {
           ${IngredientFields.size} $textType,
           ${IngredientFields.method} $textType,
           ${IngredientFields.recipeId} $integerType,
+          FOREIGN KEY (${IngredientFields.recipeId}) REFERENCES $tableRecipes ( ${RecipeFields.id}) 
+        )
+    ''');
+    await db.execute('''
+        CREATE TABLE $tableSteps ( 
+          ${StepFields.id} $idType, 
+          ${StepFields.order} $integerType,
+          ${StepFields.toDo} $textType,
+          ${StepFields.recipeId} $integerType,
           FOREIGN KEY (${IngredientFields.recipeId}) REFERENCES $tableRecipes ( ${RecipeFields.id}) 
         )
     ''');

@@ -28,5 +28,6 @@ class RecipeInfoController extends GetxController {
       return;
     }
     servings.value = defaultServingValue;
+    update();
   }
 }

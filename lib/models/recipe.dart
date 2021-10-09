@@ -1,12 +1,14 @@
 import 'package:recipes/models/ingredient.dart';
 import 'dart:convert';
 
+import 'package:recipes/models/step.dart';
+
 const String tableRecipes = 'recipes';
 
 class RecipeFields {
   static final List<String> values = [
-    /// Add all fields
-    id, name, category, steps
+    /// Add all fields expect ManyToMany and OneToMany
+    id, name, category
   ];
   static const String id = '_id';
   static const String name = 'name';
@@ -19,8 +21,7 @@ class Recipe {
   int? id;
   String name;
   String? category;
-  List<String>? steps;
-
+  List<Step>? steps;
   List<Ingredient>? ingredients;
   Map<String, List<Ingredient>>? ingredientsByCategory;
   bool? selected = false;
@@ -28,8 +29,8 @@ class Recipe {
       {this.id,
       this.name = "",
       this.category,
-      this.ingredients,
-      this.steps,
+      this.ingredients = const [],
+      this.steps = const [],
       this.selected = false}) {
     initIngredientsByCategory();
   }
@@ -43,14 +44,19 @@ class Recipe {
         }, ifAbsent: () => List.from([ingredient]));
       }
     }
+    ingredientsByCategory!.forEach((key, value) {
+      value.sort((a, b) {
+        return a.name.compareTo(b.name);
+      });
+    });
   }
 
   static Recipe fromJson(Map<String, dynamic> json) => Recipe(
       id: json[RecipeFields.id] as int?,
       name: json[RecipeFields.name] as String,
       category: json[RecipeFields.category] as String,
-      steps: json[RecipeFields.steps] as List<String>?,
-      ingredients: getIngridientfromJson(json));
+      steps: getStepsfromJson(json),
+      ingredients: getIngredientsfromJson(json));
 
   static Recipe fromDatabaseJson(Map<String, dynamic> json) => Recipe(
       id: json[RecipeFields.id] as int?,
@@ -58,16 +64,24 @@ class Recipe {
       category: json[RecipeFields.category] as String,
       steps: json[RecipeFields.steps] == null
           ? null
-          : jsonDecode(json[RecipeFields.steps]),
-      ingredients: []);
+          : jsonDecode(json[RecipeFields.steps]));
 
-  static getIngridientfromJson(Map<String, dynamic> json) {
-    if (json[RecipeFields.ingredients] == null) return [];
-    List<Ingredient> ingredientstmp = [];
-    json[RecipeFields.ingredients].forEach((v) {
-      ingredientstmp.add(Ingredient.fromJson(v));
+  static List<Step> getStepsfromJson(Map<String, dynamic> json) {
+    if (json[RecipeFields.steps] == null) return [];
+    List<Step> steps = [];
+    json[RecipeFields.steps].forEach((v) {
+      steps.add(Step.fromJson(v));
     });
-    return ingredientstmp;
+    return steps;
+  }
+
+  static List<Ingredient> getIngredientsfromJson(Map<String, dynamic> json) {
+    if (json[RecipeFields.ingredients] == null) return [];
+    List<Ingredient> ingredients = [];
+    json[RecipeFields.ingredients].forEach((v) {
+      ingredients.add(Ingredient.fromJson(v));
+    });
+    return ingredients;
   }
 
   Map<String, dynamic> toJson() => {
@@ -89,7 +103,7 @@ class Recipe {
           {int? id,
           String? name,
           String? category,
-          List<String>? steps,
+          List<Step>? steps,
           List<Ingredient>? ingredients}) =>
       Recipe(
         id: id ?? this.id,

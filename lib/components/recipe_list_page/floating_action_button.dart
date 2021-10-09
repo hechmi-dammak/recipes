@@ -1,7 +1,11 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:get/get.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:recipes/components/utils/dialog_input.dart';
 import 'package:recipes/components/utils/show_snack_bar.dart';
 import 'package:recipes/controller/recipes_controller.dart';
@@ -81,17 +85,19 @@ class _RecipeListFloatingButtonState extends State<RecipeListFloatingButton> {
                         showInSnackBar("File name shouldn't be empty.");
                         return;
                       }
-                      String? result = await FilePicker.platform
+                      String? fileDirectory = await FilePicker.platform
                           .getDirectoryPath(
                               dialogTitle: "Select where to save to file");
-                      if (result == null) {
-                        showInSnackBar("You must choose a directory.");
+                      if (fileDirectory == null) {
+                        showInSnackBar("You must choose a directory");
                         return;
                       }
-                      await recipesController.exportSelectedDataToFile(
-                          "$result/${_fileNameController.text}.recipe");
+                      var fileLocation =
+                          "$fileDirectory/${_fileNameController.text}.recipe";
+                      var recipes = recipesController.getSelectedRecipes();
+                      File file = File(fileLocation);
+                      await file.writeAsString(json.encode(recipes));
                       Get.back();
-
                       showInSnackBar(
                           "Recipes are exported to file ${_fileNameController.text}.",
                           status: true);
@@ -125,6 +131,14 @@ class _RecipeListFloatingButtonState extends State<RecipeListFloatingButton> {
               visible: recipesController.selectionIsActive.value,
               onTap: () => recipesController.deleteSelectedRecipes(),
             ),
+            SpeedDialChild(
+              child: Icon(Icons.download, size: iconSize),
+              backgroundColor: Theme.of(context).colorScheme.primaryVariant,
+              foregroundColor: Theme.of(context).colorScheme.onPrimary,
+              label: 'Import from library',
+              visible: recipesController.recipes.isEmpty,
+              onTap: () => recipesController.importFromLibrary(),
+            )
           ],
         ));
   }

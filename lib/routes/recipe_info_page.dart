@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:recipes/components/ingredient_list.dart';
+import 'package:recipes/components/recipe_info_page.dart/ingredient_list.dart';
 import 'package:recipes/components/utils/app_bar.dart';
 import 'package:recipes/components/utils/loading_widget.dart';
 import 'package:recipes/components/utils/serving_spin_box.dart';
@@ -20,7 +20,6 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
   @override
   void initState() {
     recipeInfoController.initRecipe(widget.recipeId);
-
     super.initState();
   }
 
@@ -30,52 +29,51 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
       builder: (recipeInfoController) {
         return SafeArea(
           child: Scaffold(
-              backgroundColor: Theme.of(context).backgroundColor,
-              appBar: customAppBar(context,
-                  title: recipeInfoController.recipe.value.name.capitalize!,
-                  actions: [
-                    IconButton(
-                        onPressed: () {
-                          if (recipeInfoController.recipe.value.ingredients !=
-                              null) {
-                            for (var element in recipeInfoController
-                                .recipe.value.ingredients!) {
-                              element.selected = false;
-                            }
+            backgroundColor: Theme.of(context).backgroundColor,
+            appBar: customAppBar(context,
+                title: recipeInfoController.recipe.value.name.capitalize!,
+                actions: [
+                  IconButton(
+                      onPressed: () {
+                        if (recipeInfoController.recipe.value.ingredients !=
+                            null) {
+                          for (var element in recipeInfoController
+                              .recipe.value.ingredients!) {
+                            element.selected = false;
                           }
-                          recipeInfoController.setServingValue();
-                          setState(() {});
-                        },
-                        icon: const Icon(Icons.refresh))
-                  ]),
-              body: LoadingWidget(
-                loading: recipeInfoController.loading.value,
-                child: RefreshIndicator(
-                  onRefresh: () =>
-                      recipeInfoController.initRecipe(widget.recipeId),
-                  child: SingleChildScrollView(
-                    child: SizedBox(
-                      child: Column(
-                        children: [
-                          Container(
-                              margin:
-                                  const EdgeInsets.only(bottom: 15, top: 15),
-                              child: ServingSpinBox(
-                                  changeServingFunction: (double value) =>
-                                      recipeInfoController
-                                          .setServingValue(value.toInt()),
-                                  servings:
-                                      recipeInfoController.servings.value)),
-                          IngredientsList(
-                              servings: recipeInfoController.servings.value,
-                              ingredientsByCategory: recipeInfoController
-                                  .recipe.value.ingredientsByCategory),
-                        ],
-                      ),
+                        }
+                        recipeInfoController.setServingValue();
+                        setState(() {});
+                      },
+                      icon: const Icon(Icons.refresh))
+                ]),
+            body: LoadingWidget(
+              loading: recipeInfoController.loading.value,
+              child: RefreshIndicator(
+                onRefresh: () =>
+                    recipeInfoController.initRecipe(widget.recipeId),
+                child: SingleChildScrollView(
+                  child: SizedBox(
+                    child: Column(
+                      children: [
+                        Container(
+                            margin: const EdgeInsets.only(bottom: 15, top: 15),
+                            child: ServingSpinBox(
+                                changeServingFunction: (double value) {
+                                  setState(() {
+                                    recipeInfoController
+                                        .setServingValue(value.toInt());
+                                  });
+                                },
+                                servings: recipeInfoController.servings.value)),
+                        IngredientsList(),
+                      ],
                     ),
                   ),
                 ),
-              )),
+              ),
+            ),
+          ),
         );
       },
     );

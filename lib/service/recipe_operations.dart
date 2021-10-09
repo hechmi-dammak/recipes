@@ -1,7 +1,7 @@
-import 'package:recipes/models/ingredient.dart';
 import 'package:recipes/models/recipe.dart';
 import 'package:recipes/service/database.dart';
 import 'package:recipes/service/ingredient_operations.dart';
+import 'package:recipes/service/step_operations.dart';
 
 class RecipeOperations {
   static final RecipeOperations instance = RecipeOperations._init();
@@ -9,6 +9,7 @@ class RecipeOperations {
 
   final dbProvider = DataBaseRepository.instance;
   final ingredientOpertations = IngredientOperations.instance;
+  final stepOpertations = StepOperations.instance;
   Future<Recipe> create(Recipe recipe) async {
     final db = await dbProvider.database;
     final id = await db.insert(tableRecipes, recipe.toDatabaseJson());
@@ -26,6 +27,7 @@ class RecipeOperations {
     if (maps.isNotEmpty) {
       Recipe recipe = Recipe.fromDatabaseJson(maps.first);
       recipe.ingredients = await ingredientOpertations.readAllByRecipeId(id);
+      recipe.steps = await stepOpertations.readAllByRecipeId(id);
       recipe.initIngredientsByCategory();
       return recipe;
     }
@@ -46,6 +48,7 @@ class RecipeOperations {
   Future<int> delete(int id) async {
     final db = await dbProvider.database;
     await ingredientOpertations.deleteByRecipeId(id);
+    await stepOpertations.deleteByRecipeId(id);
     return await db.delete(
       tableRecipes,
       where: '${RecipeFields.id} = ?',
@@ -82,10 +85,11 @@ class RecipeOperations {
       recipe.id = null;
       final id = await db.insert(tableRecipes, recipe.toDatabaseJson());
 
-      final List<Ingredient> ingredients = recipe.ingredients == null
-          ? []
-          : await ingredientOpertations.createAll(recipe.ingredients!, id);
-      recipe = recipe.copy(id: id, ingredients: ingredients);
+      recipe = recipe.copy(
+          id: id,
+          ingredients:
+              await ingredientOpertations.createAll(recipe.ingredients!, id),
+          steps: await stepOpertations.createAll(recipe.steps!, id));
       recipe.initIngredientsByCategory();
       result.add(recipe);
     }
@@ -120,6 +124,7 @@ class RecipeOperations {
         Recipe recipe = Recipe.fromDatabaseJson(recipeJson);
         recipe.ingredients =
             await ingredientOpertations.readAllByRecipeId(recipe.id!);
+        recipe.steps = await stepOpertations.readAllByRecipeId(recipe.id!);
         recipe.initIngredientsByCategory();
         recipes.add(recipe);
       }

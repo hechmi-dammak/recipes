@@ -31,59 +31,64 @@ class _RecipeCreatePageState extends State<RecipeCreatePage> {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<RecipeCreateController>(
-        builder: (recipeCreateController) {
-      return SafeArea(
-          child: Scaffold(
+    return SafeArea(
+      child: Scaffold(
         floatingActionButton: const RecipeCreateFloatingButton(),
         backgroundColor: Theme.of(context).backgroundColor,
         appBar: customAppBar(context, title: "Create a new recipe"),
-        body: LoadingWidget(
-          loading: recipeCreateController.loading.value,
-          child: SingleChildScrollView(
-            child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 12.0),
-              child: Column(
-                children: [
-                  Container(
-                      margin: const EdgeInsets.symmetric(vertical: 15),
-                      child: ServingSpinBox(
-                          changeServingFunction: (double value) =>
-                              recipeCreateController
-                                  .setServingValue(value.toInt()),
-                          servings: recipeCreateController.servings.value)),
-                  Container(
-                    margin: const EdgeInsets.only(bottom: 15),
-                    child: Form(
-                      key: _recipeFormKey,
-                      child: Column(
-                        children: [
-                          Container(
-                            margin: const EdgeInsets.only(bottom: 15),
-                            child: TextFormField(
-                              decoration: getInputDecoration("Name"),
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please specify a name';
-                                }
-                                return null;
+        body: GetBuilder<RecipeCreateController>(
+          builder: (recipeCreateController) {
+            return LoadingWidget(
+              loading: recipeCreateController.loading.value,
+              child: SingleChildScrollView(
+                child: Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 12.0),
+                  child: Column(
+                    children: [
+                      Container(
+                          margin: const EdgeInsets.symmetric(vertical: 15),
+                          child: ServingSpinBox(
+                              changeServingFunction: (double value) {
+                                setState(() {
+                                  recipeCreateController
+                                      .setServingValue(value.toInt());
+                                });
                               },
-                            ),
+                              servings: recipeCreateController.servings.value)),
+                      Container(
+                        margin: const EdgeInsets.only(bottom: 15),
+                        child: Form(
+                          key: _recipeFormKey,
+                          child: Column(
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.only(bottom: 15),
+                                child: TextFormField(
+                                  decoration: getInputDecoration("Name"),
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please specify a name';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.only(bottom: 15),
+                                child: CategoryDropDownInput(),
+                              ),
+                            ],
                           ),
-                          Container(
-                            margin: const EdgeInsets.only(bottom: 15),
-                            child: CategoryDropDownInput(),
-                          ),
-                        ],
-                      ),
-                    ),
-                  )
-                ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
               ),
-            ),
-          ),
+            );
+          },
         ),
-      ));
-    });
+      ),
+    );
   }
 }

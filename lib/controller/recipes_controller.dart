@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:recipes/components/utils/show_snack_bar.dart';
 import 'package:recipes/models/recipe.dart';
@@ -39,10 +40,13 @@ class RecipesController extends GetxController {
 
   void updateSelectionIsActive([bool? selectionIsActive]) {
     this.selectionIsActive.value = selectionIsActive ?? _selectionIsActive();
+    update();
   }
 
   void deleteSelectedRecipes() async {
     loading.value = true;
+    update();
+
     var _copyRecipes = recipes.toList();
     for (Recipe recipe in _copyRecipes) {
       if ((recipe.selected ?? false) && (recipe.id != null)) {
@@ -51,8 +55,9 @@ class RecipesController extends GetxController {
       }
     }
     updateSelectionIsActive();
-    update();
     loading.value = false;
+    update();
+    showInSnackBar("Selected Recipe were deleted.", status: true);
   }
 
   void setSelectAllValue([bool value = false]) {
@@ -63,15 +68,14 @@ class RecipesController extends GetxController {
     update();
   }
 
-  Future exportSelectedDataToFile(String fileLocation) async {
-    List result = [];
+  List<Map<String, dynamic>> getSelectedRecipes() {
+    List<Map<String, dynamic>> result = [];
     for (Recipe recipe in recipes) {
       if (recipe.selected ?? false) {
         result.add(recipe.toJson());
       }
     }
-    File file = File(fileLocation);
-    await file.writeAsString(json.encode(result));
+    return result;
   }
 
   importFromFile(context) async {
@@ -81,9 +85,12 @@ class RecipesController extends GetxController {
       );
       if (result == null || result.count == 0) {
         showInSnackBar("You must pick a file that has the extension recipe.");
+        loading.value = false;
+        update();
         return;
       }
       loading.value = true;
+      update();
       final response = await File(result.files.single.path!).readAsString();
       final data = await json.decode(response);
       List<Recipe> recipes = [];
@@ -93,9 +100,33 @@ class RecipesController extends GetxController {
 
       await recipeOperations.createAll(recipes);
       loadRecipes();
+      showInSnackBar("Recipes are imported.", status: true);
     } catch (e) {
       showInSnackBar("Failed to  import from file" + e.toString());
     }
-    showInSnackBar("Recipe are imported.", status: true);
+    loading.value = false;
+    update();
+  }
+
+  importFromLibrary() async {
+    try {
+      loading.value = true;
+      update();
+      final String response =
+          await rootBundle.loadString('assets/recipes.json');
+      final data = await json.decode(response);
+      List<Recipe> recipes = [];
+      data.forEach((item) {
+        recipes.add(Recipe.fromJson(item));
+      });
+
+      await recipeOperations.createAll(recipes);
+      loadRecipes();
+      showInSnackBar("Recipes are imported.", status: true);
+    } catch (e) {
+      showInSnackBar("Failed to  import from file" + e.toString());
+    }
+    loading.value = false;
+    update();
   }
 }
