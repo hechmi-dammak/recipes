@@ -21,7 +21,7 @@ class _RecipeCardState extends State<RecipeCard> {
   Widget build(BuildContext context) {
     return GetBuilder<RecipesController>(
       builder: (recipesController) {
-        return GestureDetector(
+        return InkWell(
           onTap: () {
             if (recipesController.selectionIsActive.value) {
               recipesController.setRecipeSelected(widget.index);

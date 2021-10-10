@@ -22,8 +22,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Recipes',
-      theme: AplicationTheme.getTheme()
-          .copyWith(backgroundColor: Colors.grey.shade200),
+      theme: AplicationTheme.getTheme(),
       home: const HomePage(),
     );
   }

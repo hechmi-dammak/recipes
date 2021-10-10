@@ -6,8 +6,12 @@ import 'dart:math';
 class IngredientCard extends StatefulWidget {
   final Ingredient ingredient;
   final int servings;
+  final int? recipeServings;
   const IngredientCard(
-      {Key? key, required this.ingredient, required this.servings})
+      {Key? key,
+      required this.ingredient,
+      required this.servings,
+      this.recipeServings})
       : super(key: key);
 
   @override
@@ -17,7 +21,7 @@ class IngredientCard extends StatefulWidget {
 class IngredientCardState extends State<IngredientCard> {
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onLongPress: () => _onLongPress(context),
       onTap: () {
         setState(() {
@@ -72,11 +76,14 @@ class IngredientCardState extends State<IngredientCard> {
                           Theme.of(context).buttonTheme.colorScheme!.onPrimary),
                 ),
               ),
-              if (widget.ingredient.getQuantity(widget.servings) != null)
+              if (widget.ingredient
+                      .getQuantity(widget.servings, widget.recipeServings) !=
+                  null)
                 Container(
                   margin: const EdgeInsets.only(top: 10),
                   child: Text(
-                    widget.ingredient.getQuantity(widget.servings)!,
+                    widget.ingredient
+                        .getQuantity(widget.servings, widget.recipeServings)!,
                     style: TextStyle(
                         overflow: TextOverflow.ellipsis,
                         fontSize: 16,
@@ -160,7 +167,9 @@ class IngredientCardState extends State<IngredientCard> {
                       ),
                     ),
                   ),
-                  if (widget.ingredient.getQuantity(widget.servings) != null)
+                  if (widget.ingredient.getQuantity(
+                          widget.servings, widget.recipeServings) !=
+                      null)
                     Container(
                       margin: const EdgeInsets.only(top: 10),
                       child: ListTile(
@@ -176,7 +185,8 @@ class IngredientCardState extends State<IngredientCard> {
                                   .onPrimary),
                         ),
                         title: Text(
-                          widget.ingredient.getQuantity(widget.servings)!,
+                          widget.ingredient.getQuantity(
+                              widget.servings, widget.recipeServings)!,
                           style: TextStyle(
                               overflow: TextOverflow.ellipsis,
                               fontSize: 15,

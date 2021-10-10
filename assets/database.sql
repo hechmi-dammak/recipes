@@ -2,7 +2,7 @@ CREATE TABLE recipes (
     _id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT,
     category TEXT,
-    steps TEXT
+    servings INTEGER
 );
 
 CREATE TABLE ingredients (
@@ -23,4 +23,4 @@ CREATE TABLE steps (
     to_do TEXT,
     recipe_id INTEGER,
     FOREIGN KEY (recipe_id) REFERENCES recipes (_id)
-)
+);

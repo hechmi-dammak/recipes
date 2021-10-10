@@ -25,7 +25,7 @@ class IngredientFields {
 class Ingredient {
   late int? id;
   String name;
-  String category;
+  String? category;
   num? quantity;
   String? measuring;
   String? size;
@@ -82,10 +82,10 @@ class Ingredient {
         IngredientFields.recipeId: recipeId,
       };
 
-  String? getQuantity(int servings) {
+  String? getQuantity(int servings, [int? recipeServings]) {
     String result = "";
     if (quantity != null) {
-      num resultQuantity = (quantity! * servings);
+      num resultQuantity = ((quantity! * servings) / (recipeServings ?? 1));
       if (resultQuantity % 1 == 0) {
         result += (quantity! * servings).toInt().toString() + " ";
       } else {

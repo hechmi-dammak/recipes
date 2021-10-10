@@ -53,6 +53,22 @@ class RecipeCreateController extends GetxController {
     update();
   }
 
+  setInEditing(dynamic editable) {
+    recipe.update((recipe) {
+      if (recipe == null) {
+        return;
+      }
+      recipe.ingredients?.forEach((ingredient) {
+        ingredient.inEditing = false;
+      });
+      recipe.steps?.forEach((step) {
+        step.inEditing = false;
+      });
+      editable.inEditing = true;
+    });
+    update();
+  }
+
   addNewIngredient() {
     recipe.update((recipe) {
       if (recipe == null) {
@@ -66,7 +82,9 @@ class RecipeCreateController extends GetxController {
       var ingredients = recipe.ingredients!.toList();
       ingredients.add(Ingredient());
       recipe.ingredients = ingredients;
+      setInEditing(recipe.ingredients!.last);
     });
+
     update();
   }
 }

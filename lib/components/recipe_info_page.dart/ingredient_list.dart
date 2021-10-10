@@ -29,7 +29,7 @@ class IngredientsList extends StatelessWidget {
                   fontSize: 20, color: Theme.of(context).primaryColor),
             ),
           ));
-          if (key == "spices") {
+          if (value.length < 5) {
             children.add(Container(
               margin: const EdgeInsets.only(bottom: 10),
               height: 150,
@@ -64,6 +64,7 @@ class IngredientsList extends StatelessWidget {
                   return IngredientCard(
                     ingredient: value[index],
                     servings: recipeInfoController.servings.value,
+                    recipeServings: recipeInfoController.recipe.value.servings,
                   );
                 },
                 itemCount: value.length,

@@ -14,65 +14,70 @@ class CategoryDropDownInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Flexible(
-          flex: 5,
-          child: Container(
-            decoration: gradientDecoation(context),
-            child: DropdownButtonFormField<String>(
-              dropdownColor: Theme.of(context).colorScheme.secondary,
-              style: TextStyle(
-                  color: Theme.of(context).colorScheme.onSecondary,
-                  fontSize: 18),
-              decoration: InputDecoration(
-                  border: InputBorder.none,
-                  labelStyle: TextStyle(
-                      color: Theme.of(context).colorScheme.onSecondary),
-                  labelText: 'Category'),
-              iconSize: 40,
-              value: recipeCreateController.recipe.value.category,
-              onChanged: (String? newValue) {
-                recipeCreateController.recipe.value.category = newValue!;
-              },
-              items: recipeCreateController.recipeCategories
-                  .map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                    child: Text(value), value: value);
-              }).toList(),
+    return SizedBox(
+      height: 70,
+      child: Row(
+        children: [
+          Flexible(
+            flex: 5,
+            child: Container(
+              decoration: gradientDecoation(context),
+              child: DropdownButtonFormField<String>(
+                dropdownColor: Theme.of(context).colorScheme.secondary,
+                style: TextStyle(
+                    color: Theme.of(context).colorScheme.onSecondary,
+                    fontSize: 18),
+                decoration: InputDecoration(
+                    border: InputBorder.none,
+                    labelStyle: TextStyle(
+                        color: Theme.of(context).colorScheme.onSecondary,
+                        fontSize: 20),
+                    labelText: 'Category'),
+                iconSize: 30,
+                value: recipeCreateController.recipe.value.category,
+                onChanged: (String? newValue) {
+                  recipeCreateController.recipe.value.category = newValue!;
+                },
+                items: recipeCreateController.recipeCategories
+                    .map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                      child: Text(value), value: value);
+                }).toList(),
+              ),
             ),
           ),
-        ),
-        Flexible(
-          flex: 1,
-          child: TextButton(
-              onPressed: () {
-                showDialogInput(
-                    title: 'Create a new category',
-                    label: 'Category',
-                    controller: _categoryController,
-                    confirm: () async {
-                      if (_categoryController.text == "") {
-                        showInSnackBar("Category shouldn't be empty.");
-                        return;
-                      }
-                      recipeCreateController
-                          .addNewCategory(_categoryController.text);
-                      recipeCreateController.recipe.value.category =
-                          _categoryController.text;
+          const SizedBox(width: 5),
+          Flexible(
+            flex: 1,
+            child: InkWell(
+                onTap: () {
+                  showDialogInput(
+                      title: 'Create a new category',
+                      label: 'Category',
+                      controller: _categoryController,
+                      confirm: () async {
+                        if (_categoryController.text == "") {
+                          showInSnackBar("Category shouldn't be empty.");
+                          return;
+                        }
+                        recipeCreateController
+                            .addNewCategory(_categoryController.text);
+                        recipeCreateController.recipe.value.category =
+                            _categoryController.text;
 
-                      Get.back();
+                        Get.back();
 
-                      _categoryController.clear();
-                    });
-              },
-              child: Container(
-                  height: 80,
-                  width: double.infinity,
-                  decoration: gradientDecoation(context),
-                  child: const Icon(Icons.add))),
-        )
-      ],
+                        _categoryController.clear();
+                      });
+                },
+                child: Container(
+                    height: double.infinity,
+                    width: double.infinity,
+                    decoration: gradientDecoation(context),
+                    child: const Icon(Icons.add))),
+          )
+        ],
+      ),
     );
   }
 }

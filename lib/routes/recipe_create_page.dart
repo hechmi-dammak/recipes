@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:recipes/components/decoration/input_decoration.dart';
 import 'package:recipes/components/recipe_create_page.dart/category_drop_down.dart';
 import 'package:recipes/components/recipe_create_page.dart/floating_action_button.dart';
+import 'package:recipes/components/recipe_create_page.dart/ingredient_edit_card.dart';
 import 'package:recipes/components/utils/app_bar.dart';
 import 'package:recipes/components/utils/loading_widget.dart';
 import 'package:recipes/components/utils/serving_spin_box.dart';
@@ -80,6 +81,29 @@ class _RecipeCreatePageState extends State<RecipeCreatePage> {
                             ],
                           ),
                         ),
+                      ),
+                      if (recipeCreateController.recipe.value.ingredients !=
+                              null &&
+                          recipeCreateController
+                              .recipe.value.ingredients!.isNotEmpty)
+                        Container(
+                          height: 30,
+                          margin: const EdgeInsets.only(bottom: 10),
+                          child: Text(
+                            "Ingredients",
+                            style: TextStyle(
+                                fontSize: 20,
+                                color: Theme.of(context).primaryColor),
+                          ),
+                        ),
+                      ListView.builder(
+                        physics: const ClampingScrollPhysics(),
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          return IngredientEditCard(index: index);
+                        },
+                        itemCount: recipeCreateController
+                            .recipe.value.ingredients!.length,
                       )
                     ],
                   ),

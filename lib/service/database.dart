@@ -38,8 +38,8 @@ class DataBaseRepository {
         CREATE TABLE $tableRecipes ( 
           ${RecipeFields.id} $idType, 
           ${RecipeFields.name} $textType,
-          ${RecipeFields.steps} $textType,
-          ${RecipeFields.category} $textType
+          ${RecipeFields.category} $textType,
+          ${RecipeFields.servings} $integerType
         )
     ''');
     await db.execute('''

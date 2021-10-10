@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:recipes/components/decoration/input_decoration.dart';
 
-showDialogInput(
+void showDialogInput(
     {required TextEditingController controller,
     required String label,
     required String title,
@@ -26,17 +26,13 @@ showDialogInput(
             ),
             TextButton(
               child: const Text('confirm'),
-              onPressed: () async {
-                confirm();
-              },
+              onPressed: () async => confirm(),
             ),
           ],
         )
       ],
       content: TextField(
-        onSubmitted: (String value) {
-          confirm();
-        },
+        onSubmitted: (String value) => confirm(),
         controller: controller,
         decoration: getInputDecoration(label),
       ),

@@ -70,14 +70,14 @@ class RecipeOperations {
     for (var recipe in recipes) {
       List<Recipe> foundRecipesByName = await readAllByName(recipe.name);
       if (foundRecipesByName.isNotEmpty) {
-        Set<String> setOfNames =
-            Set.from(foundRecipesByName.map((recipe) => recipe.name));
-        int index = 1;
+        final setOfNames = Set<String>.from(
+            foundRecipesByName.map<String>((recipe) => recipe.name));
+        var index = 1;
         while (true) {
-          if (setOfNames.contains(recipe.name + '_' + index.toString())) {
+          if (setOfNames.contains('${recipe.name}_$index')) {
             index++;
           } else {
-            recipe.name += '_' + index.toString();
+            recipe.name += '_$index';
             break;
           }
         }

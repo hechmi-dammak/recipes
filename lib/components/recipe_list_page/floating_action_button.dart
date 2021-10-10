@@ -1,11 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:get/get.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:recipes/components/utils/dialog_input.dart';
 import 'package:recipes/components/utils/show_snack_bar.dart';
 import 'package:recipes/controller/recipes_controller.dart';

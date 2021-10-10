@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:recipes/models/ingredient.dart';
 import 'dart:convert';
 
@@ -8,19 +10,21 @@ const String tableRecipes = 'recipes';
 class RecipeFields {
   static final List<String> values = [
     /// Add all fields expect ManyToMany and OneToMany
-    id, name, category
+    id, name, category, servings
   ];
   static const String id = '_id';
   static const String name = 'name';
   static const String category = 'category';
   static const String ingredients = 'ingredients';
   static const String steps = 'steps';
+  static const String servings = 'servings';
 }
 
 class Recipe {
   int? id;
   String name;
   String? category;
+  int? servings;
   List<Step>? steps;
   List<Ingredient>? ingredients;
   Map<String, List<Ingredient>>? ingredientsByCategory;
@@ -29,6 +33,7 @@ class Recipe {
       {this.id,
       this.name = "",
       this.category,
+      this.servings = 1,
       this.ingredients = const [],
       this.steps = const [],
       this.selected = false}) {
@@ -38,12 +43,16 @@ class Recipe {
     ingredientsByCategory = {};
     if (ingredients != null) {
       for (var ingredient in ingredients!) {
-        ingredientsByCategory!.update(ingredient.category, (value) {
+        ingredientsByCategory!.update(ingredient.category ?? "ingredient",
+            (value) {
           value.add(ingredient);
           return value;
         }, ifAbsent: () => List.from([ingredient]));
       }
     }
+    ingredientsByCategory = SplayTreeMap.from(ingredientsByCategory!,
+        (String key1, String key2) => key1.compareTo(key2));
+
     ingredientsByCategory!.forEach((key, value) {
       value.sort((a, b) {
         return a.name.compareTo(b.name);
@@ -55,6 +64,7 @@ class Recipe {
       id: json[RecipeFields.id] as int?,
       name: json[RecipeFields.name] as String,
       category: json[RecipeFields.category] as String,
+      servings: json[RecipeFields.servings] as int?,
       steps: getStepsfromJson(json),
       ingredients: getIngredientsfromJson(json));
 
@@ -62,6 +72,7 @@ class Recipe {
       id: json[RecipeFields.id] as int?,
       name: json[RecipeFields.name] as String,
       category: json[RecipeFields.category] as String,
+      servings: json[RecipeFields.servings] as int?,
       steps: json[RecipeFields.steps] == null
           ? null
           : jsonDecode(json[RecipeFields.steps]));
@@ -88,7 +99,9 @@ class Recipe {
         RecipeFields.id: id,
         RecipeFields.name: name,
         RecipeFields.category: category,
-        RecipeFields.steps: steps,
+        RecipeFields.servings: servings,
+        RecipeFields.steps:
+            steps == null ? null : steps!.map((v) => v.toJson()).toList(),
         RecipeFields.ingredients: ingredients == null
             ? null
             : ingredients!.map((v) => v.toJson()).toList(),
@@ -97,18 +110,20 @@ class Recipe {
         RecipeFields.id: id,
         RecipeFields.name: name,
         RecipeFields.category: category,
-        RecipeFields.steps: jsonEncode(steps),
+        RecipeFields.servings: servings,
       };
   Recipe copy(
           {int? id,
           String? name,
           String? category,
+          int? servings,
           List<Step>? steps,
           List<Ingredient>? ingredients}) =>
       Recipe(
         id: id ?? this.id,
         name: name ?? this.name,
         category: category ?? this.category,
+        servings: servings ?? this.servings,
         ingredients: ingredients ?? this.ingredients,
         steps: steps ?? this.steps,
       );
