@@ -31,7 +31,7 @@ class RecipeEditController extends GetxController {
       setServingValue();
     } else {
       recipe.value = await recipeOperations.read(recipeId);
-      setServingValue(recipe.value.servings);
+      setServingValue(recipe.value.servings ?? 1);
     }
     recipeCategories = await recipeOperations.getAllCategories();
     ingredientCategories = await ingredientOperations

@@ -110,7 +110,7 @@ class Recipe {
         RecipeFields.id: id,
         RecipeFields.name: name,
         RecipeFields.category: category,
-        RecipeFields.servings: servings,
+        RecipeFields.servings: servings ?? 1,
       };
   Recipe copy(
           {int? id,
