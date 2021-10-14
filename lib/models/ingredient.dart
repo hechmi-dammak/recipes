@@ -25,32 +25,42 @@ class IngredientFields {
 class Ingredient {
   late int? id;
   String name;
-  String category;
+  String? category;
   num? quantity;
   String? measuring;
   String? size;
   String? method;
   bool? selected;
-
+  bool? inEditing;
   Ingredient(
       {this.id,
-      required this.name,
-      required this.category,
+      this.name = "",
+      this.category,
       this.quantity,
       this.measuring,
       this.size,
       this.method,
-      this.selected = false});
+      this.selected = false,
+      this.inEditing = false});
 
   static Ingredient fromJson(Map<String, dynamic> json) => Ingredient(
       id: json[IngredientFields.id] as int?,
       name: json[IngredientFields.name] as String,
-      category: json[IngredientFields.category] as String,
+      category: json[IngredientFields.category] as String?,
       quantity: json[IngredientFields.quantity] as num?,
       measuring: json[IngredientFields.measuring] as String?,
       size: json[IngredientFields.size] as String?,
-      method: json[IngredientFields.method] as String?,
-      selected: false);
+      method: json[IngredientFields.method] as String?);
+
+  static Ingredient fromDatabaseJson(Map<String, dynamic> json) => Ingredient(
+        id: json[IngredientFields.id] as int?,
+        name: json[IngredientFields.name] as String,
+        category: json[IngredientFields.category] as String?,
+        quantity: json[IngredientFields.quantity] as num?,
+        measuring: json[IngredientFields.measuring] as String?,
+        size: json[IngredientFields.size] as String?,
+        method: json[IngredientFields.method] as String?,
+      );
 
   Map<String, dynamic> toJson() => {
         IngredientFields.id: id,
@@ -61,15 +71,25 @@ class Ingredient {
         IngredientFields.size: size,
         IngredientFields.method: method,
       };
+  Map<String, dynamic> toDatabaseJson(int? recipeId) => {
+        IngredientFields.id: id,
+        IngredientFields.name: name,
+        IngredientFields.category: category,
+        IngredientFields.quantity: quantity,
+        IngredientFields.measuring: measuring,
+        IngredientFields.size: size,
+        IngredientFields.method: method,
+        IngredientFields.recipeId: recipeId,
+      };
 
-  String? getQuantity(int servings) {
+  String? getQuantity(int servings, [int? recipeServings]) {
     String result = "";
     if (quantity != null) {
-      num resultQuantity = (quantity! * servings);
+      num resultQuantity = ((quantity! * servings) / (recipeServings ?? 1));
       if (resultQuantity % 1 == 0) {
-        result += (quantity! * servings).toInt().toString() + " ";
+        result += resultQuantity.toInt().toString() + " ";
       } else {
-        result += (quantity! * servings).toString() + " ";
+        result += resultQuantity.toString() + " ";
       }
     }
     if (size != null) {
@@ -89,7 +109,8 @@ class Ingredient {
           String? measuring,
           String? size,
           String? method,
-          bool? selected}) =>
+          bool? selected,
+          bool? inEditing}) =>
       Ingredient(
         id: id ?? this.id,
         name: name ?? this.name,
@@ -99,5 +120,6 @@ class Ingredient {
         size: size ?? this.size,
         method: method ?? this.method,
         selected: selected ?? this.selected,
+        inEditing: inEditing ?? this.inEditing,
       );
 }

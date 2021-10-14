@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flex_color_scheme/flex_color_scheme.dart';
-import 'package:recipes/routes/home_page.dart';
+import 'package:get/get.dart';
+import 'package:recipes/modules/recipe_list_page/page/recipe_list_page.dart';
+
+import 'modules/recipe_edit_page/controller/recipe_edit_controller.dart';
+import 'modules/recipe_info_page.dart/controller/recipe_info_controller.dart';
+import 'modules/recipe_list_page/controller/recipes_controller.dart';
+import 'utils/decorations/theme.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,14 +16,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
+      initialBinding: BindingsBuilder(() {
+        Get.put(RecipesController());
+        Get.put(RecipeInfoController());
+        Get.put(RecipeEditController());
+      }),
       debugShowCheckedModeBanner: false,
       title: 'Recipes',
-      theme: FlexColorScheme.light(
-              colors: FlexColor.schemes[FlexScheme.hippieBlue]!.light)
-          .toTheme
-          .copyWith(backgroundColor: Colors.grey.shade300),
-      home: const HomePage(),
+      theme: AplicationTheme.getTheme(),
+      home: const RecipeListPage(),
     );
   }
 }
