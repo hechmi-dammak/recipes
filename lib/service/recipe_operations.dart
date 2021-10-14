@@ -12,8 +12,26 @@ class RecipeOperations {
   final stepOpertations = StepOperations.instance;
   Future<Recipe> create(Recipe recipe) async {
     final db = await dbProvider.database;
+    List<Recipe> foundRecipesByName = await readAllByName(recipe.name);
+    if (foundRecipesByName.isNotEmpty) {
+      final setOfNames = Set<String>.from(
+          foundRecipesByName.map<String>((recipe) => recipe.name));
+      var index = 1;
+      while (true) {
+        if (setOfNames.contains('${recipe.name}_$index')) {
+          index++;
+        } else {
+          recipe.name += '_$index';
+          break;
+        }
+      }
+    }
     final id = await db.insert(tableRecipes, recipe.toDatabaseJson());
-    return recipe.copy(id: id);
+    return recipe.copy(
+        id: id,
+        ingredients:
+            await ingredientOpertations.createAll(recipe.ingredients!, id),
+        steps: await stepOpertations.createAll(recipe.steps!, id));
   }
 
   Future<Recipe> read(int id) async {
@@ -34,15 +52,21 @@ class RecipeOperations {
     return Recipe();
   }
 
-  Future<int> update(Recipe recipe) async {
+  Future<Recipe> update(Recipe recipe) async {
     final db = await dbProvider.database;
-
-    return db.update(
+    if (recipe.id == null) {
+      throw Exception("recipe Id is null");
+    }
+    db.update(
       tableRecipes,
-      recipe.toJson(),
+      recipe.toDatabaseJson(),
       where: '${RecipeFields.id} = ?',
       whereArgs: [recipe.id],
     );
+    return recipe.copy(
+        ingredients: await ingredientOpertations.updateAll(
+            recipe.ingredients!, recipe.id),
+        steps: await stepOpertations.updateAll(recipe.steps!, recipe.id));
   }
 
   Future<int> delete(int id) async {
@@ -57,41 +81,20 @@ class RecipeOperations {
   }
 
   Future<int> deleteByIds(List<int> ids) async {
-    int count = 0;
-    for (var id in ids) {
-      count += await delete(id);
-    }
-    return count;
+    final db = await dbProvider.database;
+    await ingredientOpertations.deleteByRecipeIds(ids);
+    await stepOpertations.deleteByRecipeIds(ids);
+    return await db.delete(
+      tableRecipes,
+      where: '${RecipeFields.id} in (?)',
+      whereArgs: [ids],
+    );
   }
 
   Future<List<Recipe>> createAll(List<Recipe> recipes) async {
-    final db = await dbProvider.database;
     final List<Recipe> result = [];
     for (var recipe in recipes) {
-      List<Recipe> foundRecipesByName = await readAllByName(recipe.name);
-      if (foundRecipesByName.isNotEmpty) {
-        final setOfNames = Set<String>.from(
-            foundRecipesByName.map<String>((recipe) => recipe.name));
-        var index = 1;
-        while (true) {
-          if (setOfNames.contains('${recipe.name}_$index')) {
-            index++;
-          } else {
-            recipe.name += '_$index';
-            break;
-          }
-        }
-      }
-      recipe.id = null;
-      final id = await db.insert(tableRecipes, recipe.toDatabaseJson());
-
-      recipe = recipe.copy(
-          id: id,
-          ingredients:
-              await ingredientOpertations.createAll(recipe.ingredients!, id),
-          steps: await stepOpertations.createAll(recipe.steps!, id));
-      recipe.initIngredientsByCategory();
-      result.add(recipe);
+      result.add(await create(recipe));
     }
     return result;
   }
@@ -102,6 +105,7 @@ class RecipeOperations {
     final maps = await db.query(
       tableRecipes,
       distinct: true,
+      where: "${RecipeFields.category} is not null",
       columns: [RecipeFields.category],
     );
     if (maps.isNotEmpty) {
@@ -126,22 +130,6 @@ class RecipeOperations {
             await ingredientOpertations.readAllByRecipeId(recipe.id!);
         recipe.steps = await stepOpertations.readAllByRecipeId(recipe.id!);
         recipe.initIngredientsByCategory();
-        recipes.add(recipe);
-      }
-    }
-    return recipes;
-  }
-
-  Future<List<Recipe>> readAllForList() async {
-    final db = await dbProvider.database;
-    List<Recipe> recipes = [];
-    final maps = await db.query(
-      tableRecipes,
-      columns: RecipeFields.values,
-    );
-    if (maps.isNotEmpty) {
-      for (var recipeJson in maps) {
-        Recipe recipe = Recipe.fromDatabaseJson(recipeJson);
         recipes.add(recipe);
       }
     }

@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:recipes/components/decoration/theme.dart';
-import 'package:recipes/controller/recipe_create_controller.dart';
-import 'package:recipes/controller/recipe_info_controller.dart';
-import 'package:recipes/routes/recipe_list_page.dart';
+import 'package:recipes/modules/recipe_list_page/page/recipe_list_page.dart';
 
-import 'controller/recipes_controller.dart';
+import 'modules/recipe_edit_page/controller/recipe_edit_controller.dart';
+import 'modules/recipe_info_page.dart/controller/recipe_info_controller.dart';
+import 'modules/recipe_list_page/controller/recipes_controller.dart';
+import 'utils/decorations/theme.dart';
 
 void main() {
-  Get.put(RecipesController());
-  Get.put(RecipeInfoController());
-  Get.put(RecipeCreateController());
   runApp(const MyApp());
 }
 
@@ -20,10 +17,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      initialBinding: BindingsBuilder(() {
+        Get.put(RecipesController());
+        Get.put(RecipeInfoController());
+        Get.put(RecipeEditController());
+      }),
       debugShowCheckedModeBanner: false,
       title: 'Recipes',
       theme: AplicationTheme.getTheme(),
-      home: const HomePage(),
+      home: const RecipeListPage(),
     );
   }
 }

@@ -51,12 +51,11 @@ class StepOperations {
   Future<List<Step>> readAllByRecipeId(int recipeId) async {
     final db = await dbProvider.database;
     List<Step> steps = [];
-    final maps = await db.query(
-      tableSteps,
-      columns: StepFields.values,
-      where: '${StepFields.recipeId} = ?',
-      whereArgs: [recipeId],
-    );
+    final maps = await db.query(tableSteps,
+        columns: StepFields.values,
+        where: '${StepFields.recipeId} = ?',
+        whereArgs: [recipeId],
+        orderBy: StepFields.order);
     if (maps.isNotEmpty) {
       for (var step in maps) {
         steps.add(Step.fromDatabaseJson(step));
@@ -90,6 +89,16 @@ class StepOperations {
     );
   }
 
+  Future<int> deleteByRecipeIds(List<int> recipeIds) async {
+    final db = await dbProvider.database;
+
+    return await db.delete(
+      tableSteps,
+      where: '${StepFields.recipeId} in (?)',
+      whereArgs: [recipeIds],
+    );
+  }
+
   Future<List<Step>> createAll(List<Step>? steps, int? recipeId) async {
     if (steps == null || steps.isEmpty) return [];
     final db = await dbProvider.database;
@@ -99,6 +108,30 @@ class StepOperations {
       final id = await db.insert(tableSteps, step.toDatabaseJson(recipeId));
       result.add(step.copy(id: id));
     }
+    return result;
+  }
+
+  Future<List<Step>> updateAll(List<Step>? steps, int? recipeId) async {
+    final List<Step> result = [];
+    if (steps == null || steps.isEmpty) return result;
+    final db = await dbProvider.database;
+    await db.transaction((txn) async {
+      for (var step in steps) {
+        if (step.id == null) {
+          final id =
+              await txn.insert(tableSteps, step.toDatabaseJson(recipeId));
+          result.add(step.copy(id: id));
+        } else {
+          txn.update(
+            tableSteps,
+            step.toDatabaseJson(recipeId),
+            where: '${StepFields.id} = ?',
+            whereArgs: [step.id],
+          );
+          result.add(step);
+        }
+      }
+    });
     return result;
   }
 }

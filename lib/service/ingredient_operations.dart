@@ -81,20 +81,17 @@ class IngredientOperations {
     return ingredients;
   }
 
-  Future<List<String>> getAllCategories() async {
+  Future<List<String>> getAllValuesOfAttribute(String attribute) async {
     final db = await dbProvider.database;
-    List<String> categories = [];
-    final maps = await db.query(
-      tableIngredients,
-      distinct: true,
-      columns: [IngredientFields.category],
-    );
+    List<String> values = [];
+    final maps = await db.query(tableIngredients,
+        distinct: true, columns: [attribute], where: "$attribute is not null");
     if (maps.isNotEmpty) {
       for (var ingredient in maps) {
-        categories.add(ingredient[IngredientFields.category].toString());
+        values.add(ingredient[attribute].toString());
       }
     }
-    return categories;
+    return values;
   }
 
   Future<int> deleteByRecipeId(int recipeId) async {
@@ -104,6 +101,16 @@ class IngredientOperations {
       tableIngredients,
       where: '${IngredientFields.recipeId} = ?',
       whereArgs: [recipeId],
+    );
+  }
+
+  Future<int> deleteByRecipeIds(List<int> recipeIds) async {
+    final db = await dbProvider.database;
+
+    return await db.delete(
+      tableIngredients,
+      where: '${IngredientFields.recipeId} in (?)',
+      whereArgs: [recipeIds],
     );
   }
 
@@ -118,6 +125,31 @@ class IngredientOperations {
           tableIngredients, ingredient.toDatabaseJson(recipeId));
       result.add(ingredient.copy(id: id));
     }
+    return result;
+  }
+
+  Future<List<Ingredient>> updateAll(
+      List<Ingredient>? ingredients, int? recipeId) async {
+    final List<Ingredient> result = [];
+    if (ingredients == null || ingredients.isEmpty) return result;
+    final db = await dbProvider.database;
+    await db.transaction((txn) async {
+      for (var ingredient in ingredients) {
+        if (ingredient.id == null) {
+          final id = await txn.insert(
+              tableIngredients, ingredient.toDatabaseJson(recipeId));
+          result.add(ingredient.copy(id: id));
+        } else {
+          txn.update(
+            tableIngredients,
+            ingredient.toDatabaseJson(recipeId),
+            where: '${IngredientFields.id} = ?',
+            whereArgs: [ingredient.id],
+          );
+          result.add(ingredient);
+        }
+      }
+    });
     return result;
   }
 }

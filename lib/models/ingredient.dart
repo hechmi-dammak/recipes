@@ -35,7 +35,7 @@ class Ingredient {
   Ingredient(
       {this.id,
       this.name = "",
-      this.category = "",
+      this.category,
       this.quantity,
       this.measuring,
       this.size,
@@ -46,7 +46,7 @@ class Ingredient {
   static Ingredient fromJson(Map<String, dynamic> json) => Ingredient(
       id: json[IngredientFields.id] as int?,
       name: json[IngredientFields.name] as String,
-      category: json[IngredientFields.category] as String,
+      category: json[IngredientFields.category] as String?,
       quantity: json[IngredientFields.quantity] as num?,
       measuring: json[IngredientFields.measuring] as String?,
       size: json[IngredientFields.size] as String?,
@@ -55,7 +55,7 @@ class Ingredient {
   static Ingredient fromDatabaseJson(Map<String, dynamic> json) => Ingredient(
         id: json[IngredientFields.id] as int?,
         name: json[IngredientFields.name] as String,
-        category: json[IngredientFields.category] as String,
+        category: json[IngredientFields.category] as String?,
         quantity: json[IngredientFields.quantity] as num?,
         measuring: json[IngredientFields.measuring] as String?,
         size: json[IngredientFields.size] as String?,
@@ -87,9 +87,9 @@ class Ingredient {
     if (quantity != null) {
       num resultQuantity = ((quantity! * servings) / (recipeServings ?? 1));
       if (resultQuantity % 1 == 0) {
-        result += (quantity! * servings).toInt().toString() + " ";
+        result += resultQuantity.toInt().toString() + " ";
       } else {
-        result += (quantity! * servings).toString() + " ";
+        result += resultQuantity.toString() + " ";
       }
     }
     if (size != null) {

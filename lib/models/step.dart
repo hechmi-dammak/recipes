@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 const String tableSteps = 'steps';
 
 class StepFields {
@@ -15,13 +17,14 @@ class Step {
   String? toDo;
   bool? selected;
   bool? inEditing;
-
+  Key? key;
   Step(
       {this.id,
       this.toDo = "",
       this.order,
       this.inEditing = false,
-      this.selected = false});
+      this.selected = false,
+      this.key});
 
   static Step fromJson(Map<String, dynamic> json) => Step(
         id: json[StepFields.id] as int?,

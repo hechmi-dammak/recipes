@@ -63,7 +63,7 @@ class Recipe {
   static Recipe fromJson(Map<String, dynamic> json) => Recipe(
       id: json[RecipeFields.id] as int?,
       name: json[RecipeFields.name] as String,
-      category: json[RecipeFields.category] as String,
+      category: json[RecipeFields.category] as String?,
       servings: json[RecipeFields.servings] as int?,
       steps: getStepsfromJson(json),
       ingredients: getIngredientsfromJson(json));
@@ -71,7 +71,7 @@ class Recipe {
   static Recipe fromDatabaseJson(Map<String, dynamic> json) => Recipe(
       id: json[RecipeFields.id] as int?,
       name: json[RecipeFields.name] as String,
-      category: json[RecipeFields.category] as String,
+      category: json[RecipeFields.category] as String?,
       servings: json[RecipeFields.servings] as int?,
       steps: json[RecipeFields.steps] == null
           ? null
