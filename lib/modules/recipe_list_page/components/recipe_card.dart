@@ -34,6 +34,7 @@ class _RecipeCardState extends State<RecipeCard> {
                 if (recipesController.selectionIsActive.value) {
                   recipesController.setRecipeSelected(widget.index);
                 } else {
+                  recipesController.setDialOpen(false);
                   Get.to(() => RecipeInfoPage(
                       recipeId: recipesController.recipes[widget.index].id));
                 }

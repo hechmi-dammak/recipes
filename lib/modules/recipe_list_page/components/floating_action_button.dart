@@ -10,10 +10,7 @@ import 'package:recipes/utils/components/dialog_input.dart';
 import 'package:recipes/utils/components/show_snack_bar.dart';
 
 class RecipeListFloatingButton extends StatefulWidget {
-  const RecipeListFloatingButton({
-    Key? key,
-  }) : super(key: key);
-
+  const RecipeListFloatingButton({Key? key}) : super(key: key);
   @override
   _RecipeListFloatingButtonState createState() =>
       _RecipeListFloatingButtonState();
@@ -29,7 +26,6 @@ class _RecipeListFloatingButtonState extends State<RecipeListFloatingButton> {
   final _fileNameController = TextEditingController();
 
   double iconSize = 30;
-  var isDialOpen = ValueNotifier<bool>(false);
   RecipesController recipesController = RecipesController.find;
   @override
   Widget build(BuildContext context) {
@@ -39,7 +35,7 @@ class _RecipeListFloatingButtonState extends State<RecipeListFloatingButton> {
           renderOverlay: false,
           activeIcon: Icons.close,
           spacing: 3,
-          openCloseDial: isDialOpen,
+          openCloseDial: recipesController.isDialOpen,
           childPadding: const EdgeInsets.all(5),
           spaceBetweenChildren: 4,
           buttonSize: 60,
@@ -56,6 +52,8 @@ class _RecipeListFloatingButtonState extends State<RecipeListFloatingButton> {
               foregroundColor: Theme.of(context).colorScheme.onPrimary,
               label: 'Create new',
               onTap: () {
+                recipesController.setDialOpen(false);
+
                 Get.to(() => const RecipeEditPage());
               },
             ),

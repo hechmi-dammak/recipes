@@ -122,7 +122,6 @@ class _RecipeCategoryDropDownInputState
                               recipeEditController.recipe.value.category =
                                   _categoryController.text;
                             });
-
                             Get.back();
 
                             _categoryController.clear();

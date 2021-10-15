@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:recipes/models/recipe.dart';
@@ -12,11 +13,18 @@ class RecipesController extends GetxController {
   var recipes = <Recipe>[];
   var selectionIsActive = false.obs;
   var loading = false.obs;
+  var isDialOpen = ValueNotifier<bool>(false);
+
   static RecipesController get find => Get.find<RecipesController>();
   RecipeOperations recipeOperations = RecipeOperations.instance;
+  setDialOpen(value) {
+    isDialOpen.value = value;
+    update();
+  }
 
   Future<void> loadRecipes() async {
     loading.value = true;
+    update();
     recipes = await recipeOperations.readAll();
     updateSelectionIsActive();
     loading.value = false;

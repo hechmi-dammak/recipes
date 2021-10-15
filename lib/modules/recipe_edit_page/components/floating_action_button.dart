@@ -16,7 +16,6 @@ class RecipeCreateFloatingButton extends StatefulWidget {
 class _RecipeCreateFloatingButtonState
     extends State<RecipeCreateFloatingButton> {
   double iconSize = 30;
-  var isDialOpen = ValueNotifier<bool>(false);
   RecipeEditController recipeEditController = RecipeEditController.find;
   @override
   Widget build(BuildContext context) {
@@ -26,7 +25,7 @@ class _RecipeCreateFloatingButtonState
           renderOverlay: false,
           activeIcon: Icons.close,
           spacing: 3,
-          openCloseDial: isDialOpen,
+          openCloseDial: recipeEditController.isDialOpen,
           childPadding: const EdgeInsets.all(5),
           spaceBetweenChildren: 4,
           buttonSize: 60,

@@ -22,7 +22,6 @@ class RecipeEditPage extends StatefulWidget {
 
 class _RecipeEditPageState extends State<RecipeEditPage> {
   final RecipeEditController recipeEditController = RecipeEditController.find;
-
   final _nameNode = FocusNode();
   final ingredientsListKey = GlobalKey<IngredientCreateListState>();
   final stepsListKey = GlobalKey<StepCreateListState>();
@@ -35,100 +34,112 @@ class _RecipeEditPageState extends State<RecipeEditPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: GetBuilder<RecipeEditController>(
-        builder: (_) {
-          return Scaffold(
-            floatingActionButton: const RecipeCreateFloatingButton(),
-            backgroundColor: Theme.of(context).backgroundColor,
-            appBar: customAppBar(context,
-                title: widget.recipeId != null
-                    ? "Edit ${recipeEditController.recipe.value.name.capitalize!}"
-                    : "Create a new recipe",
-                actions: [
-                  IconButton(
-                      onPressed: () async {
-                        recipeEditController.setLoading(true);
-                        if (await validateRecipe()) {
-                          await recipeEditController.saveRecipe();
+    return WillPopScope(
+      onWillPop: () async {
+        if (recipeEditController.isDialOpen.value) {
+          setState(() {
+            recipeEditController.setDialOpen(false);
+          });
+          return false;
+        }
+        return true;
+      },
+      child: SafeArea(
+        child: GetBuilder<RecipeEditController>(
+          builder: (_) {
+            return Scaffold(
+              floatingActionButton: const RecipeCreateFloatingButton(),
+              backgroundColor: Theme.of(context).backgroundColor,
+              appBar: customAppBar(context,
+                  title: widget.recipeId != null
+                      ? "Edit ${recipeEditController.recipe.value.name.capitalize!}"
+                      : "Create a new recipe",
+                  actions: [
+                    IconButton(
+                        onPressed: () async {
+                          recipeEditController.setLoading(true);
+                          if (await validateRecipe()) {
+                            await recipeEditController.saveRecipe();
+                            recipeEditController.setLoading(false);
+                            recipeEditController.setDialOpen(false);
+                            Get.back();
+                          } else {
+                            showInSnackBar("Failed to save recipe");
+                          }
                           recipeEditController.setLoading(false);
-                          Get.back();
-                        } else {
-                          showInSnackBar("Failed to save recipe");
-                        }
-                        recipeEditController.setLoading(false);
-                      },
-                      icon: const Icon(
-                        Icons.save,
-                        size: 35,
-                      ))
-                ]),
-            body: LoadingWidget(
-              loading: recipeEditController.loading.value,
-              child: SingleChildScrollView(
-                child: Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 12.0),
-                  child: Column(
-                    children: [
-                      Container(
-                          margin: const EdgeInsets.symmetric(vertical: 15),
-                          child: ServingSpinBox(
-                              changeServingFunction: (double value) {
-                                setState(() {
-                                  recipeEditController
-                                      .setServingValue(value.toInt());
-                                });
-                              },
-                              servings: recipeEditController.servings.value)),
-                      Container(
-                        margin: const EdgeInsets.only(bottom: 15),
-                        child: Form(
-                          key: _recipeFormKey,
-                          child: Column(
-                            children: [
-                              Container(
-                                margin: const EdgeInsets.only(bottom: 15),
-                                child: EnsureVisibleWhenFocused(
-                                  focusNode: _nameNode,
-                                  child: TextFormField(
-                                    initialValue:
-                                        recipeEditController.recipe.value.name,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        recipeEditController.recipe.value.name =
-                                            value;
-                                      });
-                                    },
-                                    decoration: getInputDecoration("Name"),
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'Please specify a name';
-                                      }
-                                      return null;
-                                    },
+                        },
+                        icon: const Icon(
+                          Icons.save,
+                          size: 35,
+                        ))
+                  ]),
+              body: LoadingWidget(
+                loading: recipeEditController.loading.value,
+                child: SingleChildScrollView(
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 12.0),
+                    child: Column(
+                      children: [
+                        Container(
+                            margin: const EdgeInsets.symmetric(vertical: 15),
+                            child: ServingSpinBox(
+                                changeServingFunction: (double value) {
+                                  setState(() {
+                                    recipeEditController
+                                        .setServingValue(value.toInt());
+                                  });
+                                },
+                                servings: recipeEditController.servings.value)),
+                        Container(
+                          margin: const EdgeInsets.only(bottom: 15),
+                          child: Form(
+                            key: _recipeFormKey,
+                            child: Column(
+                              children: [
+                                Container(
+                                  margin: const EdgeInsets.only(bottom: 15),
+                                  child: EnsureVisibleWhenFocused(
+                                    focusNode: _nameNode,
+                                    child: TextFormField(
+                                      initialValue: recipeEditController
+                                          .recipe.value.name,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          recipeEditController
+                                              .recipe.value.name = value;
+                                        });
+                                      },
+                                      decoration: getInputDecoration("Name"),
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return 'Please specify a name';
+                                        }
+                                        return null;
+                                      },
+                                    ),
                                   ),
                                 ),
-                              ),
-                              Container(
-                                margin: const EdgeInsets.only(bottom: 15),
-                                child: const RecipeCategoryDropDownInput(),
-                              ),
-                            ],
+                                Container(
+                                  margin: const EdgeInsets.only(bottom: 15),
+                                  child: const RecipeCategoryDropDownInput(),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      IngredientCreateList(key: ingredientsListKey),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      StepCreateList(key: stepsListKey)
-                    ],
+                        IngredientCreateList(key: ingredientsListKey),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        StepCreateList(key: stepsListKey)
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }
