@@ -29,7 +29,9 @@ class _RecipeCreateFloatingButtonState
           childPadding: const EdgeInsets.all(5),
           spaceBetweenChildren: 4,
           buttonSize: 60,
-          iconTheme: IconThemeData(size: iconSize + 5),
+          iconTheme: IconThemeData(
+              color: Theme.of(context).colorScheme.onPrimary,
+              size: iconSize + 5),
           childrenButtonSize: 65,
           heroTag: 'speed-dial-hero-tag',
           elevation: 8.0,

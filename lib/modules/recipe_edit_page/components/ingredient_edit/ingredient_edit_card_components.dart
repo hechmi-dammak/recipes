@@ -36,11 +36,14 @@ class EditButton extends StatelessWidget {
                 child: SizedBox(
                     height: double.infinity,
                     width: double.infinity,
-                    child: Icon(recipeEditController
-                                .recipe.value.ingredients![index].inEditing ??
-                            false
-                        ? Icons.check
-                        : Icons.edit))),
+                    child: Icon(
+                      recipeEditController
+                                  .recipe.value.ingredients![index].inEditing ??
+                              false
+                          ? Icons.check
+                          : Icons.edit,
+                      color: Theme.of(context).colorScheme.onPrimary,
+                    ))),
           ),
         ),
       ),

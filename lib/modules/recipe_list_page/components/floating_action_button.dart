@@ -39,7 +39,10 @@ class _RecipeListFloatingButtonState extends State<RecipeListFloatingButton> {
           childPadding: const EdgeInsets.all(5),
           spaceBetweenChildren: 4,
           buttonSize: 60,
-          iconTheme: IconThemeData(size: iconSize + 5),
+          iconTheme: IconThemeData(
+            size: iconSize + 5,
+            color: Theme.of(context).colorScheme.onPrimary,
+          ),
           childrenButtonSize: 65,
           heroTag: 'speed-dial-hero-tag',
           elevation: 8.0,

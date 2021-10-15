@@ -33,11 +33,14 @@ class EditButton extends StatelessWidget {
                 child: SizedBox(
                     height: double.infinity,
                     width: double.infinity,
-                    child: Icon(recipeEditController
-                                .recipe.value.steps![index].inEditing ??
-                            false
-                        ? Icons.check
-                        : Icons.edit))),
+                    child: Icon(
+                      recipeEditController
+                                  .recipe.value.steps![index].inEditing ??
+                              false
+                          ? Icons.check
+                          : Icons.edit,
+                      color: Theme.of(context).colorScheme.onPrimary,
+                    ))),
           ),
         ),
       ),
@@ -62,7 +65,11 @@ class DragButton extends StatelessWidget {
         child: SizedBox(
           height: double.infinity,
           width: double.infinity,
-          child: ReorderableListener(child: const Icon(Icons.reorder)),
+          child: ReorderableListener(
+              child: Icon(
+            Icons.reorder,
+            color: Theme.of(context).colorScheme.onPrimary,
+          )),
         ),
       ),
     );
