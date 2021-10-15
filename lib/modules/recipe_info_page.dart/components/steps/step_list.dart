@@ -21,13 +21,13 @@ class StepsList extends StatelessWidget {
           shrinkWrap: true,
           children: [
             Container(
-              height: 30,
+              height: 40,
               margin: const EdgeInsets.only(bottom: 10),
               child: Text(
                 "Steps",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    fontSize: 20, color: Theme.of(context).primaryColor),
+                    fontSize: 25, color: Theme.of(context).primaryColor),
               ),
             ),
             Container(

@@ -41,7 +41,11 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
                         Get.off(
                             () => RecipeEditPage(recipeId: widget.recipeId));
                       },
-                      icon: const Icon(Icons.edit))
+                      icon: Icon(
+                        Icons.edit,
+                        size: 30,
+                        color: Theme.of(context).colorScheme.onPrimary,
+                      ))
                 ]),
             body: RefreshIndicator(
               onRefresh: () => recipeInfoController.initRecipe(widget.recipeId),
@@ -50,7 +54,8 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
                 child: ListView(
                   children: [
                     Container(
-                        margin: const EdgeInsets.only(bottom: 15, top: 15),
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 15, horizontal: 10),
                         child: ServingSpinBox(
                             changeServingFunction: (double value) {
                               setState(() {

@@ -24,7 +24,7 @@ class StepEditCardState extends State<StepEditCard> {
   RecipeEditController recipeEditController = RecipeEditController.find;
   final _stepCardKey = GlobalKey<InsideStepCardState>();
   Widget _buildChild(BuildContext context, ReorderableItemState state) {
-    Widget content = SafeArea(
+    return SafeArea(
         top: false,
         bottom: false,
         child: Opacity(
@@ -72,8 +72,6 @@ class StepEditCardState extends State<StepEditCard> {
             ),
           ),
         ));
-
-    return content;
   }
 
   @override

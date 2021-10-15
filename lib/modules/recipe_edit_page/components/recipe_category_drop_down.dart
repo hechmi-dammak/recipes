@@ -65,14 +65,14 @@ class _RecipeCategoryDropDownInputState
                   child: DropdownButtonFormField<String>(
                     focusNode: _categoryNode,
                     key: dropdownKey,
-                    dropdownColor: Theme.of(context).colorScheme.secondary,
+                    dropdownColor: Theme.of(context).colorScheme.primary,
                     style: TextStyle(
-                        color: Theme.of(context).colorScheme.onSecondary,
+                        color: Theme.of(context).colorScheme.onPrimary,
                         fontSize: 18),
                     decoration: InputDecoration(
                         border: InputBorder.none,
                         labelStyle: TextStyle(
-                            color: Theme.of(context).colorScheme.onSecondary,
+                            color: Theme.of(context).colorScheme.onPrimary,
                             fontSize: 20),
                         labelText: 'Category'),
                     iconSize: 30,
@@ -107,6 +107,7 @@ class _RecipeCategoryDropDownInputState
                         });
                         return;
                       }
+                      recipeEditController.setDialOpen(false);
                       showDialogInput(
                           title: 'Create a new category',
                           label: 'Category',

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:recipes/modules/recipe_edit_page/components/StepEdit/step_create_list.dart';
 import 'package:recipes/modules/recipe_edit_page/components/floating_action_button.dart';
-import 'package:recipes/modules/recipe_edit_page/components/ingredient_create/ingredient_create_list.dart';
+import 'package:recipes/modules/recipe_edit_page/components/ingredient_edit/ingredient_create_list.dart';
 import 'package:recipes/modules/recipe_edit_page/components/recipe_category_drop_down.dart';
 import 'package:recipes/modules/recipe_edit_page/controller/recipe_edit_controller.dart';
 import 'package:recipes/utils/components/app_bar.dart';
@@ -68,9 +68,10 @@ class _RecipeEditPageState extends State<RecipeEditPage> {
                           }
                           recipeEditController.setLoading(false);
                         },
-                        icon: const Icon(
+                        icon: Icon(
                           Icons.save,
-                          size: 35,
+                          color: Theme.of(context).colorScheme.onPrimary,
+                          size: 30,
                         ))
                   ]),
               body: LoadingWidget(

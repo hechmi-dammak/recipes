@@ -53,10 +53,17 @@ class StepCardState extends State<StepCard> {
                         overflow: TextOverflow.ellipsis,
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: Theme.of(context)
-                            .buttonTheme
-                            .colorScheme!
-                            .onPrimary),
+                        color: recipeInfoController.recipe.value
+                                    .steps![widget.index].selected ??
+                                false
+                            ? Theme.of(context)
+                                .buttonTheme
+                                .colorScheme!
+                                .onPrimary
+                            : Theme.of(context)
+                                .buttonTheme
+                                .colorScheme!
+                                .onSecondary),
                   ),
                 ),
               ),
@@ -107,10 +114,17 @@ class StepCardState extends State<StepCard> {
                         style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
-                            color: Theme.of(context)
-                                .buttonTheme
-                                .colorScheme!
-                                .onPrimary),
+                            color: recipeInfoController.recipe.value
+                                        .steps![widget.index].selected ??
+                                    false
+                                ? Theme.of(context)
+                                    .buttonTheme
+                                    .colorScheme!
+                                    .onPrimary
+                                : Theme.of(context)
+                                    .buttonTheme
+                                    .colorScheme!
+                                    .onSecondary),
                       ),
                       title: Text(
                         recipeInfoController.recipe.value.steps![widget.index]
@@ -118,10 +132,17 @@ class StepCardState extends State<StepCard> {
                         style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
-                            color: Theme.of(context)
-                                .buttonTheme
-                                .colorScheme!
-                                .onPrimary),
+                            color: recipeInfoController.recipe.value
+                                        .steps![widget.index].selected ??
+                                    false
+                                ? Theme.of(context)
+                                    .buttonTheme
+                                    .colorScheme!
+                                    .onPrimary
+                                : Theme.of(context)
+                                    .buttonTheme
+                                    .colorScheme!
+                                    .onSecondary),
                       ),
                     ),
                   ),
@@ -136,20 +157,34 @@ class StepCardState extends State<StepCard> {
                           style: TextStyle(
                               fontSize: 17,
                               fontWeight: FontWeight.bold,
-                              color: Theme.of(context)
-                                  .buttonTheme
-                                  .colorScheme!
-                                  .onPrimary),
+                              color: recipeInfoController.recipe.value
+                                          .steps![widget.index].selected ??
+                                      false
+                                  ? Theme.of(context)
+                                      .buttonTheme
+                                      .colorScheme!
+                                      .onPrimary
+                                  : Theme.of(context)
+                                      .buttonTheme
+                                      .colorScheme!
+                                      .onSecondary),
                         ),
                         title: Text(
                           (widget.index + 1).toString(),
                           style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
-                              color: Theme.of(context)
-                                  .buttonTheme
-                                  .colorScheme!
-                                  .onPrimary),
+                              color: recipeInfoController.recipe.value
+                                          .steps![widget.index].selected ??
+                                      false
+                                  ? Theme.of(context)
+                                      .buttonTheme
+                                      .colorScheme!
+                                      .onPrimary
+                                  : Theme.of(context)
+                                      .buttonTheme
+                                      .colorScheme!
+                                      .onSecondary),
                         ),
                       ),
                     ),

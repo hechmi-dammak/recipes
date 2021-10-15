@@ -12,11 +12,13 @@ class ServingSpinBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SpinBox(
-      incrementIcon: const Icon(Icons.keyboard_arrow_right_rounded, size: 50),
-      decrementIcon: const Icon(Icons.keyboard_arrow_left_rounded, size: 50),
+      incrementIcon: Icon(Icons.keyboard_arrow_right_rounded,
+          size: 50, color: Theme.of(context).colorScheme.onSecondary),
+      decrementIcon: Icon(Icons.keyboard_arrow_left_rounded,
+          size: 50, color: Theme.of(context).colorScheme.onSecondary),
       decoration: getInputDecoration("Servings"),
       textStyle: TextStyle(
-          fontSize: 18, color: Theme.of(context).colorScheme.secondary),
+          fontSize: 18, color: Theme.of(context).colorScheme.onSecondary),
       keyboardType: TextInputType.number,
       min: 1,
       max: double.infinity,

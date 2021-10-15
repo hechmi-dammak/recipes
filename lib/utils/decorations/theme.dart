@@ -6,18 +6,18 @@ class AplicationTheme {
   static ThemeData getTheme() {
     final TextTheme _textTheme = ThemeData.light().textTheme;
     const ColorScheme _colorScheme = ColorScheme(
-      primary: Color(0xFF355C7D),
-      primaryVariant: Color(0xFF6C5B7B),
-      secondary: Color(0xFFC06C84),
-      secondaryVariant: Color(0xFFF67280),
-      surface: Colors.white,
-      background: Colors.white,
+      primary: Color(0xFF4abba4),
+      primaryVariant: Color(0xFF43a994),
+      secondary: Color(0xFFfeda6f),
+      secondaryVariant: Color(0xFFfed35b),
+      surface: Color(0xFFededed),
+      background: Color(0xFFededed),
       error: Color(0xFFBB0520),
-      onBackground: Colors.black,
-      onSurface: Colors.black,
+      onBackground: Color(0xFF293b44),
+      onSurface: Color(0xFF293b44),
       onError: Colors.white,
       onPrimary: Colors.white,
-      onSecondary: Colors.white,
+      onSecondary: Color(0xFF293b44),
       brightness: Brightness.light,
     );
 

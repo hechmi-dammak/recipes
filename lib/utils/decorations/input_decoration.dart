@@ -6,14 +6,14 @@ InputDecoration getInputDecoration(String label) {
     label: Text(label,
         style: TextStyle(
             fontSize: 20, color: Theme.of(Get.context!).primaryColor)),
-    focusedBorder: OutlineInputBorder(
+    enabledBorder: OutlineInputBorder(
       borderSide: BorderSide(
           width: 3, color: Theme.of(Get.context!).colorScheme.primary),
       borderRadius: BorderRadius.circular(10),
     ),
     fillColor: Theme.of(Get.context!).backgroundColor,
     filled: true,
-    enabledBorder: UnderlineInputBorder(
+    focusedBorder: OutlineInputBorder(
       borderSide: BorderSide(
           width: 3, color: Theme.of(Get.context!).colorScheme.secondary),
     ),

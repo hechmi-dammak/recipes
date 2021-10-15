@@ -12,7 +12,7 @@ BoxDecoration gradientDecoation(BuildContext context) {
         0.9,
       ],
       colors: [
-        Theme.of(context).colorScheme.secondary,
+        Color(0xFF358c7a),
         Theme.of(context).colorScheme.primaryVariant,
       ],
     ),
@@ -63,8 +63,6 @@ BoxDecoration gradientDecoationSecondery(BuildContext context,
 BoxDecoration gradientDecoationRounded(BuildContext context) {
   return BoxDecoration(
     shape: BoxShape.circle,
-    // borderRadius: BorderRadius.circular(10),
-    // color: Theme.of(context).buttonTheme.colorScheme!.primary,
     gradient: LinearGradient(
       begin: Alignment.topRight,
       end: Alignment.bottomLeft,
@@ -73,7 +71,7 @@ BoxDecoration gradientDecoationRounded(BuildContext context) {
         0.9,
       ],
       colors: [
-        Theme.of(context).colorScheme.secondary,
+        Theme.of(context).colorScheme.primary,
         Theme.of(context).colorScheme.primaryVariant,
       ],
     ),

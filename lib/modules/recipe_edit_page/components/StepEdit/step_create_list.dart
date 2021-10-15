@@ -40,12 +40,12 @@ class StepCreateListState extends State<StepCreateList> {
               ? []
               : [
                   Container(
-                    height: 30,
-                    margin: const EdgeInsets.only(bottom: 10),
+                    height: 40,
+                    margin: const EdgeInsets.only(top: 15),
                     child: Text(
                       "Steps",
                       style: TextStyle(
-                          fontSize: 20, color: Theme.of(context).primaryColor),
+                          fontSize: 25, color: Theme.of(context).primaryColor),
                     ),
                   ),
                   if (recipeEditController.recipe.value.steps != null &&

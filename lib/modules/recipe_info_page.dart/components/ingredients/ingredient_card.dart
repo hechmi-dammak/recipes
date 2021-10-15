@@ -52,10 +52,15 @@ class IngredientCardState extends State<IngredientCard> {
                           overflow: TextOverflow.ellipsis,
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: Theme.of(context)
-                              .buttonTheme
-                              .colorScheme!
-                              .onPrimary),
+                          color: widget.ingredient.selected ?? false
+                              ? Theme.of(context)
+                                  .buttonTheme
+                                  .colorScheme!
+                                  .onPrimary
+                              : Theme.of(context)
+                                  .buttonTheme
+                                  .colorScheme!
+                                  .onSecondary),
                     ),
                   ),
                   if (widget.ingredient.getQuantity(
@@ -72,10 +77,15 @@ class IngredientCardState extends State<IngredientCard> {
                             overflow: TextOverflow.ellipsis,
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
-                            color: Theme.of(context)
-                                .buttonTheme
-                                .colorScheme!
-                                .onPrimary),
+                            color: widget.ingredient.selected ?? false
+                                ? Theme.of(context)
+                                    .buttonTheme
+                                    .colorScheme!
+                                    .onPrimary
+                                : Theme.of(context)
+                                    .buttonTheme
+                                    .colorScheme!
+                                    .onSecondary),
                       ),
                     ),
                   if (widget.ingredient.method != null)
@@ -87,10 +97,15 @@ class IngredientCardState extends State<IngredientCard> {
                         style: TextStyle(
                             overflow: TextOverflow.ellipsis,
                             fontSize: 15,
-                            color: Theme.of(context)
-                                .buttonTheme
-                                .colorScheme!
-                                .onPrimary),
+                            color: widget.ingredient.selected ?? false
+                                ? Theme.of(context)
+                                    .buttonTheme
+                                    .colorScheme!
+                                    .onPrimary
+                                : Theme.of(context)
+                                    .buttonTheme
+                                    .colorScheme!
+                                    .onSecondary),
                       ),
                     )
                 ],
@@ -135,20 +150,30 @@ class IngredientCardState extends State<IngredientCard> {
                         style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
-                            color: Theme.of(context)
-                                .buttonTheme
-                                .colorScheme!
-                                .onPrimary),
+                            color: widget.ingredient.selected ?? false
+                                ? Theme.of(context)
+                                    .buttonTheme
+                                    .colorScheme!
+                                    .onPrimary
+                                : Theme.of(context)
+                                    .buttonTheme
+                                    .colorScheme!
+                                    .onSecondary),
                       ),
                       title: Text(
-                        widget.ingredient.name,
+                        widget.ingredient.name.capitalize!,
                         style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
-                            color: Theme.of(context)
-                                .buttonTheme
-                                .colorScheme!
-                                .onPrimary),
+                            color: widget.ingredient.selected ?? false
+                                ? Theme.of(context)
+                                    .buttonTheme
+                                    .colorScheme!
+                                    .onPrimary
+                                : Theme.of(context)
+                                    .buttonTheme
+                                    .colorScheme!
+                                    .onSecondary),
                       ),
                     ),
                   ),
@@ -161,20 +186,30 @@ class IngredientCardState extends State<IngredientCard> {
                           style: TextStyle(
                               fontSize: 17,
                               fontWeight: FontWeight.bold,
-                              color: Theme.of(context)
-                                  .buttonTheme
-                                  .colorScheme!
-                                  .onPrimary),
+                              color: widget.ingredient.selected ?? false
+                                  ? Theme.of(context)
+                                      .buttonTheme
+                                      .colorScheme!
+                                      .onPrimary
+                                  : Theme.of(context)
+                                      .buttonTheme
+                                      .colorScheme!
+                                      .onSecondary),
                         ),
                         title: Text(
                           widget.ingredient.category!.capitalize!,
                           style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
-                              color: Theme.of(context)
-                                  .buttonTheme
-                                  .colorScheme!
-                                  .onPrimary),
+                              color: widget.ingredient.selected ?? false
+                                  ? Theme.of(context)
+                                      .buttonTheme
+                                      .colorScheme!
+                                      .onPrimary
+                                  : Theme.of(context)
+                                      .buttonTheme
+                                      .colorScheme!
+                                      .onSecondary),
                         ),
                       ),
                     ),
@@ -189,21 +224,33 @@ class IngredientCardState extends State<IngredientCard> {
                           style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
-                              color: Theme.of(context)
-                                  .buttonTheme
-                                  .colorScheme!
-                                  .onPrimary),
+                              color: widget.ingredient.selected ?? false
+                                  ? Theme.of(context)
+                                      .buttonTheme
+                                      .colorScheme!
+                                      .onPrimary
+                                  : Theme.of(context)
+                                      .buttonTheme
+                                      .colorScheme!
+                                      .onSecondary),
                         ),
                         title: Text(
-                          widget.ingredient.getQuantity(
-                              widget.servings, widget.recipeServings)!,
+                          widget.ingredient
+                              .getQuantity(
+                                  widget.servings, widget.recipeServings)!
+                              .capitalize!,
                           style: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.bold,
-                              color: Theme.of(context)
-                                  .buttonTheme
-                                  .colorScheme!
-                                  .onPrimary),
+                              color: widget.ingredient.selected ?? false
+                                  ? Theme.of(context)
+                                      .buttonTheme
+                                      .colorScheme!
+                                      .onPrimary
+                                  : Theme.of(context)
+                                      .buttonTheme
+                                      .colorScheme!
+                                      .onSecondary),
                         ),
                       ),
                     ),
@@ -215,19 +262,29 @@ class IngredientCardState extends State<IngredientCard> {
                           "Method:",
                           style: TextStyle(
                               fontSize: 16,
-                              color: Theme.of(context)
-                                  .buttonTheme
-                                  .colorScheme!
-                                  .onPrimary),
+                              color: widget.ingredient.selected ?? false
+                                  ? Theme.of(context)
+                                      .buttonTheme
+                                      .colorScheme!
+                                      .onPrimary
+                                  : Theme.of(context)
+                                      .buttonTheme
+                                      .colorScheme!
+                                      .onSecondary),
                         ),
                         title: Text(
-                          widget.ingredient.method!,
+                          widget.ingredient.method!.capitalize!,
                           style: TextStyle(
                               fontSize: 15,
-                              color: Theme.of(context)
-                                  .buttonTheme
-                                  .colorScheme!
-                                  .onPrimary),
+                              color: widget.ingredient.selected ?? false
+                                  ? Theme.of(context)
+                                      .buttonTheme
+                                      .colorScheme!
+                                      .onPrimary
+                                  : Theme.of(context)
+                                      .buttonTheme
+                                      .colorScheme!
+                                      .onSecondary),
                         ),
                       ),
                     )

@@ -45,17 +45,54 @@ class _RecipeCardState extends State<RecipeCard> {
               },
               child: Container(
                 margin: const EdgeInsets.all(5),
-                child: Center(
-                  child: Text(
-                    recipesController.recipes[widget.index].name.capitalize!,
-                    style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context)
-                            .buttonTheme
-                            .colorScheme!
-                            .onPrimary),
-                  ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(bottom: 10),
+                      child: Text(
+                        recipesController
+                            .recipes[widget.index].name.capitalize!,
+                        style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            color: (recipesController
+                                        .recipes[widget.index].selected ??
+                                    false)
+                                ? Theme.of(context)
+                                    .buttonTheme
+                                    .colorScheme!
+                                    .onPrimary
+                                : Theme.of(context)
+                                    .buttonTheme
+                                    .colorScheme!
+                                    .onSecondary),
+                      ),
+                    ),
+                    if (recipesController.recipes[widget.index].category !=
+                        null)
+                      Container(
+                        margin: const EdgeInsets.only(bottom: 10),
+                        child: Text(
+                          recipesController
+                              .recipes[widget.index].category!.capitalize!,
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: (recipesController
+                                          .recipes[widget.index].selected ??
+                                      false)
+                                  ? Theme.of(context)
+                                      .buttonTheme
+                                      .colorScheme!
+                                      .onPrimary
+                                  : Theme.of(context)
+                                      .buttonTheme
+                                      .colorScheme!
+                                      .onSecondary),
+                        ),
+                      ),
+                  ],
                 ),
               ),
             ),

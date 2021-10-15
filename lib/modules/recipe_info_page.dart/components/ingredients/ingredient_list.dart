@@ -21,13 +21,13 @@ class IngredientsList extends StatelessWidget {
         recipeInfoController.recipe.value.ingredientsByCategory!
             .forEach((key, value) {
           children.add(Container(
-            height: 30,
+            height: 40,
             margin: const EdgeInsets.only(bottom: 10),
             child: Text(
               key.capitalize!,
               textAlign: TextAlign.center,
               style: TextStyle(
-                  fontSize: 20, color: Theme.of(context).primaryColor),
+                  fontSize: 25, color: Theme.of(context).primaryColor),
             ),
           ));
 

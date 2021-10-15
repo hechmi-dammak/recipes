@@ -128,7 +128,11 @@ class InsideStepCardState extends State<InsideStepCard> {
         style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
-            color: Theme.of(context).buttonTheme.colorScheme!.onPrimary),
+            color: recipeEditController
+                        .recipe.value.steps![widget.index].selected ??
+                    false
+                ? Theme.of(context).buttonTheme.colorScheme!.onPrimary
+                : Theme.of(context).buttonTheme.colorScheme!.onSecondary),
       );
     }
   }

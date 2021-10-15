@@ -10,6 +10,7 @@ void showDialogInput(
   Get.dialog(Scaffold(
     backgroundColor: Colors.transparent,
     body: AlertDialog(
+      backgroundColor: Theme.of(Get.context!).colorScheme.secondary,
       title: Text(
         title,
       ),
@@ -18,14 +19,20 @@ void showDialogInput(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             TextButton(
-              child: const Text('cancel'),
+              child: const Text(
+                'cancel',
+                style: TextStyle(fontSize: 20),
+              ),
               onPressed: () {
                 Get.back();
                 controller.clear();
               },
             ),
             TextButton(
-              child: const Text('confirm'),
+              child: const Text(
+                'confirm',
+                style: TextStyle(fontSize: 20),
+              ),
               onPressed: () async => confirm(),
             ),
           ],
