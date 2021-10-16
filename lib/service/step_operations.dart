@@ -13,7 +13,8 @@ class StepOperations {
     return step.copy(id: id);
   }
 
-  Future<Step> read(int id) async {
+  Future<Step?> read(int? id) async {
+    if (id == null) return null;
     final db = await dbProvider.database;
     final maps = await db.query(
       tableSteps,
@@ -27,18 +28,21 @@ class StepOperations {
     return Step();
   }
 
-  Future<int> update(Step step) async {
+  Future<Step> update(Step step, int? recipeId) async {
+    if (step.id == null) return await create(step, recipeId);
     final db = await dbProvider.database;
 
-    return db.update(
+    db.update(
       tableSteps,
       step.toJson(),
       where: '${StepFields.id} = ?',
       whereArgs: [step.id],
     );
+    return step;
   }
 
-  Future<int> delete(int id) async {
+  Future<int> delete(int? id) async {
+    if (id == null) return 0;
     final db = await dbProvider.database;
 
     return await db.delete(
@@ -48,7 +52,8 @@ class StepOperations {
     );
   }
 
-  Future<List<Step>> readAllByRecipeId(int recipeId) async {
+  Future<List<Step>> readAllByRecipeId(int? recipeId) async {
+    if (recipeId == null) return [];
     final db = await dbProvider.database;
     List<Step> steps = [];
     final maps = await db.query(tableSteps,
@@ -79,7 +84,8 @@ class StepOperations {
     return steps;
   }
 
-  Future<int> deleteByRecipeId(int recipeId) async {
+  Future<int> deleteByRecipeId(int? recipeId) async {
+    if (recipeId == null) return 0;
     final db = await dbProvider.database;
 
     return await db.delete(
@@ -89,9 +95,9 @@ class StepOperations {
     );
   }
 
-  Future<int> deleteByRecipeIds(List<int> recipeIds) async {
+  Future<int> deleteByRecipeIds(List<int?> recipeIds) async {
     final db = await dbProvider.database;
-
+    recipeIds.removeWhere((element) => element == null);
     return await db.delete(
       tableSteps,
       where: '${StepFields.recipeId} in (?)',

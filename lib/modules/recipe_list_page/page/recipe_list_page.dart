@@ -6,7 +6,6 @@ import 'package:recipes/modules/recipe_list_page/components/recipe_card.dart';
 import 'package:recipes/modules/recipe_list_page/controller/recipes_controller.dart';
 import 'package:recipes/utils/components/app_bar.dart';
 import 'package:recipes/utils/components/loading_widget.dart';
-import 'package:recipes/utils/decorations/input_decoration.dart';
 import 'package:recipes/utils/decorations/input_decoration_inside_card.dart';
 
 class RecipeListPage extends StatefulWidget {
@@ -23,7 +22,6 @@ class _RecipeListPageState extends State<RecipeListPage> {
 
   final RecipesController recipesController = RecipesController.find;
   final _searchController = TextEditingController();
-  final _searchNode = FocusNode();
 
   bool loading = true;
   Future<void> initRecipes() async {

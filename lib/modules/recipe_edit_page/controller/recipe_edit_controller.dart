@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart' hide Step;
 import 'package:get/get.dart';
-
 import 'package:recipes/models/ingredient.dart';
 import 'package:recipes/models/recipe.dart';
 import 'package:recipes/models/step.dart';
 import 'package:recipes/modules/recipe_list_page/controller/recipes_controller.dart';
 import 'package:recipes/service/ingredient_operations.dart';
 import 'package:recipes/service/recipe_operations.dart';
+import 'package:recipes/service/step_operations.dart';
 import 'package:recipes/utils/components/show_snack_bar.dart';
 
 class RecipeEditController extends GetxController {
@@ -25,6 +25,8 @@ class RecipeEditController extends GetxController {
   static RecipeEditController get find => Get.find<RecipeEditController>();
   RecipeOperations recipeOperations = RecipeOperations.instance;
   IngredientOperations ingredientOperations = IngredientOperations.instance;
+  StepOperations stepOperations = StepOperations.instance;
+
   setDialOpen(value) {
     isDialOpen.value = value;
     update();
@@ -36,7 +38,7 @@ class RecipeEditController extends GetxController {
       recipe.value = Recipe();
       setServingValue();
     } else {
-      recipe.value = await recipeOperations.read(recipeId);
+      recipe.value = await recipeOperations.read(recipeId) ?? Recipe();
       setServingValue(recipe.value.servings ?? 1);
     }
     recipeCategories = await recipeOperations.getAllCategories();
@@ -89,12 +91,22 @@ class RecipeEditController extends GetxController {
       }
       if (recipe.steps != null) {
         var steps = recipe.steps!.toList();
-        steps.removeWhere((element) => element.selected ?? false);
+        steps.removeWhere((step) {
+          if (step.selected ?? false) {
+            stepOperations.delete(step.id);
+          }
+          return step.selected ?? false;
+        });
         recipe.steps = steps;
       }
       if (recipe.ingredients != null) {
         var ingredients = recipe.ingredients!.toList();
-        ingredients.removeWhere((element) => element.selected ?? false);
+        ingredients.removeWhere((ingredient) {
+          if (ingredient.selected ?? false) {
+            ingredientOperations.delete(ingredient.id);
+          }
+          return ingredient.selected ?? false;
+        });
         recipe.ingredients = ingredients;
       }
     });

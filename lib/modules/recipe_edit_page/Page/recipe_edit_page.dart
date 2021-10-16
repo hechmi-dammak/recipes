@@ -72,16 +72,26 @@ class _RecipeEditPageState extends State<RecipeEditPage> {
                   actions: [
                     IconButton(
                         onPressed: () async {
-                          recipeEditController.setLoading(true);
-                          if (await validateRecipe()) {
+                          setState(() {
+                            recipeEditController.setLoading(true);
+                          });
+                          final valid = await validateRecipe();
+                          if (valid) {
                             await recipeEditController.saveRecipe();
-                            recipeEditController.setLoading(false);
+                            setState(() {
+                              recipeEditController.setLoading(false);
+                            });
                             recipeEditController.setDialOpen(false);
+                            if (Get.isSnackbarOpen ?? false) {
+                              Get.back();
+                            }
                             Get.back();
                           } else {
                             showInSnackBar("Failed to save recipe");
                           }
-                          recipeEditController.setLoading(false);
+                          setState(() {
+                            recipeEditController.setLoading(false);
+                          });
                         },
                         icon: Icon(
                           Icons.save,
@@ -117,6 +127,12 @@ class _RecipeEditPageState extends State<RecipeEditPage> {
                                   child: EnsureVisibleWhenFocused(
                                     focusNode: _nameNode,
                                     child: TextFormField(
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onSecondary),
                                       initialValue: recipeEditController
                                           .recipe.value.name,
                                       onChanged: (value) {
@@ -125,7 +141,9 @@ class _RecipeEditPageState extends State<RecipeEditPage> {
                                               .recipe.value.name = value;
                                         });
                                       },
-                                      decoration: getInputDecoration("Name"),
+                                      decoration: getInputDecoration("Name",
+                                          contentPadding:
+                                              const EdgeInsets.only(left: 20)),
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
                                           return 'Please specify a name';

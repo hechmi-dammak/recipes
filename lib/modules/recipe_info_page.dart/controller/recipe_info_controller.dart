@@ -15,7 +15,7 @@ class RecipeInfoController extends GetxController {
     if (recipeId == null) {
       recipe.value = Recipe();
     } else {
-      recipe.value = await recipeOperations.read(recipeId);
+      recipe.value = await recipeOperations.read(recipeId) ?? Recipe();
     }
     setServingValue();
     loading.value = false;

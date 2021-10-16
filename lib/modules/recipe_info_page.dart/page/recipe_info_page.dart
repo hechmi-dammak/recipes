@@ -46,7 +46,18 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
                         size: 30,
                         color: Theme.of(context).colorScheme.onPrimary,
                       ))
-                ]),
+                ],
+                leading: Navigator.of(context).canPop()
+                    ? IconButton(
+                        onPressed: () async {
+                          Get.back();
+                        },
+                        icon: Icon(
+                          Icons.arrow_back_ios,
+                          color: Theme.of(context).colorScheme.onPrimary,
+                          size: 25,
+                        ))
+                    : null),
             body: RefreshIndicator(
               onRefresh: () => recipeInfoController.initRecipe(widget.recipeId),
               child: LoadingWidget(

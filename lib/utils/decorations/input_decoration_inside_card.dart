@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 InputDecoration getInputDecorationInsideCard(String label,
     {required FocusNode focusNode, required String? value}) {
   return InputDecoration(
+    contentPadding: const EdgeInsets.only(left: 20),
     label: Container(
       margin: (focusNode.hasFocus || (value != null && value != ""))
           ? const EdgeInsets.only(top: 17)

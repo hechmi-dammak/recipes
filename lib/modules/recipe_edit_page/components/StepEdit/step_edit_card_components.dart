@@ -102,6 +102,10 @@ class InsideStepCardState extends State<InsideStepCard> {
       return EnsureVisibleWhenFocused(
         focusNode: _toDoNode,
         child: TextFormField(
+          style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+              color: Theme.of(context).colorScheme.onSecondary),
           autovalidateMode: validation,
           key: _stepFormKey,
           onTap: () => _requestFocus(_toDoNode),

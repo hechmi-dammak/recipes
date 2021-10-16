@@ -1,5 +1,6 @@
 import 'package:recipes/models/recipe.dart';
 import 'package:recipes/service/database.dart';
+import 'package:recipes/service/picture_operations.dart';
 import 'package:recipes/service/ingredient_operations.dart';
 import 'package:recipes/service/step_operations.dart';
 
@@ -8,9 +9,14 @@ class RecipeOperations {
   RecipeOperations._init();
 
   final dbProvider = DataBaseRepository.instance;
-  final ingredientOpertations = IngredientOperations.instance;
-  final stepOpertations = StepOperations.instance;
+  final ingredientOperations = IngredientOperations.instance;
+  final stepOperations = StepOperations.instance;
+  final pictureOperations = PictureOperations.instance;
+
   Future<Recipe> create(Recipe recipe) async {
+    if (recipe.picture != null && recipe.picture!.id == null) {
+      recipe.picture = await pictureOperations.create(recipe.picture!);
+    }
     final db = await dbProvider.database;
     List<Recipe> foundRecipesByName = await readAllByName(recipe.name);
     if (foundRecipesByName.isNotEmpty) {
@@ -30,11 +36,12 @@ class RecipeOperations {
     return recipe.copy(
         id: id,
         ingredients:
-            await ingredientOpertations.createAll(recipe.ingredients!, id),
-        steps: await stepOpertations.createAll(recipe.steps!, id));
+            await ingredientOperations.createAll(recipe.ingredients!, id),
+        steps: await stepOperations.createAll(recipe.steps!, id));
   }
 
-  Future<Recipe> read(int id) async {
+  Future<Recipe?> read(int? id) async {
+    if (id == null) return null;
     final db = await dbProvider.database;
     final maps = await db.query(
       tableRecipes,
@@ -44,8 +51,10 @@ class RecipeOperations {
     );
     if (maps.isNotEmpty) {
       Recipe recipe = Recipe.fromDatabaseJson(maps.first);
-      recipe.ingredients = await ingredientOpertations.readAllByRecipeId(id);
-      recipe.steps = await stepOpertations.readAllByRecipeId(id);
+      recipe.ingredients = await ingredientOperations.readAllByRecipeId(id);
+      recipe.steps = await stepOperations.readAllByRecipeId(id);
+      recipe.picture = await pictureOperations
+          .read(maps.first[RecipeFields.pictureId] as int?);
       recipe.initIngredientsByCategory();
       return recipe;
     }
@@ -53,10 +62,11 @@ class RecipeOperations {
   }
 
   Future<Recipe> update(Recipe recipe) async {
-    final db = await dbProvider.database;
-    if (recipe.id == null) {
-      throw Exception("recipe Id is null");
+    if (recipe.id == null) return await create(recipe);
+    if (recipe.picture != null && recipe.picture!.id == null) {
+      recipe.picture = await pictureOperations.create(recipe.picture!);
     }
+    final db = await dbProvider.database;
     db.update(
       tableRecipes,
       recipe.toDatabaseJson(),
@@ -64,15 +74,16 @@ class RecipeOperations {
       whereArgs: [recipe.id],
     );
     return recipe.copy(
-        ingredients: await ingredientOpertations.updateAll(
+        ingredients: await ingredientOperations.updateAll(
             recipe.ingredients!, recipe.id),
-        steps: await stepOpertations.updateAll(recipe.steps!, recipe.id));
+        steps: await stepOperations.updateAll(recipe.steps!, recipe.id));
   }
 
-  Future<int> delete(int id) async {
+  Future<int> delete(int? id) async {
+    if (id == null) return 0;
     final db = await dbProvider.database;
-    await ingredientOpertations.deleteByRecipeId(id);
-    await stepOpertations.deleteByRecipeId(id);
+    await ingredientOperations.deleteByRecipeId(id);
+    await stepOperations.deleteByRecipeId(id);
     return await db.delete(
       tableRecipes,
       where: '${RecipeFields.id} = ?',
@@ -80,10 +91,11 @@ class RecipeOperations {
     );
   }
 
-  Future<int> deleteByIds(List<int> ids) async {
+  Future<int> deleteByIds(List<int?> ids) async {
     final db = await dbProvider.database;
-    await ingredientOpertations.deleteByRecipeIds(ids);
-    await stepOpertations.deleteByRecipeIds(ids);
+    ids.removeWhere((element) => element == null);
+    await ingredientOperations.deleteByRecipeIds(ids);
+    await stepOperations.deleteByRecipeIds(ids);
     return await db.delete(
       tableRecipes,
       where: '${RecipeFields.id} in (?)',
@@ -127,8 +139,10 @@ class RecipeOperations {
       for (var recipeJson in maps) {
         Recipe recipe = Recipe.fromDatabaseJson(recipeJson);
         recipe.ingredients =
-            await ingredientOpertations.readAllByRecipeId(recipe.id!);
-        recipe.steps = await stepOpertations.readAllByRecipeId(recipe.id!);
+            await ingredientOperations.readAllByRecipeId(recipe.id!);
+        recipe.steps = await stepOperations.readAllByRecipeId(recipe.id!);
+        recipe.picture = await pictureOperations
+            .read(recipeJson[RecipeFields.pictureId] as int?);
         recipe.initIngredientsByCategory();
         recipes.add(recipe);
       }

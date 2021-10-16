@@ -18,7 +18,9 @@ class ServingSpinBox extends StatelessWidget {
           size: 50, color: Theme.of(context).colorScheme.onSecondary),
       decoration: getInputDecoration("Servings"),
       textStyle: TextStyle(
-          fontSize: 18, color: Theme.of(context).colorScheme.onSecondary),
+          fontWeight: FontWeight.bold,
+          fontSize: 20,
+          color: Theme.of(context).colorScheme.onSecondary),
       keyboardType: TextInputType.number,
       min: 1,
       max: double.infinity,

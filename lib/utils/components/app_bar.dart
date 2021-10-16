@@ -25,18 +25,7 @@ NewGradientAppBar customAppBar(BuildContext context,
             ),
           )
         : null,
-    leading: leading ??
-        (Navigator.of(context).canPop()
-            ? IconButton(
-                onPressed: () async {
-                  Get.back();
-                },
-                icon: Icon(
-                  Icons.arrow_back_ios,
-                  color: Theme.of(context).colorScheme.onPrimary,
-                  size: 25,
-                ))
-            : null),
+    leading: leading,
     gradient: LinearGradient(
       begin: Alignment.topRight,
       end: Alignment.bottomLeft,

@@ -90,6 +90,10 @@ class InsideIngredientCardState extends State<InsideIngredientCard> {
                   child: EnsureVisibleWhenFocused(
                     focusNode: _nameNode,
                     child: TextFormField(
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          color: Theme.of(context).colorScheme.onSecondary),
                       key: _ingredientFormKey,
                       onTap: () => _requestFocus(_nameNode),
                       focusNode: _nameNode,
@@ -126,6 +130,10 @@ class InsideIngredientCardState extends State<InsideIngredientCard> {
                 child: EnsureVisibleWhenFocused(
                   focusNode: _quantityNode,
                   child: TextFormField(
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                        color: Theme.of(context).colorScheme.onSecondary),
                     onTap: () => _requestFocus(_quantityNode),
                     focusNode: _quantityNode,
                     keyboardType: TextInputType.number,
@@ -162,6 +170,10 @@ class InsideIngredientCardState extends State<InsideIngredientCard> {
                 child: EnsureVisibleWhenFocused(
                   focusNode: _methodNode,
                   child: TextFormField(
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                        color: Theme.of(context).colorScheme.onSecondary),
                     onTap: () => _requestFocus(_methodNode),
                     focusNode: _methodNode,
                     initialValue: recipeEditController
