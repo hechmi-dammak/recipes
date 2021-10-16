@@ -6,6 +6,8 @@ import 'package:recipes/modules/recipe_list_page/components/recipe_card.dart';
 import 'package:recipes/modules/recipe_list_page/controller/recipes_controller.dart';
 import 'package:recipes/utils/components/app_bar.dart';
 import 'package:recipes/utils/components/loading_widget.dart';
+import 'package:recipes/utils/decorations/input_decoration.dart';
+import 'package:recipes/utils/decorations/input_decoration_inside_card.dart';
 
 class RecipeListPage extends StatefulWidget {
   const RecipeListPage({
@@ -17,9 +19,13 @@ class RecipeListPage extends StatefulWidget {
 }
 
 class _RecipeListPageState extends State<RecipeListPage> {
-  final RecipesController recipesController = RecipesController.find;
-  bool loading = true;
+  var isDialOpen = ValueNotifier<bool>(false);
 
+  final RecipesController recipesController = RecipesController.find;
+  final _searchController = TextEditingController();
+  final _searchNode = FocusNode();
+
+  bool loading = true;
   Future<void> initRecipes() async {
     await recipesController.loadRecipes();
   }
@@ -32,26 +38,87 @@ class _RecipeListPageState extends State<RecipeListPage> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        if (recipesController.isDialOpen.value) {
-          setState(() {
-            recipesController.setDialOpen(false);
-          });
-          return false;
-        }
-        return true;
-      },
-      child: SafeArea(
-        child: Scaffold(
-          backgroundColor: Theme.of(context).backgroundColor,
-          appBar: customAppBar(context, title: 'Recipes List'),
-          floatingActionButton: const RecipeListFloatingButton(),
-          body: RefreshIndicator(
-            onRefresh: initRecipes,
-            child: GetBuilder<RecipesController>(
-              builder: (_) {
-                return LoadingWidget(
+    return GetBuilder<RecipesController>(builder: (_) {
+      return WillPopScope(
+        onWillPop: () async {
+          if (recipesController.searchActive.value) {
+            setState(() {
+              recipesController.setSearchActive(false);
+            });
+            return false;
+          }
+          if (isDialOpen.value) {
+            setState(() {
+              recipesController.setDialOpen(false);
+            });
+            return false;
+          }
+          return true;
+        },
+        child: SafeArea(
+          child: Scaffold(
+            backgroundColor: Theme.of(context).backgroundColor,
+            appBar: customAppBar(context,
+                title: 'Recipes List',
+                titleWidget: recipesController.searchActive.value
+                    ? TextFormField(
+                        decoration: getInputDecorationInsideCardHint(
+                          "Search",
+                          suffix: GestureDetector(
+                            child: Icon(
+                              Icons.close_rounded,
+                              size: 30,
+                              color: Theme.of(context).colorScheme.onBackground,
+                            ),
+                            onTap: () {
+                              setState(() {
+                                _searchController.text = "";
+                                recipesController.searchValue.value = "";
+                                recipesController.updateSearch();
+                              });
+                            },
+                          ),
+                        ),
+                        controller: _searchController,
+                        onChanged: (value) {
+                          recipesController.setSeachValue(value);
+                        },
+                      )
+                    : null,
+                leading: recipesController.searchActive.value
+                    ? IconButton(
+                        icon: Icon(
+                          Icons.arrow_back_ios,
+                          size: 30,
+                          color: Theme.of(context).colorScheme.onPrimary,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            recipesController.setSearchActive(false);
+                          });
+                        },
+                      )
+                    : null,
+                actions: recipesController.searchActive.value
+                    ? null
+                    : [
+                        IconButton(
+                          icon: Icon(
+                            Icons.search,
+                            size: 30,
+                            color: Theme.of(context).colorScheme.onPrimary,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              recipesController.setSearchActive(true);
+                            });
+                          },
+                        ),
+                      ]),
+            floatingActionButton: const RecipeListFloatingButton(),
+            body: RefreshIndicator(
+                onRefresh: initRecipes,
+                child: LoadingWidget(
                   loading: recipesController.loading.value,
                   child: recipesController.recipes.isNotEmpty
                       ? GridView.builder(
@@ -71,12 +138,10 @@ class _RecipeListPageState extends State<RecipeListPage> {
                           },
                         )
                       : const EmptyRecipeList(),
-                );
-              },
-            ),
+                )),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 }

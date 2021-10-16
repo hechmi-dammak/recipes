@@ -31,3 +31,28 @@ InputDecoration getInputDecorationInsideCard(String label,
     ),
   );
 }
+
+InputDecoration getInputDecorationInsideCardHint(String hint,
+    {Widget? suffix}) {
+  return InputDecoration(
+    hintText: hint,
+    suffixIcon: suffix,
+    border: OutlineInputBorder(
+      borderSide: BorderSide(
+          width: 3, color: Theme.of(Get.context!).colorScheme.primary),
+      borderRadius: BorderRadius.circular(10),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderSide: BorderSide(
+          width: 3, color: Theme.of(Get.context!).colorScheme.primary),
+      borderRadius: BorderRadius.circular(10),
+    ),
+    fillColor: Theme.of(Get.context!).backgroundColor,
+    filled: true,
+    enabledBorder: OutlineInputBorder(
+      borderSide: BorderSide(
+          width: 3, color: Theme.of(Get.context!).colorScheme.secondaryVariant),
+      borderRadius: BorderRadius.circular(10),
+    ),
+  );
+}

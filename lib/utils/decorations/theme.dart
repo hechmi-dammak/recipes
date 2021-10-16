@@ -8,8 +8,8 @@ class AplicationTheme {
     const ColorScheme _colorScheme = ColorScheme(
       primary: Color(0xFF4abba4),
       primaryVariant: Color(0xFF43a994),
-      secondary: Color(0xFFfeda6f),
-      secondaryVariant: Color(0xFFfed35b),
+      secondary: Color(0xFFfed35b),
+      secondaryVariant: Color(0xFFfec620),
       surface: Color(0xFFededed),
       background: Color(0xFFededed),
       error: Color(0xFFBB0520),

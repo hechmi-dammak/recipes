@@ -54,6 +54,21 @@ class _RecipeEditPageState extends State<RecipeEditPage> {
                   title: widget.recipeId != null
                       ? "Edit ${recipeEditController.recipe.value.name.capitalize!}"
                       : "Create a new recipe",
+                  leading: Navigator.of(context).canPop()
+                      ? IconButton(
+                          onPressed: () async {
+                            if (recipeEditController.isDialOpen.value) {
+                              recipeEditController.setDialOpen(false);
+                            } else {
+                              Get.back();
+                            }
+                          },
+                          icon: Icon(
+                            Icons.arrow_back_ios,
+                            color: Theme.of(context).colorScheme.onPrimary,
+                            size: 25,
+                          ))
+                      : null,
                   actions: [
                     IconButton(
                         onPressed: () async {

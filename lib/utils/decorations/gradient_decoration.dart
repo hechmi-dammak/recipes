@@ -12,7 +12,7 @@ BoxDecoration gradientDecoation(BuildContext context) {
         0.9,
       ],
       colors: [
-        Color(0xFF358c7a),
+        const Color(0xFF358c7a),
         Theme.of(context).colorScheme.primaryVariant,
       ],
     ),

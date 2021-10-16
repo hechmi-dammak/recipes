@@ -11,10 +11,12 @@ import 'package:recipes/utils/components/show_snack_bar.dart';
 
 class RecipesController extends GetxController {
   var recipes = <Recipe>[];
+  var initialRecipes = <Recipe>[];
   var selectionIsActive = false.obs;
   var loading = false.obs;
+  var searchActive = false.obs;
   var isDialOpen = ValueNotifier<bool>(false);
-
+  var searchValue = ''.obs;
   static RecipesController get find => Get.find<RecipesController>();
   RecipeOperations recipeOperations = RecipeOperations.instance;
   setDialOpen(value) {
@@ -22,12 +24,33 @@ class RecipesController extends GetxController {
     update();
   }
 
+  @override
+  void onInit() {
+    debounce(searchValue, (_) => updateSearch(),
+        time: const Duration(milliseconds: 200));
+    super.onInit();
+  }
+
   Future<void> loadRecipes() async {
     loading.value = true;
     update();
-    recipes = await recipeOperations.readAll();
+    initialRecipes = await recipeOperations.readAll();
+    recipes = initialRecipes.toList();
     updateSelectionIsActive();
     loading.value = false;
+    update();
+  }
+
+  updateSearch() {
+    recipes = initialRecipes.toList();
+    for (Recipe recipe in initialRecipes) {
+      if (!recipe.name
+          .toLowerCase()
+          .trim()
+          .contains(searchValue.value.toLowerCase().trim())) {
+        recipes.remove(recipe);
+      }
+    }
     update();
   }
 
@@ -35,6 +58,15 @@ class RecipesController extends GetxController {
     recipes[index].selected = !(recipes[index].selected ?? true);
     updateSelectionIsActive();
     update();
+  }
+
+  setSearchActive(bool value) {
+    searchActive(value);
+    if (value) {
+      updateSearch();
+    } else {
+      recipes = initialRecipes.toList();
+    }
   }
 
   bool _selectionIsActive() {
@@ -55,12 +87,13 @@ class RecipesController extends GetxController {
     loading.value = true;
     update();
 
-    var _copyRecipes = recipes.toList();
-    for (Recipe recipe in _copyRecipes) {
+    recipes = initialRecipes.toList();
+    for (Recipe recipe in recipes) {
       if ((recipe.selected ?? false) && (recipe.id != null)) {
         recipeOperations.delete(recipe.id!);
-        recipes.remove(recipe);
+        initialRecipes.remove(recipe);
       }
+      recipes = initialRecipes.toList();
     }
     updateSelectionIsActive();
     loading.value = false;
@@ -136,5 +169,9 @@ class RecipesController extends GetxController {
     }
     loading.value = false;
     update();
+  }
+
+  void setSeachValue(String value) {
+    searchValue(value);
   }
 }
