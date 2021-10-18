@@ -33,7 +33,6 @@ class _RecipeCreateFloatingButtonState
               color: Theme.of(context).colorScheme.onPrimary,
               size: iconSize + 5),
           childrenButtonSize: 65,
-          heroTag: 'speed-dial-hero-tag',
           elevation: 8.0,
           isOpenOnStart: false,
           animationSpeed: 200,

@@ -6,6 +6,7 @@ InputDecoration getInputDecoration(String label,
   return InputDecoration(
     contentPadding: contentPadding,
     label: Text(label,
+        overflow: TextOverflow.ellipsis,
         style: TextStyle(
             fontSize: 20, color: Theme.of(Get.context!).primaryColor)),
     enabledBorder: OutlineInputBorder(

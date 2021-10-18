@@ -204,6 +204,7 @@ class InsideIngredientCardState extends State<InsideIngredientCard> {
               recipeEditController
                   .recipe.value.ingredients![widget.index].name.capitalize!,
               textAlign: TextAlign.center,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   overflow: TextOverflow.ellipsis,
                   fontSize: 20,
@@ -223,6 +224,7 @@ class InsideIngredientCardState extends State<InsideIngredientCard> {
               child: Text(
                 recipeEditController.recipe.value.ingredients![widget.index]
                     .category!.capitalize!,
+                overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     overflow: TextOverflow.ellipsis,
@@ -246,6 +248,7 @@ class InsideIngredientCardState extends State<InsideIngredientCard> {
               child: Text(
                 recipeEditController.recipe.value.ingredients![widget.index]
                     .getQuantity(1)!,
+                overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     overflow: TextOverflow.ellipsis,
@@ -269,6 +272,7 @@ class InsideIngredientCardState extends State<InsideIngredientCard> {
               child: Text(
                 recipeEditController.recipe.value.ingredients![widget.index]
                     .method!.capitalize!,
+                overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     overflow: TextOverflow.ellipsis,

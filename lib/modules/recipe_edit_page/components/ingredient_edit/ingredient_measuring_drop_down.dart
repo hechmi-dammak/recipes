@@ -98,7 +98,11 @@ class _IngredientMeasuringDropDownInputState
                           items: recipeEditController.ingredientMeasurings
                               .map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
-                                child: Text(value), value: value);
+                                child: Text(
+                                  value,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                value: value);
                           }).toList(),
                         ),
                       ),

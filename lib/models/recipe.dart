@@ -70,7 +70,9 @@ class Recipe {
       servings: json[RecipeFields.servings] as int?,
       steps: getStepsfromJson(json),
       ingredients: getIngredientsfromJson(json),
-      picture: Picture.fromJson(json[RecipeFields.picture]));
+      picture: json[RecipeFields.picture] != null
+          ? Picture.fromJson(json[RecipeFields.picture])
+          : null);
 
   static Recipe fromDatabaseJson(Map<String, dynamic> json) => Recipe(
         id: json[RecipeFields.id] as int?,

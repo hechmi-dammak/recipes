@@ -41,20 +41,20 @@ BoxDecoration gradientDecoationSecondery(BuildContext context,
       ],
       colors: (selected ?? false)
           ? [
-              Theme.of(context).colorScheme.primary,
-              Theme.of(context).colorScheme.primaryVariant
-            ]
-          : [
               Theme.of(context).colorScheme.secondaryVariant,
               Theme.of(context).colorScheme.secondary
+            ]
+          : [
+              Theme.of(context).colorScheme.primary,
+              Theme.of(context).colorScheme.primaryVariant
             ],
     ),
     boxShadow: [
       BoxShadow(
-        color: Colors.grey.withOpacity(0.25),
+        color: Colors.grey.withOpacity(0.5),
         spreadRadius: 2,
         blurRadius: 2,
-        offset: const Offset(1, 1),
+        offset: const Offset(1.5, 1.5),
       ),
     ],
   );

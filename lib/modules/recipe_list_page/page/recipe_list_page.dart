@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:recipes/modules/recipe_list_page/components/empty_recipe_list.dart';
-import 'package:recipes/modules/recipe_list_page/components/floating_action_button.dart';
+import 'package:recipes/modules/recipe_list_page/components/recipe_list_floating_action_button.dart';
 import 'package:recipes/modules/recipe_list_page/components/recipe_card.dart';
 import 'package:recipes/modules/recipe_list_page/controller/recipes_controller.dart';
 import 'package:recipes/utils/components/app_bar.dart';
@@ -113,7 +113,30 @@ class _RecipeListPageState extends State<RecipeListPage> {
                           },
                         ),
                       ]),
-            floatingActionButton: const RecipeListFloatingButton(),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerDocked,
+            floatingActionButton: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  recipesController.selectionIsActive.value
+                      ? FloatingActionButton(
+                          onPressed: () =>
+                              recipesController.deleteSelectedRecipes(),
+                          child: const Icon(Icons.delete_forever_rounded,
+                              size: 30),
+                          backgroundColor: Theme.of(context).colorScheme.error,
+                          foregroundColor:
+                              Theme.of(context).colorScheme.onError,
+                        )
+                      : const Text(
+                          "",
+                        ),
+                  const RecipeListFloatingButton(),
+                ],
+              ),
+            ),
             body: RefreshIndicator(
                 onRefresh: initRecipes,
                 child: LoadingWidget(

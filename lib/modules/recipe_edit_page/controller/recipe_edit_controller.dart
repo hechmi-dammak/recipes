@@ -1,17 +1,24 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart' hide Step;
 import 'package:get/get.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:recipes/models/ingredient.dart';
+import 'package:recipes/models/picture.dart';
 import 'package:recipes/models/recipe.dart';
 import 'package:recipes/models/step.dart';
 import 'package:recipes/modules/recipe_list_page/controller/recipes_controller.dart';
 import 'package:recipes/service/ingredient_operations.dart';
+import 'package:recipes/service/picture_operations.dart';
 import 'package:recipes/service/recipe_operations.dart';
 import 'package:recipes/service/step_operations.dart';
 import 'package:recipes/utils/components/show_snack_bar.dart';
 
 class RecipeEditController extends GetxController {
   final RecipesController recipesController = RecipesController.find;
-
+  final PictureOperations pictureOperations = PictureOperations.instance;
+  final ImagePicker _picker = ImagePicker();
   final int defaultServingValue = 4;
   var recipe = Rx<Recipe>(Recipe());
   var servings = Rx<int>(4);
@@ -277,5 +284,39 @@ class RecipeEditController extends GetxController {
   void setLoading(bool bool) {
     loading(bool);
     update();
+  }
+
+  getImage(ImageSource source) async {
+    XFile? file =
+        await _picker.pickImage(source: source, maxHeight: 480, maxWidth: 640);
+    if (file == null) {
+      showInSnackBar("You have to choose an image.");
+      return;
+    }
+    File? croppedImage = await _cropImage(file.path);
+    if (croppedImage != null) {
+      recipe.value.picture = await pictureOperations
+          .create(Picture(image: croppedImage.readAsBytesSync()));
+    }
+
+    update();
+  }
+
+  Future<File?> _cropImage(path) async {
+    File? croppedFile = await ImageCropper.cropImage(
+        sourcePath: path,
+        aspectRatio: const CropAspectRatio(ratioX: 16, ratioY: 9),
+        androidUiSettings: AndroidUiSettings(
+          toolbarTitle: 'Crop this image',
+          toolbarColor: Theme.of(Get.context!).colorScheme.primary,
+          toolbarWidgetColor: Theme.of(Get.context!).colorScheme.onPrimary,
+        ),
+        iosUiSettings: const IOSUiSettings(
+            title: 'Crop this image', showCancelConfirmationDialog: true));
+    if (croppedFile != null) {
+      return croppedFile;
+    } else {
+      showInSnackBar("You have to crop the image.");
+    }
   }
 }

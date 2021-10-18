@@ -5,14 +5,14 @@ import 'package:recipes/modules/recipe_edit_page/controller/recipe_edit_controll
 
 import 'step_edit_card.dart';
 
-class StepCreateList extends StatefulWidget {
-  const StepCreateList({Key? key}) : super(key: key);
+class StepEditList extends StatefulWidget {
+  const StepEditList({Key? key}) : super(key: key);
 
   @override
-  StepCreateListState createState() => StepCreateListState();
+  StepEditListState createState() => StepEditListState();
 }
 
-class StepCreateListState extends State<StepCreateList> {
+class StepEditListState extends State<StepEditList> {
   final RecipeEditController recipeEditController = RecipeEditController.find;
   List<GlobalObjectKey<StepEditCardState>> stepListKeys = [];
   List<Widget> children = [];
@@ -44,6 +44,7 @@ class StepCreateListState extends State<StepCreateList> {
                     margin: const EdgeInsets.only(top: 15),
                     child: Text(
                       "Steps",
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           fontSize: 25, color: Theme.of(context).primaryColor),
                     ),

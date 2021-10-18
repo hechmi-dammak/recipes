@@ -135,6 +135,7 @@ class InsideStepCardState extends State<InsideStepCard> {
       return Text(
         (recipeEditController.recipe.value.steps![widget.index].toDo ?? "")
             .capitalize!,
+        overflow: TextOverflow.ellipsis,
         textAlign: TextAlign.center,
         style: TextStyle(
             fontSize: 20,

@@ -25,6 +25,7 @@ class StepsList extends StatelessWidget {
               margin: const EdgeInsets.only(bottom: 10),
               child: Text(
                 "Steps",
+                overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontSize: 25, color: Theme.of(context).primaryColor),

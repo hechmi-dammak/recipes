@@ -38,8 +38,7 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
                 actions: [
                   IconButton(
                       onPressed: () {
-                        Get.off(
-                            () => RecipeEditPage(recipeId: widget.recipeId));
+                        Get.to(() => RecipeEditPage(recipeId: widget.recipeId));
                       },
                       icon: Icon(
                         Icons.edit,
@@ -75,6 +74,37 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
                               });
                             },
                             servings: recipeInfoController.servings.value)),
+                    recipeInfoController.recipe.value.picture == null ||
+                            recipeInfoController.recipe.value.picture!.image ==
+                                null
+                        ? Container()
+                        : Container(
+                            margin: const EdgeInsets.symmetric(
+                                vertical: 15, horizontal: 10),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  width: 4),
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.grey,
+                              image: DecorationImage(
+                                image: MemoryImage(recipeInfoController
+                                    .recipe.value.picture!.image!),
+                                fit: BoxFit.cover,
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.25),
+                                  spreadRadius: 2,
+                                  blurRadius: 2,
+                                  offset: const Offset(1, 1),
+                                ),
+                              ],
+                            ),
+                            width: double.infinity,
+                            height: (MediaQuery.of(context).size.width - 40) *
+                                0.5625,
+                          ),
                     IngredientsList(),
                     StepsList(),
                   ],

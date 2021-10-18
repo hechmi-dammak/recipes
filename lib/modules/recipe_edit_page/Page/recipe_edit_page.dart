@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:recipes/modules/recipe_edit_page/components/StepEdit/step_create_list.dart';
+import 'package:recipes/modules/recipe_edit_page/components/StepEdit/step_edit_list.dart';
 import 'package:recipes/modules/recipe_edit_page/components/floating_action_button.dart';
-import 'package:recipes/modules/recipe_edit_page/components/ingredient_edit/ingredient_create_list.dart';
+import 'package:recipes/modules/recipe_edit_page/components/image_edit/image_edit.dart';
+import 'package:recipes/modules/recipe_edit_page/components/ingredient_edit/ingredient_edit_list.dart';
 import 'package:recipes/modules/recipe_edit_page/components/recipe_category_drop_down.dart';
 import 'package:recipes/modules/recipe_edit_page/controller/recipe_edit_controller.dart';
 import 'package:recipes/utils/components/app_bar.dart';
@@ -23,8 +24,8 @@ class RecipeEditPage extends StatefulWidget {
 class _RecipeEditPageState extends State<RecipeEditPage> {
   final RecipeEditController recipeEditController = RecipeEditController.find;
   final _nameNode = FocusNode();
-  final ingredientsListKey = GlobalKey<IngredientCreateListState>();
-  final stepsListKey = GlobalKey<StepCreateListState>();
+  final ingredientsListKey = GlobalKey<IngredientEditListState>();
+  final stepsListKey = GlobalKey<StepEditListState>();
   final _recipeFormKey = GlobalKey<FormState>();
   @override
   void initState() {
@@ -103,7 +104,7 @@ class _RecipeEditPageState extends State<RecipeEditPage> {
                 loading: recipeEditController.loading.value,
                 child: SingleChildScrollView(
                   child: Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 12.0),
+                    margin: const EdgeInsets.symmetric(horizontal: 20),
                     child: Column(
                       children: [
                         Container(
@@ -142,8 +143,8 @@ class _RecipeEditPageState extends State<RecipeEditPage> {
                                         });
                                       },
                                       decoration: getInputDecoration("Name",
-                                          contentPadding:
-                                              const EdgeInsets.only(left: 20)),
+                                          contentPadding: const EdgeInsets.only(
+                                              left: 20, top: 15, bottom: 15)),
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
                                           return 'Please specify a name';
@@ -161,11 +162,12 @@ class _RecipeEditPageState extends State<RecipeEditPage> {
                             ),
                           ),
                         ),
-                        IngredientCreateList(key: ingredientsListKey),
+                        const ImageEditField(),
+                        IngredientEditList(key: ingredientsListKey),
                         const SizedBox(
                           height: 15,
                         ),
-                        StepCreateList(key: stepsListKey)
+                        StepEditList(key: stepsListKey)
                       ],
                     ),
                   ),

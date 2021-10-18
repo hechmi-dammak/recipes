@@ -3,14 +3,14 @@ import 'package:get/get.dart';
 import 'package:recipes/modules/recipe_edit_page/components/ingredient_edit/ingredient_edit_card.dart';
 import 'package:recipes/modules/recipe_edit_page/controller/recipe_edit_controller.dart';
 
-class IngredientCreateList extends StatefulWidget {
-  const IngredientCreateList({Key? key}) : super(key: key);
+class IngredientEditList extends StatefulWidget {
+  const IngredientEditList({Key? key}) : super(key: key);
 
   @override
-  IngredientCreateListState createState() => IngredientCreateListState();
+  IngredientEditListState createState() => IngredientEditListState();
 }
 
-class IngredientCreateListState extends State<IngredientCreateList> {
+class IngredientEditListState extends State<IngredientEditList> {
   List<GlobalObjectKey<IngredientEditCardState>> ingredientListKeys = [];
   List<Widget> children = [];
   final RecipeEditController recipeEditController = RecipeEditController.find;
@@ -35,6 +35,7 @@ class IngredientCreateListState extends State<IngredientCreateList> {
               margin: const EdgeInsets.only(bottom: 10),
               child: Text(
                 "Ingredients",
+                overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     fontSize: 25, color: Theme.of(context).primaryColor),
               ),

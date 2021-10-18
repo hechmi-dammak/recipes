@@ -28,6 +28,7 @@ void showDialogInput(
         padding: const EdgeInsets.symmetric(vertical: 10),
         child: Center(
           child: Text(title,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   color: Theme.of(Get.context!).colorScheme.onPrimary,
                   fontSize: 25)),
@@ -47,6 +48,7 @@ void showDialogInput(
               ),
               child: const Text(
                 'cancel',
+                overflow: TextOverflow.ellipsis,
                 style: TextStyle(fontSize: 20),
               ),
               onPressed: () {
@@ -64,6 +66,7 @@ void showDialogInput(
               ),
               child: const Text(
                 'confirm',
+                overflow: TextOverflow.ellipsis,
                 style: TextStyle(fontSize: 20),
               ),
               onPressed: () async => confirm(),

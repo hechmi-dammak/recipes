@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 
 NewGradientAppBar customAppBar(BuildContext context,
@@ -42,6 +41,7 @@ NewGradientAppBar customAppBar(BuildContext context,
     centerTitle: true,
     title: Text(
       title ?? "",
+      overflow: TextOverflow.ellipsis,
       style: TextStyle(
           color: Theme.of(context).colorScheme.onPrimary, fontSize: 25),
     ),

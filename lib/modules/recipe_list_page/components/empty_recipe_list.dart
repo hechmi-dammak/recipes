@@ -20,6 +20,7 @@ class EmptyRecipeList extends StatelessWidget {
               child: const Center(
                   child: Text(
                 "No recipes exists yet.\nPress import to load new recipes or you can  create your own.",
+                overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   fontSize: 20,
                 ),

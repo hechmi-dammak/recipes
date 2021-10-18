@@ -49,6 +49,7 @@ class StepCardState extends State<StepCard> {
                   child: Text(
                     recipeInfoController
                         .recipe.value.steps![widget.index].toDo!.capitalize!,
+                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         overflow: TextOverflow.ellipsis,
                         fontSize: 18,
@@ -111,6 +112,7 @@ class StepCardState extends State<StepCard> {
                     child: ListTile(
                       leading: Text(
                         "To Do:",
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -129,6 +131,7 @@ class StepCardState extends State<StepCard> {
                       title: Text(
                         recipeInfoController.recipe.value.steps![widget.index]
                             .toDo!.capitalize!,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -154,6 +157,7 @@ class StepCardState extends State<StepCard> {
                       child: ListTile(
                         leading: Text(
                           "Step order:",
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               fontSize: 17,
                               fontWeight: FontWeight.bold,
@@ -171,6 +175,7 @@ class StepCardState extends State<StepCard> {
                         ),
                         title: Text(
                           (widget.index + 1).toString(),
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
@@ -211,6 +216,7 @@ class OrderButton extends StatelessWidget {
         child: Center(
           child: Text(
             index.toString(),
+            overflow: TextOverflow.ellipsis,
             style: TextStyle(
                 color: Theme.of(context).colorScheme.onPrimary, fontSize: 20),
           ),

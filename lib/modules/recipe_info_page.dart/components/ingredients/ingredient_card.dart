@@ -48,6 +48,7 @@ class IngredientCardState extends State<IngredientCard> {
                     margin: const EdgeInsets.only(top: 10),
                     child: Text(
                       widget.ingredient.name.capitalize!,
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           overflow: TextOverflow.ellipsis,
                           fontSize: 18,
@@ -73,6 +74,7 @@ class IngredientCardState extends State<IngredientCard> {
                             .getQuantity(
                                 widget.servings, widget.recipeServings)!
                             .capitalize!,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             overflow: TextOverflow.ellipsis,
                             fontSize: 16,
@@ -93,6 +95,7 @@ class IngredientCardState extends State<IngredientCard> {
                       margin: const EdgeInsets.only(top: 10),
                       child: Text(
                         widget.ingredient.method!.capitalize!,
+                        overflow: TextOverflow.ellipsis,
                         maxLines: 2,
                         style: TextStyle(
                             overflow: TextOverflow.ellipsis,
@@ -147,6 +150,7 @@ class IngredientCardState extends State<IngredientCard> {
                     child: ListTile(
                       leading: Text(
                         "Name:",
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -162,6 +166,7 @@ class IngredientCardState extends State<IngredientCard> {
                       ),
                       title: Text(
                         widget.ingredient.name.capitalize!,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -183,6 +188,7 @@ class IngredientCardState extends State<IngredientCard> {
                       child: ListTile(
                         leading: Text(
                           "Category:",
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               fontSize: 17,
                               fontWeight: FontWeight.bold,
@@ -198,6 +204,7 @@ class IngredientCardState extends State<IngredientCard> {
                         ),
                         title: Text(
                           widget.ingredient.category!.capitalize!,
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
@@ -221,6 +228,7 @@ class IngredientCardState extends State<IngredientCard> {
                       child: ListTile(
                         leading: Text(
                           "Quantity:",
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
@@ -239,6 +247,7 @@ class IngredientCardState extends State<IngredientCard> {
                               .getQuantity(
                                   widget.servings, widget.recipeServings)!
                               .capitalize!,
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.bold,
@@ -260,6 +269,7 @@ class IngredientCardState extends State<IngredientCard> {
                       child: ListTile(
                         leading: Text(
                           "Method:",
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               fontSize: 16,
                               color: widget.ingredient.selected ?? false
@@ -274,6 +284,7 @@ class IngredientCardState extends State<IngredientCard> {
                         ),
                         title: Text(
                           widget.ingredient.method!.capitalize!,
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               fontSize: 15,
                               color: widget.ingredient.selected ?? false

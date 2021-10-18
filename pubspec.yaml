@@ -46,6 +46,8 @@ dependencies:
   get: ^4.3.8
   very_good_analysis: ^2.3.0
   flutter_reorderable_list: ^1.1.0
+  image_picker: ^0.8.4+2
+  image_cropper: ^1.4.1
 
 dev_dependencies:
   flutter_test:
@@ -78,6 +80,7 @@ flutter:
   assets:
     - assets/recipes.json
     - assets/images/export_file.png
+    - assets/images/image_list.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
