@@ -7,22 +7,19 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:recipes/models/recipe.dart';
 import 'package:recipes/service/recipe_operations.dart';
+import 'package:recipes/utils/components/dialog_input.dart';
 import 'package:recipes/utils/components/show_snack_bar.dart';
 
 class RecipesController extends GetxController {
   var recipes = <Recipe>[];
   var initialRecipes = <Recipe>[];
   var selectionIsActive = false.obs;
+  var allItemsSelected = false.obs;
   var loading = false.obs;
-  var searchActive = false.obs;
-  var isDialOpen = ValueNotifier<bool>(false);
+
   var searchValue = ''.obs;
   static RecipesController get find => Get.find<RecipesController>();
   RecipeOperations recipeOperations = RecipeOperations.instance;
-  setDialOpen(value) {
-    isDialOpen.value = value;
-    update();
-  }
 
   @override
   void onInit() {
@@ -41,32 +38,12 @@ class RecipesController extends GetxController {
     update();
   }
 
-  updateSearch() {
-    recipes = initialRecipes.toList();
-    for (Recipe recipe in initialRecipes) {
-      if (!recipe.name
-          .toLowerCase()
-          .trim()
-          .contains(searchValue.value.toLowerCase().trim())) {
-        recipes.remove(recipe);
-      }
-    }
-    update();
-  }
-
+//-----------Selection---------------
   setRecipeSelected(int index) {
     recipes[index].selected = !(recipes[index].selected ?? true);
     updateSelectionIsActive();
+    updateAllItemsSelected();
     update();
-  }
-
-  setSearchActive(bool value) {
-    searchActive(value);
-    if (value) {
-      updateSearch();
-    } else {
-      recipes = initialRecipes.toList();
-    }
   }
 
   bool _selectionIsActive() {
@@ -81,6 +58,40 @@ class RecipesController extends GetxController {
   void updateSelectionIsActive([bool? selectionIsActive]) {
     this.selectionIsActive.value = selectionIsActive ?? _selectionIsActive();
     update();
+  }
+
+  bool _allItemsSelected() {
+    for (var recipe in recipes) {
+      if (!(recipe.selected ?? false)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  void updateAllItemsSelected([bool? allItemsSelected]) {
+    this.allItemsSelected.value = allItemsSelected ?? _allItemsSelected();
+    update();
+  }
+
+  void setSelectAllValue([bool value = false]) {
+    for (var recipe in recipes) {
+      recipe.selected = value;
+    }
+    updateAllItemsSelected(value);
+    updateSelectionIsActive();
+    update();
+  }
+
+//-----------get /delete /import /export  Data---------------
+  List<Map<String, dynamic>> getSelectedRecipes() {
+    List<Map<String, dynamic>> result = [];
+    for (Recipe recipe in recipes) {
+      if (recipe.selected ?? false) {
+        result.add(recipe.toJson());
+      }
+    }
+    return result;
   }
 
   void deleteSelectedRecipes() async {
@@ -101,22 +112,39 @@ class RecipesController extends GetxController {
     showInSnackBar("Selected Recipe were deleted.", status: true);
   }
 
-  void setSelectAllValue([bool value = false]) {
-    for (var recipe in recipes) {
-      recipe.selected = value;
-    }
-    updateSelectionIsActive();
-    update();
-  }
+  final _fileNameController = TextEditingController();
 
-  List<Map<String, dynamic>> getSelectedRecipes() {
-    List<Map<String, dynamic>> result = [];
-    for (Recipe recipe in recipes) {
-      if (recipe.selected ?? false) {
-        result.add(recipe.toJson());
-      }
-    }
-    return result;
+  exportToFile() async {
+    showDialogInput(
+        title: 'Pick a name for the file',
+        label: 'File name',
+        controller: _fileNameController,
+        confirm: () async {
+          try {
+            if (_fileNameController.text == "") {
+              showInSnackBar("File name shouldn't be empty.");
+              return;
+            }
+            String? fileDirectory = await FilePicker.platform
+                .getDirectoryPath(dialogTitle: "Select where to save to file");
+            if (fileDirectory == null) {
+              showInSnackBar("You must choose a directory");
+              return;
+            }
+            var fileLocation =
+                "$fileDirectory/${_fileNameController.text}.recipe";
+            var recipes = getSelectedRecipes();
+            File file = File(fileLocation);
+            await file.writeAsString(json.encode(recipes));
+            Get.back();
+            showInSnackBar(
+                "Recipes are exported to file ${_fileNameController.text}.",
+                status: true);
+            _fileNameController.clear();
+          } catch (e) {
+            showInSnackBar("Failed to  export to file" + e.toString());
+          }
+        });
   }
 
   importFromFile(context) async {
@@ -170,8 +198,22 @@ class RecipesController extends GetxController {
     loading.value = false;
     update();
   }
+//--------------SEARCH---------------------
 
   void setSeachValue(String value) {
     searchValue(value);
+  }
+
+  updateSearch() {
+    recipes = initialRecipes.toList();
+    for (Recipe recipe in initialRecipes) {
+      if (!recipe.name
+          .toLowerCase()
+          .trim()
+          .contains(searchValue.value.toLowerCase().trim())) {
+        recipes.remove(recipe);
+      }
+    }
+    update();
   }
 }

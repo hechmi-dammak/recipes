@@ -7,6 +7,7 @@ import 'package:recipes/modules/recipe_edit_page/components/ingredient_edit/ingr
 import 'package:recipes/modules/recipe_edit_page/components/recipe_category_drop_down.dart';
 import 'package:recipes/modules/recipe_edit_page/controller/recipe_edit_controller.dart';
 import 'package:recipes/utils/components/app_bar.dart';
+import 'package:recipes/utils/components/app_bar_bottom.dart';
 import 'package:recipes/utils/components/ensure_visible.dart';
 import 'package:recipes/utils/components/loading_widget.dart';
 import 'package:recipes/utils/components/serving_spin_box.dart';
@@ -100,75 +101,81 @@ class _RecipeEditPageState extends State<RecipeEditPage> {
                           size: 30,
                         ))
                   ]),
-              body: LoadingWidget(
-                loading: recipeEditController.loading.value,
-                child: SingleChildScrollView(
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Column(
-                      children: [
-                        Container(
-                            margin: const EdgeInsets.symmetric(vertical: 15),
-                            child: ServingSpinBox(
-                                changeServingFunction: (double value) {
-                                  setState(() {
-                                    recipeEditController
-                                        .setServingValue(value.toInt());
-                                  });
-                                },
-                                servings: recipeEditController.servings.value)),
-                        Container(
-                          margin: const EdgeInsets.only(bottom: 15),
-                          child: Form(
-                            key: _recipeFormKey,
-                            child: Column(
-                              children: [
-                                Container(
-                                  margin: const EdgeInsets.only(bottom: 15),
-                                  child: EnsureVisibleWhenFocused(
-                                    focusNode: _nameNode,
-                                    child: TextFormField(
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onSecondary),
-                                      initialValue: recipeEditController
-                                          .recipe.value.name,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          recipeEditController
-                                              .recipe.value.name = value;
-                                        });
-                                      },
-                                      decoration: getInputDecoration("Name",
-                                          contentPadding: const EdgeInsets.only(
-                                              left: 20, top: 15, bottom: 15)),
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return 'Please specify a name';
-                                        }
-                                        return null;
-                                      },
+              body: AppbarBottom(
+                child: LoadingWidget(
+                  loading: recipeEditController.loading.value,
+                  child: SingleChildScrollView(
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Column(
+                        children: [
+                          Container(
+                              margin: const EdgeInsets.symmetric(vertical: 15),
+                              child: ServingSpinBox(
+                                  changeServingFunction: (double value) {
+                                    setState(() {
+                                      recipeEditController
+                                          .setServingValue(value.toInt());
+                                    });
+                                  },
+                                  servings:
+                                      recipeEditController.servings.value)),
+                          Container(
+                            margin: const EdgeInsets.only(bottom: 15),
+                            child: Form(
+                              key: _recipeFormKey,
+                              child: Column(
+                                children: [
+                                  Container(
+                                    margin: const EdgeInsets.only(bottom: 15),
+                                    child: EnsureVisibleWhenFocused(
+                                      focusNode: _nameNode,
+                                      child: TextFormField(
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onSecondary),
+                                        initialValue: recipeEditController
+                                            .recipe.value.name,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            recipeEditController
+                                                .recipe.value.name = value;
+                                          });
+                                        },
+                                        decoration: getInputDecoration("Name",
+                                            contentPadding:
+                                                const EdgeInsets.only(
+                                                    left: 20,
+                                                    top: 15,
+                                                    bottom: 15)),
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'Please specify a name';
+                                          }
+                                          return null;
+                                        },
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Container(
-                                  margin: const EdgeInsets.only(bottom: 15),
-                                  child: const RecipeCategoryDropDownInput(),
-                                ),
-                              ],
+                                  Container(
+                                    margin: const EdgeInsets.only(bottom: 15),
+                                    child: const RecipeCategoryDropDownInput(),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                        const ImageEditField(),
-                        IngredientEditList(key: ingredientsListKey),
-                        const SizedBox(
-                          height: 15,
-                        ),
-                        StepEditList(key: stepsListKey)
-                      ],
+                          const ImageEditField(),
+                          IngredientEditList(key: ingredientsListKey),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          StepEditList(key: stepsListKey)
+                        ],
+                      ),
                     ),
                   ),
                 ),

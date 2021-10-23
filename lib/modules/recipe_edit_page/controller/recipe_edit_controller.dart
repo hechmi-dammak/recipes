@@ -29,6 +29,7 @@ class RecipeEditController extends GetxController {
   var ingredientSizes = <String>[];
   var isDialOpen = ValueNotifier<bool>(false);
   var selectionIsActive = false.obs;
+
   static RecipeEditController get find => Get.find<RecipeEditController>();
   RecipeOperations recipeOperations = RecipeOperations.instance;
   IngredientOperations ingredientOperations = IngredientOperations.instance;

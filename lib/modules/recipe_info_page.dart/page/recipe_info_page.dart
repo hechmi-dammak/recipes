@@ -6,6 +6,7 @@ import 'package:recipes/modules/recipe_info_page.dart/components/steps/step_list
 import 'package:recipes/modules/recipe_info_page.dart/controller/recipe_info_controller.dart';
 import 'package:recipes/service/recipe_operations.dart';
 import 'package:recipes/utils/components/app_bar.dart';
+import 'package:recipes/utils/components/app_bar_bottom.dart';
 import 'package:recipes/utils/components/loading_widget.dart';
 import 'package:recipes/utils/components/serving_spin_box.dart';
 
@@ -57,57 +58,62 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
                           size: 25,
                         ))
                     : null),
-            body: RefreshIndicator(
-              onRefresh: () => recipeInfoController.initRecipe(widget.recipeId),
-              child: LoadingWidget(
-                loading: recipeInfoController.loading.value,
-                child: ListView(
-                  children: [
-                    Container(
-                        margin: const EdgeInsets.symmetric(
-                            vertical: 15, horizontal: 10),
-                        child: ServingSpinBox(
-                            changeServingFunction: (double value) {
-                              setState(() {
-                                recipeInfoController
-                                    .setServingValue(value.toInt());
-                              });
-                            },
-                            servings: recipeInfoController.servings.value)),
-                    recipeInfoController.recipe.value.picture == null ||
-                            recipeInfoController.recipe.value.picture!.image ==
-                                null
-                        ? Container()
-                        : Container(
-                            margin: const EdgeInsets.symmetric(
-                                vertical: 15, horizontal: 10),
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: Theme.of(context).colorScheme.primary,
-                                  width: 4),
-                              borderRadius: BorderRadius.circular(10),
-                              color: Colors.grey,
-                              image: DecorationImage(
-                                image: MemoryImage(recipeInfoController
-                                    .recipe.value.picture!.image!),
-                                fit: BoxFit.cover,
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.25),
-                                  spreadRadius: 2,
-                                  blurRadius: 2,
-                                  offset: const Offset(1, 1),
+            body: AppbarBottom(
+              child: RefreshIndicator(
+                onRefresh: () =>
+                    recipeInfoController.initRecipe(widget.recipeId),
+                child: LoadingWidget(
+                  loading: recipeInfoController.loading.value,
+                  child: ListView(
+                    children: [
+                      Container(
+                          margin: const EdgeInsets.symmetric(
+                              vertical: 15, horizontal: 10),
+                          child: ServingSpinBox(
+                              changeServingFunction: (double value) {
+                                setState(() {
+                                  recipeInfoController
+                                      .setServingValue(value.toInt());
+                                });
+                              },
+                              servings: recipeInfoController.servings.value)),
+                      recipeInfoController.recipe.value.picture == null ||
+                              recipeInfoController
+                                      .recipe.value.picture!.image ==
+                                  null
+                          ? Container()
+                          : Container(
+                              margin: const EdgeInsets.symmetric(
+                                  vertical: 15, horizontal: 10),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                    width: 4),
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.grey,
+                                image: DecorationImage(
+                                  image: MemoryImage(recipeInfoController
+                                      .recipe.value.picture!.image!),
+                                  fit: BoxFit.cover,
                                 ),
-                              ],
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.25),
+                                    spreadRadius: 2,
+                                    blurRadius: 2,
+                                    offset: const Offset(1, 1),
+                                  ),
+                                ],
+                              ),
+                              width: double.infinity,
+                              height: (MediaQuery.of(context).size.width - 40) *
+                                  0.5625,
                             ),
-                            width: double.infinity,
-                            height: (MediaQuery.of(context).size.width - 40) *
-                                0.5625,
-                          ),
-                    IngredientsList(),
-                    StepsList(),
-                  ],
+                      IngredientsList(),
+                      StepsList(),
+                    ],
+                  ),
                 ),
               ),
             ),
