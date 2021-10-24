@@ -1,14 +1,12 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart' hide Step;
 import 'package:get/get.dart';
-import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:recipes/models/ingredient.dart';
 import 'package:recipes/models/picture.dart';
 import 'package:recipes/models/recipe.dart';
 import 'package:recipes/models/step.dart';
 import 'package:recipes/modules/recipe_list_page/controller/recipes_controller.dart';
+import 'package:recipes/service/image_getter.dart';
 import 'package:recipes/service/ingredient_operations.dart';
 import 'package:recipes/service/picture_operations.dart';
 import 'package:recipes/service/recipe_operations.dart';
@@ -18,7 +16,7 @@ import 'package:recipes/utils/components/show_snack_bar.dart';
 class RecipeEditController extends GetxController {
   final RecipesController recipesController = RecipesController.find;
   final PictureOperations pictureOperations = PictureOperations.instance;
-  final ImagePicker _picker = ImagePicker();
+  final ImageOperations imageOperations = ImageOperations.instance;
   final int defaultServingValue = 4;
   var recipe = Rx<Recipe>(Recipe());
   var servings = Rx<int>(4);
@@ -29,17 +27,14 @@ class RecipeEditController extends GetxController {
   var ingredientSizes = <String>[];
   var isDialOpen = ValueNotifier<bool>(false);
   var selectionIsActive = false.obs;
+  var allItemsSelected = false.obs;
 
   static RecipeEditController get find => Get.find<RecipeEditController>();
   RecipeOperations recipeOperations = RecipeOperations.instance;
   IngredientOperations ingredientOperations = IngredientOperations.instance;
   StepOperations stepOperations = StepOperations.instance;
 
-  setDialOpen(value) {
-    isDialOpen.value = value;
-    update();
-  }
-
+//-----------init/save  Data---------------
   Future<void> initRecipe(int? recipeId) async {
     loading.value = true;
     if (recipeId == null) {
@@ -57,13 +52,33 @@ class RecipeEditController extends GetxController {
     ingredientSizes = await ingredientOperations
         .getAllValuesOfAttribute(IngredientFields.size);
     updateSelectionIsActive();
+    updateAllItemsSelected();
     loading.value = false;
     update();
   }
 
+  saveRecipe() async {
+    if (recipe.value.steps == null) {
+      return;
+    }
+    recipe.value.steps!
+        .asMap()
+        .forEach((index, element) => {element.order = index});
+    recipe.value.servings = servings.value;
+    if (recipe.value.id == null) {
+      await recipeOperations.create(recipe.value);
+    } else {
+      await recipeOperations.update(recipe.value);
+    }
+    await recipesController.loadRecipes();
+    update();
+  }
+//-----------Selection---------------
+
   setItemSelected(item) {
     item.selected = !(item.selected ?? true);
     updateSelectionIsActive();
+    updateAllItemsSelected();
     update();
   }
 
@@ -90,6 +105,53 @@ class RecipeEditController extends GetxController {
     update();
   }
 
+  bool _allItemsSelected() {
+    if (recipe.value.ingredients != null) {
+      for (var ingredient in recipe.value.ingredients!) {
+        if (!(ingredient.selected ?? false)) {
+          return false;
+        }
+      }
+    }
+    if (recipe.value.steps != null) {
+      for (var step in recipe.value.steps!) {
+        if (!(step.selected ?? false)) {
+          return false;
+        }
+      }
+    }
+
+    return true;
+  }
+
+  void updateAllItemsSelected([bool? allItemsSelected]) {
+    this.allItemsSelected.value = allItemsSelected ?? _allItemsSelected();
+    update();
+  }
+
+  void setSelectAllValue([bool value = false]) {
+    recipe.update((recipe) {
+      if (recipe == null) {
+        return;
+      }
+      if (recipe.steps != null) {
+        for (var element in recipe.steps!) {
+          element.selected = value;
+        }
+      }
+      if (recipe.ingredients != null) {
+        for (var element in recipe.ingredients!) {
+          element.selected = value;
+        }
+      }
+    });
+
+    updateSelectionIsActive(value);
+    updateAllItemsSelected(value);
+    update();
+  }
+
+//-----------delete  Data---------------
   void deleteSelectedItems() async {
     loading.value = true;
     update();
@@ -124,24 +186,8 @@ class RecipeEditController extends GetxController {
     showInSnackBar("Selected items were deleted.", status: true);
   }
 
-  void setSelectAllValue([bool value = false]) {
-    recipe.update((recipe) {
-      if (recipe == null) {
-        return;
-      }
-      if (recipe.steps != null) {
-        for (var element in recipe.steps!) {
-          element.selected = value;
-        }
-      }
-      if (recipe.ingredients != null) {
-        for (var element in recipe.ingredients!) {
-          element.selected = value;
-        }
-      }
-    });
-
-    updateSelectionIsActive();
+  void setLoading(bool bool) {
+    loading(bool);
     update();
   }
 
@@ -154,23 +200,8 @@ class RecipeEditController extends GetxController {
     update();
   }
 
-  addNewRecipeCategory(String category) {
-    recipeCategories.add(category);
-    update();
-  }
-
-  addNewIngredientCategory(String category) {
-    ingredientCategories.add(category);
-    update();
-  }
-
-  addNewIngredientMeasuring(String measuring) {
-    ingredientMeasurings.add(measuring);
-    update();
-  }
-
-  addNewIngredientSize(String size) {
-    ingredientSizes.add(size);
+  setDialOpen(value) {
+    isDialOpen.value = value;
     update();
   }
 
@@ -197,6 +228,27 @@ class RecipeEditController extends GetxController {
   Future setInEditingWithNoPropagation(dynamic editable,
       {bool value = true}) async {
     editable.inEditing = value;
+    update();
+  }
+
+  //-----------new Elements---------------
+  addNewRecipeCategory(String category) {
+    recipeCategories.add(category);
+    update();
+  }
+
+  addNewIngredientCategory(String category) {
+    ingredientCategories.add(category);
+    update();
+  }
+
+  addNewIngredientMeasuring(String measuring) {
+    ingredientMeasurings.add(measuring);
+    update();
+  }
+
+  addNewIngredientSize(String size) {
+    ingredientSizes.add(size);
     update();
   }
 
@@ -237,6 +289,7 @@ class RecipeEditController extends GetxController {
     update();
   }
 
+//-----------order steps---------------
   int _indexOfKey(Key key) {
     return (recipe.value.steps!).indexWhere((Step step) => step.key == key);
   }
@@ -261,59 +314,12 @@ class RecipeEditController extends GetxController {
     return true;
   }
 
-  saveRecipe() async {
-    if (recipe.value.steps == null) {
-      return;
-    }
-    recipe.value.steps!
-        .asMap()
-        .forEach((index, element) => {element.order = index});
-    recipe.value.servings = servings.value;
-    if (recipe.value.id == null) {
-      await recipeOperations.create(recipe.value);
-    } else {
-      await recipeOperations.update(recipe.value);
-    }
-    await recipesController.loadRecipes();
-    update();
-  }
-
-  void setLoading(bool bool) {
-    loading(bool);
-    update();
-  }
-
+//-----------image fetch--------------
   getImage(ImageSource source) async {
-    XFile? file =
-        await _picker.pickImage(source: source, maxHeight: 480, maxWidth: 640);
-    if (file == null) {
-      showInSnackBar("You have to choose an image.");
-      return;
+    Picture? picture = await imageOperations.getImage(source);
+    if (picture != null) {
+      recipe.value.picture = picture;
     }
-    File? croppedImage = await _cropImage(file.path);
-    if (croppedImage != null) {
-      recipe.value.picture = await pictureOperations
-          .create(Picture(image: croppedImage.readAsBytesSync()));
-    }
-
     update();
-  }
-
-  Future<File?> _cropImage(path) async {
-    File? croppedFile = await ImageCropper.cropImage(
-        sourcePath: path,
-        aspectRatio: const CropAspectRatio(ratioX: 16, ratioY: 9),
-        androidUiSettings: AndroidUiSettings(
-          toolbarTitle: 'Crop this image',
-          toolbarColor: Theme.of(Get.context!).colorScheme.primary,
-          toolbarWidgetColor: Theme.of(Get.context!).colorScheme.onPrimary,
-        ),
-        iosUiSettings: const IOSUiSettings(
-            title: 'Crop this image', showCancelConfirmationDialog: true));
-    if (croppedFile != null) {
-      return croppedFile;
-    } else {
-      showInSnackBar("You have to crop the image.");
-    }
   }
 }

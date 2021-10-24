@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:recipes/modules/recipe_edit_page/controller/recipe_edit_controller.dart';
-import 'package:recipes/utils/components/dialog_input.dart';
+import 'package:recipes/utils/components/show_dialog.dart';
 import 'package:recipes/utils/components/show_snack_bar.dart';
 import 'package:recipes/utils/decorations/gradient_decoration.dart';
 

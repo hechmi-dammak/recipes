@@ -6,6 +6,7 @@ import 'package:recipes/modules/recipe_list_page/components/recipe_card.dart';
 import 'package:recipes/modules/recipe_list_page/controller/recipes_controller.dart';
 import 'package:recipes/utils/components/app_bar.dart';
 import 'package:recipes/utils/components/app_bar_bottom.dart';
+import 'package:recipes/utils/components/show_dialog.dart';
 import 'package:recipes/utils/components/loading_widget.dart';
 import 'package:recipes/utils/decorations/input_decoration_inside_card.dart';
 
@@ -128,7 +129,7 @@ class _RecipeListPageState extends State<RecipeListPage> {
                 onPressed: () => recipesController.setSelectAllValue(false),
                 child: Column(
                   children: [
-                    Icon(Icons.radio_button_unchecked_rounded,
+                    Icon(Icons.check_circle_outline_outlined,
                         size: 30,
                         color: Theme.of(context).colorScheme.onPrimary),
                     Text(
@@ -144,7 +145,7 @@ class _RecipeListPageState extends State<RecipeListPage> {
                 onPressed: () => recipesController.setSelectAllValue(true),
                 child: Column(
                   children: [
-                    Icon(Icons.check_circle_outline_outlined,
+                    Icon(Icons.radio_button_unchecked_rounded,
                         size: 30,
                         color: Theme.of(context).colorScheme.onPrimary),
                     Text(
@@ -209,7 +210,7 @@ class _RecipeListPageState extends State<RecipeListPage> {
             ),
             onTap: () {
               setState(() {
-                _searchController.text = "";
+                _searchController.clear();
                 recipesController.searchValue.value = "";
                 recipesController.updateSearch();
               });
@@ -243,7 +244,11 @@ class BottomBar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             TextButton(
-                onPressed: recipesController.deleteSelectedRecipes,
+                onPressed: () {
+                  showConfirmationDialog(
+                      title: "These recipes will be deleted.",
+                      confirm: recipesController.deleteSelectedRecipes);
+                },
                 child: Column(
                   children: [
                     Icon(Icons.delete_forever_rounded,

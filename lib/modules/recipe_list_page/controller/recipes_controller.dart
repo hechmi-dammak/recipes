@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:recipes/models/recipe.dart';
 import 'package:recipes/service/recipe_operations.dart';
-import 'package:recipes/utils/components/dialog_input.dart';
+import 'package:recipes/utils/components/show_dialog.dart';
 import 'package:recipes/utils/components/show_snack_bar.dart';
 
 class RecipesController extends GetxController {
@@ -27,12 +27,14 @@ class RecipesController extends GetxController {
     super.onInit();
   }
 
+//-----------init  Data---------------
   Future<void> loadRecipes() async {
     loading.value = true;
     update();
     initialRecipes = await recipeOperations.readAll();
     recipes = initialRecipes.toList();
     updateSelectionIsActive();
+    updateAllItemsSelected();
     loading.value = false;
     update();
   }
@@ -78,7 +80,7 @@ class RecipesController extends GetxController {
       recipe.selected = value;
     }
     updateAllItemsSelected(value);
-    updateSelectionIsActive();
+    updateSelectionIsActive(value);
     update();
   }
 
