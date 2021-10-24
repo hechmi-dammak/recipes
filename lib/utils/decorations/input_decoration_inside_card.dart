@@ -37,9 +37,9 @@ InputDecoration getInputDecorationInsideCard(String label,
 InputDecoration getInputDecorationInsideCardHint(String hint,
     {Widget? suffix}) {
   return InputDecoration(
-    prefixIcon: Icon(Icons.search),
+    prefixIcon: const Icon(Icons.search),
     hintText: hint,
-    hintStyle: TextStyle(fontSize: 20),
+    hintStyle: const TextStyle(fontSize: 20),
     suffixIcon: suffix,
     border: OutlineInputBorder(
       borderSide: BorderSide(

@@ -21,6 +21,7 @@ class RecipeListPage extends StatefulWidget {
 class _RecipeListPageState extends State<RecipeListPage> {
   final RecipesController recipesController = RecipesController.find;
   final _searchController = TextEditingController();
+  final recipesScrollController = ScrollController();
 
   bool loading = true;
   Future<void> initRecipes() async {
@@ -56,8 +57,21 @@ class _RecipeListPageState extends State<RecipeListPage> {
                     backgroundColor:
                         Theme.of(context).colorScheme.primaryVariant,
                     foregroundColor: Theme.of(context).colorScheme.onPrimary,
-                    child: Icon(Icons.note_add_rounded, size: 30),
-                    onPressed: () => Get.to(() => const RecipeEditPage()),
+                    child: const Icon(Icons.note_add_rounded, size: 30),
+                    onPressed: () async {
+                      var result = await Get.to(() => const RecipeEditPage());
+                      if (result != null && result) {
+                        WidgetsBinding.instance?.addPostFrameCallback((_) {
+                          if (recipesScrollController.hasClients) {
+                            recipesScrollController.animateTo(
+                              recipesScrollController.position.maxScrollExtent,
+                              duration: const Duration(milliseconds: 500),
+                              curve: Curves.bounceInOut,
+                            );
+                          }
+                        });
+                      }
+                    },
                   ),
             body: AppbarBottom(
               child: RefreshIndicator(
@@ -66,6 +80,7 @@ class _RecipeListPageState extends State<RecipeListPage> {
                     loading: recipesController.loading.value,
                     child: recipesController.recipes.isNotEmpty
                         ? GridView.builder(
+                            controller: recipesScrollController,
                             padding: const EdgeInsets.only(
                                 right: 10, left: 10, top: 15, bottom: 10),
                             gridDelegate:
@@ -92,7 +107,7 @@ class _RecipeListPageState extends State<RecipeListPage> {
     });
   }
 
-  void SelectedItemMenu(BuildContext context, item) {
+  void selectedItemMenu(BuildContext context, item) {
     switch (item) {
       case 0:
         recipesController.importFromFile(context);
@@ -143,12 +158,13 @@ class _RecipeListPageState extends State<RecipeListPage> {
         ]
       ],
       leading: PopupMenuButton<int>(
+        offset: const Offset(0, 35),
         child: Icon(
           Icons.menu,
           size: 35,
           color: Theme.of(context).colorScheme.onPrimary,
         ),
-        onSelected: (item) => SelectedItemMenu(context, item),
+        onSelected: (item) => selectedItemMenu(context, item),
         itemBuilder: (BuildContext context) {
           return [
             PopupMenuItem<int>(

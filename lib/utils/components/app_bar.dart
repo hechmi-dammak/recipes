@@ -29,7 +29,7 @@ PreferredSize customAppBar(BuildContext context,
             width: double.infinity,
           ),
           Container(
-              margin: EdgeInsets.only(left: 10, right: 10),
+              margin: const EdgeInsets.only(left: 10, right: 10),
               height: height,
               width: double.infinity,
               child: Column(children: [
@@ -73,7 +73,7 @@ PreferredSize customAppBar(BuildContext context,
                   Expanded(
                     flex: 4,
                     child: Container(
-                      margin: EdgeInsets.only(bottom: 15),
+                      margin: const EdgeInsets.only(bottom: 15),
                       child: Row(
                         children: [Expanded(child: searchWidget)],
                       ),

@@ -262,24 +262,20 @@ class RecipeEditController extends GetxController {
   }
 
   saveRecipe() async {
-    recipe.update((recipe) async {
-      if (recipe == null) {
-        return;
-      }
-      if (recipe.steps == null) {
-        return;
-      }
-      recipe.steps!
-          .asMap()
-          .forEach((index, element) => {element.order = index});
-      recipe.servings = servings.value;
-      if (recipe.id == null) {
-        await recipeOperations.create(recipe);
-      } else {
-        await recipeOperations.update(recipe);
-      }
-      await recipesController.loadRecipes();
-    });
+    if (recipe.value.steps == null) {
+      return;
+    }
+    recipe.value.steps!
+        .asMap()
+        .forEach((index, element) => {element.order = index});
+    recipe.value.servings = servings.value;
+    if (recipe.value.id == null) {
+      await recipeOperations.create(recipe.value);
+    } else {
+      await recipeOperations.update(recipe.value);
+    }
+    await recipesController.loadRecipes();
+    update();
   }
 
   void setLoading(bool bool) {

@@ -26,92 +26,87 @@ class IngredientCardState extends State<IngredientCard> {
   Widget build(BuildContext context) {
     return Material(
       color: Colors.transparent,
-      child: Ink(
-        decoration: gradientDecoationSecondery(context,
-            selected: widget.ingredient.selected ?? false),
-        child: InkWell(
-          onLongPress: () => _onLongPress(context),
-          onTap: () {
-            setState(() {
-              widget.ingredient.selected =
-                  !(widget.ingredient.selected ?? true);
-            });
-          },
-          child: Container(
-            margin: const EdgeInsets.all(5),
-            width: min(MediaQuery.of(context).size.width * 3 / 5, 300),
+      child: Container(
+        margin: const EdgeInsets.all(2),
+        padding: const EdgeInsets.all(5),
+        child: Ink(
+          width: min(MediaQuery.of(context).size.width * 3 / 5, 300),
+          decoration: gradientDecoationSecondery(context,
+              selected: widget.ingredient.selected ?? false),
+          child: InkWell(
+            onLongPress: () => _onLongPress(context),
+            onTap: () {
+              setState(() {
+                widget.ingredient.selected =
+                    !(widget.ingredient.selected ?? true);
+              });
+            },
             child: Container(
-              margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-              child: Column(
-                children: [
-                  Container(
-                    margin: const EdgeInsets.only(top: 10),
-                    child: Text(
-                      widget.ingredient.name.capitalize!,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
+              margin: const EdgeInsets.all(5),
+              child: Ink(
+                decoration: BoxDecoration(
+                    color: Theme.of(context).backgroundColor,
+                    borderRadius: const BorderRadius.all(Radius.circular(10))),
+                child: Container(
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                  child: Column(
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(top: 10),
+                        child: Text(
+                          widget.ingredient.name.capitalize!,
                           overflow: TextOverflow.ellipsis,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: widget.ingredient.selected ?? false
-                              ? Theme.of(context)
-                                  .buttonTheme
-                                  .colorScheme!
-                                  .onPrimary
-                              : Theme.of(context)
+                          style: TextStyle(
+                              overflow: TextOverflow.ellipsis,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context)
                                   .buttonTheme
                                   .colorScheme!
                                   .onSecondary),
-                    ),
+                        ),
+                      ),
+                      if (widget.ingredient.getQuantity(
+                              widget.servings, widget.recipeServings) !=
+                          null)
+                        Container(
+                          margin: const EdgeInsets.only(top: 10),
+                          child: Text(
+                            widget.ingredient
+                                .getQuantity(
+                                    widget.servings, widget.recipeServings)!
+                                .capitalize!,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                                overflow: TextOverflow.ellipsis,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context)
+                                    .buttonTheme
+                                    .colorScheme!
+                                    .onSecondary),
+                          ),
+                        ),
+                      if (widget.ingredient.method != null)
+                        Container(
+                          margin: const EdgeInsets.only(top: 10),
+                          child: Text(
+                            widget.ingredient.method!.capitalize!,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                            style: TextStyle(
+                                overflow: TextOverflow.ellipsis,
+                                fontSize: 15,
+                                color: Theme.of(context)
+                                    .buttonTheme
+                                    .colorScheme!
+                                    .onSecondary),
+                          ),
+                        )
+                    ],
                   ),
-                  if (widget.ingredient.getQuantity(
-                          widget.servings, widget.recipeServings) !=
-                      null)
-                    Container(
-                      margin: const EdgeInsets.only(top: 10),
-                      child: Text(
-                        widget.ingredient
-                            .getQuantity(
-                                widget.servings, widget.recipeServings)!
-                            .capitalize!,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                            overflow: TextOverflow.ellipsis,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: widget.ingredient.selected ?? false
-                                ? Theme.of(context)
-                                    .buttonTheme
-                                    .colorScheme!
-                                    .onPrimary
-                                : Theme.of(context)
-                                    .buttonTheme
-                                    .colorScheme!
-                                    .onSecondary),
-                      ),
-                    ),
-                  if (widget.ingredient.method != null)
-                    Container(
-                      margin: const EdgeInsets.only(top: 10),
-                      child: Text(
-                        widget.ingredient.method!.capitalize!,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 2,
-                        style: TextStyle(
-                            overflow: TextOverflow.ellipsis,
-                            fontSize: 15,
-                            color: widget.ingredient.selected ?? false
-                                ? Theme.of(context)
-                                    .buttonTheme
-                                    .colorScheme!
-                                    .onPrimary
-                                : Theme.of(context)
-                                    .buttonTheme
-                                    .colorScheme!
-                                    .onSecondary),
-                      ),
-                    )
-                ],
+                ),
               ),
             ),
           ),
@@ -132,16 +127,16 @@ class IngredientCardState extends State<IngredientCard> {
           return Container(
             decoration: BoxDecoration(
                 color: widget.ingredient.selected ?? false
-                    ? Theme.of(context).primaryColor
-                    : Theme.of(context).colorScheme.secondary,
+                    ? Theme.of(context).colorScheme.secondary
+                    : Theme.of(context).primaryColor,
                 borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(10.0),
                     topRight: Radius.circular(10.0))),
             child: CustomPaint(
               painter: ModalPainter(
                 widget.ingredient.selected ?? false
-                    ? Theme.of(context).primaryColor
-                    : Theme.of(context).colorScheme.secondary,
+                    ? Theme.of(context).colorScheme.secondary
+                    : Theme.of(context).primaryColor,
               ),
               child: Column(
                 children: [
@@ -152,17 +147,18 @@ class IngredientCardState extends State<IngredientCard> {
                         "Name:",
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: widget.ingredient.selected ?? false
-                                ? Theme.of(context)
-                                    .buttonTheme
-                                    .colorScheme!
-                                    .onPrimary
-                                : Theme.of(context)
-                                    .buttonTheme
-                                    .colorScheme!
-                                    .onSecondary),
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: widget.ingredient.selected ?? false
+                              ? Theme.of(context)
+                                  .buttonTheme
+                                  .colorScheme!
+                                  .onSecondary
+                              : Theme.of(context)
+                                  .buttonTheme
+                                  .colorScheme!
+                                  .onPrimary,
+                        ),
                       ),
                       title: Text(
                         widget.ingredient.name.capitalize!,
@@ -174,11 +170,11 @@ class IngredientCardState extends State<IngredientCard> {
                                 ? Theme.of(context)
                                     .buttonTheme
                                     .colorScheme!
-                                    .onPrimary
+                                    .onSecondary
                                 : Theme.of(context)
                                     .buttonTheme
                                     .colorScheme!
-                                    .onSecondary),
+                                    .onPrimary),
                       ),
                     ),
                   ),
@@ -196,11 +192,11 @@ class IngredientCardState extends State<IngredientCard> {
                                   ? Theme.of(context)
                                       .buttonTheme
                                       .colorScheme!
-                                      .onPrimary
+                                      .onSecondary
                                   : Theme.of(context)
                                       .buttonTheme
                                       .colorScheme!
-                                      .onSecondary),
+                                      .onPrimary),
                         ),
                         title: Text(
                           widget.ingredient.category!.capitalize!,
@@ -212,11 +208,11 @@ class IngredientCardState extends State<IngredientCard> {
                                   ? Theme.of(context)
                                       .buttonTheme
                                       .colorScheme!
-                                      .onPrimary
+                                      .onSecondary
                                   : Theme.of(context)
                                       .buttonTheme
                                       .colorScheme!
-                                      .onSecondary),
+                                      .onPrimary),
                         ),
                       ),
                     ),
@@ -236,11 +232,11 @@ class IngredientCardState extends State<IngredientCard> {
                                   ? Theme.of(context)
                                       .buttonTheme
                                       .colorScheme!
-                                      .onPrimary
+                                      .onSecondary
                                   : Theme.of(context)
                                       .buttonTheme
                                       .colorScheme!
-                                      .onSecondary),
+                                      .onPrimary),
                         ),
                         title: Text(
                           widget.ingredient
@@ -255,11 +251,11 @@ class IngredientCardState extends State<IngredientCard> {
                                   ? Theme.of(context)
                                       .buttonTheme
                                       .colorScheme!
-                                      .onPrimary
+                                      .onSecondary
                                   : Theme.of(context)
                                       .buttonTheme
                                       .colorScheme!
-                                      .onSecondary),
+                                      .onPrimary),
                         ),
                       ),
                     ),
@@ -276,11 +272,11 @@ class IngredientCardState extends State<IngredientCard> {
                                   ? Theme.of(context)
                                       .buttonTheme
                                       .colorScheme!
-                                      .onPrimary
+                                      .onSecondary
                                   : Theme.of(context)
                                       .buttonTheme
                                       .colorScheme!
-                                      .onSecondary),
+                                      .onPrimary),
                         ),
                         title: Text(
                           widget.ingredient.method!.capitalize!,
@@ -291,11 +287,11 @@ class IngredientCardState extends State<IngredientCard> {
                                   ? Theme.of(context)
                                       .buttonTheme
                                       .colorScheme!
-                                      .onPrimary
+                                      .onSecondary
                                   : Theme.of(context)
                                       .buttonTheme
                                       .colorScheme!
-                                      .onSecondary),
+                                      .onPrimary),
                         ),
                       ),
                     )

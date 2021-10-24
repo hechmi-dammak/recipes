@@ -18,7 +18,6 @@ void showDialogInput(
               color: Theme.of(Get.context!).colorScheme.primaryVariant,
               width: 3),
           borderRadius: const BorderRadius.all(Radius.circular(32.0))),
-      backgroundColor: Theme.of(Get.context!).colorScheme.secondary,
       title: Container(
         decoration: BoxDecoration(
             color: Theme.of(Get.context!).colorScheme.primaryVariant,

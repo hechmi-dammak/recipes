@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinbox/flutter_spinbox.dart';
+import 'package:recipes/utils/components/spin_box.dart';
 import 'package:recipes/utils/decorations/input_decoration.dart';
 
 class ServingSpinBox extends StatelessWidget {
@@ -13,10 +13,11 @@ class ServingSpinBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return SpinBox(
       incrementIcon: Icon(Icons.keyboard_arrow_right_rounded,
-          size: 50, color: Theme.of(context).colorScheme.onSecondary),
+          size: 40, color: Theme.of(context).colorScheme.onSecondary),
       decrementIcon: Icon(Icons.keyboard_arrow_left_rounded,
-          size: 50, color: Theme.of(context).colorScheme.onSecondary),
-      decoration: getInputDecoration("Servings"),
+          size: 40, color: Theme.of(context).colorScheme.onSecondary),
+      decoration: getInputDecoration("Servings",
+          contentPadding: const EdgeInsets.only(left: 20, top: 15, bottom: 15)),
       textStyle: TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 20,

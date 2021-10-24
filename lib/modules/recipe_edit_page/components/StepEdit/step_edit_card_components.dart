@@ -66,10 +66,14 @@ class DragButton extends StatelessWidget {
           height: double.infinity,
           width: double.infinity,
           child: ReorderableListener(
-              child: Icon(
-            Icons.reorder,
-            color: Theme.of(context).colorScheme.onPrimary,
-          )),
+            child: Transform.scale(
+              scale: 0.75,
+              child: ImageIcon(
+                  const AssetImage('assets/images/up_down_arrow.png'),
+                  size: 10,
+                  color: Theme.of(context).colorScheme.onPrimary),
+            ),
+          ),
         ),
       ),
     );

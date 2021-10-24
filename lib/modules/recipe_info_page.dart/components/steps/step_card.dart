@@ -27,44 +27,51 @@ class StepCardState extends State<StepCard> {
           margin: const EdgeInsets.only(top: 30, bottom: 20),
           child: Material(
             color: Colors.transparent,
-            child: Ink(
-              decoration: gradientDecoationSecondery(context,
-                  selected: recipeInfoController
-                          .recipe.value.steps![widget.index].selected ??
-                      false),
-              child: InkWell(
-                onLongPress: () => _onLongPress(context),
-                onTap: () {
-                  setState(() {
-                    recipeInfoController.recipe.value.steps![widget.index]
-                        .selected = !(recipeInfoController
+            child: Container(
+              margin: const EdgeInsets.all(2),
+              padding: const EdgeInsets.all(5),
+              child: Ink(
+                decoration: gradientDecoationSecondery(context,
+                    selected: recipeInfoController
                             .recipe.value.steps![widget.index].selected ??
-                        true);
-                  });
-                },
-                child: Container(
-                  width: double.infinity,
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 35, horizontal: 20),
-                  child: Text(
-                    recipeInfoController
-                        .recipe.value.steps![widget.index].toDo!.capitalize!,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        overflow: TextOverflow.ellipsis,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: recipeInfoController.recipe.value
-                                    .steps![widget.index].selected ??
-                                false
-                            ? Theme.of(context)
-                                .buttonTheme
-                                .colorScheme!
-                                .onPrimary
-                            : Theme.of(context)
-                                .buttonTheme
-                                .colorScheme!
-                                .onSecondary),
+                        false),
+                child: InkWell(
+                  onLongPress: () => _onLongPress(context),
+                  onTap: () {
+                    setState(() {
+                      recipeInfoController.recipe.value.steps![widget.index]
+                          .selected = !(recipeInfoController
+                              .recipe.value.steps![widget.index].selected ??
+                          true);
+                    });
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    margin: const EdgeInsets.all(5.0),
+                    child: Ink(
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).backgroundColor,
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(10))),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 30, horizontal: 20),
+                        child: Text(
+                          recipeInfoController.recipe.value.steps![widget.index]
+                              .toDo!.capitalize!,
+                          textAlign: TextAlign.center,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              overflow: TextOverflow.ellipsis,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context)
+                                  .buttonTheme
+                                  .colorScheme!
+                                  .onSecondary),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -122,11 +129,11 @@ class StepCardState extends State<StepCard> {
                                 ? Theme.of(context)
                                     .buttonTheme
                                     .colorScheme!
-                                    .onPrimary
+                                    .onSecondary
                                 : Theme.of(context)
                                     .buttonTheme
                                     .colorScheme!
-                                    .onSecondary),
+                                    .onPrimary),
                       ),
                       title: Text(
                         recipeInfoController.recipe.value.steps![widget.index]
@@ -141,11 +148,11 @@ class StepCardState extends State<StepCard> {
                                 ? Theme.of(context)
                                     .buttonTheme
                                     .colorScheme!
-                                    .onPrimary
+                                    .onSecondary
                                 : Theme.of(context)
                                     .buttonTheme
                                     .colorScheme!
-                                    .onSecondary),
+                                    .onPrimary),
                       ),
                     ),
                   ),
@@ -167,11 +174,11 @@ class StepCardState extends State<StepCard> {
                                   ? Theme.of(context)
                                       .buttonTheme
                                       .colorScheme!
-                                      .onPrimary
+                                      .onSecondary
                                   : Theme.of(context)
                                       .buttonTheme
                                       .colorScheme!
-                                      .onSecondary),
+                                      .onPrimary),
                         ),
                         title: Text(
                           (widget.index + 1).toString(),
@@ -185,11 +192,11 @@ class StepCardState extends State<StepCard> {
                                   ? Theme.of(context)
                                       .buttonTheme
                                       .colorScheme!
-                                      .onPrimary
+                                      .onSecondary
                                   : Theme.of(context)
                                       .buttonTheme
                                       .colorScheme!
-                                      .onSecondary),
+                                      .onPrimary),
                         ),
                       ),
                     ),

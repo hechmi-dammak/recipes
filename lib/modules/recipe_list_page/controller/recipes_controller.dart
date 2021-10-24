@@ -16,7 +16,6 @@ class RecipesController extends GetxController {
   var selectionIsActive = false.obs;
   var allItemsSelected = false.obs;
   var loading = false.obs;
-
   var searchValue = ''.obs;
   static RecipesController get find => Get.find<RecipesController>();
   RecipeOperations recipeOperations = RecipeOperations.instance;
@@ -168,7 +167,7 @@ class RecipesController extends GetxController {
       });
 
       await recipeOperations.createAll(recipes);
-      loadRecipes();
+      await loadRecipes();
       showInSnackBar("Recipes are imported.", status: true);
     } catch (e) {
       showInSnackBar("Failed to  import from file" + e.toString());
@@ -190,7 +189,7 @@ class RecipesController extends GetxController {
       });
 
       await recipeOperations.createAll(recipes);
-      loadRecipes();
+      await loadRecipes();
       showInSnackBar("Recipes are imported.", status: true);
     } catch (e) {
       showInSnackBar("Failed to  import from file" + e.toString());

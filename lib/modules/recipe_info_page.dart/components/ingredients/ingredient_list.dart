@@ -45,8 +45,6 @@ class IngredientsList extends StatelessWidget {
                     ? 1
                     : min(2, (MediaQuery.of(context).size.width / 350).ceil()),
                 mainAxisExtent: 250,
-                crossAxisSpacing: 5.0,
-                mainAxisSpacing: 5.0,
               ),
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {

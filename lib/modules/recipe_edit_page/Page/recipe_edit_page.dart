@@ -6,6 +6,7 @@ import 'package:recipes/modules/recipe_edit_page/components/image_edit/image_edi
 import 'package:recipes/modules/recipe_edit_page/components/ingredient_edit/ingredient_edit_list.dart';
 import 'package:recipes/modules/recipe_edit_page/components/recipe_category_drop_down.dart';
 import 'package:recipes/modules/recipe_edit_page/controller/recipe_edit_controller.dart';
+import 'package:recipes/modules/recipe_info_page.dart/controller/recipe_info_controller.dart';
 import 'package:recipes/utils/components/app_bar.dart';
 import 'package:recipes/utils/components/app_bar_bottom.dart';
 import 'package:recipes/utils/components/ensure_visible.dart';
@@ -62,6 +63,11 @@ class _RecipeEditPageState extends State<RecipeEditPage> {
                             if (recipeEditController.isDialOpen.value) {
                               recipeEditController.setDialOpen(false);
                             } else {
+                              if (recipeEditController.recipe.value.id !=
+                                  null) {
+                                RecipeInfoController.find.initRecipe(
+                                    recipeEditController.recipe.value.id);
+                              }
                               Get.back();
                             }
                           },
@@ -80,20 +86,23 @@ class _RecipeEditPageState extends State<RecipeEditPage> {
                           final valid = await validateRecipe();
                           if (valid) {
                             await recipeEditController.saveRecipe();
-                            setState(() {
-                              recipeEditController.setLoading(false);
-                            });
+
                             recipeEditController.setDialOpen(false);
                             if (Get.isSnackbarOpen ?? false) {
                               Get.back();
                             }
-                            Get.back();
+                            if (recipeEditController.recipe.value.id != null) {
+                              RecipeInfoController.find.initRecipe(
+                                  recipeEditController.recipe.value.id);
+                            }
+
+                            Get.back(result: true);
                           } else {
                             showInSnackBar("Failed to save recipe");
+                            setState(() {
+                              recipeEditController.setLoading(false);
+                            });
                           }
-                          setState(() {
-                            recipeEditController.setLoading(false);
-                          });
                         },
                         icon: Icon(
                           Icons.save,
