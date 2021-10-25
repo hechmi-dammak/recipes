@@ -129,9 +129,7 @@ class _RecipeCardState extends State<RecipeCard> {
                             ),
                     ),
                     if (recipesController.selectionIsActive.value)
-                      SelectIndicator(
-                          recipesController: recipesController,
-                          index: widget.index)
+                      SelectIndicator(index: widget.index)
                   ],
                 ),
               ),
@@ -144,13 +142,13 @@ class _RecipeCardState extends State<RecipeCard> {
 }
 
 class SelectIndicator extends StatelessWidget {
-  const SelectIndicator({
+  SelectIndicator({
     Key? key,
-    required this.recipesController,
     required this.index,
   }) : super(key: key);
 
-  final RecipesController recipesController;
+  final RecipesController recipesController = RecipesController.find;
+
   final int index;
 
   @override

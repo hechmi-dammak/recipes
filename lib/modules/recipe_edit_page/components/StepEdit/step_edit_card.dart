@@ -37,30 +37,44 @@ class StepEditCardState extends State<StepEditCard> {
                   margin: const EdgeInsets.only(top: 25),
                   child: Material(
                     color: Colors.transparent,
-                    child: Ink(
-                      decoration: gradientDecoationSecondery(context,
-                          selected: recipeEditController
-                              .recipe.value.steps![widget.index].selected),
-                      child: InkWell(
-                        onTap: () {
-                          if (recipeEditController.selectionIsActive.value) {
+                    child: Container(
+                      margin: const EdgeInsets.all(2),
+                      padding: const EdgeInsets.all(5),
+                      child: Ink(
+                        decoration: gradientDecoationSecondery(context,
+                            selected: recipeEditController
+                                .recipe.value.steps![widget.index].selected),
+                        child: InkWell(
+                          onTap: () {
+                            if (recipeEditController.selectionIsActive.value) {
+                              recipeEditController.setItemSelected(
+                                  recipeEditController
+                                      .recipe.value.steps![widget.index]);
+                            }
+                          },
+                          onLongPress: () {
                             recipeEditController.setItemSelected(
                                 recipeEditController
                                     .recipe.value.steps![widget.index]);
-                          }
-                        },
-                        onLongPress: () {
-                          recipeEditController.setItemSelected(
-                              recipeEditController
-                                  .recipe.value.steps![widget.index]);
-                        },
-                        child: Container(
-                          width: double.infinity,
-                          constraints: const BoxConstraints(minHeight: 100),
-                          padding: const EdgeInsets.only(
-                              top: 40, left: 10, right: 10, bottom: 10),
-                          child: InsideStepCard(
-                              key: _stepCardKey, index: widget.index),
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.all(5.0),
+                            child: Ink(
+                              decoration: BoxDecoration(
+                                  color: Theme.of(context).backgroundColor,
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(10))),
+                              child: Container(
+                                width: double.infinity,
+                                constraints:
+                                    const BoxConstraints(minHeight: 100),
+                                padding: const EdgeInsets.only(
+                                    top: 40, left: 10, right: 10, bottom: 10),
+                                child: InsideStepCard(
+                                    key: _stepCardKey, index: widget.index),
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     ),
@@ -68,6 +82,10 @@ class StepEditCardState extends State<StepEditCard> {
                 ),
                 EditButton(index: widget.index),
                 const DragButton(),
+                if (recipeEditController.selectionIsActive.value)
+                  SelectIndicator(
+                    index: widget.index,
+                  )
               ],
             ),
           ),
@@ -82,8 +100,41 @@ class StepEditCardState extends State<StepEditCard> {
         childBuilder: _buildChild);
   }
 
-  Future<bool> validate() async {
-    return (_stepCardKey.currentState != null &&
-        await _stepCardKey.currentState!.validate());
+  Future validate() async {
+    if (_stepCardKey.currentState == null) {
+      recipeEditController.validation = false;
+    } else {
+      await _stepCardKey.currentState!.validate();
+    }
+  }
+}
+
+class SelectIndicator extends StatelessWidget {
+  SelectIndicator({
+    Key? key,
+    required this.index,
+  }) : super(key: key);
+  final RecipeEditController recipeEditController = RecipeEditController.find;
+
+  final int index;
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+        top: 50,
+        right: 10,
+        child:
+            (recipeEditController.recipe.value.steps![index].selected ?? false)
+                ? Container(
+                    margin: const EdgeInsets.all(15),
+                    child: Icon(Icons.check_circle_outline_outlined,
+                        size: 30,
+                        color: Theme.of(context).colorScheme.secondary),
+                  )
+                : Container(
+                    margin: const EdgeInsets.all(15),
+                    child: Icon(Icons.radio_button_unchecked_rounded,
+                        size: 30, color: Theme.of(context).colorScheme.primary),
+                  ));
   }
 }

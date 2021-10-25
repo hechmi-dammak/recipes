@@ -12,6 +12,7 @@ import 'package:recipes/utils/components/app_bar_bottom.dart';
 import 'package:recipes/utils/components/ensure_visible.dart';
 import 'package:recipes/utils/components/loading_widget.dart';
 import 'package:recipes/utils/components/serving_spin_box.dart';
+import 'package:recipes/utils/components/show_dialog.dart';
 import 'package:recipes/utils/components/show_snack_bar.dart';
 import 'package:recipes/utils/decorations/input_decoration.dart';
 
@@ -51,8 +52,10 @@ class _RecipeEditPageState extends State<RecipeEditPage> {
         child: GetBuilder<RecipeEditController>(
           builder: (_) {
             return Scaffold(
-              floatingActionButton: const RecipeCreateFloatingButton(),
-              backgroundColor: Theme.of(context).backgroundColor,
+              bottomNavigationBar: BottomBar(),
+              floatingActionButton: recipeEditController.selectionIsActive.value
+                  ? null
+                  : const RecipeCreateFloatingButton(),
               appBar: customAppBar(context,
                   title: widget.recipeId != null
                       ? "Edit ${recipeEditController.recipe.value.name.capitalize!}"
@@ -78,13 +81,59 @@ class _RecipeEditPageState extends State<RecipeEditPage> {
                           ))
                       : null,
                   actions: [
-                    IconButton(
+                    if (recipeEditController.selectionIsActive.value) ...[
+                      if (recipeEditController.allItemsSelected.value)
+                        TextButton(
+                            onPressed: () =>
+                                recipeEditController.setSelectAllValue(false),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.check_circle_outline_outlined,
+                                    size: 30,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onPrimary),
+                                Text(
+                                  "All",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onPrimary),
+                                )
+                              ],
+                            ))
+                      else
+                        TextButton(
+                          onPressed: () =>
+                              recipeEditController.setSelectAllValue(true),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.radio_button_unchecked_rounded,
+                                  size: 30,
+                                  color:
+                                      Theme.of(context).colorScheme.onPrimary),
+                              Text(
+                                "All",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onPrimary),
+                              )
+                            ],
+                          ),
+                        ),
+                    ] else
+                      TextButton(
                         onPressed: () async {
                           setState(() {
                             recipeEditController.setLoading(true);
                           });
-                          final valid = await validateRecipe();
-                          if (valid) {
+                          await validateRecipe();
+                          if (recipeEditController.validation) {
                             await recipeEditController.saveRecipe();
 
                             recipeEditController.setDialOpen(false);
@@ -104,16 +153,28 @@ class _RecipeEditPageState extends State<RecipeEditPage> {
                             });
                           }
                         },
-                        icon: Icon(
-                          Icons.save,
-                          color: Theme.of(context).colorScheme.onPrimary,
-                          size: 30,
-                        ))
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.save,
+                                size: 30,
+                                color: Theme.of(context).colorScheme.onPrimary),
+                            Text(
+                              "Save",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color:
+                                      Theme.of(context).colorScheme.onPrimary),
+                            )
+                          ],
+                        ),
+                      )
                   ]),
               body: AppbarBottom(
                 child: LoadingWidget(
                   loading: recipeEditController.loading.value,
                   child: SingleChildScrollView(
+                    controller: recipeEditController.mainScrollController,
                     child: Container(
                       margin: const EdgeInsets.symmetric(horizontal: 20),
                       child: Column(
@@ -196,17 +257,85 @@ class _RecipeEditPageState extends State<RecipeEditPage> {
     );
   }
 
-  Future<bool> validateRecipe() async {
-    var valid = true;
+  Future validateRecipe() async {
+    recipeEditController.validation = true;
     if (_recipeFormKey.currentState == null ||
-        !_recipeFormKey.currentState!.validate()) valid = false;
+        !_recipeFormKey.currentState!.validate()) {
+      recipeEditController.validation = false;
+      recipeEditController.mainScrollController.animateTo(
+        recipeEditController.mainScrollController.position.minScrollExtent,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.bounceInOut,
+      );
+    }
 
-    if (ingredientsListKey.currentState == null ||
-        !(await ingredientsListKey.currentState!.validate())) valid = false;
+    if (ingredientsListKey.currentState == null) {
+      recipeEditController.validation = false;
+    } else {
+      await ingredientsListKey.currentState!.validate();
+    }
+    if (stepsListKey.currentState == null) {
+      recipeEditController.validation = false;
+    } else {
+      await stepsListKey.currentState!.validate();
+    }
+  }
+}
 
-    if (stepsListKey.currentState == null ||
-        !(await stepsListKey.currentState!.validate())) valid = false;
+class BottomBar extends StatelessWidget {
+  BottomBar({
+    Key? key,
+  }) : super(key: key);
+  final RecipeEditController recipeEditController = RecipeEditController.find;
 
-    return valid;
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 300),
+      child: SingleChildScrollView(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            TextButton(
+                onPressed: () {
+                  showConfirmationDialog(
+                      title: "These items will be deleted.",
+                      confirm: recipeEditController.deleteSelectedItems);
+                },
+                child: Column(
+                  children: [
+                    Icon(Icons.delete_forever_rounded,
+                        size: 30,
+                        color: Theme.of(context).colorScheme.onPrimary),
+                    Text(
+                      "Delete",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).colorScheme.onPrimary),
+                    )
+                  ],
+                )),
+          ],
+        ),
+      ),
+      height: recipeEditController.selectionIsActive.value ? 75 : 0,
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+        gradient: LinearGradient(
+          begin: Alignment.centerRight,
+          end: Alignment.centerLeft,
+          stops: const [
+            0.1,
+            0.6,
+          ],
+          colors: [
+            Theme.of(context).primaryColorDark,
+            Theme.of(context).colorScheme.primary,
+          ],
+        ),
+      ),
+    );
   }
 }

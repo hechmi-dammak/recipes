@@ -18,6 +18,7 @@ class RecipeEditController extends GetxController {
   final PictureOperations pictureOperations = PictureOperations.instance;
   final ImageOperations imageOperations = ImageOperations.instance;
   final int defaultServingValue = 4;
+  final ScrollController mainScrollController = ScrollController();
   var recipe = Rx<Recipe>(Recipe());
   var servings = Rx<int>(4);
   var loading = false.obs;
@@ -28,6 +29,7 @@ class RecipeEditController extends GetxController {
   var isDialOpen = ValueNotifier<bool>(false);
   var selectionIsActive = false.obs;
   var allItemsSelected = false.obs;
+  var validation = true;
 
   static RecipeEditController get find => Get.find<RecipeEditController>();
   RecipeOperations recipeOperations = RecipeOperations.instance;
@@ -76,7 +78,8 @@ class RecipeEditController extends GetxController {
 //-----------Selection---------------
 
   setItemSelected(item) {
-    item.selected = !(item.selected ?? true);
+    item.selected = !(item.selected ?? false);
+
     updateSelectionIsActive();
     updateAllItemsSelected();
     update();
@@ -101,7 +104,29 @@ class RecipeEditController extends GetxController {
   }
 
   void updateSelectionIsActive([bool? selectionIsActive]) {
-    this.selectionIsActive.value = selectionIsActive ?? _selectionIsActive();
+    bool newValue = selectionIsActive ?? _selectionIsActive();
+    if (newValue != this.selectionIsActive.value) {
+      double height = 0;
+      double oldHeight = mainScrollController.position.maxScrollExtent;
+      double newHeight = mainScrollController.position.maxScrollExtent;
+
+      if (recipe.value.ingredients != null) {
+        height += recipe.value.ingredients!.length * 25;
+      }
+
+      if (recipe.value.steps != null) {
+        height += recipe.value.steps!.length * 25;
+      }
+      if (newValue) {
+        newHeight += height;
+      } else {
+        newHeight -= height;
+      }
+      mainScrollController.jumpTo(
+          (newHeight * mainScrollController.position.pixels) / oldHeight);
+    }
+
+    this.selectionIsActive.value = newValue;
     update();
   }
 

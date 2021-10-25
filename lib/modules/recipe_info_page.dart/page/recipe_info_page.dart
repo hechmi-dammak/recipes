@@ -33,7 +33,6 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
       builder: (_) {
         return SafeArea(
           child: Scaffold(
-            backgroundColor: Theme.of(context).backgroundColor,
             appBar: customAppBar(context,
                 title: recipeInfoController.recipe.value.name.capitalize!,
                 actions: [

@@ -32,7 +32,7 @@ class IngredientEditListState extends State<IngredientEditList> {
               recipeEditController.recipe.value.ingredients!.isNotEmpty)
             Container(
               height: 40,
-              margin: const EdgeInsets.only(bottom: 10),
+              margin: const EdgeInsets.only(top: 25),
               child: Text(
                 "Ingredients",
                 overflow: TextOverflow.ellipsis,
@@ -49,13 +49,13 @@ class IngredientEditListState extends State<IngredientEditList> {
     });
   }
 
-  Future<bool> validate() async {
-    var valid = true;
+  Future validate() async {
     for (var key in ingredientListKeys) {
-      if (key.currentState == null || !(await key.currentState!.validate())) {
-        valid = false;
+      if (key.currentState == null) {
+        recipeEditController.validation = false;
+      } else {
+        await key.currentState!.validate();
       }
     }
-    return valid;
   }
 }

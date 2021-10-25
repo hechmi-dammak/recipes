@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:recipes/modules/recipe_edit_page/controller/recipe_edit_controller.dart';
 import 'package:recipes/utils/components/ensure_visible.dart';
 import 'package:recipes/utils/decorations/gradient_decoration.dart';
-import 'package:recipes/utils/decorations/input_decoration_inside_card.dart';
+import 'package:recipes/utils/decorations/input_decoration.dart';
 
 class EditButton extends StatelessWidget {
   EditButton({Key? key, required this.index}) : super(key: key);
@@ -29,6 +29,7 @@ class EditButton extends StatelessWidget {
                       value: !(recipeEditController
                               .recipe.value.steps![index].inEditing ??
                           false));
+                  Scrollable.ensureVisible(context);
                 },
                 child: SizedBox(
                     height: double.infinity,
@@ -101,9 +102,10 @@ class InsideStepCardState extends State<InsideStepCard> {
 
   @override
   Widget build(BuildContext context) {
+    Widget? child;
     if (recipeEditController.recipe.value.steps![widget.index].inEditing ??
         false) {
-      return EnsureVisibleWhenFocused(
+      child = EnsureVisibleWhenFocused(
         focusNode: _toDoNode,
         child: TextFormField(
           style: TextStyle(
@@ -129,14 +131,13 @@ class InsideStepCardState extends State<InsideStepCard> {
               if (validation != null) validation = null;
             });
           },
-          decoration: getInputDecorationInsideCard("To Do",
-              focusNode: _toDoNode,
-              value:
-                  recipeEditController.recipe.value.steps![widget.index].toDo),
+          decoration: getInputDecoration(
+            "To Do",
+          ),
         ),
       );
     } else {
-      return Text(
+      child = Text(
         (recipeEditController.recipe.value.steps![widget.index].toDo ?? "")
             .capitalize!,
         overflow: TextOverflow.ellipsis,
@@ -144,13 +145,14 @@ class InsideStepCardState extends State<InsideStepCard> {
         style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
-            color: recipeEditController
-                        .recipe.value.steps![widget.index].selected ??
-                    false
-                ? Theme.of(context).buttonTheme.colorScheme!.onPrimary
-                : Theme.of(context).buttonTheme.colorScheme!.onSecondary),
+            color: Theme.of(context).buttonTheme.colorScheme!.onBackground),
       );
     }
+    return Container(
+        margin: recipeEditController.selectionIsActive.value
+            ? const EdgeInsets.only(top: 25)
+            : null,
+        child: child);
   }
 
   void _requestFocus(FocusNode focusNode) {
@@ -159,7 +161,7 @@ class InsideStepCardState extends State<InsideStepCard> {
     });
   }
 
-  Future<bool> validate() async {
+  Future validate() async {
     if (recipeEditController.recipe.value.steps![widget.index].toDo == null ||
         recipeEditController.recipe.value.steps![widget.index].toDo!.isEmpty) {
       recipeEditController.setInEditingWithNoPropagation(
@@ -169,11 +171,16 @@ class InsideStepCardState extends State<InsideStepCard> {
         validation = AutovalidateMode.always;
       });
 
-      return false;
+      if (recipeEditController.validation &&
+          _stepFormKey.currentContext != null) {
+        Scrollable.ensureVisible(_stepFormKey.currentContext!);
+      }
+      recipeEditController.validation = false;
+      return;
     }
     recipeEditController.setInEditingWithNoPropagation(
         recipeEditController.recipe.value.steps![widget.index],
         value: false);
-    return true;
+    return;
   }
 }

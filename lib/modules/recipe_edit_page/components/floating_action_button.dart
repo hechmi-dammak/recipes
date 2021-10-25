@@ -51,34 +51,6 @@ class _RecipeCreateFloatingButtonState
               label: 'Create new step',
               onTap: () => recipeEditController.addNewStep(),
             ),
-            SpeedDialChild(
-              child: Icon(Icons.check_circle_rounded, size: iconSize),
-              backgroundColor: Theme.of(context).colorScheme.primaryVariant,
-              foregroundColor: Theme.of(context).colorScheme.onPrimary,
-              label: 'Check all',
-              visible: (recipeEditController.recipe.value.steps != null &&
-                      recipeEditController.recipe.value.steps!.isNotEmpty) ||
-                  (recipeEditController.recipe.value.ingredients != null &&
-                      recipeEditController
-                          .recipe.value.ingredients!.isNotEmpty),
-              onTap: () => recipeEditController.setSelectAllValue(true),
-            ),
-            SpeedDialChild(
-              child: Icon(Icons.radio_button_unchecked_rounded, size: iconSize),
-              backgroundColor: Theme.of(context).colorScheme.secondaryVariant,
-              foregroundColor: Theme.of(context).colorScheme.onSecondary,
-              label: 'Uncheck all',
-              visible: recipeEditController.selectionIsActive.value,
-              onTap: () => recipeEditController.setSelectAllValue(false),
-            ),
-            SpeedDialChild(
-              child: Icon(Icons.delete_forever_rounded, size: iconSize),
-              backgroundColor: Theme.of(context).colorScheme.secondaryVariant,
-              foregroundColor: Theme.of(context).colorScheme.onSecondary,
-              label: 'Delete selected',
-              visible: recipeEditController.selectionIsActive.value,
-              onTap: () => recipeEditController.deleteSelectedItems(),
-            ),
           ],
         ));
   }

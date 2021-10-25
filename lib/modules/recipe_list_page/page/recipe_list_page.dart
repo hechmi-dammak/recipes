@@ -50,7 +50,7 @@ class _RecipeListPageState extends State<RecipeListPage> {
         },
         child: SafeArea(
           child: Scaffold(
-            backgroundColor: Theme.of(context).backgroundColor,
+            bottomNavigationBar: BottomBar(),
             appBar: appBar(context),
             floatingActionButton: recipesController.selectionIsActive.value
                 ? null
@@ -100,8 +100,6 @@ class _RecipeListPageState extends State<RecipeListPage> {
                         : const EmptyRecipeList(),
                   )),
             ),
-            bottomNavigationBar:
-                BottomBar(recipesController: recipesController),
           ),
         ),
       );
@@ -128,6 +126,7 @@ class _RecipeListPageState extends State<RecipeListPage> {
             TextButton(
                 onPressed: () => recipesController.setSelectAllValue(false),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(Icons.check_circle_outline_outlined,
                         size: 30,
@@ -142,20 +141,21 @@ class _RecipeListPageState extends State<RecipeListPage> {
                 ))
           else
             TextButton(
-                onPressed: () => recipesController.setSelectAllValue(true),
-                child: Column(
-                  children: [
-                    Icon(Icons.radio_button_unchecked_rounded,
-                        size: 30,
+              onPressed: () => recipesController.setSelectAllValue(true),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.radio_button_unchecked_rounded,
+                      size: 30, color: Theme.of(context).colorScheme.onPrimary),
+                  Text(
+                    "All",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
                         color: Theme.of(context).colorScheme.onPrimary),
-                    Text(
-                      "All",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).colorScheme.onPrimary),
-                    )
-                  ],
-                )),
+                  )
+                ],
+              ),
+            ),
         ]
       ],
       leading: PopupMenuButton<int>(
@@ -227,13 +227,11 @@ class _RecipeListPageState extends State<RecipeListPage> {
 }
 
 class BottomBar extends StatelessWidget {
-  const BottomBar({
+  BottomBar({
     Key? key,
-    required this.recipesController,
   }) : super(key: key);
 
-  final RecipesController recipesController;
-
+  final RecipesController recipesController = RecipesController.find;
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(

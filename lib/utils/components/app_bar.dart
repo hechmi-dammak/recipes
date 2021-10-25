@@ -63,6 +63,7 @@ PreferredSize customAppBar(BuildContext context,
                             Align(
                               alignment: Alignment.centerRight,
                               child: Row(
+                                  // crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisSize: MainAxisSize.min,
                                   children: actions),
                             ),
@@ -83,34 +84,3 @@ PreferredSize customAppBar(BuildContext context,
         ],
       ));
 }
-//  NewGradientAppBar(
-//       title: titleWidget != null
-//           ? Column(
-//               children: [
-//                 Text(
-//                   title ?? "",
-//                   overflow: TextOverflow.ellipsis,
-//                   style: TextStyle(
-//                       color: Theme.of(context).colorScheme.onPrimary,
-//                       fontSize: 25),
-//                 ),
-//               ],
-//             )
-//           : Column(
-//               mainAxisAlignment: MainAxisAlignment.end,
-//               children: [
-//                 Container(child: titleWidget ?? null),
-//                 Text(
-//                   title ?? "",
-//                   overflow: TextOverflow.ellipsis,
-//                   style: TextStyle(
-//                       color: Theme.of(context).colorScheme.onPrimary,
-//                       fontSize: 25),
-//                 ),
-//               ],
-//             ),
-//       leading: leading,
-//     
-//       actions: actions,
-//       centerTitle: true,
-//     ),

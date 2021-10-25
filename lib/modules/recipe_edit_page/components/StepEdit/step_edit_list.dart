@@ -64,13 +64,13 @@ class StepEditListState extends State<StepEditList> {
     );
   }
 
-  Future<bool> validate() async {
-    var valid = true;
+  Future validate() async {
     for (var key in stepListKeys) {
-      if (key.currentState == null || !(await key.currentState!.validate())) {
-        valid = false;
+      if (key.currentState == null) {
+        recipeEditController.validation = false;
+      } else {
+        await key.currentState!.validate();
       }
     }
-    return valid;
   }
 }
