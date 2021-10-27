@@ -33,7 +33,7 @@ class ImageOperations {
   Future<File?> _cropImage(path) async {
     File? croppedFile = await ImageCropper.cropImage(
         sourcePath: path,
-        aspectRatio: const CropAspectRatio(ratioX: 16, ratioY: 9),
+        aspectRatio: const CropAspectRatio(ratioX: 10, ratioY: 7),
         androidUiSettings: AndroidUiSettings(
           toolbarTitle: 'Crop this image',
           toolbarColor: Theme.of(Get.context!).colorScheme.primary,

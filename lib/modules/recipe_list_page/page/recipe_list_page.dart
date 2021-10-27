@@ -44,14 +44,12 @@ class _RecipeListPageState extends State<RecipeListPage> {
   void initDeepLinks() async {
     _appLinks = AppLinks(
       onAppLink: (Uri uri, String stringUri) {
-        print('onAppLink: $stringUri');
         openAppLink(uri);
       },
     );
 
     final appLink = await _appLinks.getInitialAppLink();
     if (appLink != null && appLink.hasFragment && appLink.fragment != '/') {
-      print('getInitialAppLink: ${appLink.toString()}');
       openAppLink(appLink);
     }
   }

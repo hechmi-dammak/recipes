@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:recipes/modules/recipe_edit_page/components/StepEdit/step_edit_list.dart';
 import 'package:recipes/modules/recipe_edit_page/components/floating_action_button.dart';
-import 'package:recipes/modules/recipe_edit_page/components/image_edit/image_edit.dart';
+import 'package:recipes/modules/recipe_edit_page/components/image_edit.dart';
 import 'package:recipes/modules/recipe_edit_page/components/ingredient_edit/ingredient_edit_list.dart';
 import 'package:recipes/modules/recipe_edit_page/components/recipe_category_drop_down.dart';
 import 'package:recipes/modules/recipe_edit_page/controller/recipe_edit_controller.dart';

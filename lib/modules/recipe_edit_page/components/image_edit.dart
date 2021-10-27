@@ -41,7 +41,7 @@ class _ImageEditFieldState extends State<ImageEditField> {
         ),
         margin: const EdgeInsets.only(bottom: 10),
         width: double.infinity,
-        height: (MediaQuery.of(context).size.width - 40) * 0.5625,
+        height: (MediaQuery.of(context).size.width - 40) * 0.7,
         child: Stack(
           children: [
             recipeEditController.recipe.value.picture == null
