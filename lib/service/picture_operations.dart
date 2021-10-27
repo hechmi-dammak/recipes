@@ -9,7 +9,7 @@ class PictureOperations {
   Future<Picture> create(Picture picture) async {
     final db = await dbProvider.database;
 
-    final id = await db.insert(tablePictures, picture.toMap());
+    final id = await db.insert(tablePictures, picture.toMap(true));
     return picture.copy(id: id);
   }
 

@@ -111,8 +111,8 @@ class Recipe {
             : ingredients!.map((v) => v.toJson()).toList(),
         RecipeFields.picture: picture?.toJson(),
       };
-  Map<String, dynamic> toDatabaseJson() => {
-        RecipeFields.id: id,
+  Map<String, dynamic> toDatabaseJson([bool noId = false]) => {
+        RecipeFields.id: noId ? null : id,
         RecipeFields.name: name,
         RecipeFields.category: category,
         RecipeFields.servings: servings ?? 1,

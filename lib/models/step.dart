@@ -42,8 +42,8 @@ class Step {
         StepFields.order: order,
         StepFields.toDo: toDo,
       };
-  Map<String, dynamic> toDatabaseJson(int? recipeId) => {
-        StepFields.id: id,
+  Map<String, dynamic> toDatabaseJson(int? recipeId, [bool noId = false]) => {
+        StepFields.id: noId ? null : id,
         StepFields.order: order,
         StepFields.toDo: toDo,
         StepFields.recipeId: recipeId,

@@ -9,7 +9,7 @@ void showInSnackBar(String value, {bool? status}) {
               ? "Success"
               : value,
       status == null || status == true ? value : "",
-      duration: const Duration(milliseconds: 1500),
+      duration: status == null ? null : const Duration(milliseconds: 1500),
       backgroundColor: Colors.red,
       backgroundGradient: LinearGradient(
         begin: Alignment.topRight,

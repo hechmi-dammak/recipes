@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:recipes/models/picture.dart';
 import 'package:recipes/service/picture_operations.dart';
 import 'package:recipes/utils/components/show_snack_bar.dart';
@@ -14,6 +15,7 @@ class ImageOperations {
   final ImagePicker _picker = ImagePicker();
 
   Future<Picture?> getImage(ImageSource source) async {
+    await requestCameraOrStoragePermssions(source);
     XFile? file =
         await _picker.pickImage(source: source, maxHeight: 480, maxWidth: 640);
     if (file == null) {
@@ -45,5 +47,19 @@ class ImageOperations {
       showInSnackBar("You have to crop the image.");
     }
     return null;
+  }
+
+  requestCameraOrStoragePermssions(ImageSource source) async {
+    if (source == ImageSource.camera) {
+      var status = await Permission.camera.status;
+      if (!status.isGranted) {
+        await Permission.camera.request();
+      }
+    } else {
+      var status = await Permission.storage.status;
+      if (!status.isGranted) {
+        await Permission.storage.request();
+      }
+    }
   }
 }

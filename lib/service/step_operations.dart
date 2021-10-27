@@ -9,7 +9,7 @@ class StepOperations {
   Future<Step> create(Step step, int? recipeId) async {
     final db = await dbProvider.database;
 
-    final id = await db.insert(tableSteps, step.toDatabaseJson(recipeId));
+    final id = await db.insert(tableSteps, step.toDatabaseJson(recipeId, true));
     return step.copy(id: id);
   }
 
@@ -111,7 +111,8 @@ class StepOperations {
     final List<Step> result = [];
     for (var step in steps) {
       step.id = null;
-      final id = await db.insert(tableSteps, step.toDatabaseJson(recipeId));
+      final id =
+          await db.insert(tableSteps, step.toDatabaseJson(recipeId, true));
       result.add(step.copy(id: id));
     }
     return result;
@@ -125,7 +126,7 @@ class StepOperations {
       for (var step in steps) {
         if (step.id == null) {
           final id =
-              await txn.insert(tableSteps, step.toDatabaseJson(recipeId));
+              await txn.insert(tableSteps, step.toDatabaseJson(recipeId, true));
           result.add(step.copy(id: id));
         } else {
           txn.update(

@@ -32,7 +32,7 @@ class RecipeOperations {
         }
       }
     }
-    final id = await db.insert(tableRecipes, recipe.toDatabaseJson());
+    final id = await db.insert(tableRecipes, recipe.toDatabaseJson(true));
     return recipe.copy(
         id: id,
         ingredients:

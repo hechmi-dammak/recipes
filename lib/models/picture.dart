@@ -28,8 +28,8 @@ class Picture {
             : null,
       );
 
-  Map<String, dynamic> toMap() => {
-        PictureFields.id: id,
+  Map<String, dynamic> toMap([bool noId = false]) => {
+        PictureFields.id: noId ? null : id,
         PictureFields.image: image,
       };
 

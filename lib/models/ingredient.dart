@@ -71,8 +71,8 @@ class Ingredient {
         IngredientFields.size: size,
         IngredientFields.method: method,
       };
-  Map<String, dynamic> toDatabaseJson(int? recipeId) => {
-        IngredientFields.id: id,
+  Map<String, dynamic> toDatabaseJson(int? recipeId, [bool noId = false]) => {
+        IngredientFields.id: noId ? null : id,
         IngredientFields.name: name,
         IngredientFields.category: category,
         IngredientFields.quantity: quantity,

@@ -9,8 +9,8 @@ class IngredientOperations {
   Future<Ingredient> create(Ingredient ingredient, int? recipeId) async {
     final db = await dbProvider.database;
 
-    final id =
-        await db.insert(tableIngredients, ingredient.toDatabaseJson(recipeId));
+    final id = await db.insert(
+        tableIngredients, ingredient.toDatabaseJson(recipeId, true));
     return ingredient.copy(id: id);
   }
 
@@ -129,7 +129,7 @@ class IngredientOperations {
     for (var ingredient in ingredients) {
       ingredient.id = null;
       final id = await db.insert(
-          tableIngredients, ingredient.toDatabaseJson(recipeId));
+          tableIngredients, ingredient.toDatabaseJson(recipeId, true));
       result.add(ingredient.copy(id: id));
     }
     return result;
@@ -144,7 +144,7 @@ class IngredientOperations {
       for (var ingredient in ingredients) {
         if (ingredient.id == null) {
           final id = await txn.insert(
-              tableIngredients, ingredient.toDatabaseJson(recipeId));
+              tableIngredients, ingredient.toDatabaseJson(recipeId, true));
           result.add(ingredient.copy(id: id));
         } else {
           txn.update(

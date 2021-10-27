@@ -6,9 +6,13 @@ import 'package:recipes/modules/recipe_list_page/components/recipe_card.dart';
 import 'package:recipes/modules/recipe_list_page/controller/recipes_controller.dart';
 import 'package:recipes/utils/components/app_bar.dart';
 import 'package:recipes/utils/components/app_bar_bottom.dart';
-import 'package:recipes/utils/components/show_dialog.dart';
 import 'package:recipes/utils/components/loading_widget.dart';
+import 'package:recipes/utils/components/show_dialog.dart';
+import 'package:recipes/utils/components/show_snack_bar.dart';
 import 'package:recipes/utils/decorations/input_decoration_inside_card.dart';
+import 'package:content_resolver/content_resolver.dart';
+
+import 'package:app_links/app_links.dart';
 
 class RecipeListPage extends StatefulWidget {
   const RecipeListPage({
@@ -23,8 +27,9 @@ class _RecipeListPageState extends State<RecipeListPage> {
   final RecipesController recipesController = RecipesController.find;
   final _searchController = TextEditingController();
   final recipesScrollController = ScrollController();
-
+  late AppLinks _appLinks;
   bool loading = true;
+
   Future<void> initRecipes() async {
     await recipesController.loadRecipes();
   }
@@ -32,7 +37,36 @@ class _RecipeListPageState extends State<RecipeListPage> {
   @override
   void initState() {
     initRecipes();
+    initDeepLinks();
     super.initState();
+  }
+
+  void initDeepLinks() async {
+    _appLinks = AppLinks(
+      onAppLink: (Uri uri, String stringUri) {
+        print('onAppLink: $stringUri');
+        openAppLink(uri);
+      },
+    );
+
+    final appLink = await _appLinks.getInitialAppLink();
+    if (appLink != null && appLink.hasFragment && appLink.fragment != '/') {
+      print('getInitialAppLink: ${appLink.toString()}');
+      openAppLink(appLink);
+    }
+  }
+
+  void openAppLink(Uri uri) async {
+    try {
+      final uriStr = uri.toString().replaceFirst(
+          'content://com.slack.fileprovider/',
+          'content://com.Slack.fileprovider/');
+      var contentEncoded = await ContentResolver.resolveContent(uriStr);
+      String content = String.fromCharCodes(contentEncoded);
+      await recipesController.saveRecipesFromFile(content);
+    } catch (e) {
+      showInSnackBar("Failed to open to file " + e.toString());
+    }
   }
 
   @override
@@ -232,6 +266,7 @@ class BottomBar extends StatelessWidget {
   }) : super(key: key);
 
   final RecipesController recipesController = RecipesController.find;
+
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
@@ -242,39 +277,54 @@ class BottomBar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             TextButton(
-                onPressed: () {
-                  showConfirmationDialog(
-                      title: "These recipes will be deleted.",
-                      confirm: recipesController.deleteSelectedRecipes);
-                },
-                child: Column(
-                  children: [
-                    Icon(Icons.delete_forever_rounded,
-                        size: 30,
+              onPressed: () {
+                showConfirmationDialog(
+                    title: "These recipes will be deleted.",
+                    confirm: recipesController.deleteSelectedRecipes);
+              },
+              child: Column(
+                children: [
+                  Icon(Icons.delete_forever_rounded,
+                      size: 30, color: Theme.of(context).colorScheme.onPrimary),
+                  Text(
+                    "Delete",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
                         color: Theme.of(context).colorScheme.onPrimary),
-                    Text(
-                      "Delete",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).colorScheme.onPrimary),
-                    )
-                  ],
-                )),
+                  )
+                ],
+              ),
+            ),
             TextButton(
-                onPressed: recipesController.exportToFile,
-                child: Column(
-                  children: [
-                    ImageIcon(const AssetImage('assets/images/export_file.png'),
-                        size: 30,
+              onPressed: recipesController.exportToFile,
+              child: Column(
+                children: [
+                  ImageIcon(const AssetImage('assets/images/export_file.png'),
+                      size: 30, color: Theme.of(context).colorScheme.onPrimary),
+                  Text(
+                    "Export",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
                         color: Theme.of(context).colorScheme.onPrimary),
-                    Text(
-                      "Export",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).colorScheme.onPrimary),
-                    )
-                  ],
-                ))
+                  )
+                ],
+              ),
+            ),
+            TextButton(
+              onPressed: recipesController.shareAsFile,
+              child: Column(
+                children: [
+                  Icon(Icons.share,
+                      size: 30, color: Theme.of(context).colorScheme.onPrimary),
+                  Text(
+                    "Share",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.onPrimary),
+                  )
+                ],
+              ),
+            ),
           ],
         ),
       ),

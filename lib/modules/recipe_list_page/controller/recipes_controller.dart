@@ -5,10 +5,13 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:recipes/models/recipe.dart';
 import 'package:recipes/service/recipe_operations.dart';
 import 'package:recipes/utils/components/show_dialog.dart';
 import 'package:recipes/utils/components/show_snack_bar.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class RecipesController extends GetxController {
   var recipes = <Recipe>[];
@@ -126,30 +129,62 @@ class RecipesController extends GetxController {
               showInSnackBar("File name shouldn't be empty.");
               return;
             }
+            await requestStoragePermssions();
             String? fileDirectory = await FilePicker.platform
                 .getDirectoryPath(dialogTitle: "Select where to save to file");
             if (fileDirectory == null) {
               showInSnackBar("You must choose a directory");
               return;
             }
-            var fileLocation =
-                "$fileDirectory/${_fileNameController.text}.recipe";
+            var fileLocation = "$fileDirectory/${_fileNameController.text}.txt";
             var recipes = getSelectedRecipes();
             File file = File(fileLocation);
-            await file.writeAsString(json.encode(recipes));
+            await file.writeAsString(json.encode(recipes), flush: true);
             Get.back();
             showInSnackBar(
                 "Recipes are exported to file ${_fileNameController.text}.",
                 status: true);
             _fileNameController.clear();
           } catch (e) {
-            showInSnackBar("Failed to  export to file" + e.toString());
+            showInSnackBar("Failed to  export to file " + e.toString());
+          }
+        });
+  }
+
+  shareAsFile() async {
+    showDialogInput(
+        title: 'Pick a name for the file',
+        label: 'File name',
+        controller: _fileNameController,
+        confirm: () async {
+          try {
+            if (_fileNameController.text == "") {
+              showInSnackBar("File name shouldn't be empty.");
+              return;
+            }
+            await requestStoragePermssions();
+            final tempDir = await getTemporaryDirectory();
+            var fileLocation =
+                "${tempDir.path}/${_fileNameController.text}.recipe";
+            final file = File(fileLocation);
+            var recipes = getSelectedRecipes();
+            await file.writeAsString(json.encode(recipes), flush: true);
+            Get.back();
+            await Share.shareFiles([fileLocation],
+                subject: 'Share your Recipes');
+            showInSnackBar(
+                "Recipes file ${_fileNameController.text} were shared.",
+                status: true);
+            _fileNameController.clear();
+          } catch (e) {
+            showInSnackBar("Failed to share file" + e.toString());
           }
         });
   }
 
   importFromFile(context) async {
     try {
+      await requestStoragePermssions();
       FilePickerResult? result = await FilePicker.platform.pickFiles(
         type: FileType.any,
       );
@@ -163,6 +198,27 @@ class RecipesController extends GetxController {
       update();
       final response = await File(result.files.single.path!).readAsString();
       final data = await json.decode(response);
+      List<Recipe> recipes = [];
+      data.forEach((item) {
+        recipes.add(Recipe.fromJson(item));
+      });
+
+      await recipeOperations.createAll(recipes);
+      await loadRecipes();
+      showInSnackBar("Recipes are imported.", status: true);
+    } catch (e) {
+      showInSnackBar("Failed to  import from file" + e.toString());
+    }
+    loading.value = false;
+    update();
+  }
+
+  saveRecipesFromFile(String content) async {
+    try {
+      loading.value = true;
+      update();
+
+      final data = await json.decode(content);
       List<Recipe> recipes = [];
       data.forEach((item) {
         recipes.add(Recipe.fromJson(item));
@@ -216,5 +272,12 @@ class RecipesController extends GetxController {
       }
     }
     update();
+  }
+}
+
+requestStoragePermssions() async {
+  var status = await Permission.storage.status;
+  if (!status.isGranted) {
+    await Permission.storage.request();
   }
 }
