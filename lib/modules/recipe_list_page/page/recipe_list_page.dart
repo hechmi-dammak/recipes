@@ -124,6 +124,8 @@ class _RecipeListPageState extends State<RecipeListPage> {
                     loading: recipesController.loading.value,
                     child: recipesController.recipes.isNotEmpty
                         ? GridView.builder(
+                            keyboardDismissBehavior:
+                                ScrollViewKeyboardDismissBehavior.onDrag,
                             controller: recipesScrollController,
                             padding: const EdgeInsets.only(
                                 right: 10, left: 10, top: 15, bottom: 10),
@@ -241,9 +243,10 @@ class _RecipeListPageState extends State<RecipeListPage> {
       ),
       title: 'Recipes List',
       searchWidget: TextFormField(
+        autofocus: false,
         focusNode: searchFocusNode,
         textAlignVertical: TextAlignVertical.bottom,
-        style: const TextStyle(fontSize: 20),
+        // style: const TextStyle(fontSize: 20),
         decoration: getInputDecorationInsideCardHint(
           "Search",
           suffix: GestureDetector(

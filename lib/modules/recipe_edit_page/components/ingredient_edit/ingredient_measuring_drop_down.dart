@@ -74,11 +74,13 @@ class _IngredientMeasuringDropDownInputState
                           key: dropdownKey,
                           dropdownColor: Theme.of(context).colorScheme.primary,
                           style: TextStyle(
+                              overflow: TextOverflow.ellipsis,
                               color: Theme.of(context).colorScheme.onPrimary,
                               fontSize: 18),
                           decoration: InputDecoration(
                               border: InputBorder.none,
                               labelStyle: TextStyle(
+                                  overflow: TextOverflow.ellipsis,
                                   color:
                                       Theme.of(context).colorScheme.onPrimary,
                                   fontSize: 20),
@@ -98,9 +100,13 @@ class _IngredientMeasuringDropDownInputState
                           items: recipeEditController.ingredientMeasurings
                               .map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
-                                child: Text(
-                                  value,
-                                  overflow: TextOverflow.ellipsis,
+                                child: SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.4,
+                                  child: Text(
+                                    value,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
                                 ),
                                 value: value);
                           }).toList(),

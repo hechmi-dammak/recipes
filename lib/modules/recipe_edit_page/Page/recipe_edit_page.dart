@@ -174,6 +174,8 @@ class _RecipeEditPageState extends State<RecipeEditPage> {
                 child: LoadingWidget(
                   loading: recipeEditController.loading.value,
                   child: SingleChildScrollView(
+                    keyboardDismissBehavior:
+                        ScrollViewKeyboardDismissBehavior.onDrag,
                     controller: recipeEditController.mainScrollController,
                     child: Container(
                       margin: const EdgeInsets.symmetric(horizontal: 20),
