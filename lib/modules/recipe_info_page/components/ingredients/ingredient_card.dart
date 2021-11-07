@@ -28,7 +28,7 @@ class IngredientCardState extends State<IngredientCard> {
       color: Colors.transparent,
       child: Container(
         margin: const EdgeInsets.all(2),
-        padding: const EdgeInsets.all(5),
+        padding: const EdgeInsets.all(2),
         child: Ink(
           width: min(MediaQuery.of(context).size.width * 3 / 5, 300),
           decoration: gradientDecoationSecondery(context,
@@ -47,65 +47,64 @@ class IngredientCardState extends State<IngredientCard> {
                 decoration: BoxDecoration(
                     color: Theme.of(context).backgroundColor,
                     borderRadius: const BorderRadius.all(Radius.circular(10))),
-                child: Container(
-                  margin:
-                      const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                  child: Column(
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.only(top: 10),
-                        child: Text(
-                          widget.ingredient.name.capitalize!,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
+                child: Stack(
+                  children: [
+                    Align(
+                      alignment: Alignment.center,
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 5, horizontal: 10),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              widget.ingredient.name.capitalize!,
                               overflow: TextOverflow.ellipsis,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context)
-                                  .buttonTheme
-                                  .colorScheme!
-                                  .onSecondary),
+                              style: TextStyle(
+                                  overflow: TextOverflow.ellipsis,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(context)
+                                      .buttonTheme
+                                      .colorScheme!
+                                      .onSecondary),
+                            ),
+                            if (widget.ingredient.getQuantity(
+                                    widget.servings, widget.recipeServings) !=
+                                null)
+                              Container(
+                                margin: const EdgeInsets.only(top: 10),
+                                child: Text(
+                                  widget.ingredient
+                                      .getQuantity(widget.servings,
+                                          widget.recipeServings)!
+                                      .capitalize!,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                      overflow: TextOverflow.ellipsis,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context)
+                                          .buttonTheme
+                                          .colorScheme!
+                                          .onSecondary),
+                                ),
+                              ),
+                          ],
                         ),
                       ),
-                      if (widget.ingredient.getQuantity(
-                              widget.servings, widget.recipeServings) !=
-                          null)
-                        Container(
-                          margin: const EdgeInsets.only(top: 10),
-                          child: Text(
-                            widget.ingredient
-                                .getQuantity(
-                                    widget.servings, widget.recipeServings)!
-                                .capitalize!,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                                overflow: TextOverflow.ellipsis,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: Theme.of(context)
-                                    .buttonTheme
-                                    .colorScheme!
-                                    .onSecondary),
-                          ),
-                        ),
-                      if (widget.ingredient.method != null)
-                        Container(
-                          margin: const EdgeInsets.only(top: 10),
-                          child: Text(
-                            widget.ingredient.method!.capitalize!,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 2,
-                            style: TextStyle(
-                                overflow: TextOverflow.ellipsis,
-                                fontSize: 15,
-                                color: Theme.of(context)
-                                    .buttonTheme
-                                    .colorScheme!
-                                    .onSecondary),
-                          ),
-                        )
-                    ],
-                  ),
+                    ),
+                    if (widget.ingredient.method != null)
+                      Align(
+                          alignment: Alignment.bottomRight,
+                          child: Icon(
+                            Icons.info_outline,
+                            size: 27,
+                            color: widget.ingredient.selected ?? false
+                                ? Theme.of(context).colorScheme.secondary
+                                : Theme.of(context).colorScheme.primary,
+                          ))
+                  ],
                 ),
               ),
             ),

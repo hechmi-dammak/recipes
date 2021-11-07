@@ -52,15 +52,15 @@ BoxDecoration gradientDecoationSecondery(BuildContext context,
     boxShadow: [
       BoxShadow(
         color: Colors.grey.withOpacity(0.5),
-        spreadRadius: 2,
-        blurRadius: 2,
-        offset: const Offset(1.5, 1.5),
+        spreadRadius: 1.5,
+        blurRadius: 1.5,
+        offset: const Offset(1, 1),
       ),
     ],
   );
 }
 
-BoxDecoration gradientDecoationRounded(BuildContext context) {
+BoxDecoration gradientDecoationRounded(BuildContext context, {bool? selected}) {
   return BoxDecoration(
     shape: BoxShape.circle,
     gradient: LinearGradient(
@@ -70,10 +70,15 @@ BoxDecoration gradientDecoationRounded(BuildContext context) {
         0.1,
         0.9,
       ],
-      colors: [
-        Theme.of(context).colorScheme.primary,
-        Theme.of(context).colorScheme.primaryVariant,
-      ],
+      colors: (selected ?? false)
+          ? [
+              Theme.of(context).colorScheme.secondaryVariant,
+              Theme.of(context).colorScheme.secondary
+            ]
+          : [
+              Theme.of(context).colorScheme.primary,
+              Theme.of(context).colorScheme.primaryVariant
+            ],
     ),
     boxShadow: [
       BoxShadow(

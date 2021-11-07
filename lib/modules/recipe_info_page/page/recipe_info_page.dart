@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:recipes/modules/recipe_edit_page/Page/recipe_edit_page.dart';
-import 'package:recipes/modules/recipe_info_page.dart/components/image_view.dart';
-import 'package:recipes/modules/recipe_info_page.dart/components/ingredients/ingredient_list.dart';
-import 'package:recipes/modules/recipe_info_page.dart/components/steps/step_list.dart';
-import 'package:recipes/modules/recipe_info_page.dart/controller/recipe_info_controller.dart';
+import 'package:recipes/modules/recipe_info_page/components/image_view.dart';
+import 'package:recipes/modules/recipe_info_page/components/ingredients/ingredient_list.dart';
+import 'package:recipes/modules/recipe_info_page/components/steps/step_list.dart';
+import 'package:recipes/modules/recipe_info_page/controller/recipe_info_controller.dart';
 import 'package:recipes/service/recipe_operations.dart';
 import 'package:recipes/utils/components/app_bar.dart';
 import 'package:recipes/utils/components/app_bar_bottom.dart';

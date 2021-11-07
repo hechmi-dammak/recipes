@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:recipes/modules/recipe_info_page.dart/page/recipe_info_page.dart';
+import 'package:recipes/modules/recipe_info_page/page/recipe_info_page.dart';
 import 'package:recipes/modules/recipe_list_page/controller/recipes_controller.dart';
 import 'package:recipes/utils/decorations/gradient_decoration.dart';
 

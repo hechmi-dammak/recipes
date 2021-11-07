@@ -136,10 +136,11 @@ class RecipesController extends GetxController {
               showInSnackBar("You must choose a directory");
               return;
             }
-            var fileLocation = "$fileDirectory/${_fileNameController.text}.txt";
+            var fileLocation =
+                "$fileDirectory/${_fileNameController.text}.recipe";
             var recipes = getSelectedRecipes();
             File file = File(fileLocation);
-            await file.writeAsString(json.encode(recipes), flush: true);
+            file = await file.writeAsString(json.encode(recipes), flush: true);
             Get.back();
             showInSnackBar(
                 "Recipes are exported to file ${_fileNameController.text}.",
@@ -267,7 +268,7 @@ class RecipesController extends GetxController {
       if (!recipe.name
           .toLowerCase()
           .trim()
-          .contains(searchValue.value.toLowerCase().trim())) {
+          .startsWith(searchValue.value.toLowerCase().trim())) {
         recipes.remove(recipe);
       }
     }

@@ -6,7 +6,7 @@ import 'package:recipes/modules/recipe_edit_page/components/image_edit.dart';
 import 'package:recipes/modules/recipe_edit_page/components/ingredient_edit/ingredient_edit_list.dart';
 import 'package:recipes/modules/recipe_edit_page/components/recipe_category_drop_down.dart';
 import 'package:recipes/modules/recipe_edit_page/controller/recipe_edit_controller.dart';
-import 'package:recipes/modules/recipe_info_page.dart/controller/recipe_info_controller.dart';
+import 'package:recipes/modules/recipe_info_page/controller/recipe_info_controller.dart';
 import 'package:recipes/utils/components/app_bar.dart';
 import 'package:recipes/utils/components/app_bar_bottom.dart';
 import 'package:recipes/utils/components/ensure_visible.dart';

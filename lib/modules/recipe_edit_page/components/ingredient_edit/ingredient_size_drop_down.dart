@@ -25,7 +25,7 @@ class _IngredientSizeDropDownInputState
   final FocusNode _fieldNode = FocusNode();
 
   final GlobalKey dropdownKey = GlobalKey();
-
+//this is used so the tap area is for the whole button not just the label
   void openItemsList() {
     dynamic detector;
     void search(BuildContext context) {

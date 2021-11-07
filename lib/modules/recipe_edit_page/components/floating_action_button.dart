@@ -40,14 +40,36 @@ class _RecipeCreateFloatingButtonState
           backgroundColor: Theme.of(context).colorScheme.primaryVariant,
           foregroundColor: Theme.of(context).colorScheme.onPrimary,
           label: 'Create new ingredient',
-          onTap: () => recipeEditController.addNewIngredient(),
+          onTap: () async {
+            await recipeEditController.addNewIngredient();
+            WidgetsBinding.instance?.addPostFrameCallback((_) {
+              recipeEditController.mainScrollController.animateTo(
+                recipeEditController
+                        .ingredientListKey.currentContext?.size?.height ??
+                    recipeEditController
+                        .mainScrollController.position.maxScrollExtent,
+                duration: const Duration(milliseconds: 200),
+                curve: Curves.bounceInOut,
+              );
+            });
+          },
         ),
         SpeedDialChild(
           child: Icon(Icons.format_list_numbered, size: iconSize),
           backgroundColor: Theme.of(context).colorScheme.primaryVariant,
           foregroundColor: Theme.of(context).colorScheme.onPrimary,
           label: 'Create new step',
-          onTap: () => recipeEditController.addNewStep(),
+          onTap: () async {
+            await recipeEditController.addNewStep();
+            WidgetsBinding.instance?.addPostFrameCallback((_) {
+              recipeEditController.mainScrollController.animateTo(
+                recipeEditController
+                    .mainScrollController.position.maxScrollExtent,
+                duration: const Duration(milliseconds: 200),
+                curve: Curves.bounceInOut,
+              );
+            });
+          },
         ),
       ],
     );

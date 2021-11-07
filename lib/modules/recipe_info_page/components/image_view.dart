@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:recipes/modules/recipe_info_page.dart/controller/recipe_info_controller.dart';
+import 'package:recipes/modules/recipe_info_page/controller/recipe_info_controller.dart';
 
 class ImageView extends StatelessWidget {
   ImageView({

@@ -19,6 +19,8 @@ class RecipeEditController extends GetxController {
   final ImageOperations imageOperations = ImageOperations.instance;
   final int defaultServingValue = 4;
   final ScrollController mainScrollController = ScrollController();
+  final GlobalKey ingredientListKey = GlobalKey();
+
   var recipe = Rx<Recipe>(Recipe());
   var servings = Rx<int>(4);
   var loading = false.obs;
@@ -277,39 +279,26 @@ class RecipeEditController extends GetxController {
     update();
   }
 
-  addNewStep() {
-    recipe.update((recipe) {
-      if (recipe == null) {
-        recipe = Recipe(steps: [Step(key: const ValueKey(0))]);
-        return;
-      }
-      if (recipe.steps == null) {
-        recipe.steps = [Step(key: const ValueKey(0))];
-        return;
-      }
-      var steps = recipe.steps!.toList();
-      steps.add(Step(key: ValueKey(steps.length)));
-      recipe.steps = steps;
-      setInEditing(recipe.steps!.last);
-    });
+  Future addNewStep() async {
+    if (recipe.value.steps == null) {
+      recipe.value.steps = [Step(key: const ValueKey(0))];
+      update();
+
+      return;
+    }
+    recipe.value.steps!.add(Step(key: ValueKey(recipe.value.steps!.length)));
+    setInEditing(recipe.value.steps!.last);
     update();
   }
 
-  addNewIngredient() {
-    recipe.update((recipe) {
-      if (recipe == null) {
-        recipe = Recipe(ingredients: [Ingredient()]);
-        return;
-      }
-      if (recipe.ingredients == null) {
-        recipe.ingredients = [Ingredient()];
-        return;
-      }
-      var ingredients = recipe.ingredients!.toList();
-      ingredients.add(Ingredient());
-      recipe.ingredients = ingredients;
-      setInEditing(recipe.ingredients!.last);
-    });
+  Future addNewIngredient() async {
+    if (recipe.value.ingredients == null) {
+      recipe.value.ingredients = [Ingredient()];
+      update();
+      return;
+    }
+    recipe.value.ingredients!.add(Ingredient());
+    setInEditing(recipe.value.ingredients!.last);
 
     update();
   }

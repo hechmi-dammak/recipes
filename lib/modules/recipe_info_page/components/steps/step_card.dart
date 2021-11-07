@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:recipes/modules/recipe_info_page.dart/controller/recipe_info_controller.dart';
+import 'package:recipes/modules/recipe_info_page/controller/recipe_info_controller.dart';
 
 import 'package:recipes/utils/decorations/gradient_decoration.dart';
 import 'package:recipes/utils/decorations/modal_paint.dart';
@@ -24,7 +24,9 @@ class StepCardState extends State<StepCard> {
     return Stack(
       children: [
         Container(
-          margin: const EdgeInsets.only(top: 30, bottom: 20),
+          margin: const EdgeInsets.only(
+            top: 30,
+          ),
           child: Material(
             color: Colors.transparent,
             child: Container(
@@ -79,8 +81,9 @@ class StepCardState extends State<StepCard> {
           ),
         ),
         OrderButton(
-          index: widget.index + 1,
-        )
+            index: widget.index + 1,
+            selected:
+                recipeInfoController.recipe.value.steps![widget.index].selected)
       ],
     );
   }
@@ -99,8 +102,8 @@ class StepCardState extends State<StepCard> {
                 color: recipeInfoController
                             .recipe.value.steps![widget.index].selected ??
                         false
-                    ? Theme.of(context).primaryColor
-                    : Theme.of(context).colorScheme.secondary,
+                    ? Theme.of(context).colorScheme.secondary
+                    : Theme.of(context).primaryColor,
                 borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(10.0),
                     topRight: Radius.circular(10.0))),
@@ -109,8 +112,8 @@ class StepCardState extends State<StepCard> {
                 recipeInfoController
                             .recipe.value.steps![widget.index].selected ??
                         false
-                    ? Theme.of(context).primaryColor
-                    : Theme.of(context).colorScheme.secondary,
+                    ? Theme.of(context).colorScheme.secondary
+                    : Theme.of(context).primaryColor,
               ),
               child: Column(
                 children: [
@@ -209,8 +212,10 @@ class StepCardState extends State<StepCard> {
 }
 
 class OrderButton extends StatelessWidget {
-  const OrderButton({Key? key, required this.index}) : super(key: key);
+  const OrderButton({Key? key, required this.index, this.selected})
+      : super(key: key);
   final int index;
+  final bool? selected;
   @override
   Widget build(BuildContext context) {
     return Positioned(
@@ -219,7 +224,7 @@ class OrderButton extends StatelessWidget {
       child: Container(
         height: 60,
         width: 60,
-        decoration: gradientDecoationRounded(context),
+        decoration: gradientDecoationRounded(context, selected: selected),
         child: Center(
           child: Text(
             index.toString(),

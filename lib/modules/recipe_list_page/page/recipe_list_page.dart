@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:app_links/app_links.dart';
+import 'package:content_resolver/content_resolver.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:recipes/modules/recipe_edit_page/page/recipe_edit_page.dart';
@@ -10,9 +14,6 @@ import 'package:recipes/utils/components/loading_widget.dart';
 import 'package:recipes/utils/components/show_dialog.dart';
 import 'package:recipes/utils/components/show_snack_bar.dart';
 import 'package:recipes/utils/decorations/input_decoration_inside_card.dart';
-import 'package:content_resolver/content_resolver.dart';
-
-import 'package:app_links/app_links.dart';
 
 class RecipeListPage extends StatefulWidget {
   const RecipeListPage({
@@ -29,7 +30,7 @@ class _RecipeListPageState extends State<RecipeListPage> {
   final recipesScrollController = ScrollController();
   late AppLinks _appLinks;
   bool loading = true;
-
+  final searchFocusNode = FocusNode();
   Future<void> initRecipes() async {
     await recipesController.loadRecipes();
   }
@@ -59,8 +60,18 @@ class _RecipeListPageState extends State<RecipeListPage> {
       final uriStr = uri.toString().replaceFirst(
           'content://com.slack.fileprovider/',
           'content://com.Slack.fileprovider/');
-      var contentEncoded = await ContentResolver.resolveContent(uriStr);
-      String content = String.fromCharCodes(contentEncoded);
+      var content = "";
+      try {
+        var contentEncoded = await ContentResolver.resolveContent(uriStr);
+        content = String.fromCharCodes(contentEncoded);
+      } catch (e) {
+        try {
+          content = await File(uri.path).readAsString();
+        } catch (e) {
+          content = await File(uri.path.split("external").last).readAsString();
+        }
+      }
+
       await recipesController.saveRecipesFromFile(content);
     } catch (e) {
       showInSnackBar("Failed to open to file " + e.toString());
@@ -230,6 +241,7 @@ class _RecipeListPageState extends State<RecipeListPage> {
       ),
       title: 'Recipes List',
       searchWidget: TextFormField(
+        focusNode: searchFocusNode,
         textAlignVertical: TextAlignVertical.bottom,
         style: const TextStyle(fontSize: 20),
         decoration: getInputDecorationInsideCardHint(
@@ -242,6 +254,7 @@ class _RecipeListPageState extends State<RecipeListPage> {
             ),
             onTap: () {
               setState(() {
+                searchFocusNode.unfocus();
                 _searchController.clear();
                 recipesController.searchValue.value = "";
                 recipesController.updateSearch();

@@ -41,6 +41,7 @@ class IngredientEditListState extends State<IngredientEditList> {
               ),
             ),
           ListView(
+              key: recipeEditController.ingredientListKey,
               physics: const ClampingScrollPhysics(),
               shrinkWrap: true,
               children: children),
