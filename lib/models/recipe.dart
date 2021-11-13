@@ -99,22 +99,26 @@ class Recipe {
     return ingredients;
   }
 
-  Map<String, dynamic> toJson() => {
-        RecipeFields.id: id,
+  Map<String, dynamic> toJson([export = false]) => {
+        if (!export) RecipeFields.id: id,
         RecipeFields.name: name,
-        RecipeFields.category: category,
-        RecipeFields.servings: servings,
-        RecipeFields.steps:
-            steps == null ? null : steps!.map((v) => v.toJson()).toList(),
-        RecipeFields.ingredients: ingredients == null
-            ? null
-            : ingredients!.map((v) => v.toJson()).toList(),
-        RecipeFields.picture: picture?.toJson(),
+        if (!export || (category != null && category!.isNotEmpty))
+          RecipeFields.category: category == "" ? null : category,
+        if (!export || servings != null) RecipeFields.servings: servings,
+        if (!export || (steps != null && steps!.isNotEmpty))
+          RecipeFields.steps: steps == null || steps!.isEmpty
+              ? null
+              : steps!.map((v) => v.toJson(export)).toList(),
+        if (!export || (ingredients != null && ingredients!.isNotEmpty))
+          RecipeFields.ingredients: ingredients == null || ingredients!.isEmpty
+              ? null
+              : ingredients!.map((v) => v.toJson(export)).toList(),
+        if (!export || picture != null) RecipeFields.picture: picture?.toJson(),
       };
   Map<String, dynamic> toDatabaseJson([bool noId = false]) => {
         RecipeFields.id: noId ? null : id,
         RecipeFields.name: name,
-        RecipeFields.category: category,
+        RecipeFields.category: category == "" ? null : category,
         RecipeFields.servings: servings ?? 1,
         RecipeFields.pictureId: picture?.id
       };

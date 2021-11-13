@@ -49,14 +49,18 @@ PreferredSize customAppBar(BuildContext context,
                             ),
                           Align(
                             alignment: Alignment.center,
-                            child: Text(
-                              title ?? "",
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                  color:
-                                      Theme.of(context).colorScheme.onPrimary,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 30),
+                            child: SizedBox(
+                              width: MediaQuery.of(context).size.width - 150,
+                              child: Text(
+                                title ?? "",
+                                textAlign: TextAlign.center,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                    color:
+                                        Theme.of(context).colorScheme.onPrimary,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 30),
+                              ),
                             ),
                           ),
                           if (actions != null)

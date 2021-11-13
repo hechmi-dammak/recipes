@@ -16,16 +16,21 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      initialBinding: BindingsBuilder(() {
-        Get.put(RecipesController());
-        Get.put(RecipeInfoController());
-        Get.put(RecipeEditController());
-      }),
-      debugShowCheckedModeBanner: false,
-      title: 'Recipes',
-      theme: AplicationTheme.getTheme(),
-      home: const RecipeListPage(),
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).requestFocus(new FocusNode());
+      },
+      child: GetMaterialApp(
+        initialBinding: BindingsBuilder(() {
+          Get.put(RecipesController());
+          Get.put(RecipeInfoController());
+          Get.put(RecipeEditController());
+        }),
+        debugShowCheckedModeBanner: false,
+        title: 'Recipes',
+        theme: AplicationTheme.getTheme(),
+        home: const RecipeListPage(),
+      ),
     );
   }
 }

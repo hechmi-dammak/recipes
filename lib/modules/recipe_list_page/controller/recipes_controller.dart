@@ -92,7 +92,7 @@ class RecipesController extends GetxController {
     List<Map<String, dynamic>> result = [];
     for (Recipe recipe in recipes) {
       if (recipe.selected ?? false) {
-        result.add(recipe.toJson());
+        result.add(recipe.toJson(true));
       }
     }
     return result;

@@ -280,25 +280,38 @@ class RecipeEditController extends GetxController {
   }
 
   Future addNewStep() async {
-    if (recipe.value.steps == null) {
-      recipe.value.steps = [Step(key: const ValueKey(0))];
-      update();
-
-      return;
-    }
-    recipe.value.steps!.add(Step(key: ValueKey(recipe.value.steps!.length)));
-    setInEditing(recipe.value.steps!.last);
+    recipe.update((recipe) {
+      if (recipe == null) {
+        recipe = Recipe(steps: [Step(key: const ValueKey(0))]);
+        return;
+      }
+      if (recipe.steps == null) {
+        recipe.steps = [Step(key: const ValueKey(0))];
+        return;
+      }
+      var steps = recipe.steps!.toList();
+      steps.add(Step(key: ValueKey(steps.length)));
+      recipe.steps = steps;
+      setInEditing(recipe.steps!.last);
+    });
     update();
   }
 
   Future addNewIngredient() async {
-    if (recipe.value.ingredients == null) {
-      recipe.value.ingredients = [Ingredient()];
-      update();
-      return;
-    }
-    recipe.value.ingredients!.add(Ingredient());
-    setInEditing(recipe.value.ingredients!.last);
+    recipe.update((recipe) {
+      if (recipe == null) {
+        recipe = Recipe(ingredients: [Ingredient()]);
+        return;
+      }
+      if (recipe.ingredients == null) {
+        recipe.ingredients = [Ingredient()];
+        return;
+      }
+      var ingredients = recipe.ingredients!.toList();
+      ingredients.add(Ingredient());
+      recipe.ingredients = ingredients;
+      setInEditing(recipe.ingredients!.last);
+    });
 
     update();
   }

@@ -56,13 +56,12 @@ class _RecipeCardState extends State<RecipeCard> {
                               mainAxisSize: MainAxisSize.max,
                               children: [
                                 Flexible(
-                                  flex: 2,
+                                  flex: 3,
                                   child: Ink(
                                     height: double.infinity,
                                     decoration: BoxDecoration(
-                                      borderRadius: const BorderRadius.only(
-                                        topLeft: Radius.circular(10),
-                                        bottomLeft: Radius.circular(10),
+                                      borderRadius: const BorderRadius.all(
+                                        Radius.circular(10),
                                       ),
                                       image: DecorationImage(
                                         fit: BoxFit.cover,
@@ -84,29 +83,25 @@ class _RecipeCardState extends State<RecipeCard> {
                                     decoration: BoxDecoration(
                                         color:
                                             Theme.of(context).backgroundColor,
-                                        borderRadius: const BorderRadius.only(
-                                            bottomRight: Radius.circular(10),
-                                            topRight: Radius.circular(10))),
+                                        borderRadius: const BorderRadius.all(
+                                          Radius.circular(10),
+                                        )),
                                     child: Row(
                                       children: [
                                         const SizedBox(
                                           width: 5,
                                         ),
-                                        Flexible(
-                                          flex: 3,
-                                          child: SizedBox(
-                                            height: double.infinity,
-                                            width: double.infinity,
+                                        Expanded(
+                                          child: Container(
+                                            margin: const EdgeInsets.only(
+                                                left: 5, right: 5),
                                             child: RecipeDetails(
+                                              withPicture: true,
                                               recipesController:
                                                   recipesController,
                                               index: widget.index,
                                             ),
                                           ),
-                                        ),
-                                        Flexible(
-                                          flex: 2,
-                                          child: Container(),
                                         ),
                                       ],
                                     ),
@@ -189,7 +184,8 @@ class RecipeDetails extends StatelessWidget {
           withPicture ? CrossAxisAlignment.start : CrossAxisAlignment.center,
       children: [
         Container(
-          margin: const EdgeInsets.only(bottom: 10),
+          margin: EdgeInsets.only(
+              bottom: 10, left: !withPicture ? 35 : 0.0, right: 35),
           child: Text(
             recipesController.recipes[index].name.capitalize!,
             overflow: TextOverflow.ellipsis,

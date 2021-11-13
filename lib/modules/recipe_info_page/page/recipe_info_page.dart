@@ -65,6 +65,8 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
                 child: LoadingWidget(
                   loading: recipeInfoController.loading.value,
                   child: ListView(
+                    keyboardDismissBehavior:
+                        ScrollViewKeyboardDismissBehavior.onDrag,
                     children: [
                       Container(
                           margin: const EdgeInsets.symmetric(
