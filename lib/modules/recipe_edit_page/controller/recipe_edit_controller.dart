@@ -1,18 +1,26 @@
 import 'package:flutter/material.dart' hide Step;
 import 'package:get/get.dart';
-
+import 'package:image_picker/image_picker.dart';
 import 'package:recipes/models/ingredient.dart';
+import 'package:recipes/models/picture.dart';
 import 'package:recipes/models/recipe.dart';
 import 'package:recipes/models/step.dart';
 import 'package:recipes/modules/recipe_list_page/controller/recipes_controller.dart';
+import 'package:recipes/service/image_getter.dart';
 import 'package:recipes/service/ingredient_operations.dart';
+import 'package:recipes/service/picture_operations.dart';
 import 'package:recipes/service/recipe_operations.dart';
+import 'package:recipes/service/step_operations.dart';
 import 'package:recipes/utils/components/show_snack_bar.dart';
 
 class RecipeEditController extends GetxController {
   final RecipesController recipesController = RecipesController.find;
-
+  final PictureOperations pictureOperations = PictureOperations.instance;
+  final ImageOperations imageOperations = ImageOperations.instance;
   final int defaultServingValue = 4;
+  final ScrollController mainScrollController = ScrollController();
+  final GlobalKey ingredientListKey = GlobalKey();
+
   var recipe = Rx<Recipe>(Recipe());
   var servings = Rx<int>(4);
   var loading = false.obs;
@@ -20,17 +28,24 @@ class RecipeEditController extends GetxController {
   var ingredientCategories = <String>[];
   var ingredientMeasurings = <String>[];
   var ingredientSizes = <String>[];
+  var isDialOpen = ValueNotifier<bool>(false);
   var selectionIsActive = false.obs;
+  var allItemsSelected = false.obs;
+  var validation = true;
+
   static RecipeEditController get find => Get.find<RecipeEditController>();
   RecipeOperations recipeOperations = RecipeOperations.instance;
   IngredientOperations ingredientOperations = IngredientOperations.instance;
+  StepOperations stepOperations = StepOperations.instance;
+
+//-----------init/save  Data---------------
   Future<void> initRecipe(int? recipeId) async {
     loading.value = true;
     if (recipeId == null) {
       recipe.value = Recipe();
       setServingValue();
     } else {
-      recipe.value = await recipeOperations.read(recipeId);
+      recipe.value = await recipeOperations.read(recipeId) ?? Recipe();
       setServingValue(recipe.value.servings ?? 1);
     }
     recipeCategories = await recipeOperations.getAllCategories();
@@ -41,13 +56,34 @@ class RecipeEditController extends GetxController {
     ingredientSizes = await ingredientOperations
         .getAllValuesOfAttribute(IngredientFields.size);
     updateSelectionIsActive();
+    updateAllItemsSelected();
     loading.value = false;
     update();
   }
 
+  saveRecipe() async {
+    if (recipe.value.steps == null) {
+      return;
+    }
+    recipe.value.steps!
+        .asMap()
+        .forEach((index, element) => {element.order = index});
+    recipe.value.servings = servings.value;
+    if (recipe.value.id == null) {
+      await recipeOperations.create(recipe.value);
+    } else {
+      await recipeOperations.update(recipe.value);
+    }
+    await recipesController.loadRecipes();
+    update();
+  }
+//-----------Selection---------------
+
   setItemSelected(item) {
-    item.selected = !(item.selected ?? true);
+    item.selected = !(item.selected ?? false);
+
     updateSelectionIsActive();
+    updateAllItemsSelected();
     update();
   }
 
@@ -70,32 +106,54 @@ class RecipeEditController extends GetxController {
   }
 
   void updateSelectionIsActive([bool? selectionIsActive]) {
-    this.selectionIsActive.value = selectionIsActive ?? _selectionIsActive();
+    bool newValue = selectionIsActive ?? _selectionIsActive();
+    if (newValue != this.selectionIsActive.value) {
+      double height = 0;
+      double oldHeight = mainScrollController.position.maxScrollExtent;
+      double newHeight = mainScrollController.position.maxScrollExtent;
+
+      if (recipe.value.ingredients != null) {
+        height += recipe.value.ingredients!.length * 25;
+      }
+
+      if (recipe.value.steps != null) {
+        height += recipe.value.steps!.length * 25;
+      }
+      if (newValue) {
+        newHeight += height;
+      } else {
+        newHeight -= height;
+      }
+      mainScrollController.jumpTo(
+          (newHeight * mainScrollController.position.pixels) / oldHeight);
+    }
+
+    this.selectionIsActive.value = newValue;
     update();
   }
 
-  void deleteSelectedItems() async {
-    loading.value = true;
+  bool _allItemsSelected() {
+    if (recipe.value.ingredients != null) {
+      for (var ingredient in recipe.value.ingredients!) {
+        if (!(ingredient.selected ?? false)) {
+          return false;
+        }
+      }
+    }
+    if (recipe.value.steps != null) {
+      for (var step in recipe.value.steps!) {
+        if (!(step.selected ?? false)) {
+          return false;
+        }
+      }
+    }
+
+    return true;
+  }
+
+  void updateAllItemsSelected([bool? allItemsSelected]) {
+    this.allItemsSelected.value = allItemsSelected ?? _allItemsSelected();
     update();
-    recipe.update((recipe) {
-      if (recipe == null) {
-        return;
-      }
-      if (recipe.steps != null) {
-        var steps = recipe.steps!.toList();
-        steps.removeWhere((element) => element.selected ?? false);
-        recipe.steps = steps;
-      }
-      if (recipe.ingredients != null) {
-        var ingredients = recipe.ingredients!.toList();
-        ingredients.removeWhere((element) => element.selected ?? false);
-        recipe.ingredients = ingredients;
-      }
-    });
-    updateSelectionIsActive();
-    loading.value = false;
-    update();
-    showInSnackBar("Selected items were deleted.", status: true);
   }
 
   void setSelectAllValue([bool value = false]) {
@@ -115,7 +173,48 @@ class RecipeEditController extends GetxController {
       }
     });
 
+    updateSelectionIsActive(value);
+    updateAllItemsSelected(value);
+    update();
+  }
+
+//-----------delete  Data---------------
+  void deleteSelectedItems() async {
+    loading.value = true;
+    update();
+    recipe.update((recipe) {
+      if (recipe == null) {
+        return;
+      }
+      if (recipe.steps != null) {
+        var steps = recipe.steps!.toList();
+        steps.removeWhere((step) {
+          if (step.selected ?? false) {
+            stepOperations.delete(step.id);
+          }
+          return step.selected ?? false;
+        });
+        recipe.steps = steps;
+      }
+      if (recipe.ingredients != null) {
+        var ingredients = recipe.ingredients!.toList();
+        ingredients.removeWhere((ingredient) {
+          if (ingredient.selected ?? false) {
+            ingredientOperations.delete(ingredient.id);
+          }
+          return ingredient.selected ?? false;
+        });
+        recipe.ingredients = ingredients;
+      }
+    });
     updateSelectionIsActive();
+    loading.value = false;
+    update();
+    showInSnackBar("Selected items were deleted.", status: true);
+  }
+
+  void setLoading(bool bool) {
+    loading(bool);
     update();
   }
 
@@ -128,23 +227,8 @@ class RecipeEditController extends GetxController {
     update();
   }
 
-  addNewRecipeCategory(String category) {
-    recipeCategories.add(category);
-    update();
-  }
-
-  addNewIngredientCategory(String category) {
-    ingredientCategories.add(category);
-    update();
-  }
-
-  addNewIngredientMeasuring(String measuring) {
-    ingredientMeasurings.add(measuring);
-    update();
-  }
-
-  addNewIngredientSize(String size) {
-    ingredientSizes.add(size);
+  setDialOpen(value) {
+    isDialOpen.value = value;
     update();
   }
 
@@ -174,7 +258,28 @@ class RecipeEditController extends GetxController {
     update();
   }
 
-  addNewStep() {
+  //-----------new Elements---------------
+  addNewRecipeCategory(String category) {
+    recipeCategories.add(category);
+    update();
+  }
+
+  addNewIngredientCategory(String category) {
+    ingredientCategories.add(category);
+    update();
+  }
+
+  addNewIngredientMeasuring(String measuring) {
+    ingredientMeasurings.add(measuring);
+    update();
+  }
+
+  addNewIngredientSize(String size) {
+    ingredientSizes.add(size);
+    update();
+  }
+
+  Future addNewStep() async {
     recipe.update((recipe) {
       if (recipe == null) {
         recipe = Recipe(steps: [Step(key: const ValueKey(0))]);
@@ -192,7 +297,7 @@ class RecipeEditController extends GetxController {
     update();
   }
 
-  addNewIngredient() {
+  Future addNewIngredient() async {
     recipe.update((recipe) {
       if (recipe == null) {
         recipe = Recipe(ingredients: [Ingredient()]);
@@ -211,6 +316,7 @@ class RecipeEditController extends GetxController {
     update();
   }
 
+//-----------order steps---------------
   int _indexOfKey(Key key) {
     return (recipe.value.steps!).indexWhere((Step step) => step.key == key);
   }
@@ -235,29 +341,12 @@ class RecipeEditController extends GetxController {
     return true;
   }
 
-  saveRecipe() async {
-    recipe.update((recipe) async {
-      if (recipe == null) {
-        return;
-      }
-      if (recipe.steps == null) {
-        return;
-      }
-      recipe.steps!
-          .asMap()
-          .forEach((index, element) => {element.order = index});
-      recipe.servings = servings.value;
-      if (recipe.id == null) {
-        await recipeOperations.create(recipe);
-      } else {
-        await recipeOperations.update(recipe);
-      }
-      await recipesController.loadRecipes();
-    });
-  }
-
-  void setLoading(bool bool) {
-    loading(bool);
+//-----------image fetch--------------
+  getImage(ImageSource source) async {
+    Picture? picture = await imageOperations.getImage(source);
+    if (picture != null) {
+      recipe.value.picture = picture;
+    }
     update();
   }
 }

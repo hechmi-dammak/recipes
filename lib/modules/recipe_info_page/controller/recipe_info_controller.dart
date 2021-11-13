@@ -12,10 +12,11 @@ class RecipeInfoController extends GetxController {
 
   Future<void> initRecipe(int? recipeId) async {
     loading.value = true;
+    update();
     if (recipeId == null) {
       recipe.value = Recipe();
     } else {
-      recipe.value = await recipeOperations.read(recipeId);
+      recipe.value = await recipeOperations.read(recipeId) ?? Recipe();
     }
     setServingValue();
     loading.value = false;

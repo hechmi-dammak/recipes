@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:recipes/modules/recipe_edit_page/controller/recipe_edit_controller.dart';
 import 'package:recipes/utils/components/ensure_visible.dart';
 import 'package:recipes/utils/decorations/gradient_decoration.dart';
-import 'package:recipes/utils/decorations/input_decoration_inside_card.dart';
+import 'package:recipes/utils/decorations/input_decoration.dart';
 
 import 'ingredient_category_drop_down.dart';
 import 'ingredient_measuring_drop_down.dart';
@@ -32,15 +32,19 @@ class EditButton extends StatelessWidget {
                       value: !(recipeEditController
                               .recipe.value.ingredients![index].inEditing ??
                           false));
+                  Scrollable.ensureVisible(context);
                 },
                 child: SizedBox(
                     height: double.infinity,
                     width: double.infinity,
-                    child: Icon(recipeEditController
-                                .recipe.value.ingredients![index].inEditing ??
-                            false
-                        ? Icons.check
-                        : Icons.edit))),
+                    child: Icon(
+                      recipeEditController
+                                  .recipe.value.ingredients![index].inEditing ??
+                              false
+                          ? Icons.check
+                          : Icons.edit,
+                      color: Theme.of(context).colorScheme.onPrimary,
+                    ))),
           ),
         ),
       ),
@@ -74,10 +78,11 @@ class InsideIngredientCardState extends State<InsideIngredientCard> {
 
   @override
   Widget build(BuildContext context) {
+    Widget? child;
     if (recipeEditController
             .recipe.value.ingredients![widget.index].inEditing ??
         false) {
-      return Column(
+      child = Column(
         children: [
           Column(
             children: [
@@ -87,6 +92,10 @@ class InsideIngredientCardState extends State<InsideIngredientCard> {
                   child: EnsureVisibleWhenFocused(
                     focusNode: _nameNode,
                     child: TextFormField(
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          color: Theme.of(context).colorScheme.onSecondary),
                       key: _ingredientFormKey,
                       onTap: () => _requestFocus(_nameNode),
                       focusNode: _nameNode,
@@ -99,10 +108,7 @@ class InsideIngredientCardState extends State<InsideIngredientCard> {
                           if (validation != null) validation = null;
                         });
                       },
-                      decoration: getInputDecorationInsideCard("Name",
-                          focusNode: _nameNode,
-                          value: recipeEditController
-                              .recipe.value.ingredients![widget.index].name),
+                      decoration: getInputDecoration("Name"),
                       autovalidateMode: validation,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -123,6 +129,10 @@ class InsideIngredientCardState extends State<InsideIngredientCard> {
                 child: EnsureVisibleWhenFocused(
                   focusNode: _quantityNode,
                   child: TextFormField(
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                        color: Theme.of(context).colorScheme.onSecondary),
                     onTap: () => _requestFocus(_quantityNode),
                     focusNode: _quantityNode,
                     keyboardType: TextInputType.number,
@@ -138,11 +148,9 @@ class InsideIngredientCardState extends State<InsideIngredientCard> {
                             .quantity = num.tryParse(value);
                       });
                     },
-                    decoration: getInputDecorationInsideCard("Quantity",
-                        focusNode: _quantityNode,
-                        value: recipeEditController
-                            .recipe.value.ingredients![widget.index].quantity
-                            ?.toString()),
+                    decoration: getInputDecoration(
+                      "Quantity",
+                    ),
                   ),
                 ),
               ),
@@ -159,6 +167,10 @@ class InsideIngredientCardState extends State<InsideIngredientCard> {
                 child: EnsureVisibleWhenFocused(
                   focusNode: _methodNode,
                   child: TextFormField(
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                        color: Theme.of(context).colorScheme.onSecondary),
                     onTap: () => _requestFocus(_methodNode),
                     focusNode: _methodNode,
                     initialValue: recipeEditController
@@ -169,10 +181,9 @@ class InsideIngredientCardState extends State<InsideIngredientCard> {
                             .ingredients![widget.index].method = value;
                       });
                     },
-                    decoration: getInputDecorationInsideCard("Method",
-                        focusNode: _methodNode,
-                        value: recipeEditController
-                            .recipe.value.ingredients![widget.index].method),
+                    decoration: getInputDecoration(
+                      "Method",
+                    ),
                   ),
                 ),
               ),
@@ -181,7 +192,7 @@ class InsideIngredientCardState extends State<InsideIngredientCard> {
         ],
       );
     } else {
-      return Column(
+      child = Column(
         children: [
           Container(
             margin: const EdgeInsets.only(bottom: 10),
@@ -189,11 +200,13 @@ class InsideIngredientCardState extends State<InsideIngredientCard> {
               recipeEditController
                   .recipe.value.ingredients![widget.index].name.capitalize!,
               textAlign: TextAlign.center,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   overflow: TextOverflow.ellipsis,
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: Theme.of(context).buttonTheme.colorScheme!.onPrimary),
+                  color:
+                      Theme.of(context).buttonTheme.colorScheme!.onBackground),
             ),
           ),
           if (recipeEditController
@@ -204,13 +217,16 @@ class InsideIngredientCardState extends State<InsideIngredientCard> {
               child: Text(
                 recipeEditController.recipe.value.ingredients![widget.index]
                     .category!.capitalize!,
+                overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     overflow: TextOverflow.ellipsis,
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color:
-                        Theme.of(context).buttonTheme.colorScheme!.onPrimary),
+                    color: Theme.of(context)
+                        .buttonTheme
+                        .colorScheme!
+                        .onBackground),
               ),
             ),
           if (recipeEditController.recipe.value.ingredients![widget.index]
@@ -221,13 +237,16 @@ class InsideIngredientCardState extends State<InsideIngredientCard> {
               child: Text(
                 recipeEditController.recipe.value.ingredients![widget.index]
                     .getQuantity(1)!,
+                overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     overflow: TextOverflow.ellipsis,
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
-                    color:
-                        Theme.of(context).buttonTheme.colorScheme!.onPrimary),
+                    color: Theme.of(context)
+                        .buttonTheme
+                        .colorScheme!
+                        .onBackground),
               ),
             ),
           if (recipeEditController
@@ -238,17 +257,25 @@ class InsideIngredientCardState extends State<InsideIngredientCard> {
               child: Text(
                 recipeEditController.recipe.value.ingredients![widget.index]
                     .method!.capitalize!,
+                overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     overflow: TextOverflow.ellipsis,
                     fontSize: 15,
-                    color:
-                        Theme.of(context).buttonTheme.colorScheme!.onPrimary),
+                    color: Theme.of(context)
+                        .buttonTheme
+                        .colorScheme!
+                        .onBackground),
               ),
             )
         ],
       );
     }
+    return Container(
+        margin: recipeEditController.selectionIsActive.value
+            ? const EdgeInsets.only(top: 25)
+            : null,
+        child: child);
   }
 
   void _requestFocus(FocusNode focusNode) {
@@ -257,7 +284,7 @@ class InsideIngredientCardState extends State<InsideIngredientCard> {
     });
   }
 
-  Future<bool> validate() async {
+  Future validate() async {
     if (recipeEditController
         .recipe.value.ingredients![widget.index].name.isEmpty) {
       await recipeEditController.setInEditingWithNoPropagation(
@@ -266,14 +293,16 @@ class InsideIngredientCardState extends State<InsideIngredientCard> {
       setState(() {
         validation = AutovalidateMode.always;
       });
-      if (_ingredientFormKey.currentState != null) {
-        _ingredientFormKey.currentState!.validate();
+      if (recipeEditController.validation &&
+          _ingredientFormKey.currentContext != null) {
+        Scrollable.ensureVisible(_ingredientFormKey.currentContext!);
       }
-      return false;
+      recipeEditController.validation = false;
+      return;
     }
     recipeEditController.setInEditingWithNoPropagation(
         recipeEditController.recipe.value.ingredients![widget.index],
         value: false);
-    return true;
+    return;
   }
 }

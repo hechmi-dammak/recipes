@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:recipes/modules/recipe_edit_page/controller/recipe_edit_controller.dart';
-import 'package:recipes/utils/components/dialog_input.dart';
+import 'package:recipes/utils/components/show_dialog.dart';
 import 'package:recipes/utils/components/show_snack_bar.dart';
 import 'package:recipes/utils/decorations/gradient_decoration.dart';
 
@@ -65,14 +65,15 @@ class _RecipeCategoryDropDownInputState
                   child: DropdownButtonFormField<String>(
                     focusNode: _categoryNode,
                     key: dropdownKey,
-                    dropdownColor: Theme.of(context).colorScheme.secondary,
+                    dropdownColor: Theme.of(context).colorScheme.primary,
                     style: TextStyle(
-                        color: Theme.of(context).colorScheme.onSecondary,
+                        overflow: TextOverflow.ellipsis,
+                        color: Theme.of(context).colorScheme.onPrimary,
                         fontSize: 18),
                     decoration: InputDecoration(
                         border: InputBorder.none,
                         labelStyle: TextStyle(
-                            color: Theme.of(context).colorScheme.onSecondary,
+                            color: Theme.of(context).colorScheme.onPrimary,
                             fontSize: 20),
                         labelText: 'Category'),
                     iconSize: 30,
@@ -85,7 +86,14 @@ class _RecipeCategoryDropDownInputState
                     items: recipeEditController.recipeCategories
                         .map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
-                          child: Text(value), value: value);
+                          child: SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.5,
+                            child: Text(
+                              value,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          value: value);
                     }).toList(),
                   ),
                 ),
@@ -107,6 +115,7 @@ class _RecipeCategoryDropDownInputState
                         });
                         return;
                       }
+                      recipeEditController.setDialOpen(false);
                       showDialogInput(
                           title: 'Create a new category',
                           label: 'Category',
@@ -122,7 +131,6 @@ class _RecipeCategoryDropDownInputState
                               recipeEditController.recipe.value.category =
                                   _categoryController.text;
                             });
-
                             Get.back();
 
                             _categoryController.clear();

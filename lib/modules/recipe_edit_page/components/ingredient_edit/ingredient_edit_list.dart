@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:recipes/modules/recipe_edit_page/components/ingredient_create/ingredient_edit_card.dart';
+import 'package:recipes/modules/recipe_edit_page/components/ingredient_edit/ingredient_edit_card.dart';
 import 'package:recipes/modules/recipe_edit_page/controller/recipe_edit_controller.dart';
 
-class IngredientCreateList extends StatefulWidget {
-  const IngredientCreateList({Key? key}) : super(key: key);
+class IngredientEditList extends StatefulWidget {
+  const IngredientEditList({Key? key}) : super(key: key);
 
   @override
-  IngredientCreateListState createState() => IngredientCreateListState();
+  IngredientEditListState createState() => IngredientEditListState();
 }
 
-class IngredientCreateListState extends State<IngredientCreateList> {
+class IngredientEditListState extends State<IngredientEditList> {
   List<GlobalObjectKey<IngredientEditCardState>> ingredientListKeys = [];
   List<Widget> children = [];
   final RecipeEditController recipeEditController = RecipeEditController.find;
@@ -31,15 +31,17 @@ class IngredientCreateListState extends State<IngredientCreateList> {
           if (recipeEditController.recipe.value.ingredients != null &&
               recipeEditController.recipe.value.ingredients!.isNotEmpty)
             Container(
-              height: 30,
-              margin: const EdgeInsets.only(bottom: 10),
+              height: 40,
+              margin: const EdgeInsets.only(top: 25),
               child: Text(
                 "Ingredients",
+                overflow: TextOverflow.ellipsis,
                 style: TextStyle(
-                    fontSize: 20, color: Theme.of(context).primaryColor),
+                    fontSize: 25, color: Theme.of(context).primaryColor),
               ),
             ),
           ListView(
+              key: recipeEditController.ingredientListKey,
               physics: const ClampingScrollPhysics(),
               shrinkWrap: true,
               children: children),
@@ -48,13 +50,13 @@ class IngredientCreateListState extends State<IngredientCreateList> {
     });
   }
 
-  Future<bool> validate() async {
-    var valid = true;
+  Future validate() async {
     for (var key in ingredientListKeys) {
-      if (key.currentState == null || !(await key.currentState!.validate())) {
-        valid = false;
+      if (key.currentState == null) {
+        recipeEditController.validation = false;
+      } else {
+        await key.currentState!.validate();
       }
     }
-    return valid;
   }
 }

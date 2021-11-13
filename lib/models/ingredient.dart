@@ -62,23 +62,27 @@ class Ingredient {
         method: json[IngredientFields.method] as String?,
       );
 
-  Map<String, dynamic> toJson() => {
-        IngredientFields.id: id,
+  Map<String, dynamic> toJson([export = false]) => {
+        if (!export) IngredientFields.id: id,
         IngredientFields.name: name,
-        IngredientFields.category: category,
-        IngredientFields.quantity: quantity,
-        IngredientFields.measuring: measuring,
-        IngredientFields.size: size,
-        IngredientFields.method: method,
+        if (!export || (category != null && category!.isNotEmpty))
+          IngredientFields.category: category == "" ? null : category,
+        if (!export || quantity != null) IngredientFields.quantity: quantity,
+        if (!export || (measuring != null && measuring!.isNotEmpty))
+          IngredientFields.measuring: measuring == "" ? null : measuring,
+        if (!export || (size != null && size!.isNotEmpty))
+          IngredientFields.size: size == "" ? null : size,
+        if (!export || (method != null && method!.isNotEmpty))
+          IngredientFields.method: method == "" ? null : method,
       };
-  Map<String, dynamic> toDatabaseJson(int? recipeId) => {
-        IngredientFields.id: id,
+  Map<String, dynamic> toDatabaseJson(int? recipeId, [bool noId = false]) => {
+        IngredientFields.id: noId ? null : id,
         IngredientFields.name: name,
-        IngredientFields.category: category,
+        IngredientFields.category: category == "" ? null : category,
         IngredientFields.quantity: quantity,
-        IngredientFields.measuring: measuring,
-        IngredientFields.size: size,
-        IngredientFields.method: method,
+        IngredientFields.measuring: measuring == "" ? null : measuring,
+        IngredientFields.size: size == "" ? null : size,
+        IngredientFields.method: method == "" ? null : method,
         IngredientFields.recipeId: recipeId,
       };
 

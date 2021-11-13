@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:recipes/modules/recipe_edit_page/controller/recipe_edit_controller.dart';
-import 'package:recipes/utils/components/dialog_input.dart';
+import 'package:recipes/utils/components/show_dialog.dart';
 import 'package:recipes/utils/components/ensure_visible.dart';
 import 'package:recipes/utils/components/show_snack_bar.dart';
 import 'package:recipes/utils/decorations/gradient_decoration.dart';
@@ -25,7 +25,7 @@ class _IngredientSizeDropDownInputState
   final FocusNode _fieldNode = FocusNode();
 
   final GlobalKey dropdownKey = GlobalKey();
-
+//this is used so the tap area is for the whole button not just the label
   void openItemsList() {
     dynamic detector;
     void search(BuildContext context) {
@@ -72,16 +72,17 @@ class _IngredientSizeDropDownInputState
                         child: DropdownButtonFormField<String>(
                           focusNode: _fieldNode,
                           key: dropdownKey,
-                          dropdownColor:
-                              Theme.of(context).colorScheme.secondary,
+                          dropdownColor: Theme.of(context).colorScheme.primary,
                           style: TextStyle(
-                              color: Theme.of(context).colorScheme.onSecondary,
+                              overflow: TextOverflow.ellipsis,
+                              color: Theme.of(context).colorScheme.onPrimary,
                               fontSize: 18),
                           decoration: InputDecoration(
                               border: InputBorder.none,
                               labelStyle: TextStyle(
+                                  overflow: TextOverflow.ellipsis,
                                   color:
-                                      Theme.of(context).colorScheme.onSecondary,
+                                      Theme.of(context).colorScheme.onPrimary,
                                   fontSize: 20),
                               labelText: "Size"),
                           iconSize: 30,
@@ -96,7 +97,15 @@ class _IngredientSizeDropDownInputState
                           items: recipeEditController.ingredientSizes
                               .map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
-                                child: Text(value), value: value);
+                                child: SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.4,
+                                  child: Text(
+                                    value,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                                value: value);
                           }).toList(),
                         ),
                       ),
@@ -122,7 +131,7 @@ class _IngredientSizeDropDownInputState
                             });
                             return;
                           }
-
+                          recipeEditController.setDialOpen(false);
                           showDialogInput(
                               title: 'Create a new size',
                               label: 'Size',

@@ -29,23 +29,22 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flex_color_scheme: any
-  new_gradient_app_bar: ^0.2.0
-  flutter_spinbox: ^0.6.0
-
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
-  flutter_launcher_icons: ^0.9.2
   sqflite: ^2.0.0+4
   path: ^1.8.0
   flutter_speed_dial: ^4.4.0
-  permission_handler: ^8.1.6
-  path_provider: ^2.0.5
   file_picker: ^4.1.1
   get: ^4.3.8
-  very_good_analysis: ^2.3.0
   flutter_reorderable_list: ^1.1.0
+  image_picker: ^0.8.4+2
+  image_cropper: ^1.4.1
+  share_plus: ^3.0.4
+  path_provider: ^2.0.5
+  permission_handler: ^8.2.5
+  content_resolver: ^0.0.2
+  app_links: ^2.2.0
+  expandable: ^5.0.1
 
 dev_dependencies:
   flutter_test:
@@ -57,6 +56,9 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^1.0.0
+  dependency_validator: ^3.0.0
+  flutter_launcher_icons: ^0.9.2
+
 flutter_icons:
   image_path: "assets/images/recipes_icon_full.png"
   android: true
@@ -77,7 +79,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/recipes.json
-    - assets/images/export_file.png
+    - assets/images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -12,7 +12,7 @@ BoxDecoration gradientDecoation(BuildContext context) {
         0.9,
       ],
       colors: [
-        Theme.of(context).colorScheme.secondary,
+        const Color(0xFF358c7a),
         Theme.of(context).colorScheme.primaryVariant,
       ],
     ),
@@ -41,30 +41,28 @@ BoxDecoration gradientDecoationSecondery(BuildContext context,
       ],
       colors: (selected ?? false)
           ? [
-              Theme.of(context).colorScheme.primary,
-              Theme.of(context).colorScheme.primaryVariant
-            ]
-          : [
               Theme.of(context).colorScheme.secondaryVariant,
               Theme.of(context).colorScheme.secondary
+            ]
+          : [
+              Theme.of(context).colorScheme.primary,
+              Theme.of(context).colorScheme.primaryVariant
             ],
     ),
     boxShadow: [
       BoxShadow(
-        color: Colors.grey.withOpacity(0.25),
-        spreadRadius: 2,
-        blurRadius: 2,
+        color: Colors.grey.withOpacity(0.5),
+        spreadRadius: 1.5,
+        blurRadius: 1.5,
         offset: const Offset(1, 1),
       ),
     ],
   );
 }
 
-BoxDecoration gradientDecoationRounded(BuildContext context) {
+BoxDecoration gradientDecoationRounded(BuildContext context, {bool? selected}) {
   return BoxDecoration(
     shape: BoxShape.circle,
-    // borderRadius: BorderRadius.circular(10),
-    // color: Theme.of(context).buttonTheme.colorScheme!.primary,
     gradient: LinearGradient(
       begin: Alignment.topRight,
       end: Alignment.bottomLeft,
@@ -72,10 +70,15 @@ BoxDecoration gradientDecoationRounded(BuildContext context) {
         0.1,
         0.9,
       ],
-      colors: [
-        Theme.of(context).colorScheme.secondary,
-        Theme.of(context).colorScheme.primaryVariant,
-      ],
+      colors: (selected ?? false)
+          ? [
+              Theme.of(context).colorScheme.secondaryVariant,
+              Theme.of(context).colorScheme.secondary
+            ]
+          : [
+              Theme.of(context).colorScheme.primary,
+              Theme.of(context).colorScheme.primaryVariant
+            ],
     ),
     boxShadow: [
       BoxShadow(

@@ -1,8 +1,14 @@
+CREATE TABLE pictures (
+    _id INTEGER PRIMARY KEY AUTOINCREMENT,
+    image BLOB
+);
 CREATE TABLE recipes (
     _id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT,
     category TEXT,
-    servings INTEGER
+    servings INTEGER,
+    picture_id INTEGER,
+    FOREIGN KEY (picture_id) REFERENCES pictures (_id)
 );
 
 CREATE TABLE ingredients (

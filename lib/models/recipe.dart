@@ -1,8 +1,7 @@
 import 'dart:collection';
 
 import 'package:recipes/models/ingredient.dart';
-import 'dart:convert';
-
+import 'package:recipes/models/picture.dart';
 import 'package:recipes/models/step.dart';
 
 const String tableRecipes = 'recipes';
@@ -10,7 +9,7 @@ const String tableRecipes = 'recipes';
 class RecipeFields {
   static final List<String> values = [
     /// Add all fields expect ManyToMany and OneToMany
-    id, name, category, servings
+    id, name, category, servings, pictureId
   ];
   static const String id = '_id';
   static const String name = 'name';
@@ -18,6 +17,8 @@ class RecipeFields {
   static const String ingredients = 'ingredients';
   static const String steps = 'steps';
   static const String servings = 'servings';
+  static const String pictureId = 'picture_id';
+  static const String picture = 'picture';
 }
 
 class Recipe {
@@ -29,6 +30,7 @@ class Recipe {
   List<Ingredient>? ingredients;
   Map<String, List<Ingredient>>? ingredientsByCategory;
   bool? selected = false;
+  Picture? picture;
   Recipe(
       {this.id,
       this.name = "",
@@ -36,7 +38,8 @@ class Recipe {
       this.servings = 1,
       this.ingredients = const [],
       this.steps = const [],
-      this.selected = false}) {
+      this.selected = false,
+      this.picture}) {
     initIngredientsByCategory();
   }
   initIngredientsByCategory() {
@@ -66,16 +69,17 @@ class Recipe {
       category: json[RecipeFields.category] as String?,
       servings: json[RecipeFields.servings] as int?,
       steps: getStepsfromJson(json),
-      ingredients: getIngredientsfromJson(json));
+      ingredients: getIngredientsfromJson(json),
+      picture: json[RecipeFields.picture] != null
+          ? Picture.fromJson(json[RecipeFields.picture])
+          : null);
 
   static Recipe fromDatabaseJson(Map<String, dynamic> json) => Recipe(
-      id: json[RecipeFields.id] as int?,
-      name: json[RecipeFields.name] as String,
-      category: json[RecipeFields.category] as String?,
-      servings: json[RecipeFields.servings] as int?,
-      steps: json[RecipeFields.steps] == null
-          ? null
-          : jsonDecode(json[RecipeFields.steps]));
+        id: json[RecipeFields.id] as int?,
+        name: json[RecipeFields.name] as String,
+        category: json[RecipeFields.category] as String?,
+        servings: json[RecipeFields.servings] as int?,
+      );
 
   static List<Step> getStepsfromJson(Map<String, dynamic> json) {
     if (json[RecipeFields.steps] == null) return [];
@@ -95,22 +99,28 @@ class Recipe {
     return ingredients;
   }
 
-  Map<String, dynamic> toJson() => {
-        RecipeFields.id: id,
+  Map<String, dynamic> toJson([export = false]) => {
+        if (!export) RecipeFields.id: id,
         RecipeFields.name: name,
-        RecipeFields.category: category,
-        RecipeFields.servings: servings,
-        RecipeFields.steps:
-            steps == null ? null : steps!.map((v) => v.toJson()).toList(),
-        RecipeFields.ingredients: ingredients == null
-            ? null
-            : ingredients!.map((v) => v.toJson()).toList(),
+        if (!export || (category != null && category!.isNotEmpty))
+          RecipeFields.category: category == "" ? null : category,
+        if (!export || servings != null) RecipeFields.servings: servings,
+        if (!export || (steps != null && steps!.isNotEmpty))
+          RecipeFields.steps: steps == null || steps!.isEmpty
+              ? null
+              : steps!.map((v) => v.toJson(export)).toList(),
+        if (!export || (ingredients != null && ingredients!.isNotEmpty))
+          RecipeFields.ingredients: ingredients == null || ingredients!.isEmpty
+              ? null
+              : ingredients!.map((v) => v.toJson(export)).toList(),
+        if (!export || picture != null) RecipeFields.picture: picture?.toJson(),
       };
-  Map<String, dynamic> toDatabaseJson() => {
-        RecipeFields.id: id,
+  Map<String, dynamic> toDatabaseJson([bool noId = false]) => {
+        RecipeFields.id: noId ? null : id,
         RecipeFields.name: name,
-        RecipeFields.category: category,
+        RecipeFields.category: category == "" ? null : category,
         RecipeFields.servings: servings ?? 1,
+        RecipeFields.pictureId: picture?.id
       };
   Recipe copy(
           {int? id,
@@ -118,7 +128,8 @@ class Recipe {
           String? category,
           int? servings,
           List<Step>? steps,
-          List<Ingredient>? ingredients}) =>
+          List<Ingredient>? ingredients,
+          Picture? picture}) =>
       Recipe(
         id: id ?? this.id,
         name: name ?? this.name,
@@ -126,5 +137,6 @@ class Recipe {
         servings: servings ?? this.servings,
         ingredients: ingredients ?? this.ingredients,
         steps: steps ?? this.steps,
+        picture: picture ?? this.picture,
       );
 }

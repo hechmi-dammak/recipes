@@ -1,5 +1,6 @@
 import 'package:path/path.dart';
 import 'package:recipes/models/ingredient.dart';
+import 'package:recipes/models/picture.dart';
 import 'package:recipes/models/recipe.dart';
 import 'package:recipes/models/step.dart';
 import 'package:sqflite/sqflite.dart';
@@ -33,13 +34,21 @@ class DataBaseRepository {
     const textType = 'TEXT';
     const integerType = 'INTEGER';
     const realType = 'REAL';
-
+    const blobType = "BLOB";
+    await db.execute('''
+        CREATE TABLE $tablePictures ( 
+          ${PictureFields.id} $idType, 
+          ${PictureFields.image} $blobType
+        )
+    ''');
     await db.execute('''
         CREATE TABLE $tableRecipes ( 
           ${RecipeFields.id} $idType, 
           ${RecipeFields.name} $textType,
           ${RecipeFields.category} $textType,
-          ${RecipeFields.servings} $integerType
+          ${RecipeFields.servings} $integerType,
+          ${RecipeFields.pictureId} $integerType,
+          FOREIGN KEY (${RecipeFields.pictureId}) REFERENCES $tablePictures ( ${PictureFields.id})
         )
     ''');
     await db.execute('''

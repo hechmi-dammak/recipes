@@ -37,15 +37,16 @@ class Step {
       order: json[StepFields.order] as int?,
       toDo: json[StepFields.toDo] as String?);
 
-  Map<String, dynamic> toJson() => {
-        StepFields.id: id,
-        StepFields.order: order,
-        StepFields.toDo: toDo,
+  Map<String, dynamic> toJson([export = false]) => {
+        if (!export) StepFields.id: id,
+        if (!export || order != null) StepFields.order: order,
+        if (!export || toDo != null || toDo!.isNotEmpty)
+          StepFields.toDo: toDo == "" ? null : toDo,
       };
-  Map<String, dynamic> toDatabaseJson(int? recipeId) => {
-        StepFields.id: id,
+  Map<String, dynamic> toDatabaseJson(int? recipeId, [bool noId = false]) => {
+        StepFields.id: noId ? null : id,
         StepFields.order: order,
-        StepFields.toDo: toDo,
+        StepFields.toDo: toDo == "" ? null : toDo,
         StepFields.recipeId: recipeId,
       };
   Step copy({int? id, int? order, String? toDo}) => Step(

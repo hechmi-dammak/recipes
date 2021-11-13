@@ -5,14 +5,14 @@ import 'package:recipes/modules/recipe_edit_page/controller/recipe_edit_controll
 
 import 'step_edit_card.dart';
 
-class StepCreateList extends StatefulWidget {
-  const StepCreateList({Key? key}) : super(key: key);
+class StepEditList extends StatefulWidget {
+  const StepEditList({Key? key}) : super(key: key);
 
   @override
-  StepCreateListState createState() => StepCreateListState();
+  StepEditListState createState() => StepEditListState();
 }
 
-class StepCreateListState extends State<StepCreateList> {
+class StepEditListState extends State<StepEditList> {
   final RecipeEditController recipeEditController = RecipeEditController.find;
   List<GlobalObjectKey<StepEditCardState>> stepListKeys = [];
   List<Widget> children = [];
@@ -40,12 +40,13 @@ class StepCreateListState extends State<StepCreateList> {
               ? []
               : [
                   Container(
-                    height: 30,
-                    margin: const EdgeInsets.only(bottom: 10),
+                    height: 40,
+                    margin: const EdgeInsets.only(top: 15),
                     child: Text(
                       "Steps",
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                          fontSize: 20, color: Theme.of(context).primaryColor),
+                          fontSize: 25, color: Theme.of(context).primaryColor),
                     ),
                   ),
                   if (recipeEditController.recipe.value.steps != null &&
@@ -63,13 +64,13 @@ class StepCreateListState extends State<StepCreateList> {
     );
   }
 
-  Future<bool> validate() async {
-    var valid = true;
+  Future validate() async {
     for (var key in stepListKeys) {
-      if (key.currentState == null || !(await key.currentState!.validate())) {
-        valid = false;
+      if (key.currentState == null) {
+        recipeEditController.validation = false;
+      } else {
+        await key.currentState!.validate();
       }
     }
-    return valid;
   }
 }
