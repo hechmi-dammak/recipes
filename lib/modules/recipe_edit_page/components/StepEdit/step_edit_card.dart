@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_reorderable_list/flutter_reorderable_list.dart';
 import 'package:recipes/modules/recipe_edit_page/controller/recipe_edit_controller.dart';
+import 'package:recipes/utils/components/reorderable_list.dart';
 import 'package:recipes/utils/decorations/gradient_decoration.dart';
 
 import 'step_edit_card_components.dart';

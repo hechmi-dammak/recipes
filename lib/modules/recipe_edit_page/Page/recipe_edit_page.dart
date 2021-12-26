@@ -137,7 +137,7 @@ class _RecipeEditPageState extends State<RecipeEditPage> {
                             await recipeEditController.saveRecipe();
 
                             recipeEditController.setDialOpen(false);
-                            if (Get.isSnackbarOpen ?? false) {
+                            if (Get.isSnackbarOpen) {
                               Get.back();
                             }
                             if (recipeEditController.recipe.value.id != null) {

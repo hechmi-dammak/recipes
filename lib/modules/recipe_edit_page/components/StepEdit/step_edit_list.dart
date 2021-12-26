@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart' hide ReorderableList;
-import 'package:flutter_reorderable_list/flutter_reorderable_list.dart';
 import 'package:get/get.dart';
 import 'package:recipes/modules/recipe_edit_page/controller/recipe_edit_controller.dart';
+import 'package:recipes/utils/components/reorderable_list.dart';
 
 import 'step_edit_card.dart';
 

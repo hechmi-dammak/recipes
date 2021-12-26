@@ -40,7 +40,7 @@ class IngredientsList extends StatelessWidget {
               theme: ExpandableThemeData(
                   tapBodyToExpand: false,
                   tapHeaderToExpand: true,
-                  iconPadding: EdgeInsets.only(right: 20, top: 8, bottom: 8),
+                  iconPadding: const EdgeInsets.only(right: 20, top: 8, bottom: 8),
                   iconSize: 25,
                   iconColor: Theme.of(context).primaryColor,
                   collapseIcon: Icons.remove_circle_outline_rounded,

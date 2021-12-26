@@ -18,18 +18,18 @@ class StepsList extends StatelessWidget {
         }
 
         return Container(
-          margin: EdgeInsets.symmetric(vertical: 20),
+          margin:const EdgeInsets.symmetric(vertical: 20),
           child: ExpandablePanel(
             theme: ExpandableThemeData(
                 tapBodyToExpand: false,
                 tapHeaderToExpand: true,
-                iconPadding: EdgeInsets.only(right: 20, top: 8, bottom: 8),
+                iconPadding: const EdgeInsets.only(right: 20, top: 8, bottom: 8),
                 iconSize: 25,
                 iconColor: Theme.of(context).primaryColor,
                 collapseIcon: Icons.remove_circle_outline_rounded,
                 expandIcon: Icons.add_circle_outline_rounded),
             controller: ExpandableController(initialExpanded: true),
-            header: Container(
+            header: SizedBox(
               height: 40,
               child: Text(
                 "Steps",

@@ -16,6 +16,7 @@ class _RecipeCreateFloatingButtonState
     extends State<RecipeCreateFloatingButton> {
   double iconSize = 30;
   RecipeEditController recipeEditController = RecipeEditController.find;
+
   @override
   Widget build(BuildContext context) {
     return SpeedDial(
@@ -27,10 +28,10 @@ class _RecipeCreateFloatingButtonState
       openCloseDial: recipeEditController.isDialOpen,
       childPadding: const EdgeInsets.all(5),
       spaceBetweenChildren: 4,
-      buttonSize: 60,
+      buttonSize: const Size(60, 60),
       iconTheme: IconThemeData(
           color: Theme.of(context).colorScheme.onPrimary, size: iconSize + 5),
-      childrenButtonSize: 65,
+      childrenButtonSize: const Size(65, 65),
       elevation: 8.0,
       isOpenOnStart: false,
       animationSpeed: 200,
