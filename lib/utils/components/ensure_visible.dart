@@ -1,32 +1,22 @@
-import 'dart:async';
-
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
 class EnsureVisibleWhenFocused extends StatefulWidget {
+  final FocusNode focusNode;
+
+  final Widget child;
+
+  final Curve curve;
+
+  final Duration duration;
   const EnsureVisibleWhenFocused({
-    Key? key,
+    super.key,
     required this.child,
     required this.focusNode,
     this.curve = Curves.ease,
     this.duration = const Duration(milliseconds: 100),
-  }) : super(key: key);
+  });
 
-  /// The node we will monitor to determine if the child is focused
-  final FocusNode focusNode;
-
-  /// The child widget that we are wrapping
-  final Widget child;
-
-  /// The curve we will use to scroll ourselves into view.
-  ///
-  /// Defaults to Curves.ease.
-  final Curve curve;
-
-  /// The duration we will use to scroll ourselves into view
-  ///
-  /// Defaults to 100 milliseconds.
-  final Duration duration;
   @override
   EnsureVisibleWhenFocusedState createState() =>
       EnsureVisibleWhenFocusedState();
@@ -36,7 +26,9 @@ class EnsureVisibleWhenFocusedState extends State<EnsureVisibleWhenFocused> {
   @override
   void initState() {
     super.initState();
-    widget.focusNode.addListener(_ensureVisible);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      widget.focusNode.addListener(_ensureVisible);
+    });
   }
 
   @override
@@ -45,9 +37,7 @@ class EnsureVisibleWhenFocusedState extends State<EnsureVisibleWhenFocused> {
     widget.focusNode.removeListener(_ensureVisible);
   }
 
-  Future _ensureVisible() async {
-    await Future.delayed(const Duration(milliseconds: 300));
-
+  void _ensureVisible() {
     if (!widget.focusNode.hasFocus) return;
 
     final RenderObject? object = context.findRenderObject();
@@ -55,10 +45,10 @@ class EnsureVisibleWhenFocusedState extends State<EnsureVisibleWhenFocused> {
     final RenderAbstractViewport? viewport = RenderAbstractViewport.of(object);
     assert(viewport != null);
 
-    ScrollableState? scrollableState = Scrollable.of(context);
+    final ScrollableState? scrollableState = Scrollable.of(context);
     assert(scrollableState != null);
 
-    ScrollPosition position = scrollableState!.position;
+    final ScrollPosition position = scrollableState!.position;
     double alignment;
     if (position.pixels > viewport!.getOffsetToReveal(object!, 0.0).offset) {
       alignment = 0.0;

@@ -7,18 +7,15 @@ InputDecoration getInputDecoration(String label,
     contentPadding: contentPadding,
     label: Text(label,
         overflow: TextOverflow.ellipsis,
-        style: TextStyle(
-            fontSize: 20, color: Theme.of(Get.context!).primaryColor)),
+        style: TextStyle(fontSize: 20, color: Get.theme.primaryColor)),
     enabledBorder: OutlineInputBorder(
-      borderSide: BorderSide(
-          width: 3, color: Theme.of(Get.context!).colorScheme.primary),
+      borderSide: BorderSide(width: 3, color: Get.theme.colorScheme.primary),
       borderRadius: BorderRadius.circular(10),
     ),
-    fillColor: Theme.of(Get.context!).backgroundColor,
+    fillColor: Get.theme.backgroundColor,
     filled: true,
     focusedBorder: OutlineInputBorder(
-      borderSide: BorderSide(
-          width: 3, color: Theme.of(Get.context!).colorScheme.secondary),
+      borderSide: BorderSide(width: 3, color: Get.theme.colorScheme.secondary),
     ),
   );
 }

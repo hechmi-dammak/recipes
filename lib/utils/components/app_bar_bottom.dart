@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class AppbarBottom extends StatelessWidget {
-  const AppbarBottom({Key? key, required this.child}) : super(key: key);
+class AppBarBottom extends StatelessWidget {
+  const AppBarBottom({Key? key, required this.child}) : super(key: key);
   final Widget child;
   @override
   Widget build(BuildContext context) {
@@ -18,8 +19,8 @@ class AppbarBottom extends StatelessWidget {
                 0.6,
               ],
               colors: [
-                Theme.of(context).primaryColorDark,
-                Theme.of(context).colorScheme.primary,
+               Get.theme.primaryColorDark,
+                 Get.theme.colorScheme.primary,
               ],
             ),
           ),
@@ -31,7 +32,7 @@ class AppbarBottom extends StatelessWidget {
         alignment: Alignment.topCenter,
         child: Container(
           decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.background,
+              color:  Get.theme.colorScheme.background,
               borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(20), topRight: Radius.circular(20))),
           height: 21,

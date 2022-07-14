@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-BoxDecoration gradientDecoation(BuildContext context) {
+BoxDecoration gradientDecoration() {
   return BoxDecoration(
     borderRadius: BorderRadius.circular(10),
-    // color: Theme.of(context).buttonTheme.colorScheme!.primary,
     gradient: LinearGradient(
       begin: Alignment.topRight,
       end: Alignment.bottomLeft,
@@ -13,7 +13,7 @@ BoxDecoration gradientDecoation(BuildContext context) {
       ],
       colors: [
         const Color(0xFF358c7a),
-        Theme.of(context).colorScheme.primaryVariant,
+        Get.theme.colorScheme.primaryContainer,
       ],
     ),
     boxShadow: [
@@ -27,11 +27,10 @@ BoxDecoration gradientDecoation(BuildContext context) {
   );
 }
 
-BoxDecoration gradientDecoationSecondery(BuildContext context,
-    {bool? selected}) {
+BoxDecoration gradientDecorationSecondary([bool selected = false]) {
   return BoxDecoration(
     borderRadius: BorderRadius.circular(10),
-    color: Theme.of(context).buttonTheme.colorScheme!.primary,
+    color: Get.theme.buttonTheme.colorScheme!.primary,
     gradient: LinearGradient(
       begin: Alignment.topRight,
       end: Alignment.bottomLeft,
@@ -39,14 +38,14 @@ BoxDecoration gradientDecoationSecondery(BuildContext context,
         0.1,
         0.9,
       ],
-      colors: (selected ?? false)
+      colors: (selected)
           ? [
-              Theme.of(context).colorScheme.secondaryVariant,
-              Theme.of(context).colorScheme.secondary
+              Get.theme.colorScheme.secondaryContainer,
+              Get.theme.colorScheme.secondary
             ]
           : [
-              Theme.of(context).colorScheme.primary,
-              Theme.of(context).colorScheme.primaryVariant
+              Get.theme.colorScheme.primary,
+              Get.theme.colorScheme.primaryContainer
             ],
     ),
     boxShadow: [
@@ -60,7 +59,7 @@ BoxDecoration gradientDecoationSecondery(BuildContext context,
   );
 }
 
-BoxDecoration gradientDecoationRounded(BuildContext context, {bool? selected}) {
+BoxDecoration gradientDecorationRounded([bool selected = false]) {
   return BoxDecoration(
     shape: BoxShape.circle,
     gradient: LinearGradient(
@@ -70,14 +69,14 @@ BoxDecoration gradientDecoationRounded(BuildContext context, {bool? selected}) {
         0.1,
         0.9,
       ],
-      colors: (selected ?? false)
+      colors: (selected)
           ? [
-              Theme.of(context).colorScheme.secondaryVariant,
-              Theme.of(context).colorScheme.secondary
+              Get.theme.colorScheme.secondaryContainer,
+              Get.theme.colorScheme.secondary
             ]
           : [
-              Theme.of(context).colorScheme.primary,
-              Theme.of(context).colorScheme.primaryVariant
+              Get.theme.colorScheme.primary,
+              Get.theme.colorScheme.primaryContainer
             ],
     ),
     boxShadow: [
@@ -85,7 +84,7 @@ BoxDecoration gradientDecoationRounded(BuildContext context, {bool? selected}) {
         color: Colors.grey.withOpacity(0.25),
         spreadRadius: 2,
         blurRadius: 2,
-        offset: const Offset(1, 1), // changes position of shadow
+        offset: const Offset(1, 1),
       ),
     ],
   );

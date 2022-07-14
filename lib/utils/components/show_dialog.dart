@@ -1,26 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:recipes/utils/components/custom_dialog.dart';
 import 'package:recipes/utils/decorations/input_decoration.dart';
 
-void showDialogInput(
-    {required TextEditingController controller,
-    required String label,
-    required String title,
-    required Function confirm}) {
-  Get.dialog(Scaffold(
-    backgroundColor: Colors.transparent,
-    body: AlertDialog(
+class InputDialog extends CustomDialog {
+  final TextEditingController controller;
+  final String label;
+  final String title;
+  final void Function() confirm;
+  const InputDialog(
+      {super.key,
+      required this.controller,
+      required this.label,
+      required this.title,
+      required this.confirm});
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
       titlePadding: const EdgeInsets.all(0),
       contentPadding:
           const EdgeInsets.only(top: 40, left: 20, right: 20, bottom: 20),
       shape: RoundedRectangleBorder(
           side: BorderSide(
-              color: Theme.of(Get.context!).colorScheme.primaryVariant,
-              width: 3),
+              color: Get.theme.colorScheme.primaryContainer, width: 3),
           borderRadius: const BorderRadius.all(Radius.circular(32.0))),
       title: Container(
         decoration: BoxDecoration(
-            color: Theme.of(Get.context!).colorScheme.primaryVariant,
+            color: Get.theme.colorScheme.primaryContainer,
             borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(32.0),
                 topRight: Radius.circular(32.0))),
@@ -29,8 +36,7 @@ void showDialogInput(
           child: Text(title,
               textAlign: TextAlign.center,
               style: TextStyle(
-                  color: Theme.of(Get.context!).colorScheme.onPrimary,
-                  fontSize: 25)),
+                  color: Get.theme.colorScheme.onPrimary, fontSize: 25)),
         ),
       ),
       actions: <Widget>[
@@ -40,8 +46,7 @@ void showDialogInput(
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
-                    side: BorderSide(
-                        color: Theme.of(Get.context!).primaryColor, width: 3),
+                    side: BorderSide(color: Get.theme.primaryColor, width: 3),
                     borderRadius:
                         const BorderRadius.all(Radius.circular(32.0))),
               ),
@@ -58,8 +63,7 @@ void showDialogInput(
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
-                    side: BorderSide(
-                        color: Theme.of(Get.context!).primaryColor, width: 3),
+                    side: BorderSide(color: Get.theme.primaryColor, width: 3),
                     borderRadius:
                         const BorderRadius.all(Radius.circular(32.0))),
               ),
@@ -78,26 +82,28 @@ void showDialogInput(
         controller: controller,
         decoration: getInputDecoration(label),
       ),
-    ),
-  ));
+    );
+  }
 }
 
-void showConfirmationDialog(
-    {required String title, required Function confirm}) {
-  Get.dialog(Scaffold(
-    backgroundColor: Colors.transparent,
-    body: AlertDialog(
+class ConfirmationDialog extends CustomDialog {
+  const ConfirmationDialog(
+      {super.key, required this.confirm, required this.title});
+  final String title;
+  final void Function() confirm;
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
       titlePadding: const EdgeInsets.all(0),
       contentPadding:
           const EdgeInsets.only(top: 40, left: 20, right: 20, bottom: 20),
       shape: RoundedRectangleBorder(
           side: BorderSide(
-              color: Theme.of(Get.context!).colorScheme.primaryVariant,
-              width: 3),
+              color: Get.theme.colorScheme.primaryContainer, width: 3),
           borderRadius: const BorderRadius.all(Radius.circular(32.0))),
       title: Container(
         decoration: BoxDecoration(
-            color: Theme.of(Get.context!).colorScheme.primaryVariant,
+            color: Get.theme.colorScheme.primaryContainer,
             borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(32.0),
                 topRight: Radius.circular(32.0))),
@@ -106,8 +112,7 @@ void showConfirmationDialog(
           child: Text(title,
               textAlign: TextAlign.center,
               style: TextStyle(
-                  color: Theme.of(Get.context!).colorScheme.onPrimary,
-                  fontSize: 25)),
+                  color: Get.theme.colorScheme.onPrimary, fontSize: 25)),
         ),
       ),
       actions: <Widget>[
@@ -117,8 +122,7 @@ void showConfirmationDialog(
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
-                    side: BorderSide(
-                        color: Theme.of(Get.context!).primaryColor, width: 3),
+                    side: BorderSide(color: Get.theme.primaryColor, width: 3),
                     borderRadius:
                         const BorderRadius.all(Radius.circular(32.0))),
               ),
@@ -134,8 +138,7 @@ void showConfirmationDialog(
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
-                    side: BorderSide(
-                        color: Theme.of(Get.context!).primaryColor, width: 3),
+                    side: BorderSide(color: Get.theme.primaryColor, width: 3),
                     borderRadius:
                         const BorderRadius.all(Radius.circular(32.0))),
               ),
@@ -152,6 +155,6 @@ void showConfirmationDialog(
           ],
         )
       ],
-    ),
-  ));
+    );
+  }
 }

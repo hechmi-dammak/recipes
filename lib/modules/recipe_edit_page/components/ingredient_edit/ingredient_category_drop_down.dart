@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:recipes/modules/recipe_edit_page/controller/recipe_edit_controller.dart';
-import 'package:recipes/utils/components/show_dialog.dart';
+import 'package:recipes/modules/recipe_edit_page/recipe_edit_controller.dart';
 import 'package:recipes/utils/components/ensure_visible.dart';
-import 'package:recipes/utils/components/show_snack_bar.dart';
+import 'package:recipes/utils/components/show_dialog.dart';
+import 'package:recipes/utils/components/snack_bar.dart';
 import 'package:recipes/utils/decorations/gradient_decoration.dart';
 
 class IngredientCategoryDropDownInput extends StatefulWidget {
@@ -53,7 +53,7 @@ class _IngredientCategoryDropDownInputState
               Flexible(
                 flex: 5,
                 child: Container(
-                  decoration: gradientDecoation(context),
+                  decoration: gradientDecoration(),
                   child: EnsureVisibleWhenFocused(
                     focusNode: _fieldNode,
                     child: ButtonTheme(
@@ -64,42 +64,41 @@ class _IngredientCategoryDropDownInputState
                               .ingredientCategories.isNotEmpty) {
                             openItemsList();
                           } else {
-                            showInSnackBar(
-                                "There are no values yet add a new one.",
-                                status: false);
+                            CustomSnackBar.warning(
+                                'There are no values yet add a new one.');
                           }
                         },
                         child: DropdownButtonFormField<String>(
                           focusNode: _fieldNode,
                           key: dropdownKey,
-                          dropdownColor: Theme.of(context).colorScheme.primary,
+                          dropdownColor: Get.theme.colorScheme.primary,
                           style: TextStyle(
                               overflow: TextOverflow.ellipsis,
-                              color: Theme.of(context).colorScheme.onPrimary,
+                              color: Get.theme.colorScheme.onPrimary,
                               fontSize: 18),
                           decoration: InputDecoration(
                               border: InputBorder.none,
                               labelStyle: TextStyle(
                                   overflow: TextOverflow.ellipsis,
                                   color:
-                                      Theme.of(context).colorScheme.onPrimary,
+                                      Get.theme.colorScheme.onPrimary,
                                   fontSize: 20),
-                              labelText: "Category"),
+                              labelText: 'Category'),
                           iconSize: 30,
                           value: recipeEditController
-                              .recipe.value.ingredients![widget.index].category,
+                              .recipe.ingredients[widget.index].category,
                           onChanged: (String? newValue) {
                             setState(() {
                               recipeEditController
                                   .recipe
-                                  .value
-                                  .ingredients![widget.index]
+                                  .ingredients[widget.index]
                                   .category = newValue;
                             });
                           },
                           items: recipeEditController.ingredientCategories
                               .map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
+                                value: value,
                                 child: SizedBox(
                                   width:
                                       MediaQuery.of(context).size.width * 0.4,
@@ -107,8 +106,7 @@ class _IngredientCategoryDropDownInputState
                                     value,
                                     overflow: TextOverflow.ellipsis,
                                   ),
-                                ),
-                                value: value);
+                                ));
                           }).toList(),
                         ),
                       ),
@@ -118,30 +116,29 @@ class _IngredientCategoryDropDownInputState
               ),
               const SizedBox(width: 5),
               Flexible(
-                flex: 1,
                 child: Material(
                   color: Colors.transparent,
                   child: Ink(
-                    decoration: gradientDecoation(context),
+                    decoration: gradientDecoration(),
                     child: InkWell(
                         onTap: () {
-                          if (recipeEditController.recipe.value
-                                  .ingredients![widget.index].category !=
+                          if (recipeEditController
+                                  .recipe.ingredients[widget.index].category !=
                               null) {
                             setState(() {
-                              recipeEditController.recipe.value
-                                  .ingredients![widget.index].category = null;
+                              recipeEditController.recipe
+                                  .ingredients[widget.index].category = null;
                             });
                             return;
                           }
-                          recipeEditController.setDialOpen(false);
-                          showDialogInput(
+                          recipeEditController.isDialOpen = false;
+                          InputDialog(
                               title: 'Create a new category',
                               label: 'Category',
                               controller: _categoryController,
                               confirm: () async {
-                                if (_categoryController.text == "") {
-                                  showInSnackBar(
+                                if (_categoryController.text == '') {
+                                  CustomSnackBar.warning(
                                       "Category shouldn't be empty.");
                                   return;
                                 }
@@ -150,21 +147,18 @@ class _IngredientCategoryDropDownInputState
                                 setState(() {
                                   recipeEditController
                                       .recipe
-                                      .value
-                                      .ingredients![widget.index]
+                                      .ingredients[widget.index]
                                       .category = _categoryController.text;
                                 });
-
                                 Get.back();
-
                                 _categoryController.clear();
-                              });
+                              }).show();
                         },
                         child: SizedBox(
                             height: double.infinity,
                             width: double.infinity,
-                            child: Icon(recipeEditController.recipe.value
-                                        .ingredients![widget.index].category ==
+                            child: Icon(recipeEditController.recipe
+                                        .ingredients[widget.index].category ==
                                     null
                                 ? Icons.add
                                 : Icons.close_rounded))),

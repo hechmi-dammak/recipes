@@ -2,14 +2,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class AplicationTheme {
+class ApplicationTheme {
   static ThemeData getTheme() {
-    final TextTheme _textTheme = ThemeData.light().textTheme;
-    const ColorScheme _colorScheme = ColorScheme(
+    final TextTheme textTheme = ThemeData.light().textTheme;
+    const ColorScheme colorScheme = ColorScheme(
       primary: Color(0xFF4abba4),
-      primaryVariant: Color(0xFF43a994),
+      primaryContainer: Color(0xFF43a994),
       secondary: Color(0xFFfeda6f),
-      secondaryVariant: Color(0xFFfed35b),
+      secondaryContainer: Color(0xFFfed35b),
       surface: Color(0xFFededed),
       background: Color(0xFFededed),
       error: Color(0xFFBB0520),
@@ -21,26 +21,26 @@ class AplicationTheme {
       brightness: Brightness.light,
     );
 
-    final MaterialColor _primarySwatch =
-        createPrimarySwatch(_colorScheme.primary);
-    final Color? _primaryColorDark = _primarySwatch[800];
-    final Color? _primaryColorLight = _primarySwatch[100];
-    final Color? _secondaryHeaderColor = _primarySwatch[50];
+    final MaterialColor primarySwatch =
+        createPrimarySwatch(colorScheme.primary);
+    final Color? primaryColorDark = primarySwatch[800];
+    final Color? primaryColorLight = primarySwatch[100];
+    final Color? secondaryHeaderColor = primarySwatch[50];
 
-    final Color _effectiveAppBarColor = _colorScheme.primary;
-    final Brightness _appBarBrightness =
-        ThemeData.estimateBrightnessForColor(_effectiveAppBarColor);
+    final Color effectiveAppBarColor = colorScheme.primary;
+    final Brightness appBarBrightness =
+        ThemeData.estimateBrightnessForColor(effectiveAppBarColor);
 
-    final TargetPlatform _platform = defaultTargetPlatform;
+    final TargetPlatform platform = defaultTargetPlatform;
 
-    final Typography _typography = Typography.material2018(platform: _platform);
+    final Typography typography = Typography.material2018(platform: platform);
 
-    final Color _selectedTabColor = _colorScheme.primary;
+    final Color selectedTabColor = colorScheme.primary;
 
-    final Color _unselectedTabColor = _colorScheme.onSurface.withOpacity(0.6);
+    final Color unselectedTabColor = colorScheme.onSurface.withOpacity(0.6);
 
     double _tooltipFontSize() {
-      switch (_platform) {
+      switch (platform) {
         case TargetPlatform.macOS:
         case TargetPlatform.linux:
         case TargetPlatform.windows:
@@ -51,7 +51,7 @@ class AplicationTheme {
     }
 
     EdgeInsets _tooltipPadding() {
-      switch (_platform) {
+      switch (platform) {
         case TargetPlatform.macOS:
         case TargetPlatform.linux:
         case TargetPlatform.windows:
@@ -61,96 +61,94 @@ class AplicationTheme {
       }
     }
 
-    final Color _dividerColor = _colorScheme.onSurface.withOpacity(0.12);
-    final Color _disabledColor = Colors.black38;
-    final Color _hintColor = Colors.black.withOpacity(0.6);
+    final Color dividerColor = colorScheme.onSurface.withOpacity(0.12);
+    const Color disabledColor = Colors.black38;
+    final Color hintColor = Colors.black.withOpacity(0.6);
 
     return ThemeData(
-      fontFamily: "Brandon Grotesque",
-      typography: _typography,
-      platform: _platform,
-      brightness: _colorScheme.brightness,
-      primaryColor: _colorScheme.primary,
-      primaryColorBrightness:
-          ThemeData.estimateBrightnessForColor(_colorScheme.primary),
-      canvasColor: _colorScheme.background,
-      scaffoldBackgroundColor: _colorScheme.background,
-      cardColor: _colorScheme.surface,
-      dividerColor: _dividerColor,
-      backgroundColor: _colorScheme.background,
-      disabledColor: _disabledColor,
-      hintColor: _hintColor,
-      dialogBackgroundColor: _colorScheme.surface,
-      errorColor: _colorScheme.error,
-      indicatorColor: _selectedTabColor,
+      fontFamily: 'Brandon Grotesque',
+      typography: typography,
+      platform: platform,
+      brightness: colorScheme.brightness,
+      primaryColor: colorScheme.primary,
+  
+      canvasColor: colorScheme.background,
+      scaffoldBackgroundColor: colorScheme.background,
+      cardColor: colorScheme.surface,
+      dividerColor: dividerColor,
+      backgroundColor: colorScheme.background,
+      disabledColor: disabledColor,
+      hintColor: hintColor,
+      dialogBackgroundColor: colorScheme.surface,
+      errorColor: colorScheme.error,
+      indicatorColor: selectedTabColor,
       applyElevationOverlayColor: false,
-      colorScheme: _colorScheme,
-      toggleableActiveColor: _colorScheme.secondary,
-      primaryColorDark: _primaryColorDark,
-      primaryColorLight: _primaryColorLight,
-      secondaryHeaderColor: _secondaryHeaderColor,
+      colorScheme: colorScheme,
+      toggleableActiveColor: colorScheme.secondary,
+      primaryColorDark: primaryColorDark,
+      primaryColorLight: primaryColorLight,
+      secondaryHeaderColor: secondaryHeaderColor,
       appBarTheme: AppBarTheme(
-        backgroundColor: _effectiveAppBarColor,
+        backgroundColor: effectiveAppBarColor,
         foregroundColor:
-            _appBarBrightness == Brightness.dark ? Colors.white : Colors.black,
-        iconTheme: _appBarBrightness == Brightness.dark
+            appBarBrightness == Brightness.dark ? Colors.white : Colors.black,
+        iconTheme: appBarBrightness == Brightness.dark
             ? const IconThemeData(color: Colors.white)
             : const IconThemeData(color: Colors.black87),
-        actionsIconTheme: _appBarBrightness == Brightness.dark
+        actionsIconTheme: appBarBrightness == Brightness.dark
             ? const IconThemeData(color: Colors.white)
             : const IconThemeData(color: Colors.black87),
         elevation: 0.2,
         systemOverlayStyle: SystemUiOverlayStyle(
           statusBarColor: const Color(0x40000000),
-          statusBarBrightness: _appBarBrightness,
-          statusBarIconBrightness: _appBarBrightness == Brightness.dark
+          statusBarBrightness: appBarBrightness,
+          statusBarIconBrightness: appBarBrightness == Brightness.dark
               ? Brightness.light
               : Brightness.dark,
           systemNavigationBarColor: const Color(0xFF000000),
           systemNavigationBarIconBrightness: Brightness.dark,
-          systemNavigationBarDividerColor: null,
         ),
       ),
-      bottomAppBarColor: _colorScheme.background,
+      bottomAppBarColor: colorScheme.background,
       bottomAppBarTheme: BottomAppBarTheme(
-        color: _colorScheme.background,
+        color: colorScheme.background,
         elevation: 0.2,
       ),
       textSelectionTheme: TextSelectionThemeData(
-        selectionColor: _colorScheme.primary.withOpacity(0.30),
-        selectionHandleColor: _primaryColorDark,
+        selectionColor: colorScheme.primary.withOpacity(0.30),
+        selectionHandleColor: primaryColorDark,
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: _colorScheme.primary.withOpacity(0.035),
+        fillColor: colorScheme.primary.withOpacity(0.035),
       ),
       buttonTheme: const ButtonThemeData(
-        colorScheme: _colorScheme,
+        colorScheme: colorScheme,
         textTheme: ButtonTextTheme.primary,
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         padding: EdgeInsets.symmetric(horizontal: 16),
       ),
       chipTheme: ChipThemeData.fromDefaults(
-        secondaryColor: _colorScheme.primary,
-        brightness: _colorScheme.brightness,
-        labelStyle: _textTheme.bodyText1!,
+        secondaryColor: colorScheme.primary,
+        brightness: colorScheme.brightness,
+        labelStyle: textTheme.bodyText1!,
       ),
       tabBarTheme: TabBarTheme(
         indicatorSize: TabBarIndicatorSize.tab,
         labelStyle: const TextTheme().button,
-        labelColor: _selectedTabColor,
-        unselectedLabelColor: _unselectedTabColor,
+        labelColor: selectedTabColor,
+        unselectedLabelColor: unselectedTabColor,
       ),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
         selectedIconTheme: IconThemeData(
-          color: _colorScheme.primary,
+          color: colorScheme.primary,
         ),
-        selectedItemColor: _colorScheme.primary,
+        selectedItemColor: colorScheme.primary,
       ),
       tooltipTheme: TooltipThemeData(
         padding: _tooltipPadding(),
         margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-        textStyle: _textTheme.bodyText2!.copyWith(
+        textStyle: textTheme.bodyText2!.copyWith(
           inherit: false,
           color: Colors.white,
           fontSize: _tooltipFontSize(),
@@ -158,7 +156,7 @@ class AplicationTheme {
         decoration: BoxDecoration(
           color: const Color(0xF0FCFCFC),
           borderRadius: const BorderRadius.all(Radius.circular(4)),
-          border: Border.all(color: _dividerColor),
+          border: Border.all(color: dividerColor),
         ),
       ),
     );

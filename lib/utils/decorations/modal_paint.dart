@@ -7,8 +7,8 @@ class ModalPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final height = size.height;
     final width = size.width;
-    Paint paint = Paint();
-    Path ovalPath = Path();
+    final Paint paint = Paint();
+    final Path ovalPath = Path();
     // Start paint from 20% height to the left
     ovalPath.moveTo(0, height * 0.2);
 

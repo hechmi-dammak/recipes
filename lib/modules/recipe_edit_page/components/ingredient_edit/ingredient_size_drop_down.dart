@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:recipes/modules/recipe_edit_page/controller/recipe_edit_controller.dart';
-import 'package:recipes/utils/components/show_dialog.dart';
+import 'package:recipes/modules/recipe_edit_page/recipe_edit_controller.dart';
 import 'package:recipes/utils/components/ensure_visible.dart';
-import 'package:recipes/utils/components/show_snack_bar.dart';
+import 'package:recipes/utils/components/show_dialog.dart';
+import 'package:recipes/utils/components/snack_bar.dart';
 import 'package:recipes/utils/decorations/gradient_decoration.dart';
 
 class IngredientSizeDropDownInput extends StatefulWidget {
@@ -54,7 +54,7 @@ class _IngredientSizeDropDownInputState
               Flexible(
                 flex: 5,
                 child: Container(
-                  decoration: gradientDecoation(context),
+                  decoration: gradientDecoration(),
                   child: EnsureVisibleWhenFocused(
                     focusNode: _fieldNode,
                     child: ButtonTheme(
@@ -64,39 +64,40 @@ class _IngredientSizeDropDownInputState
                           if (recipeEditController.ingredientSizes.isNotEmpty) {
                             openItemsList();
                           } else {
-                            showInSnackBar(
-                                "There are no values yet add a new one.",
-                                status: false);
+                            CustomSnackBar.warning(
+                              'There are no values yet add a new one.',
+                            );
                           }
                         },
                         child: DropdownButtonFormField<String>(
                           focusNode: _fieldNode,
                           key: dropdownKey,
-                          dropdownColor: Theme.of(context).colorScheme.primary,
+                          dropdownColor: Get.theme.colorScheme.primary,
                           style: TextStyle(
                               overflow: TextOverflow.ellipsis,
-                              color: Theme.of(context).colorScheme.onPrimary,
+                              color: Get.theme.colorScheme.onPrimary,
                               fontSize: 18),
                           decoration: InputDecoration(
                               border: InputBorder.none,
                               labelStyle: TextStyle(
                                   overflow: TextOverflow.ellipsis,
                                   color:
-                                      Theme.of(context).colorScheme.onPrimary,
+                                      Get.theme.colorScheme.onPrimary,
                                   fontSize: 20),
-                              labelText: "Size"),
+                              labelText: 'Size'),
                           iconSize: 30,
                           value: recipeEditController
-                              .recipe.value.ingredients![widget.index].size,
+                              .recipe.ingredients[widget.index].size,
                           onChanged: (String? newValue) {
                             setState(() {
-                              recipeEditController.recipe.value
-                                  .ingredients![widget.index].size = newValue;
+                              recipeEditController.recipe
+                                  .ingredients[widget.index].size = newValue;
                             });
                           },
                           items: recipeEditController.ingredientSizes
                               .map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
+                                value: value,
                                 child: SizedBox(
                                   width:
                                       MediaQuery.of(context).size.width * 0.4,
@@ -104,8 +105,7 @@ class _IngredientSizeDropDownInputState
                                     value,
                                     overflow: TextOverflow.ellipsis,
                                   ),
-                                ),
-                                value: value);
+                                ));
                           }).toList(),
                         ),
                       ),
@@ -115,30 +115,30 @@ class _IngredientSizeDropDownInputState
               ),
               const SizedBox(width: 5),
               Flexible(
-                flex: 1,
                 child: Material(
                   color: Colors.transparent,
                   child: Ink(
-                    decoration: gradientDecoation(context),
+                    decoration: gradientDecoration(),
                     child: InkWell(
                         onTap: () {
-                          if (recipeEditController.recipe.value
-                                  .ingredients![widget.index].size !=
+                          if (recipeEditController
+                                  .recipe.ingredients[widget.index].size !=
                               null) {
                             setState(() {
-                              recipeEditController.recipe.value
-                                  .ingredients![widget.index].size = null;
+                              recipeEditController
+                                  .recipe.ingredients[widget.index].size = null;
                             });
                             return;
                           }
-                          recipeEditController.setDialOpen(false);
-                          showDialogInput(
+                          recipeEditController.isDialOpen = false;
+                          InputDialog(
                               title: 'Create a new size',
                               label: 'Size',
                               controller: _sizeController,
                               confirm: () async {
-                                if (_sizeController.text == "") {
-                                  showInSnackBar("Size shouldn't be empty.");
+                                if (_sizeController.text == '') {
+                                  CustomSnackBar.warning(
+                                      "Size shouldn't be empty.");
                                   return;
                                 }
                                 recipeEditController
@@ -146,21 +146,20 @@ class _IngredientSizeDropDownInputState
                                 setState(() {
                                   recipeEditController
                                       .recipe
-                                      .value
-                                      .ingredients![widget.index]
+                                      .ingredients[widget.index]
                                       .size = _sizeController.text;
                                 });
 
                                 Get.back();
 
                                 _sizeController.clear();
-                              });
+                              }).show();
                         },
                         child: SizedBox(
                             height: double.infinity,
                             width: double.infinity,
-                            child: Icon(recipeEditController.recipe.value
-                                        .ingredients![widget.index].size ==
+                            child: Icon(recipeEditController.recipe
+                                        .ingredients[widget.index].size ==
                                     null
                                 ? Icons.add
                                 : Icons.close_rounded))),

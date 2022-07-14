@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
-
-import 'package:recipes/models/ingredient.dart';
 import 'dart:math';
+
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:recipes/models/ingredient.dart';
 import 'package:recipes/utils/decorations/gradient_decoration.dart';
 import 'package:recipes/utils/decorations/modal_paint.dart';
 
@@ -31,26 +31,24 @@ class IngredientCardState extends State<IngredientCard> {
         padding: const EdgeInsets.all(2),
         child: Ink(
           width: min(MediaQuery.of(context).size.width * 3 / 5, 300),
-          decoration: gradientDecoationSecondery(context,
-              selected: widget.ingredient.selected ?? false),
+          decoration: gradientDecorationSecondary(widget.ingredient.selected ),
           child: InkWell(
             onLongPress: () => _onLongPress(context),
             onTap: () {
               setState(() {
                 widget.ingredient.selected =
-                    !(widget.ingredient.selected ?? true);
+                    !(widget.ingredient.selected);
               });
             },
             child: Container(
               margin: const EdgeInsets.all(5),
               child: Ink(
                 decoration: BoxDecoration(
-                    color: Theme.of(context).backgroundColor,
+                    color: Get.theme.backgroundColor,
                     borderRadius: const BorderRadius.all(Radius.circular(10))),
                 child: Stack(
                   children: [
                     Align(
-                      alignment: Alignment.center,
                       child: Container(
                         margin: const EdgeInsets.symmetric(
                             vertical: 5, horizontal: 10),
@@ -64,7 +62,7 @@ class IngredientCardState extends State<IngredientCard> {
                                   overflow: TextOverflow.ellipsis,
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
-                                  color: Theme.of(context)
+                                  color: Get.theme
                                       .buttonTheme
                                       .colorScheme!
                                       .onSecondary),
@@ -84,7 +82,7 @@ class IngredientCardState extends State<IngredientCard> {
                                       overflow: TextOverflow.ellipsis,
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold,
-                                      color: Theme.of(context)
+                                      color: Get.theme
                                           .buttonTheme
                                           .colorScheme!
                                           .onSecondary),
@@ -100,9 +98,9 @@ class IngredientCardState extends State<IngredientCard> {
                           child: Icon(
                             Icons.info_outline,
                             size: 27,
-                            color: widget.ingredient.selected ?? false
-                                ? Theme.of(context).colorScheme.secondary
-                                : Theme.of(context).colorScheme.primary,
+                            color: widget.ingredient.selected 
+                                ? Get.theme.colorScheme.secondary
+                                : Get.theme.colorScheme.primary,
                           ))
                   ],
                 ),
@@ -114,7 +112,7 @@ class IngredientCardState extends State<IngredientCard> {
     );
   }
 
-  _onLongPress(context) {
+ void  _onLongPress(context) {
     showModalBottomSheet(
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
@@ -125,17 +123,17 @@ class IngredientCardState extends State<IngredientCard> {
         builder: (context) {
           return Container(
             decoration: BoxDecoration(
-                color: widget.ingredient.selected ?? false
-                    ? Theme.of(context).colorScheme.secondary
-                    : Theme.of(context).primaryColor,
+                color: widget.ingredient.selected 
+                    ? Get.theme.colorScheme.secondary
+                    : Get.theme.primaryColor,
                 borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(10.0),
                     topRight: Radius.circular(10.0))),
             child: CustomPaint(
               painter: ModalPainter(
-                widget.ingredient.selected ?? false
-                    ? Theme.of(context).colorScheme.secondary
-                    : Theme.of(context).primaryColor,
+                widget.ingredient.selected 
+                    ? Get.theme.colorScheme.secondary
+                    : Get.theme.primaryColor,
               ),
               child: Column(
                 children: [
@@ -143,17 +141,17 @@ class IngredientCardState extends State<IngredientCard> {
                     margin: const EdgeInsets.only(top: 10),
                     child: ListTile(
                       leading: Text(
-                        "Name:",
+                        'Name:',
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          color: widget.ingredient.selected ?? false
-                              ? Theme.of(context)
+                          color: widget.ingredient.selected 
+                              ? Get.theme
                                   .buttonTheme
                                   .colorScheme!
                                   .onSecondary
-                              : Theme.of(context)
+                              : Get.theme
                                   .buttonTheme
                                   .colorScheme!
                                   .onPrimary,
@@ -165,12 +163,12 @@ class IngredientCardState extends State<IngredientCard> {
                         style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
-                            color: widget.ingredient.selected ?? false
-                                ? Theme.of(context)
+                            color: widget.ingredient.selected 
+                                ? Get.theme
                                     .buttonTheme
                                     .colorScheme!
                                     .onSecondary
-                                : Theme.of(context)
+                                : Get.theme
                                     .buttonTheme
                                     .colorScheme!
                                     .onPrimary),
@@ -182,17 +180,17 @@ class IngredientCardState extends State<IngredientCard> {
                       margin: const EdgeInsets.only(top: 10),
                       child: ListTile(
                         leading: Text(
-                          "Category:",
+                          'Category:',
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               fontSize: 17,
                               fontWeight: FontWeight.bold,
-                              color: widget.ingredient.selected ?? false
-                                  ? Theme.of(context)
+                              color: widget.ingredient.selected 
+                                  ? Get.theme
                                       .buttonTheme
                                       .colorScheme!
                                       .onSecondary
-                                  : Theme.of(context)
+                                  : Get.theme
                                       .buttonTheme
                                       .colorScheme!
                                       .onPrimary),
@@ -203,12 +201,12 @@ class IngredientCardState extends State<IngredientCard> {
                           style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
-                              color: widget.ingredient.selected ?? false
-                                  ? Theme.of(context)
+                              color: widget.ingredient.selected 
+                                  ? Get.theme
                                       .buttonTheme
                                       .colorScheme!
                                       .onSecondary
-                                  : Theme.of(context)
+                                  : Get.theme
                                       .buttonTheme
                                       .colorScheme!
                                       .onPrimary),
@@ -222,17 +220,17 @@ class IngredientCardState extends State<IngredientCard> {
                       margin: const EdgeInsets.only(top: 10),
                       child: ListTile(
                         leading: Text(
-                          "Quantity:",
+                          'Quantity:',
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
-                              color: widget.ingredient.selected ?? false
-                                  ? Theme.of(context)
+                              color: widget.ingredient.selected 
+                                  ? Get.theme
                                       .buttonTheme
                                       .colorScheme!
                                       .onSecondary
-                                  : Theme.of(context)
+                                  : Get.theme
                                       .buttonTheme
                                       .colorScheme!
                                       .onPrimary),
@@ -246,12 +244,12 @@ class IngredientCardState extends State<IngredientCard> {
                           style: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.bold,
-                              color: widget.ingredient.selected ?? false
-                                  ? Theme.of(context)
+                              color: widget.ingredient.selected 
+                                  ? Get.theme
                                       .buttonTheme
                                       .colorScheme!
                                       .onSecondary
-                                  : Theme.of(context)
+                                  : Get.theme
                                       .buttonTheme
                                       .colorScheme!
                                       .onPrimary),
@@ -263,16 +261,16 @@ class IngredientCardState extends State<IngredientCard> {
                       margin: const EdgeInsets.only(top: 10),
                       child: ListTile(
                         leading: Text(
-                          "Method:",
+                          'Method:',
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               fontSize: 16,
-                              color: widget.ingredient.selected ?? false
-                                  ? Theme.of(context)
+                              color: widget.ingredient.selected 
+                                  ? Get.theme
                                       .buttonTheme
                                       .colorScheme!
                                       .onSecondary
-                                  : Theme.of(context)
+                                  : Get.theme
                                       .buttonTheme
                                       .colorScheme!
                                       .onPrimary),
@@ -282,12 +280,12 @@ class IngredientCardState extends State<IngredientCard> {
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               fontSize: 15,
-                              color: widget.ingredient.selected ?? false
-                                  ? Theme.of(context)
+                              color: widget.ingredient.selected 
+                                  ? Get.theme
                                       .buttonTheme
                                       .colorScheme!
                                       .onSecondary
-                                  : Theme.of(context)
+                                  : Get.theme
                                       .buttonTheme
                                       .colorScheme!
                                       .onPrimary),

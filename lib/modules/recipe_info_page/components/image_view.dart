@@ -1,24 +1,23 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
-import 'package:recipes/modules/recipe_info_page/controller/recipe_info_controller.dart';
+import 'package:get/get.dart';
 
 class ImageView extends StatelessWidget {
-  ImageView({
-    Key? key,
-  }) : super(key: key);
+  final Uint8List image;
 
-  final RecipeInfoController recipeInfoController = RecipeInfoController.find;
+  const ImageView({super.key, required this.image});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
       decoration: BoxDecoration(
-        border:
-            Border.all(color: Theme.of(context).colorScheme.primary, width: 4),
+        border: Border.all(color: Get.theme.colorScheme.primary, width: 4),
         borderRadius: BorderRadius.circular(10),
         color: Colors.grey,
         image: DecorationImage(
-          image: MemoryImage(recipeInfoController.recipe.value.picture!.image!),
+          image: MemoryImage(image),
           fit: BoxFit.cover,
         ),
         boxShadow: [

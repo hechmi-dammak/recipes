@@ -1,12 +1,9 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
-import 'package:meta/meta.dart';
+import 'package:get/get.dart';
 
 class SpinFormatter extends TextInputFormatter {
   SpinFormatter({required this.min, required this.max, required this.decimals});
@@ -75,7 +72,7 @@ abstract class BaseSpinBox extends StatefulWidget {
 
   double get min;
   double get max;
-  double get step;
+  double get instruction;
   double get value;
   int get decimals;
   ValueChanged<double>? get onChanged;
@@ -126,11 +123,11 @@ abstract class BaseSpinBoxState<T extends BaseSpinBox> extends State<T> {
   KeyEventResult _handleKey(RawKeyEvent event) {
     KeyEventResult result = KeyEventResult.ignored;
     if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
-      if (event is RawKeyUpEvent || setValue(value + widget.step)) {
+      if (event is RawKeyUpEvent || setValue(value + widget.instruction)) {
         result = KeyEventResult.handled;
       }
     } else if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
-      if (event is RawKeyUpEvent || setValue(value - widget.step)) {
+      if (event is RawKeyUpEvent || setValue(value - widget.instruction)) {
         result = KeyEventResult.handled;
       }
     }
@@ -216,31 +213,31 @@ class SpinGesture extends StatefulWidget {
     Key? key,
     this.enabled = true,
     required this.child,
-    required this.step,
+    required this.instruction,
     this.acceleration,
     required this.interval,
-    required this.onStep,
+    required this.onInstruction,
   }) : super(key: key);
 
   final bool enabled;
   final Widget child;
-  final double step;
+  final double instruction;
   final double? acceleration;
   final Duration interval;
-  final SpinCallback onStep;
+  final SpinCallback onInstruction;
 
   @override
-  _SpinGestureState createState() => _SpinGestureState();
+  SpinGestureState createState() => SpinGestureState();
 }
 
-class _SpinGestureState extends State<SpinGesture> {
+class SpinGestureState extends State<SpinGesture> {
   Timer? timer;
-  late double step;
+  late double instruction;
 
   @override
   void initState() {
     super.initState();
-    step = widget.step;
+    instruction = widget.instruction;
   }
 
   @override
@@ -258,18 +255,18 @@ class _SpinGestureState extends State<SpinGesture> {
     );
   }
 
-  bool onStep() {
+  bool onInstruction() {
     if (!widget.enabled) return false;
     if (widget.acceleration != null) {
-      step += widget.acceleration!;
+      instruction += widget.acceleration!;
     }
-    return widget.onStep(step);
+    return widget.onInstruction(instruction);
   }
 
   void startTimer() {
     if (timer != null) return;
     timer = Timer.periodic(widget.interval, (timer) {
-      if (!onStep()) {
+      if (!onInstruction()) {
         stopTimer();
       }
     });
@@ -278,7 +275,7 @@ class _SpinGestureState extends State<SpinGesture> {
   void stopTimer() {
     timer?.cancel();
     timer = null;
-    step = widget.step;
+    instruction = widget.instruction;
   }
 }
 
@@ -288,19 +285,19 @@ class SpinButton extends StatelessWidget {
     required this.icon,
     this.color,
     this.enabled = true,
-    required this.step,
+    required this.instruction,
     this.acceleration,
     required this.interval,
-    required this.onStep,
+    required this.onInstruction,
   }) : super(key: key);
 
   final Icon icon;
   final Color? color;
   final bool enabled;
-  final double step;
+  final double instruction;
   final double? acceleration;
   final Duration interval;
-  final SpinCallback onStep;
+  final SpinCallback onInstruction;
 
   @override
   Widget build(BuildContext context) {
@@ -310,13 +307,13 @@ class SpinButton extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       child: SpinGesture(
         enabled: enabled,
-        step: step,
+        instruction: instruction,
         interval: interval,
         acceleration: acceleration,
-        onStep: onStep,
+        onInstruction: onInstruction,
         child: InkWell(
+          onTap: enabled ? () => onInstruction(instruction) : null,
           child: icon,
-          onTap: enabled ? () => onStep(step) : null,
         ),
       ),
     );
@@ -328,7 +325,7 @@ class SpinBox extends BaseSpinBox {
     Key? key,
     this.min = 0,
     this.max = 100,
-    this.step = 1,
+    this.instruction = 1,
     this.value = 0,
     this.interval = const Duration(milliseconds: 100),
     this.acceleration,
@@ -380,7 +377,7 @@ class SpinBox extends BaseSpinBox {
   final double max;
 
   @override
-  final double step;
+  final double instruction;
 
   @override
   final double value;
@@ -444,10 +441,10 @@ class SpinBox extends BaseSpinBox {
   final ToolbarOptions? toolbarOptions;
 
   @override
-  _SpinBoxState createState() => _SpinBoxState();
+  SpinBoxState createState() => SpinBoxState();
 }
 
-class _SpinBoxState extends BaseSpinBoxState<SpinBox> {
+class SpinBoxState extends BaseSpinBoxState<SpinBox> {
   Color _activeColor(ThemeData theme) {
     if (hasFocus) return theme.primaryColor;
 
@@ -480,7 +477,7 @@ class _SpinBoxState extends BaseSpinBoxState<SpinBox> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final theme = Get.theme;
     final decoration = widget.decoration;
 
     final errorText =
@@ -531,25 +528,25 @@ class _SpinBoxState extends BaseSpinBoxState<SpinBox> {
     );
 
     final incrementButton = SpinButton(
-      step: widget.step,
+      instruction: widget.instruction,
       color: iconColor,
       icon: widget.incrementIcon,
       enabled: widget.enabled && value < widget.max,
       interval: widget.interval,
       acceleration: widget.acceleration,
-      onStep: (step) => setValue(value + step),
+      onInstruction: (instruction) => setValue(value + instruction),
     );
 
     if (!widget.showButtons) return textField;
 
     final decrementButton = SpinButton(
-      step: widget.step,
+      instruction: widget.instruction,
       color: iconColor,
       icon: widget.decrementIcon,
       enabled: widget.enabled && value > widget.min,
       interval: widget.interval,
       acceleration: widget.acceleration,
-      onStep: (step) => setValue(value - step),
+      onInstruction: (instruction) => setValue(value - instruction),
     );
 
     return Stack(

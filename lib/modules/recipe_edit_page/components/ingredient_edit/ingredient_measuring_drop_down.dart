@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:recipes/modules/recipe_edit_page/controller/recipe_edit_controller.dart';
-import 'package:recipes/utils/components/show_dialog.dart';
+import 'package:recipes/modules/recipe_edit_page/recipe_edit_controller.dart';
 import 'package:recipes/utils/components/ensure_visible.dart';
-import 'package:recipes/utils/components/show_snack_bar.dart';
+import 'package:recipes/utils/components/show_dialog.dart';
+import 'package:recipes/utils/components/snack_bar.dart';
 import 'package:recipes/utils/decorations/gradient_decoration.dart';
 
 class IngredientMeasuringDropDownInput extends StatefulWidget {
@@ -54,7 +54,7 @@ class _IngredientMeasuringDropDownInputState
               Flexible(
                 flex: 5,
                 child: Container(
-                  decoration: gradientDecoation(context),
+                  decoration: gradientDecoration(),
                   child: EnsureVisibleWhenFocused(
                     focusNode: _fieldNode,
                     child: ButtonTheme(
@@ -62,44 +62,44 @@ class _IngredientMeasuringDropDownInputState
                       child: GestureDetector(
                         onTap: () {
                           if (recipeEditController
-                              .ingredientMeasurings.isNotEmpty) {
+                              .ingredientMeasuring.isNotEmpty) {
                             openItemsList();
                           } else {
-                            showInSnackBar(
-                                "There are no values yet add a new one.",
-                                status: false);
+                            CustomSnackBar.warning(
+                              'There are no values yet add a new one.',
+                            );
                           }
                         },
                         child: DropdownButtonFormField<String>(
                           key: dropdownKey,
-                          dropdownColor: Theme.of(context).colorScheme.primary,
+                          dropdownColor: Get.theme.colorScheme.primary,
                           style: TextStyle(
                               overflow: TextOverflow.ellipsis,
-                              color: Theme.of(context).colorScheme.onPrimary,
+                              color: Get.theme.colorScheme.onPrimary,
                               fontSize: 18),
                           decoration: InputDecoration(
                               border: InputBorder.none,
                               labelStyle: TextStyle(
                                   overflow: TextOverflow.ellipsis,
                                   color:
-                                      Theme.of(context).colorScheme.onPrimary,
+                                      Get.theme.colorScheme.onPrimary,
                                   fontSize: 20),
-                              labelText: "Measuring"),
+                              labelText: 'Measuring'),
                           iconSize: 30,
-                          value: recipeEditController.recipe.value
-                              .ingredients![widget.index].measuring,
+                          value: recipeEditController
+                              .recipe.ingredients[widget.index].measuring,
                           onChanged: (String? newValue) {
                             setState(() {
                               recipeEditController
                                   .recipe
-                                  .value
-                                  .ingredients![widget.index]
+                                  .ingredients[widget.index]
                                   .measuring = newValue;
                             });
                           },
-                          items: recipeEditController.ingredientMeasurings
+                          items: recipeEditController.ingredientMeasuring
                               .map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
+                                value: value,
                                 child: SizedBox(
                                   width:
                                       MediaQuery.of(context).size.width * 0.4,
@@ -107,8 +107,7 @@ class _IngredientMeasuringDropDownInputState
                                     value,
                                     overflow: TextOverflow.ellipsis,
                                   ),
-                                ),
-                                value: value);
+                                ));
                           }).toList(),
                         ),
                       ),
@@ -118,30 +117,29 @@ class _IngredientMeasuringDropDownInputState
               ),
               const SizedBox(width: 5),
               Flexible(
-                flex: 1,
                 child: Material(
                   color: Colors.transparent,
                   child: Ink(
-                    decoration: gradientDecoation(context),
+                    decoration: gradientDecoration(),
                     child: InkWell(
                         onTap: () {
-                          if (recipeEditController.recipe.value
-                                  .ingredients![widget.index].measuring !=
+                          if (recipeEditController
+                                  .recipe.ingredients[widget.index].measuring !=
                               null) {
                             setState(() {
-                              recipeEditController.recipe.value
-                                  .ingredients![widget.index].measuring = null;
+                              recipeEditController.recipe
+                                  .ingredients[widget.index].measuring = null;
                             });
                             return;
                           }
-                          recipeEditController.setDialOpen(false);
-                          showDialogInput(
+                          recipeEditController.isDialOpen = false;
+                          InputDialog(
                               title: 'Create a new measuring',
                               label: 'Measuring',
                               controller: _measuringController,
                               confirm: () async {
-                                if (_measuringController.text == "") {
-                                  showInSnackBar(
+                                if (_measuringController.text == '') {
+                                  CustomSnackBar.warning(
                                       "Measuring shouldn't be empty.");
                                   return;
                                 }
@@ -151,21 +149,20 @@ class _IngredientMeasuringDropDownInputState
                                 setState(() {
                                   recipeEditController
                                       .recipe
-                                      .value
-                                      .ingredients![widget.index]
+                                      .ingredients[widget.index]
                                       .measuring = _measuringController.text;
                                 });
 
                                 Get.back();
 
                                 _measuringController.clear();
-                              });
+                              }).show();
                         },
                         child: SizedBox(
                             height: double.infinity,
                             width: double.infinity,
-                            child: Icon(recipeEditController.recipe.value
-                                        .ingredients![widget.index].measuring ==
+                            child: Icon(recipeEditController.recipe
+                                        .ingredients[widget.index].measuring ==
                                     null
                                 ? Icons.add
                                 : Icons.close_rounded))),

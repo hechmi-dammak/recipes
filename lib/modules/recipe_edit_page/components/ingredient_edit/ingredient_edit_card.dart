@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:recipes/modules/recipe_edit_page/components/ingredient_edit/ingredient_edit_card_components.dart';
-import 'package:recipes/modules/recipe_edit_page/controller/recipe_edit_controller.dart';
+import 'package:recipes/modules/recipe_edit_page/recipe_edit_controller.dart';
 import 'package:recipes/utils/decorations/gradient_decoration.dart';
 
 class IngredientEditCard extends StatefulWidget {
@@ -28,27 +29,27 @@ class IngredientEditCardState extends State<IngredientEditCard> {
                   margin: const EdgeInsets.all(2),
                   padding: const EdgeInsets.all(5),
                   child: Ink(
-                    decoration: gradientDecoationSecondery(context,
-                        selected: recipeEditController
-                            .recipe.value.ingredients![widget.index].selected),
+                    decoration: gradientDecorationSecondary(
+                         recipeEditController
+                            .recipe.ingredients[widget.index].selected),
                     child: InkWell(
                       onTap: () {
-                        if (recipeEditController.selectionIsActive.value) {
+                        if (recipeEditController.selectionIsActive) {
                           recipeEditController.setItemSelected(
                               recipeEditController
-                                  .recipe.value.ingredients![widget.index]);
+                                  .recipe.ingredients[widget.index]);
                         }
                       },
                       onLongPress: () {
                         recipeEditController.setItemSelected(
                             recipeEditController
-                                .recipe.value.ingredients![widget.index]);
+                                .recipe.ingredients[widget.index]);
                       },
                       child: Container(
                         margin: const EdgeInsets.all(5.0),
                         child: Ink(
                           decoration: BoxDecoration(
-                              color: Theme.of(context).backgroundColor,
+                              color: Get.theme.backgroundColor,
                               borderRadius:
                                   const BorderRadius.all(Radius.circular(10))),
                           child: Container(
@@ -67,7 +68,7 @@ class IngredientEditCardState extends State<IngredientEditCard> {
               ),
             ),
             EditButton(index: widget.index),
-            if (recipeEditController.selectionIsActive.value)
+            if (recipeEditController.selectionIsActive)
               SelectIndicator(
                 index: widget.index,
               )
@@ -99,18 +100,17 @@ class SelectIndicator extends StatelessWidget {
         top: 50,
         right: 10,
         child:
-            (recipeEditController.recipe.value.ingredients![index].selected ??
-                    false)
+            (recipeEditController.recipe.ingredients[index].selected )
                 ? Container(
                     margin: const EdgeInsets.all(15),
                     child: Icon(Icons.check_circle_outline_outlined,
                         size: 30,
-                        color: Theme.of(context).colorScheme.secondary),
+                        color: Get.theme.colorScheme.secondary),
                   )
                 : Container(
                     margin: const EdgeInsets.all(15),
                     child: Icon(Icons.radio_button_unchecked_rounded,
-                        size: 30, color: Theme.of(context).colorScheme.primary),
+                        size: 30, color: Get.theme.colorScheme.primary),
                   ));
   }
 }

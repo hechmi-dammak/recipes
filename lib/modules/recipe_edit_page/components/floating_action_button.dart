@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:recipes/modules/recipe_edit_page/controller/recipe_edit_controller.dart';
+import 'package:get/get.dart';
+import 'package:recipes/modules/recipe_edit_page/recipe_edit_controller.dart';
 
 class RecipeCreateFloatingButton extends StatefulWidget {
   const RecipeCreateFloatingButton({
@@ -8,11 +9,11 @@ class RecipeCreateFloatingButton extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _RecipeCreateFloatingButtonState createState() =>
-      _RecipeCreateFloatingButtonState();
+  RecipeCreateFloatingButtonState createState() =>
+      RecipeCreateFloatingButtonState();
 }
 
-class _RecipeCreateFloatingButtonState
+class RecipeCreateFloatingButtonState
     extends State<RecipeCreateFloatingButton> {
   double iconSize = 30;
   RecipeEditController recipeEditController = RecipeEditController.find;
@@ -20,30 +21,29 @@ class _RecipeCreateFloatingButtonState
   @override
   Widget build(BuildContext context) {
     return SpeedDial(
-      backgroundColor: Theme.of(context).colorScheme.primary,
+      backgroundColor: Get.theme.colorScheme.primary,
       icon: Icons.add_rounded,
       renderOverlay: false,
       activeIcon: Icons.close,
       spacing: 3,
-      openCloseDial: recipeEditController.isDialOpen,
+      openCloseDial: recipeEditController.isDialOpenNotifier,
       childPadding: const EdgeInsets.all(5),
       spaceBetweenChildren: 4,
       buttonSize: const Size(60, 60),
       iconTheme: IconThemeData(
-          color: Theme.of(context).colorScheme.onPrimary, size: iconSize + 5),
+          color: Get.theme.colorScheme.onPrimary, size: iconSize + 5),
       childrenButtonSize: const Size(65, 65),
       elevation: 8.0,
-      isOpenOnStart: false,
-      animationSpeed: 200,
+      animationDuration:const Duration(milliseconds: 200),
       children: [
         SpeedDialChild(
           child: Icon(Icons.fastfood_rounded, size: iconSize),
-          backgroundColor: Theme.of(context).colorScheme.primaryVariant,
-          foregroundColor: Theme.of(context).colorScheme.onPrimary,
+          backgroundColor: Get.theme.colorScheme.primaryContainer,
+          foregroundColor: Get.theme.colorScheme.onPrimary,
           label: 'Create new ingredient',
           onTap: () async {
             await recipeEditController.addNewIngredient();
-            WidgetsBinding.instance?.addPostFrameCallback((_) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
               recipeEditController.mainScrollController.animateTo(
                 recipeEditController
                         .ingredientListKey.currentContext?.size?.height ??
@@ -57,12 +57,12 @@ class _RecipeCreateFloatingButtonState
         ),
         SpeedDialChild(
           child: Icon(Icons.format_list_numbered, size: iconSize),
-          backgroundColor: Theme.of(context).colorScheme.primaryVariant,
-          foregroundColor: Theme.of(context).colorScheme.onPrimary,
-          label: 'Create new step',
+          backgroundColor: Get.theme.colorScheme.primaryContainer,
+          foregroundColor: Get.theme.colorScheme.onPrimary,
+          label: 'Create new instruction',
           onTap: () async {
-            await recipeEditController.addNewStep();
-            WidgetsBinding.instance?.addPostFrameCallback((_) {
+            await recipeEditController.addNewInstruction();
+            WidgetsBinding.instance.addPostFrameCallback((_) {
               recipeEditController.mainScrollController.animateTo(
                 recipeEditController
                     .mainScrollController.position.maxScrollExtent,

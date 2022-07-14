@@ -3,10 +3,7 @@ import 'dart:typed_data';
 const String tablePictures = 'pictures';
 
 class PictureFields {
-  static final List<String> values = [
-    /// Add all fields expect ManyToMany and OneToMany
-    id, image
-  ];
+  static final List<String> values = [id, image];
   static const String id = '_id';
   static const String image = 'image';
 }
