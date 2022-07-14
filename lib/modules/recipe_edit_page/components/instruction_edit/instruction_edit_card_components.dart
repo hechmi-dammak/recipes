@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_reorderable_list/flutter_reorderable_list.dart';
 import 'package:get/get.dart';
+import 'package:recipes/components/ensure_visible.dart';
+import 'package:recipes/decorations/gradient_decoration.dart';
+import 'package:recipes/decorations/input_decoration.dart';
 import 'package:recipes/modules/recipe_edit_page/recipe_edit_controller.dart';
-import 'package:recipes/utils/components/ensure_visible.dart';
-import 'package:recipes/utils/decorations/gradient_decoration.dart';
-import 'package:recipes/utils/decorations/input_decoration.dart';
 
 class EditButton extends StatelessWidget {
   EditButton({Key? key, required this.index}) : super(key: key);
   final int index;
   final RecipeEditController recipeEditController = RecipeEditController.find;
+
   @override
   Widget build(BuildContext context) {
     return Positioned(
@@ -26,8 +27,8 @@ class EditButton extends StatelessWidget {
                 onTap: () {
                   recipeEditController.setInEditing(
                       recipeEditController.recipe.instructions[index],
-                      value:
-                          (recipeEditController.recipe.instructions[index].inEditing));
+                      value: (recipeEditController
+                          .recipe.instructions[index].inEditing));
                   Scrollable.ensureVisible(context);
                 },
                 child: SizedBox(
@@ -79,7 +80,8 @@ class DragButton extends StatelessWidget {
 }
 
 class InsideInstructionCard extends StatefulWidget {
-  const InsideInstructionCard({Key? key, required this.index}) : super(key: key);
+  const InsideInstructionCard({Key? key, required this.index})
+      : super(key: key);
   final int index;
 
   @override
@@ -91,6 +93,7 @@ class InsideInstructionCardState extends State<InsideInstructionCard> {
   final _instructionFormKey = GlobalKey<FormState>();
   final _toDoNode = FocusNode();
   AutovalidateMode? validation;
+
   @override
   void dispose() {
     _toDoNode.dispose();
@@ -118,10 +121,12 @@ class InsideInstructionCardState extends State<InsideInstructionCard> {
             }
             return null;
           },
-          initialValue: recipeEditController.recipe.instructions[widget.index].toDo,
+          initialValue:
+              recipeEditController.recipe.instructions[widget.index].toDo,
           onChanged: (value) {
             setState(() {
-              recipeEditController.recipe.instructions[widget.index].toDo = value;
+              recipeEditController.recipe.instructions[widget.index].toDo =
+                  value;
               if (validation != null) validation = null;
             });
           },
@@ -132,7 +137,8 @@ class InsideInstructionCardState extends State<InsideInstructionCard> {
       );
     } else {
       child = Text(
-        (recipeEditController.recipe.instructions[widget.index].toDo).capitalize!,
+        (recipeEditController.recipe.instructions[widget.index].toDo)
+            .capitalize!,
         overflow: TextOverflow.ellipsis,
         textAlign: TextAlign.center,
         style: TextStyle(

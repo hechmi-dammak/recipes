@@ -14,30 +14,28 @@ class IngredientEditListState extends State<IngredientEditList> {
   List<GlobalObjectKey<IngredientEditCardState>> ingredientListKeys = [];
   List<Widget> children = [];
   final RecipeEditController recipeEditController = RecipeEditController.find;
+
   @override
   Widget build(BuildContext context) {
-  
-      ingredientListKeys = List.generate(
-          recipeEditController.recipe.ingredients.length,
-          (index) => GlobalObjectKey<IngredientEditCardState>(index));
-      children = List.generate(
-          recipeEditController.recipe.ingredients.length,
-          (index) =>
-              IngredientEditCard(index: index, key: ingredientListKeys[index]));
-    
+    ingredientListKeys = List.generate(
+        recipeEditController.recipe.ingredients.length,
+        (index) => GlobalObjectKey<IngredientEditCardState>(index));
+    children = List.generate(
+        recipeEditController.recipe.ingredients.length,
+        (index) =>
+            IngredientEditCard(index: index, key: ingredientListKeys[index]));
+
     return GetBuilder<RecipeEditController>(builder: (_) {
       return Column(
         children: [
-          if (
-              recipeEditController.recipe.ingredients.isNotEmpty)
+          if (recipeEditController.recipe.ingredients.isNotEmpty)
             Container(
               height: 40,
               margin: const EdgeInsets.only(top: 25),
               child: Text(
                 'Ingredients',
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                    fontSize: 25, color: Get.theme.primaryColor),
+                style: TextStyle(fontSize: 25, color: Get.theme.primaryColor),
               ),
             ),
           ListView(

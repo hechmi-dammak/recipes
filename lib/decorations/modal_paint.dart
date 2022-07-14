@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 
 class ModalPainter extends CustomPainter {
   Color color;
+
   ModalPainter(this.color);
+
   @override
   void paint(Canvas canvas, Size size) {
     final height = size.height;

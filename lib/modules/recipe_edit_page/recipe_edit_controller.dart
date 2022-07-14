@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:recipes/components/snack_bar.dart';
 import 'package:recipes/models/ingredient.dart';
 import 'package:recipes/models/instruction.dart';
 import 'package:recipes/models/picture.dart';
@@ -13,7 +14,6 @@ import 'package:recipes/service/image_operations.dart';
 import 'package:recipes/service/repository/ingredient_repository.dart';
 import 'package:recipes/service/repository/instruction_repository.dart';
 import 'package:recipes/service/repository/recipe_repository.dart';
-import 'package:recipes/utils/components/snack_bar.dart';
 
 class RecipeEditController extends GetxController {
   final int defaultServingValue = 4;
@@ -37,8 +37,7 @@ class RecipeEditController extends GetxController {
   final instructionsListKey = GlobalKey<InstructionEditListState>();
   final recipeFormKey = GlobalKey<FormState>();
 
-  RecipeEditController({this.recipeId}){
-
+  RecipeEditController({this.recipeId}) {
     initRecipe();
   }
 
@@ -51,6 +50,7 @@ class RecipeEditController extends GetxController {
   List<String> get ingredientSizes => _ingredientSizes.value;
 
   bool get isDialOpen => _isDialOpen.value;
+
   ValueNotifier<bool> get isDialOpenNotifier => _isDialOpen;
 
   set isDialOpen(bool value) {
@@ -114,13 +114,12 @@ class RecipeEditController extends GetxController {
     update();
   }
 
-
-
   Future<void> saveRecipe() async {
-     final recipeRepository = RecipeRepository.find;
+    final recipeRepository = RecipeRepository.find;
 
-
-    recipe.instructions.asMap().forEach((index, element) => {element.order = index});
+    recipe.instructions
+        .asMap()
+        .forEach((index, element) => {element.order = index});
     recipe.servings = servings;
     if (recipe.id == null) {
       await recipeRepository.create(recipe);
@@ -130,6 +129,7 @@ class RecipeEditController extends GetxController {
     await RecipesListController.find.loadRecipes();
     update();
   }
+
 //-----------Selection---------------
 
   void setItemSelected(item) {
@@ -222,13 +222,12 @@ class RecipeEditController extends GetxController {
 //-----------delete  Data---------------
   void deleteSelectedItems() async {
     loading = true;
-  final instructionRepository = InstructionRepository.find;
-  final ingredientRepository = IngredientRepository.find;
+    final instructionRepository = InstructionRepository.find;
+    final ingredientRepository = IngredientRepository.find;
     _recipe.update((recipe) {
       if (recipe == null) {
         return;
       }
-
 
       final instructions = recipe.instructions.toList();
       instructions.removeWhere((instruction) {
@@ -337,7 +336,8 @@ class RecipeEditController extends GetxController {
 
 //-----------order instructions---------------
   int _indexOfKey(Key key) {
-    return (recipe.instructions).indexWhere((Instruction instruction) => instruction.key == key);
+    return (recipe.instructions)
+        .indexWhere((Instruction instruction) => instruction.key == key);
   }
 
   bool reorderCallback(Key item, Key newPosition) {

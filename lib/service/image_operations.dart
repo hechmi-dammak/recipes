@@ -2,9 +2,9 @@ import 'package:get/get.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:recipes/components/snack_bar.dart';
 import 'package:recipes/models/picture.dart';
 import 'package:recipes/service/repository/picture_repository.dart';
-import 'package:recipes/utils/components/snack_bar.dart';
 
 class ImageOperations extends GetxService {
   static ImageOperations get find => Get.find<ImageOperations>();

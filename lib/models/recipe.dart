@@ -28,6 +28,7 @@ class Recipe {
   Map<String, List<Ingredient>>? ingredientsByCategory;
   bool selected = false;
   Picture? picture;
+
   Recipe(
       {this.id,
       this.name = '',
@@ -41,6 +42,7 @@ class Recipe {
         ingredients = ingredients ?? [] {
     initIngredientsByCategory();
   }
+
   void initIngredientsByCategory() {
     ingredientsByCategory = {};
 
@@ -107,13 +109,14 @@ class Recipe {
         if (!export || (instructions.isNotEmpty))
           RecipeFields.instructions: instructions.isEmpty
               ? null
-              :instructions.map((v) => v.toJson(export)).toList(),
+              : instructions.map((v) => v.toJson(export)).toList(),
         if (!export || (ingredients.isNotEmpty))
           RecipeFields.ingredients: ingredients.isEmpty
               ? null
               : ingredients.map((v) => v.toJson(export)).toList(),
         if (!export || picture != null) RecipeFields.picture: picture?.toJson(),
       };
+
   Map<String, dynamic> toDatabaseJson([bool noId = false]) => {
         RecipeFields.id: noId ? null : id,
         RecipeFields.name: name,
@@ -121,6 +124,7 @@ class Recipe {
         RecipeFields.servings: servings,
         RecipeFields.pictureId: picture?.id
       };
+
   Recipe copy(
           {int? id,
           String? name,

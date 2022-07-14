@@ -8,6 +8,7 @@ import 'package:sqflite/sqflite.dart';
 
 class DataBaseProvider extends GetxService {
   static DataBaseProvider get find => Get.find<DataBaseProvider>();
+
   static Future<Database> get database async {
     final dataBaseRepository = DataBaseProvider.find;
     dataBaseRepository._database = dataBaseRepository._database ??
@@ -27,8 +28,6 @@ class DataBaseProvider extends GetxService {
         onCreate: _createDB,
         onConfigure: _onConfigure);
   }
-
-
 
   Future<void> _createDB(Database db, int version) async {
     const idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';

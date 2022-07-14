@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_reorderable_list/flutter_reorderable_list.dart';
 import 'package:get/get.dart';
+import 'package:recipes/decorations/gradient_decoration.dart';
 import 'package:recipes/modules/recipe_edit_page/components/instruction_edit/instruction_edit_card_components.dart';
 import 'package:recipes/modules/recipe_edit_page/recipe_edit_controller.dart';
-import 'package:recipes/utils/decorations/gradient_decoration.dart';
 
 class InstructionEditCard extends StatefulWidget {
   final bool isFirst;
   final bool isLast;
   final int index;
+
   const InstructionEditCard({
     Key? key,
     required this.index,
@@ -23,6 +24,7 @@ class InstructionEditCard extends StatefulWidget {
 class InstructionEditCardState extends State<InstructionEditCard> {
   RecipeEditController recipeEditController = RecipeEditController.find;
   final _instructionCardKey = GlobalKey<InsideInstructionCardState>();
+
   Widget _buildChild(BuildContext context, ReorderableItemState state) {
     return SafeArea(
         top: false,
@@ -71,7 +73,8 @@ class InstructionEditCardState extends State<InstructionEditCard> {
                                 padding: const EdgeInsets.only(
                                     top: 40, left: 10, right: 10, bottom: 10),
                                 child: InsideInstructionCard(
-                                    key: _instructionCardKey, index: widget.index),
+                                    key: _instructionCardKey,
+                                    index: widget.index),
                               ),
                             ),
                           ),

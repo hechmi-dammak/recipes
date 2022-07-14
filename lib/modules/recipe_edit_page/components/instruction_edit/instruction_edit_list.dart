@@ -15,9 +15,11 @@ class InstructionEditListState extends State<InstructionEditList> {
   final RecipeEditController recipeEditController = RecipeEditController.find;
   List<GlobalObjectKey<InstructionEditCardState>> instructionListKeys = [];
   List<Widget> children = [];
+
   @override
   Widget build(BuildContext context) {
-    instructionListKeys = List.generate(recipeEditController.recipe.instructions.length,
+    instructionListKeys = List.generate(
+        recipeEditController.recipe.instructions.length,
         (index) => GlobalObjectKey<InstructionEditCardState>(index));
     children = List.generate(
         recipeEditController.recipe.instructions.length,
@@ -25,7 +27,8 @@ class InstructionEditListState extends State<InstructionEditList> {
             key: instructionListKeys[index],
             index: index,
             isFirst: index == 0,
-            isLast: index == recipeEditController.recipe.instructions.length - 1));
+            isLast:
+                index == recipeEditController.recipe.instructions.length - 1));
 
     return GetBuilder<RecipeEditController>(
       builder: (_) {

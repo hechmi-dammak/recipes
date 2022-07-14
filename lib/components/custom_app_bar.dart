@@ -14,6 +14,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize => Size.fromHeight(height);
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -63,8 +64,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                               textAlign: TextAlign.center,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
-                                  color:
-                                      Get.theme.colorScheme.onPrimary,
+                                  color: Get.theme.colorScheme.onPrimary,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 30),
                             ),

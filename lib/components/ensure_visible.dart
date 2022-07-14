@@ -9,6 +9,7 @@ class EnsureVisibleWhenFocused extends StatefulWidget {
   final Curve curve;
 
   final Duration duration;
+
   const EnsureVisibleWhenFocused({
     super.key,
     required this.child,

@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:recipes/components/ensure_visible.dart';
+import 'package:recipes/decorations/gradient_decoration.dart';
+import 'package:recipes/decorations/input_decoration.dart';
 import 'package:recipes/modules/recipe_edit_page/components/ingredient_edit/ingredient_category_drop_down.dart';
 import 'package:recipes/modules/recipe_edit_page/components/ingredient_edit/ingredient_measuring_drop_down.dart';
 import 'package:recipes/modules/recipe_edit_page/components/ingredient_edit/ingredient_size_drop_down.dart';
 import 'package:recipes/modules/recipe_edit_page/recipe_edit_controller.dart';
-import 'package:recipes/utils/components/ensure_visible.dart';
-import 'package:recipes/utils/decorations/gradient_decoration.dart';
-import 'package:recipes/utils/decorations/input_decoration.dart';
 
 class EditButton extends StatelessWidget {
   EditButton({Key? key, required this.index}) : super(key: key);
   final int index;
   final RecipeEditController recipeEditController = RecipeEditController.find;
+
   @override
   Widget build(BuildContext context) {
     return Positioned(
@@ -29,15 +30,14 @@ class EditButton extends StatelessWidget {
                   recipeEditController.setInEditing(
                       recipeEditController.recipe.ingredients[index],
                       value: !(recipeEditController
-                              .recipe.ingredients[index].inEditing));
+                          .recipe.ingredients[index].inEditing));
                   Scrollable.ensureVisible(context);
                 },
                 child: SizedBox(
                     height: double.infinity,
                     width: double.infinity,
                     child: Icon(
-                      recipeEditController
-                                  .recipe.ingredients[index].inEditing 
+                      recipeEditController.recipe.ingredients[index].inEditing
                           ? Icons.check
                           : Icons.edit,
                       color: Get.theme.colorScheme.onPrimary,
@@ -65,6 +65,7 @@ class InsideIngredientCardState extends State<InsideIngredientCard> {
   final _quantityNode = FocusNode();
   final _methodNode = FocusNode();
   AutovalidateMode? validation;
+
   @override
   void dispose() {
     _nameNode.dispose();
@@ -76,8 +77,7 @@ class InsideIngredientCardState extends State<InsideIngredientCard> {
   @override
   Widget build(BuildContext context) {
     Widget? child;
-    if (recipeEditController
-            .recipe.ingredients[widget.index].inEditing) {
+    if (recipeEditController.recipe.ingredients[widget.index].inEditing) {
       child = Column(
         children: [
           Column(
@@ -99,8 +99,8 @@ class InsideIngredientCardState extends State<InsideIngredientCard> {
                           .recipe.ingredients[widget.index].name,
                       onChanged: (value) {
                         setState(() {
-                          recipeEditController.recipe
-                              .ingredients[widget.index].name = value;
+                          recipeEditController
+                              .recipe.ingredients[widget.index].name = value;
                           if (validation != null) validation = null;
                         });
                       },
@@ -137,10 +137,7 @@ class InsideIngredientCardState extends State<InsideIngredientCard> {
                         ?.toString(),
                     onChanged: (value) {
                       setState(() {
-                        recipeEditController
-                            .recipe
-                            
-                            .ingredients[widget.index]
+                        recipeEditController.recipe.ingredients[widget.index]
                             .quantity = num.tryParse(value);
                       });
                     },
@@ -173,8 +170,8 @@ class InsideIngredientCardState extends State<InsideIngredientCard> {
                         .recipe.ingredients[widget.index].method,
                     onChanged: (value) {
                       setState(() {
-                        recipeEditController.recipe
-                            .ingredients[widget.index].method = value;
+                        recipeEditController
+                            .recipe.ingredients[widget.index].method = value;
                       });
                     },
                     decoration: getInputDecoration(
@@ -201,28 +198,23 @@ class InsideIngredientCardState extends State<InsideIngredientCard> {
                   overflow: TextOverflow.ellipsis,
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color:
-                      Get.theme.buttonTheme.colorScheme!.onBackground),
+                  color: Get.theme.buttonTheme.colorScheme!.onBackground),
             ),
           ),
-          if (recipeEditController
-                  .recipe.ingredients[widget.index].category !=
+          if (recipeEditController.recipe.ingredients[widget.index].category !=
               null)
             Container(
               margin: const EdgeInsets.only(bottom: 10),
               child: Text(
-                recipeEditController.recipe.ingredients[widget.index]
-                    .category!.capitalize!,
+                recipeEditController
+                    .recipe.ingredients[widget.index].category!.capitalize!,
                 overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     overflow: TextOverflow.ellipsis,
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: Get.theme
-                        .buttonTheme
-                        .colorScheme!
-                        .onBackground),
+                    color: Get.theme.buttonTheme.colorScheme!.onBackground),
               ),
             ),
           if (recipeEditController.recipe.ingredients[widget.index]
@@ -239,29 +231,22 @@ class InsideIngredientCardState extends State<InsideIngredientCard> {
                     overflow: TextOverflow.ellipsis,
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
-                    color: Get.theme
-                        .buttonTheme
-                        .colorScheme!
-                        .onBackground),
+                    color: Get.theme.buttonTheme.colorScheme!.onBackground),
               ),
             ),
-          if (recipeEditController
-                  .recipe.ingredients[widget.index].method !=
+          if (recipeEditController.recipe.ingredients[widget.index].method !=
               null)
             Container(
               margin: const EdgeInsets.only(bottom: 10),
               child: Text(
-                recipeEditController.recipe.ingredients[widget.index]
-                    .method!.capitalize!,
+                recipeEditController
+                    .recipe.ingredients[widget.index].method!.capitalize!,
                 overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     overflow: TextOverflow.ellipsis,
                     fontSize: 15,
-                    color: Get.theme
-                        .buttonTheme
-                        .colorScheme!
-                        .onBackground),
+                    color: Get.theme.buttonTheme.colorScheme!.onBackground),
               ),
             )
         ],
@@ -281,8 +266,7 @@ class InsideIngredientCardState extends State<InsideIngredientCard> {
   }
 
   Future validate() async {
-    if (recipeEditController
-        .recipe.ingredients[widget.index].name.isEmpty) {
+    if (recipeEditController.recipe.ingredients[widget.index].name.isEmpty) {
       await recipeEditController.setInEditingWithNoPropagation(
           recipeEditController.recipe.ingredients[widget.index]);
       setState(() {

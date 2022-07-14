@@ -26,12 +26,14 @@ class RecipeRepository extends GetxService {
         }
       }
     }
-    final id = await (await DataBaseProvider.database).insert(tableRecipes, recipe.toDatabaseJson(true));
+    final id = await (await DataBaseProvider.database)
+        .insert(tableRecipes, recipe.toDatabaseJson(true));
     return recipe.copy(
         id: id,
         ingredients:
             await IngredientRepository.find.createAll(recipe.ingredients, id),
-        instructions: await InstructionRepository.find.createAll(recipe.instructions, id));
+        instructions: await InstructionRepository.find
+            .createAll(recipe.instructions, id));
   }
 
   Future<Recipe?> read(int? id) async {
@@ -46,7 +48,8 @@ class RecipeRepository extends GetxService {
       final Recipe recipe = Recipe.fromDatabaseJson(maps.first);
       recipe.ingredients =
           await IngredientRepository.find.readAllByRecipeId(id);
-      recipe.instructions = await InstructionRepository.find.readAllByRecipeId(id);
+      recipe.instructions =
+          await InstructionRepository.find.readAllByRecipeId(id);
       recipe.picture = await PictureRepository.find
           .read(maps.first[RecipeFields.pictureId] as int?);
       recipe.initIngredientsByCategory();
@@ -69,7 +72,8 @@ class RecipeRepository extends GetxService {
     return recipe.copy(
         ingredients: await IngredientRepository.find
             .updateAll(recipe.ingredients, recipe.id),
-        instructions: await InstructionRepository.find.updateAll(recipe.instructions, recipe.id));
+        instructions: await InstructionRepository.find
+            .updateAll(recipe.instructions, recipe.id));
   }
 
   Future<int> delete(int? id) async {
@@ -129,7 +133,8 @@ class RecipeRepository extends GetxService {
         final Recipe recipe = Recipe.fromDatabaseJson(recipeJson);
         recipe.ingredients =
             await IngredientRepository.find.readAllByRecipeId(recipe.id!);
-        recipe.instructions = await InstructionRepository.find.readAllByRecipeId(recipe.id!);
+        recipe.instructions =
+            await InstructionRepository.find.readAllByRecipeId(recipe.id!);
         recipe.picture = await PictureRepository.find
             .read(recipeJson[RecipeFields.pictureId] as int?);
         recipe.initIngredientsByCategory();

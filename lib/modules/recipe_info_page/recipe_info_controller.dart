@@ -45,11 +45,8 @@ class RecipeInfoController extends GetxController {
 
   Future<void> initRecipe() async {
     loading = true;
-    if (recipeId == null) {
-      recipe = Recipe();
-    } else {
-      recipe = await RecipeRepository.find.read(recipeId) ?? Recipe();
-    }
+
+    recipe = await RecipeRepository.find.read(recipeId) ?? Recipe();
 
     servings = null;
     loading = false;
@@ -65,7 +62,7 @@ class RecipeInfoController extends GetxController {
   }
 
   void editRecipe() async {
-    await Get.toNamed(RecipeEditPage.routeName,arguments: recipeId);
+    await Get.toNamed(RecipeEditPage.routeName, arguments: recipeId);
     initRecipe();
   }
 }

@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:recipes/components/app_bar_bottom.dart';
+import 'package:recipes/components/custom_app_bar.dart';
+import 'package:recipes/components/loading_widget.dart';
+import 'package:recipes/components/show_dialog.dart';
+import 'package:recipes/decorations/input_decoration_inside_card.dart';
 import 'package:recipes/modules/recipe_list_page/components/empty_recipe_list.dart';
 import 'package:recipes/modules/recipe_list_page/components/recipe_card.dart';
 import 'package:recipes/modules/recipe_list_page/recipes_list_controller.dart';
-import 'package:recipes/utils/components/app_bar_bottom.dart';
-import 'package:recipes/utils/components/custom_app_bar.dart';
-import 'package:recipes/utils/components/loading_widget.dart';
-import 'package:recipes/utils/components/show_dialog.dart';
-import 'package:recipes/utils/decorations/input_decoration_inside_card.dart';
 
 class RecipeListPage extends StatelessWidget {
   static const routeName = '/recipes';
+
   const RecipeListPage({super.key});
 
   @override

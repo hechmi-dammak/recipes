@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:recipes/components/ensure_visible.dart';
+import 'package:recipes/components/show_dialog.dart';
+import 'package:recipes/components/snack_bar.dart';
+import 'package:recipes/decorations/gradient_decoration.dart';
 import 'package:recipes/modules/recipe_edit_page/recipe_edit_controller.dart';
-import 'package:recipes/utils/components/ensure_visible.dart';
-import 'package:recipes/utils/components/show_dialog.dart';
-import 'package:recipes/utils/components/snack_bar.dart';
-import 'package:recipes/utils/decorations/gradient_decoration.dart';
 
 class IngredientSizeDropDownInput extends StatefulWidget {
   const IngredientSizeDropDownInput({Key? key, required this.index})
@@ -25,6 +25,7 @@ class _IngredientSizeDropDownInputState
   final FocusNode _fieldNode = FocusNode();
 
   final GlobalKey dropdownKey = GlobalKey();
+
 //this is used so the tap area is for the whole button not just the label
   void openItemsList() {
     dynamic detector;
@@ -81,8 +82,7 @@ class _IngredientSizeDropDownInputState
                               border: InputBorder.none,
                               labelStyle: TextStyle(
                                   overflow: TextOverflow.ellipsis,
-                                  color:
-                                      Get.theme.colorScheme.onPrimary,
+                                  color: Get.theme.colorScheme.onPrimary,
                                   fontSize: 20),
                               labelText: 'Size'),
                           iconSize: 30,

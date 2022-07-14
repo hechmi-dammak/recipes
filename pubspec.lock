@@ -140,7 +140,7 @@ packages:
       name: dependency_validator
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.2.0"
+    version: "3.2.2"
   expandable:
     dependency: "direct main"
     description:
@@ -201,7 +201,7 @@ packages:
       name: flutter_native_splash
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.2.3+1"
+    version: "2.2.4"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -540,7 +540,7 @@ packages:
       name: share_plus
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.0.9"
+    version: "4.0.10"
   share_plus_linux:
     dependency: transitive
     description:
@@ -594,7 +594,7 @@ packages:
       name: sqflite
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.2+1"
+    version: "2.0.3"
   sqflite_common:
     dependency: transitive
     description:

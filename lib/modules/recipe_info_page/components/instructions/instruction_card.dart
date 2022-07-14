@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:recipes/decorations/gradient_decoration.dart';
+import 'package:recipes/decorations/modal_paint.dart';
 import 'package:recipes/models/instruction.dart';
 import 'package:recipes/modules/recipe_info_page/recipe_info_controller.dart';
-
-import 'package:recipes/utils/decorations/gradient_decoration.dart';
-import 'package:recipes/utils/decorations/modal_paint.dart';
 
 class InstructionCard extends StatefulWidget {
   final Instruction instruction;

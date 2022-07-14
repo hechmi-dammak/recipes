@@ -71,7 +71,6 @@ class ApplicationTheme {
       platform: platform,
       brightness: colorScheme.brightness,
       primaryColor: colorScheme.primary,
-  
       canvasColor: colorScheme.background,
       scaffoldBackgroundColor: colorScheme.background,
       cardColor: colorScheme.surface,

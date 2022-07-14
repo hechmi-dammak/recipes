@@ -32,6 +32,7 @@ class Ingredient {
   String? method;
   bool selected;
   bool inEditing;
+
   Ingredient(
       {this.id,
       this.name = '',
@@ -75,6 +76,7 @@ class Ingredient {
         if (!export || (method != null && method!.isNotEmpty))
           IngredientFields.method: method == '' ? null : method,
       };
+
   Map<String, dynamic> toDatabaseJson(int? recipeId, [bool noId = false]) => {
         IngredientFields.id: noId ? null : id,
         IngredientFields.name: name,

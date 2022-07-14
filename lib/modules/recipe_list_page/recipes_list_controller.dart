@@ -9,12 +9,12 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:recipes/components/show_dialog.dart';
+import 'package:recipes/components/snack_bar.dart';
 import 'package:recipes/models/recipe.dart';
 import 'package:recipes/modules/recipe_edit_page/recipe_edit_page.dart';
 import 'package:recipes/modules/recipe_info_page/recipe_info_page.dart';
 import 'package:recipes/service/repository/recipe_repository.dart';
-import 'package:recipes/utils/components/show_dialog.dart';
-import 'package:recipes/utils/components/snack_bar.dart';
 import 'package:share_plus/share_plus.dart';
 
 class RecipesListController extends GetxController {
@@ -300,6 +300,7 @@ class RecipesListController extends GetxController {
     loading = false;
     update();
   }
+
 //--------------SEARCH---------------------
 
   void updateSearch() {
@@ -337,7 +338,7 @@ class RecipesListController extends GetxController {
     if (selectionIsActive) {
       setRecipeSelected(recipe);
     } else {
-      Get.toNamed(RecipeInfoPage.routeName,arguments: recipe.id);
+      Get.toNamed(RecipeInfoPage.routeName, arguments: recipe.id);
     }
   }
 

@@ -34,7 +34,7 @@ class RecipeCreateFloatingButtonState
           color: Get.theme.colorScheme.onPrimary, size: iconSize + 5),
       childrenButtonSize: const Size(65, 65),
       elevation: 8.0,
-      animationDuration:const Duration(milliseconds: 200),
+      animationDuration: const Duration(milliseconds: 200),
       children: [
         SpeedDialChild(
           child: Icon(Icons.fastfood_rounded, size: iconSize),

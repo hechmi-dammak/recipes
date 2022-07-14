@@ -2,14 +2,15 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:recipes/decorations/gradient_decoration.dart';
+import 'package:recipes/decorations/modal_paint.dart';
 import 'package:recipes/models/ingredient.dart';
-import 'package:recipes/utils/decorations/gradient_decoration.dart';
-import 'package:recipes/utils/decorations/modal_paint.dart';
 
 class IngredientCard extends StatefulWidget {
   final Ingredient ingredient;
   final int servings;
   final int? recipeServings;
+
   const IngredientCard(
       {Key? key,
       required this.ingredient,
@@ -31,13 +32,12 @@ class IngredientCardState extends State<IngredientCard> {
         padding: const EdgeInsets.all(2),
         child: Ink(
           width: min(MediaQuery.of(context).size.width * 3 / 5, 300),
-          decoration: gradientDecorationSecondary(widget.ingredient.selected ),
+          decoration: gradientDecorationSecondary(widget.ingredient.selected),
           child: InkWell(
             onLongPress: () => _onLongPress(context),
             onTap: () {
               setState(() {
-                widget.ingredient.selected =
-                    !(widget.ingredient.selected);
+                widget.ingredient.selected = !(widget.ingredient.selected);
               });
             },
             child: Container(
@@ -62,9 +62,7 @@ class IngredientCardState extends State<IngredientCard> {
                                   overflow: TextOverflow.ellipsis,
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
-                                  color: Get.theme
-                                      .buttonTheme
-                                      .colorScheme!
+                                  color: Get.theme.buttonTheme.colorScheme!
                                       .onSecondary),
                             ),
                             if (widget.ingredient.getQuantity(
@@ -82,9 +80,7 @@ class IngredientCardState extends State<IngredientCard> {
                                       overflow: TextOverflow.ellipsis,
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold,
-                                      color: Get.theme
-                                          .buttonTheme
-                                          .colorScheme!
+                                      color: Get.theme.buttonTheme.colorScheme!
                                           .onSecondary),
                                 ),
                               ),
@@ -98,7 +94,7 @@ class IngredientCardState extends State<IngredientCard> {
                           child: Icon(
                             Icons.info_outline,
                             size: 27,
-                            color: widget.ingredient.selected 
+                            color: widget.ingredient.selected
                                 ? Get.theme.colorScheme.secondary
                                 : Get.theme.colorScheme.primary,
                           ))
@@ -112,7 +108,7 @@ class IngredientCardState extends State<IngredientCard> {
     );
   }
 
- void  _onLongPress(context) {
+  void _onLongPress(context) {
     showModalBottomSheet(
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
@@ -123,7 +119,7 @@ class IngredientCardState extends State<IngredientCard> {
         builder: (context) {
           return Container(
             decoration: BoxDecoration(
-                color: widget.ingredient.selected 
+                color: widget.ingredient.selected
                     ? Get.theme.colorScheme.secondary
                     : Get.theme.primaryColor,
                 borderRadius: const BorderRadius.only(
@@ -131,7 +127,7 @@ class IngredientCardState extends State<IngredientCard> {
                     topRight: Radius.circular(10.0))),
             child: CustomPaint(
               painter: ModalPainter(
-                widget.ingredient.selected 
+                widget.ingredient.selected
                     ? Get.theme.colorScheme.secondary
                     : Get.theme.primaryColor,
               ),
@@ -146,15 +142,9 @@ class IngredientCardState extends State<IngredientCard> {
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          color: widget.ingredient.selected 
-                              ? Get.theme
-                                  .buttonTheme
-                                  .colorScheme!
-                                  .onSecondary
-                              : Get.theme
-                                  .buttonTheme
-                                  .colorScheme!
-                                  .onPrimary,
+                          color: widget.ingredient.selected
+                              ? Get.theme.buttonTheme.colorScheme!.onSecondary
+                              : Get.theme.buttonTheme.colorScheme!.onPrimary,
                         ),
                       ),
                       title: Text(
@@ -163,15 +153,9 @@ class IngredientCardState extends State<IngredientCard> {
                         style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
-                            color: widget.ingredient.selected 
-                                ? Get.theme
-                                    .buttonTheme
-                                    .colorScheme!
-                                    .onSecondary
-                                : Get.theme
-                                    .buttonTheme
-                                    .colorScheme!
-                                    .onPrimary),
+                            color: widget.ingredient.selected
+                                ? Get.theme.buttonTheme.colorScheme!.onSecondary
+                                : Get.theme.buttonTheme.colorScheme!.onPrimary),
                       ),
                     ),
                   ),
@@ -185,14 +169,10 @@ class IngredientCardState extends State<IngredientCard> {
                           style: TextStyle(
                               fontSize: 17,
                               fontWeight: FontWeight.bold,
-                              color: widget.ingredient.selected 
-                                  ? Get.theme
-                                      .buttonTheme
-                                      .colorScheme!
+                              color: widget.ingredient.selected
+                                  ? Get.theme.buttonTheme.colorScheme!
                                       .onSecondary
-                                  : Get.theme
-                                      .buttonTheme
-                                      .colorScheme!
+                                  : Get.theme.buttonTheme.colorScheme!
                                       .onPrimary),
                         ),
                         title: Text(
@@ -201,14 +181,10 @@ class IngredientCardState extends State<IngredientCard> {
                           style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
-                              color: widget.ingredient.selected 
-                                  ? Get.theme
-                                      .buttonTheme
-                                      .colorScheme!
+                              color: widget.ingredient.selected
+                                  ? Get.theme.buttonTheme.colorScheme!
                                       .onSecondary
-                                  : Get.theme
-                                      .buttonTheme
-                                      .colorScheme!
+                                  : Get.theme.buttonTheme.colorScheme!
                                       .onPrimary),
                         ),
                       ),
@@ -225,14 +201,10 @@ class IngredientCardState extends State<IngredientCard> {
                           style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
-                              color: widget.ingredient.selected 
-                                  ? Get.theme
-                                      .buttonTheme
-                                      .colorScheme!
+                              color: widget.ingredient.selected
+                                  ? Get.theme.buttonTheme.colorScheme!
                                       .onSecondary
-                                  : Get.theme
-                                      .buttonTheme
-                                      .colorScheme!
+                                  : Get.theme.buttonTheme.colorScheme!
                                       .onPrimary),
                         ),
                         title: Text(
@@ -244,14 +216,10 @@ class IngredientCardState extends State<IngredientCard> {
                           style: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.bold,
-                              color: widget.ingredient.selected 
-                                  ? Get.theme
-                                      .buttonTheme
-                                      .colorScheme!
+                              color: widget.ingredient.selected
+                                  ? Get.theme.buttonTheme.colorScheme!
                                       .onSecondary
-                                  : Get.theme
-                                      .buttonTheme
-                                      .colorScheme!
+                                  : Get.theme.buttonTheme.colorScheme!
                                       .onPrimary),
                         ),
                       ),
@@ -265,14 +233,10 @@ class IngredientCardState extends State<IngredientCard> {
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               fontSize: 16,
-                              color: widget.ingredient.selected 
-                                  ? Get.theme
-                                      .buttonTheme
-                                      .colorScheme!
+                              color: widget.ingredient.selected
+                                  ? Get.theme.buttonTheme.colorScheme!
                                       .onSecondary
-                                  : Get.theme
-                                      .buttonTheme
-                                      .colorScheme!
+                                  : Get.theme.buttonTheme.colorScheme!
                                       .onPrimary),
                         ),
                         title: Text(
@@ -280,14 +244,10 @@ class IngredientCardState extends State<IngredientCard> {
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               fontSize: 15,
-                              color: widget.ingredient.selected 
-                                  ? Get.theme
-                                      .buttonTheme
-                                      .colorScheme!
+                              color: widget.ingredient.selected
+                                  ? Get.theme.buttonTheme.colorScheme!
                                       .onSecondary
-                                  : Get.theme
-                                      .buttonTheme
-                                      .colorScheme!
+                                  : Get.theme.buttonTheme.colorScheme!
                                       .onPrimary),
                         ),
                       ),

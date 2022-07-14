@@ -11,23 +11,20 @@ class ImageEditField extends StatefulWidget {
 }
 
 class ImageEditFieldState extends State<ImageEditField> {
-
-
   @override
   Widget build(BuildContext context) {
     return GetBuilder<RecipeEditController>(builder: (recipeEditController) {
       return Container(
         decoration: BoxDecoration(
-          border: Border.all(
-              color: Get.theme.colorScheme.primary, width: 4),
+          border: Border.all(color: Get.theme.colorScheme.primary, width: 4),
           borderRadius: BorderRadius.circular(10),
           color: Colors.grey,
           image: recipeEditController.recipe.picture == null ||
                   recipeEditController.recipe.picture!.image == null
               ? null
               : DecorationImage(
-                  image: MemoryImage(
-                      recipeEditController.recipe.picture!.image!),
+                  image:
+                      MemoryImage(recipeEditController.recipe.picture!.image!),
                   fit: BoxFit.cover,
                 ),
           boxShadow: [

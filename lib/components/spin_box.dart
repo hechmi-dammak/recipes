@@ -71,14 +71,23 @@ abstract class BaseSpinBox extends StatefulWidget {
   const BaseSpinBox({Key? key}) : super(key: key);
 
   double get min;
+
   double get max;
+
   double get instruction;
+
   double get value;
+
   int get decimals;
+
   ValueChanged<double>? get onChanged;
+
   bool Function(double value)? get canChange;
+
   VoidCallback? get beforeChange;
+
   VoidCallback? get afterChange;
+
   bool get readOnly;
 }
 
@@ -89,13 +98,18 @@ abstract class BaseSpinBoxState<T extends BaseSpinBox> extends State<T> {
   late final TextEditingController _controller;
 
   double get value => _value;
+
   bool get hasFocus => _focusNode.hasFocus;
+
   FocusNode get focusNode => _focusNode;
+
   TextEditingController get controller => _controller;
+
   SpinFormatter get formatter => SpinFormatter(
       min: widget.min, max: widget.max, decimals: widget.decimals);
 
   static double _parseValue(String text) => double.tryParse(text) ?? 0;
+
   String _formatText(double value) => value.toStringAsFixed(widget.decimals);
 
   @override

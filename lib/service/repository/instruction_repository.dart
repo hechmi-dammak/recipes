@@ -6,8 +6,8 @@ class InstructionRepository extends GetxService {
   static InstructionRepository get find => Get.find<InstructionRepository>();
 
   Future<Instruction> create(Instruction instruction, int? recipeId) async {
-
-    final id = await (await DataBaseProvider.database).insert(tableInstructions, instruction.toDatabaseJson(recipeId, true));
+    final id = await (await DataBaseProvider.database)
+        .insert(tableInstructions, instruction.toDatabaseJson(recipeId, true));
     return instruction.copy(id: id);
   }
 
@@ -50,7 +50,8 @@ class InstructionRepository extends GetxService {
   Future<List<Instruction>> readAllByRecipeId(int? recipeId) async {
     if (recipeId == null) return [];
     final List<Instruction> instructions = [];
-    final maps = await (await DataBaseProvider.database).query(tableInstructions,
+    final maps = await (await DataBaseProvider.database).query(
+        tableInstructions,
         columns: InstructionFields.values,
         where: '${InstructionFields.recipeId} = ?',
         whereArgs: [recipeId],
@@ -96,26 +97,28 @@ class InstructionRepository extends GetxService {
     );
   }
 
-  Future<List<Instruction>> createAll(List<Instruction>? instructions, int? recipeId) async {
+  Future<List<Instruction>> createAll(
+      List<Instruction>? instructions, int? recipeId) async {
     if (instructions == null || instructions.isEmpty) return [];
     final List<Instruction> result = [];
     for (var instruction in instructions) {
       instruction.id = null;
-      final id =
-          await (await DataBaseProvider.database).insert(tableInstructions, instruction.toDatabaseJson(recipeId, true));
+      final id = await (await DataBaseProvider.database).insert(
+          tableInstructions, instruction.toDatabaseJson(recipeId, true));
       result.add(instruction.copy(id: id));
     }
     return result;
   }
 
-  Future<List<Instruction>> updateAll(List<Instruction>? instructions, int? recipeId) async {
+  Future<List<Instruction>> updateAll(
+      List<Instruction>? instructions, int? recipeId) async {
     final List<Instruction> result = [];
     if (instructions == null || instructions.isEmpty) return result;
     await (await DataBaseProvider.database).transaction((txn) async {
       for (var instruction in instructions) {
         if (instruction.id == null) {
-          final id =
-              await txn.insert(tableInstructions, instruction.toDatabaseJson(recipeId, true));
+          final id = await txn.insert(
+              tableInstructions, instruction.toDatabaseJson(recipeId, true));
           result.add(instruction.copy(id: id));
         } else {
           txn.update(

@@ -18,25 +18,26 @@ class Instruction {
   bool selected;
   bool inEditing;
   Key? key;
-  Instruction({
-    this.id,
-    this.toDo = '',
-    this.order,
-    this.inEditing = false,
-    this.selected = false,
-    this.key
-  });
+
+  Instruction(
+      {this.id,
+      this.toDo = '',
+      this.order,
+      this.inEditing = false,
+      this.selected = false,
+      this.key});
 
   factory Instruction.fromJson(Map<String, dynamic> json) => Instruction(
         id: json[InstructionFields.id],
-        order: json[InstructionFields.order] ,
+        order: json[InstructionFields.order],
         toDo: json[InstructionFields.toDo],
       );
 
-  factory Instruction.fromDatabaseJson(Map<String, dynamic> json) => Instruction(
-      id: json[InstructionFields.id] ,
-      order: json[InstructionFields.order] ,
-      toDo: json[InstructionFields.toDo]);
+  factory Instruction.fromDatabaseJson(Map<String, dynamic> json) =>
+      Instruction(
+          id: json[InstructionFields.id],
+          order: json[InstructionFields.order],
+          toDo: json[InstructionFields.toDo]);
 
   Map<String, dynamic> toJson([export = false]) => {
         if (!export) InstructionFields.id: id,
@@ -44,12 +45,14 @@ class Instruction {
         if (!export || toDo.isNotEmpty)
           InstructionFields.toDo: toDo == '' ? null : toDo,
       };
+
   Map<String, dynamic> toDatabaseJson(int? recipeId, [bool noId = false]) => {
         InstructionFields.id: noId ? null : id,
         InstructionFields.order: order,
         InstructionFields.toDo: toDo == '' ? null : toDo,
         InstructionFields.recipeId: recipeId,
       };
+
   Instruction copy({int? id, int? order, String? toDo}) => Instruction(
         id: id ?? this.id,
         order: order ?? this.order,

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:recipes/decorations/gradient_decoration.dart';
 import 'package:recipes/models/recipe.dart';
-import 'package:recipes/utils/decorations/gradient_decoration.dart';
 
 class RecipeCard extends StatelessWidget {
   final Recipe recipe;
   final void Function(Recipe recipe) onTap;
   final void Function(Recipe recipe) onLongPress;
   final bool selectionIsActive;
+
   const RecipeCard({
     super.key,
     required this.onTap,

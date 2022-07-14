@@ -18,6 +18,7 @@ class Picture {
         id: map[PictureFields.id],
         image: map[PictureFields.image],
       );
+
   static Picture fromJson(Map<String, dynamic> json) => Picture(
         id: json[PictureFields.id] as int?,
         image: json[PictureFields.image] != null

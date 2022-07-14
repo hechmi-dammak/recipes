@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:recipes/decorations/theme.dart';
 import 'package:recipes/modules/recipe_edit_page/recipe_edit_controller.dart';
+import 'package:recipes/modules/recipe_edit_page/recipe_edit_page.dart';
 import 'package:recipes/modules/recipe_info_page/recipe_info_controller.dart';
 import 'package:recipes/modules/recipe_info_page/recipe_info_page.dart';
 import 'package:recipes/modules/recipe_list_page/recipe_list_page.dart';
@@ -11,9 +13,6 @@ import 'package:recipes/service/repository/ingredient_repository.dart';
 import 'package:recipes/service/repository/instruction_repository.dart';
 import 'package:recipes/service/repository/picture_repository.dart';
 import 'package:recipes/service/repository/recipe_repository.dart';
-import 'package:recipes/utils/decorations/theme.dart';
-
-import 'modules/recipe_edit_page/recipe_edit_page.dart';
 
 void main() {
   runApp(const MyApp());

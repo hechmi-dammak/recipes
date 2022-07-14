@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:recipes/components/app_bar_bottom.dart';
+import 'package:recipes/components/custom_app_bar.dart';
+import 'package:recipes/components/ensure_visible.dart';
+import 'package:recipes/components/loading_widget.dart';
+import 'package:recipes/components/serving_spin_box.dart';
+import 'package:recipes/components/show_dialog.dart';
+import 'package:recipes/decorations/input_decoration.dart';
 import 'package:recipes/modules/recipe_edit_page/components/floating_action_button.dart';
 import 'package:recipes/modules/recipe_edit_page/components/image_edit.dart';
 import 'package:recipes/modules/recipe_edit_page/components/ingredient_edit/ingredient_edit_list.dart';
 import 'package:recipes/modules/recipe_edit_page/components/instruction_edit/instruction_edit_list.dart';
 import 'package:recipes/modules/recipe_edit_page/components/recipe_category_drop_down.dart';
 import 'package:recipes/modules/recipe_edit_page/recipe_edit_controller.dart';
-import 'package:recipes/utils/components/app_bar_bottom.dart';
-import 'package:recipes/utils/components/custom_app_bar.dart';
-import 'package:recipes/utils/components/ensure_visible.dart';
-import 'package:recipes/utils/components/loading_widget.dart';
-import 'package:recipes/utils/components/serving_spin_box.dart';
-import 'package:recipes/utils/components/show_dialog.dart';
-import 'package:recipes/utils/decorations/input_decoration.dart';
 
 class RecipeEditPage extends StatelessWidget {
   static const routeName = '/edit';
@@ -23,7 +23,7 @@ class RecipeEditPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<RecipeEditController>( builder: (recipeEditController) {
+    return GetBuilder<RecipeEditController>(builder: (recipeEditController) {
       return WillPopScope(
         onWillPop: () async {
           if (recipeEditController.isDialOpen) {

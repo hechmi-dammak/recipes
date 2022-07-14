@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:recipes/utils/components/custom_dialog.dart';
-import 'package:recipes/utils/decorations/input_decoration.dart';
+import 'package:recipes/components/custom_dialog.dart';
+import 'package:recipes/decorations/input_decoration.dart';
 
 class InputDialog extends CustomDialog {
   final TextEditingController controller;
   final String label;
   final String title;
   final void Function() confirm;
+
   const InputDialog(
       {super.key,
       required this.controller,
@@ -89,8 +90,10 @@ class InputDialog extends CustomDialog {
 class ConfirmationDialog extends CustomDialog {
   const ConfirmationDialog(
       {super.key, required this.confirm, required this.title});
+
   final String title;
   final void Function() confirm;
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(

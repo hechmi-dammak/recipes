@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import 'package:recipes/components/show_dialog.dart';
+import 'package:recipes/components/snack_bar.dart';
+import 'package:recipes/decorations/gradient_decoration.dart';
 import 'package:recipes/modules/recipe_edit_page/recipe_edit_controller.dart';
-import 'package:recipes/utils/components/show_dialog.dart';
-import 'package:recipes/utils/components/snack_bar.dart';
-import 'package:recipes/utils/decorations/gradient_decoration.dart';
 
 class RecipeCategoryDropDownInput extends StatefulWidget {
   const RecipeCategoryDropDownInput({super.key});

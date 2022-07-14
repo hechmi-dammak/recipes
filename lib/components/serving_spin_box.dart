@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:recipes/utils/components/spin_box.dart';
-import 'package:recipes/utils/decorations/input_decoration.dart';
+import 'package:recipes/components/spin_box.dart';
+import 'package:recipes/decorations/input_decoration.dart';
 
 class ServingSpinBox extends StatelessWidget {
   final int servings;
   final Function(int value) changeServingFunction;
+
   const ServingSpinBox(
       {Key? key, required this.servings, required this.changeServingFunction})
       : super(key: key);

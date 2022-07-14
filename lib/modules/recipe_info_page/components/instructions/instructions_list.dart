@@ -33,8 +33,7 @@ class InstructionsList extends StatelessWidget {
                 'Instructions',
                 overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontSize: 25, color: Get.theme.primaryColor),
+                style: TextStyle(fontSize: 25, color: Get.theme.primaryColor),
               ),
             ),
             collapsed: Divider(
@@ -50,7 +49,7 @@ class InstructionsList extends StatelessWidget {
               itemBuilder: (context, index) {
                 return InstructionCard(
                   index: index,
-                  instruction:recipeInfoController.recipe.instructions[index],
+                  instruction: recipeInfoController.recipe.instructions[index],
                 );
               },
               itemCount: recipeInfoController.recipe.instructions.length,
