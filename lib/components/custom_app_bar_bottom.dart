@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class AppBarBottom extends StatelessWidget {
-  const AppBarBottom({Key? key, required this.child}) : super(key: key);
+class CustomAppBarBottom extends StatelessWidget {
+  const CustomAppBarBottom({Key? key, required this.child}) : super(key: key);
   final Widget child;
 
   @override

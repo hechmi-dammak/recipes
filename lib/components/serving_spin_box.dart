@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:recipes/components/spin_box.dart';
-import 'package:recipes/decorations/input_decoration.dart';
+import 'package:recipes/decorations/custom_input_decoration.dart';
 
 class ServingSpinBox extends StatelessWidget {
   final int servings;
@@ -18,7 +18,7 @@ class ServingSpinBox extends StatelessWidget {
           size: 40, color: Get.theme.colorScheme.onSecondary),
       decrementIcon: Icon(Icons.keyboard_arrow_left_rounded,
           size: 40, color: Get.theme.colorScheme.onSecondary),
-      decoration: getInputDecoration('Servings',
+      decoration: CustomInputDecoration('Servings',
           contentPadding: const EdgeInsets.only(left: 20, top: 15, bottom: 15)),
       textStyle: TextStyle(
           fontWeight: FontWeight.bold,

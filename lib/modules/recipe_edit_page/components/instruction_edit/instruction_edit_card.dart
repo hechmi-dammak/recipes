@@ -43,7 +43,7 @@ class InstructionEditCardState extends State<InstructionEditCard> {
                       margin: const EdgeInsets.all(2),
                       padding: const EdgeInsets.all(5),
                       child: Ink(
-                        decoration: gradientDecorationSecondary(
+                        decoration: GradientDecoration.secondary(
                             recipeEditController
                                 .recipe.instructions[widget.index].selected),
                         child: InkWell(

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:recipes/components/app_bar_bottom.dart';
 import 'package:recipes/components/custom_app_bar.dart';
+import 'package:recipes/components/custom_app_bar_bottom.dart';
 import 'package:recipes/components/loading_widget.dart';
-import 'package:recipes/components/show_dialog.dart';
-import 'package:recipes/decorations/input_decoration_inside_card.dart';
+import 'package:recipes/decorations/custom_input_decoration.dart';
+import 'package:recipes/modules/recipe_list_page/components/bottom_bar.dart';
 import 'package:recipes/modules/recipe_list_page/components/empty_recipe_list.dart';
 import 'package:recipes/modules/recipe_list_page/components/recipe_card.dart';
 import 'package:recipes/modules/recipe_list_page/recipes_list_controller.dart';
@@ -16,10 +16,7 @@ class RecipeListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<RecipesListController>(initState: (_) {
-      RecipesListController.find.loadRecipes();
-      RecipesListController.find.initDeepLinks();
-    }, builder: (recipesController) {
+    return GetBuilder<RecipesListController>(builder: (recipesController) {
       return WillPopScope(
         onWillPop: () async {
           if (recipesController.selectionIsActive) {
@@ -113,7 +110,7 @@ class RecipeListPage extends StatelessWidget {
               searchWidget: TextFormField(
                 focusNode: recipesController.searchFocusNode,
                 textAlignVertical: TextAlignVertical.bottom,
-                decoration: getInputDecorationInsideCardHint(
+                decoration: CustomInputDecoration.insideCardHint(
                   'Search',
                   suffix: GestureDetector(
                       onTap: recipesController.clearSearch,
@@ -134,7 +131,7 @@ class RecipeListPage extends StatelessWidget {
                     foregroundColor: Get.theme.colorScheme.onPrimary,
                     onPressed: recipesController.addRecipe,
                     child: const Icon(Icons.note_add_rounded, size: 30)),
-            body: AppBarBottom(
+            body: CustomAppBarBottom(
               child: RefreshIndicator(
                   onRefresh: recipesController.loadRecipes,
                   child: LoadingWidget(
@@ -177,93 +174,4 @@ class RecipeListPage extends StatelessWidget {
   }
 }
 
-class BottomBar extends StatelessWidget {
-  const BottomBar({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return GetBuilder<RecipesListController>(
-      builder: (recipesController) {
-        return AnimatedContainer(
-          duration: const Duration(milliseconds: 300),
-          height: recipesController.selectionIsActive ? 75 : 0,
-          decoration: BoxDecoration(
-            borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-            gradient: LinearGradient(
-              begin: Alignment.centerRight,
-              end: Alignment.centerLeft,
-              stops: const [
-                0.1,
-                0.6,
-              ],
-              colors: [
-                Get.theme.primaryColorDark,
-                Get.theme.colorScheme.primary,
-              ],
-            ),
-          ),
-          child: SingleChildScrollView(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                TextButton(
-                  onPressed: () {
-                    ConfirmationDialog(
-                            title: 'These recipes will be deleted.',
-                            confirm: recipesController.deleteSelectedRecipes)
-                        .show();
-                  },
-                  child: Column(
-                    children: [
-                      Icon(Icons.delete_forever_rounded,
-                          size: 30, color: Get.theme.colorScheme.onPrimary),
-                      Text(
-                        'Delete',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Get.theme.colorScheme.onPrimary),
-                      )
-                    ],
-                  ),
-                ),
-                TextButton(
-                  onPressed: recipesController.exportToFile,
-                  child: Column(
-                    children: [
-                      ImageIcon(
-                          const AssetImage('assets/images/export_file.png'),
-                          size: 30,
-                          color: Get.theme.colorScheme.onPrimary),
-                      Text(
-                        'Export',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Get.theme.colorScheme.onPrimary),
-                      )
-                    ],
-                  ),
-                ),
-                TextButton(
-                  onPressed: recipesController.shareAsFile,
-                  child: Column(
-                    children: [
-                      Icon(Icons.share,
-                          size: 30, color: Get.theme.colorScheme.onPrimary),
-                      Text(
-                        'Share',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Get.theme.colorScheme.onPrimary),
-                      )
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-}

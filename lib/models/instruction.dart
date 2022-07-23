@@ -39,10 +39,10 @@ class Instruction {
           order: json[InstructionFields.order],
           toDo: json[InstructionFields.toDo]);
 
-  Map<String, dynamic> toJson([export = false]) => {
-        if (!export) InstructionFields.id: id,
-        if (!export || order != null) InstructionFields.order: order,
-        if (!export || toDo.isNotEmpty)
+  Map<String, dynamic> toJson() => {
+        InstructionFields.id: id,
+        if ( order != null) InstructionFields.order: order,
+        if ( toDo.isNotEmpty)
           InstructionFields.toDo: toDo == '' ? null : toDo,
       };
 

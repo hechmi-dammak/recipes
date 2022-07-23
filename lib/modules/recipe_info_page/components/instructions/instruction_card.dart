@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:recipes/decorations/gradient_decoration.dart';
-import 'package:recipes/decorations/modal_paint.dart';
 import 'package:recipes/models/instruction.dart';
+import 'package:recipes/modules/recipe_info_page/components/instructions/instruction_info_bottom_sheet.dart';
 import 'package:recipes/modules/recipe_info_page/recipe_info_controller.dart';
 
-class InstructionCard extends StatefulWidget {
+class InstructionCard extends StatelessWidget {
   final Instruction instruction;
   final int index;
 
@@ -15,11 +15,6 @@ class InstructionCard extends StatefulWidget {
     required this.instruction,
   }) : super(key: key);
 
-  @override
-  State<InstructionCard> createState() => InstructionCardState();
-}
-
-class InstructionCardState extends State<InstructionCard> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<RecipeInfoController>(builder: (recipeInfoController) {
@@ -36,14 +31,14 @@ class InstructionCardState extends State<InstructionCard> {
                 padding: const EdgeInsets.all(5),
                 child: Ink(
                   decoration:
-                      gradientDecorationSecondary(widget.instruction.selected),
+                      GradientDecoration.secondary(instruction.selected),
                   child: InkWell(
-                    onLongPress: () => _onLongPress(context),
+                    onLongPress: () => InstructionInfoBottomSheet(
+                            instruction: instruction, index: index)
+                        .show(),
                     onTap: () {
-                      setState(() {
-                        widget.instruction.selected =
-                            !(widget.instruction.selected);
-                      });
+                      recipeInfoController
+                          .toggleInstructionSelected(instruction);
                     },
                     child: Container(
                       width: double.infinity,
@@ -57,7 +52,7 @@ class InstructionCardState extends State<InstructionCard> {
                           padding: const EdgeInsets.symmetric(
                               vertical: 30, horizontal: 20),
                           child: Text(
-                            widget.instruction.toDo.capitalize!,
+                            instruction.toDo.capitalize!,
                             textAlign: TextAlign.center,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
@@ -75,111 +70,16 @@ class InstructionCardState extends State<InstructionCard> {
               ),
             ),
           ),
-          OrderButton(
-              index: widget.index + 1, selected: widget.instruction.selected)
+          _OrderButton(index: index + 1, selected: instruction.selected)
         ],
       );
     });
   }
-
-  void _onLongPress(context) {
-    showModalBottomSheet(
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            top: Radius.circular(20),
-          ),
-        ),
-        context: context,
-        builder: (context) {
-          return GetBuilder<RecipeInfoController>(
-              builder: (recipeInfoController) {
-            return Container(
-              decoration: BoxDecoration(
-                  color: widget.instruction.selected
-                      ? Get.theme.colorScheme.secondary
-                      : Get.theme.primaryColor,
-                  borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(10.0),
-                      topRight: Radius.circular(10.0))),
-              child: CustomPaint(
-                painter: ModalPainter(
-                  widget.instruction.selected
-                      ? Get.theme.colorScheme.secondary
-                      : Get.theme.primaryColor,
-                ),
-                child: Column(
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.only(top: 10),
-                      child: ListTile(
-                        leading: Text(
-                          'To Do:',
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: widget.instruction.selected
-                                  ? Get.theme.buttonTheme.colorScheme!
-                                      .onSecondary
-                                  : Get.theme.buttonTheme.colorScheme!
-                                      .onPrimary),
-                        ),
-                        title: Text(
-                          widget.instruction.toDo.capitalize!,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: widget.instruction.selected
-                                  ? Get.theme.buttonTheme.colorScheme!
-                                      .onSecondary
-                                  : Get.theme.buttonTheme.colorScheme!
-                                      .onPrimary),
-                        ),
-                      ),
-                    ),
-                    if (widget.instruction.order != null)
-                      Container(
-                        margin: const EdgeInsets.only(top: 10),
-                        child: ListTile(
-                          leading: Text(
-                            'Instruction order:',
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold,
-                                color: widget.instruction.selected
-                                    ? Get.theme.buttonTheme.colorScheme!
-                                        .onSecondary
-                                    : Get.theme.buttonTheme.colorScheme!
-                                        .onPrimary),
-                          ),
-                          title: Text(
-                            (widget.index + 1).toString(),
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: widget.instruction.selected
-                                    ? Get.theme.buttonTheme.colorScheme!
-                                        .onSecondary
-                                    : Get.theme.buttonTheme.colorScheme!
-                                        .onPrimary),
-                          ),
-                        ),
-                      ),
-                  ],
-                ),
-              ),
-            );
-          });
-        });
-  }
 }
 
-class OrderButton extends StatelessWidget {
-  const OrderButton({Key? key, required this.index, required this.selected})
-      : super(key: key);
+class _OrderButton extends StatelessWidget {
+  const _OrderButton({required this.index, required this.selected});
+
   final int index;
   final bool selected;
 
@@ -191,7 +91,7 @@ class OrderButton extends StatelessWidget {
       child: Container(
         height: 60,
         width: 60,
-        decoration: gradientDecorationRounded(selected),
+        decoration: GradientDecoration.rounded(selected),
         child: Center(
           child: Text(
             index.toString(),

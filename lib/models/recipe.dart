@@ -25,8 +25,7 @@ class Recipe {
   int servings;
   List<Instruction> instructions;
   List<Ingredient> ingredients;
-  Map<String, List<Ingredient>>? ingredientsByCategory;
-  bool selected = false;
+  bool selected;
   Picture? picture;
 
   Recipe(
@@ -39,38 +38,15 @@ class Recipe {
       this.selected = false,
       this.picture})
       : instructions = instructions ?? [],
-        ingredients = ingredients ?? [] {
-    initIngredientsByCategory();
-  }
-
-  void initIngredientsByCategory() {
-    ingredientsByCategory = {};
-
-    for (var ingredient in ingredients) {
-      ingredientsByCategory!.update(ingredient.category ?? 'ingredient',
-          (value) {
-        value.add(ingredient);
-        return value;
-      }, ifAbsent: () => List.from([ingredient]));
-    }
-
-    ingredientsByCategory = SplayTreeMap.from(ingredientsByCategory!,
-        (String key1, String key2) => key1.compareTo(key2));
-
-    ingredientsByCategory!.forEach((key, value) {
-      value.sort((a, b) {
-        return a.name.compareTo(b.name);
-      });
-    });
-  }
+        ingredients = ingredients ?? [];
 
   factory Recipe.fromJson(Map<String, dynamic> json) => Recipe(
       id: json[RecipeFields.id],
       name: json[RecipeFields.name],
       category: json[RecipeFields.category],
       servings: json[RecipeFields.servings],
-      instructions: getInstructionsFromJson(json),
-      ingredients: getIngredientsFromJson(json),
+      instructions: _getInstructionsFromJson(json),
+      ingredients: _getIngredientsFromJson(json),
       picture: json[RecipeFields.picture] != null
           ? Picture.fromJson(json[RecipeFields.picture])
           : null);
@@ -82,39 +58,21 @@ class Recipe {
         servings: json[RecipeFields.servings],
       );
 
-  static List<Instruction> getInstructionsFromJson(Map<String, dynamic> json) {
-    if (json[RecipeFields.instructions] == null) return [];
-    final List<Instruction> instructions = [];
-    json[RecipeFields.instructions].forEach((v) {
-      instructions.add(Instruction.fromJson(v));
-    });
-    return instructions;
-  }
-
-  static List<Ingredient> getIngredientsFromJson(Map<String, dynamic> json) {
-    if (json[RecipeFields.ingredients] == null) return [];
-    final List<Ingredient> ingredients = [];
-    json[RecipeFields.ingredients].forEach((v) {
-      ingredients.add(Ingredient.fromJson(v));
-    });
-    return ingredients;
-  }
-
-  Map<String, dynamic> toJson([export = false]) => {
-        if (!export) RecipeFields.id: id,
+  Map<String, dynamic> toJson() => {
+        RecipeFields.id: id,
         RecipeFields.name: name,
-        if (!export || (category != null && category!.isNotEmpty))
+        if ((category != null && category!.isNotEmpty))
           RecipeFields.category: category == '' ? null : category,
-        if (!export) RecipeFields.servings: servings,
-        if (!export || (instructions.isNotEmpty))
+        RecipeFields.servings: servings,
+        if ((instructions.isNotEmpty))
           RecipeFields.instructions: instructions.isEmpty
               ? null
-              : instructions.map((v) => v.toJson(export)).toList(),
-        if (!export || (ingredients.isNotEmpty))
+              : instructions.map((v) => v.toJson()).toList(),
+        if ((ingredients.isNotEmpty))
           RecipeFields.ingredients: ingredients.isEmpty
               ? null
-              : ingredients.map((v) => v.toJson(export)).toList(),
-        if (!export || picture != null) RecipeFields.picture: picture?.toJson(),
+              : ingredients.map((v) => v.toJson()).toList(),
+        if (picture != null) RecipeFields.picture: picture?.toJson(),
       };
 
   Map<String, dynamic> toDatabaseJson([bool noId = false]) => {
@@ -142,4 +100,42 @@ class Recipe {
         instructions: instructions ?? this.instructions,
         picture: picture ?? this.picture,
       );
+
+  Map<String, List<Ingredient>> get ingredientsByCategory {
+    Map<String, List<Ingredient>> ingredientsByCategory = {};
+
+    for (var ingredient in ingredients) {
+      ingredientsByCategory.update(ingredient.category ?? 'ingredient',
+          (value) {
+        value.add(ingredient);
+        return value;
+      }, ifAbsent: () => List.from([ingredient]));
+    }
+
+    ingredientsByCategory = SplayTreeMap.from(ingredientsByCategory,
+        (String key1, String key2) => key1.compareTo(key2));
+
+    ingredientsByCategory.forEach((key, value) {
+      value.sort((a, b) => a.name.compareTo(b.name));
+    });
+    return ingredientsByCategory;
+  }
+
+  static List<Instruction> _getInstructionsFromJson(Map<String, dynamic> json) {
+    if (json[RecipeFields.instructions] == null) return [];
+    final List<Instruction> instructions = [];
+    json[RecipeFields.instructions].forEach((v) {
+      instructions.add(Instruction.fromJson(v));
+    });
+    return instructions;
+  }
+
+  static List<Ingredient> _getIngredientsFromJson(Map<String, dynamic> json) {
+    if (json[RecipeFields.ingredients] == null) return [];
+    final List<Ingredient> ingredients = [];
+    json[RecipeFields.ingredients].forEach((v) {
+      ingredients.add(Ingredient.fromJson(v));
+    });
+    return ingredients;
+  }
 }

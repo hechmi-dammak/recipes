@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:recipes/components/app_bar_bottom.dart';
 import 'package:recipes/components/custom_app_bar.dart';
+import 'package:recipes/components/custom_app_bar_bottom.dart';
 import 'package:recipes/components/loading_widget.dart';
 import 'package:recipes/components/serving_spin_box.dart';
 import 'package:recipes/modules/recipe_info_page/components/image_view.dart';
@@ -9,16 +9,12 @@ import 'package:recipes/modules/recipe_info_page/components/ingredients/ingredie
 import 'package:recipes/modules/recipe_info_page/components/instructions/instructions_list.dart';
 import 'package:recipes/modules/recipe_info_page/recipe_info_controller.dart';
 
-class RecipeInfoPage extends StatefulWidget {
+class RecipeInfoPage extends StatelessWidget {
   static const routeName = '/recipe';
 
   const RecipeInfoPage({Key? key}) : super(key: key);
 
-  @override
-  State<RecipeInfoPage> createState() => _RecipeInfoPageState();
-}
 
-class _RecipeInfoPageState extends State<RecipeInfoPage> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<RecipeInfoController>(
@@ -47,7 +43,7 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
                           size: 25,
                         ))
                     : null),
-            body: AppBarBottom(
+            body: CustomAppBarBottom(
               child: RefreshIndicator(
                 onRefresh: recipeInfoController.initRecipe,
                 child: LoadingWidget(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:recipes/components/selected_indicator.dart';
 import 'package:recipes/decorations/gradient_decoration.dart';
 import 'package:recipes/modules/recipe_edit_page/components/ingredient_edit/ingredient_edit_card_components.dart';
 import 'package:recipes/modules/recipe_edit_page/recipe_edit_controller.dart';
@@ -31,8 +32,9 @@ class IngredientEditCardState extends State<IngredientEditCard> {
                   margin: const EdgeInsets.all(2),
                   padding: const EdgeInsets.all(5),
                   child: Ink(
-                    decoration: gradientDecorationSecondary(recipeEditController
-                        .recipe.ingredients[widget.index].selected),
+                    decoration: GradientDecoration.secondary(
+                        recipeEditController
+                            .recipe.ingredients[widget.index].selected),
                     child: InkWell(
                       onTap: () {
                         if (recipeEditController.selectionIsActive) {
@@ -71,7 +73,8 @@ class IngredientEditCardState extends State<IngredientEditCard> {
             EditButton(index: widget.index),
             if (recipeEditController.selectionIsActive)
               SelectIndicator(
-                index: widget.index,
+                selected: recipeEditController
+                    .recipe.ingredients[widget.index].selected,
               )
           ],
         ));
@@ -83,33 +86,5 @@ class IngredientEditCardState extends State<IngredientEditCard> {
     } else {
       await _ingredientCardKey.currentState!.validate();
     }
-  }
-}
-
-class SelectIndicator extends StatelessWidget {
-  SelectIndicator({
-    Key? key,
-    required this.index,
-  }) : super(key: key);
-  final RecipeEditController recipeEditController = RecipeEditController.find;
-
-  final int index;
-
-  @override
-  Widget build(BuildContext context) {
-    return Positioned(
-        top: 50,
-        right: 10,
-        child: (recipeEditController.recipe.ingredients[index].selected)
-            ? Container(
-                margin: const EdgeInsets.all(15),
-                child: Icon(Icons.check_circle_outline_outlined,
-                    size: 30, color: Get.theme.colorScheme.secondary),
-              )
-            : Container(
-                margin: const EdgeInsets.all(15),
-                child: Icon(Icons.radio_button_unchecked_rounded,
-                    size: 30, color: Get.theme.colorScheme.primary),
-              ));
   }
 }

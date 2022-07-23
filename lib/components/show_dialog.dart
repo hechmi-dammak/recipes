@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:recipes/components/custom_dialog.dart';
-import 'package:recipes/decorations/input_decoration.dart';
+import 'package:recipes/decorations/custom_input_decoration.dart';
 
 class InputDialog extends CustomDialog {
-  final TextEditingController controller;
+  final TextEditingController controller=TextEditingController();
   final String label;
   final String title;
-  final void Function() confirm;
+  final void Function(TextEditingController controller) confirm;
 
-  const InputDialog(
+   InputDialog(
       {super.key,
-      required this.controller,
       required this.label,
       required this.title,
       required this.confirm});
@@ -58,7 +57,6 @@ class InputDialog extends CustomDialog {
               ),
               onPressed: () {
                 Get.back();
-                controller.clear();
               },
             ),
             ElevatedButton(
@@ -73,15 +71,15 @@ class InputDialog extends CustomDialog {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(fontSize: 20),
               ),
-              onPressed: () => confirm(),
+              onPressed: () => confirm(controller),
             ),
           ],
         )
       ],
       content: TextField(
-        onSubmitted: (String value) => confirm(),
+        onSubmitted: (String value) => confirm(controller),
         controller: controller,
-        decoration: getInputDecoration(label),
+        decoration: CustomInputDecoration(label),
       ),
     );
   }
@@ -92,7 +90,7 @@ class ConfirmationDialog extends CustomDialog {
       {super.key, required this.confirm, required this.title});
 
   final String title;
-  final void Function() confirm;
+  final VoidCallback confirm;
 
   @override
   Widget build(BuildContext context) {

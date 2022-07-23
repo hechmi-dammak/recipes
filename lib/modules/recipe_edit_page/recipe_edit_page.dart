@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:recipes/components/app_bar_bottom.dart';
 import 'package:recipes/components/custom_app_bar.dart';
+import 'package:recipes/components/custom_app_bar_bottom.dart';
 import 'package:recipes/components/ensure_visible.dart';
 import 'package:recipes/components/loading_widget.dart';
 import 'package:recipes/components/serving_spin_box.dart';
 import 'package:recipes/components/show_dialog.dart';
-import 'package:recipes/decorations/input_decoration.dart';
+import 'package:recipes/decorations/custom_input_decoration.dart';
 import 'package:recipes/modules/recipe_edit_page/components/floating_action_button.dart';
 import 'package:recipes/modules/recipe_edit_page/components/image_edit.dart';
 import 'package:recipes/modules/recipe_edit_page/components/ingredient_edit/ingredient_edit_list.dart';
@@ -113,7 +113,7 @@ class RecipeEditPage extends StatelessWidget {
                       ),
                     )
                 ]),
-            body: AppBarBottom(
+            body: CustomAppBarBottom(
               child: LoadingWidget(
                 loading: recipeEditController.loading,
                 child: SingleChildScrollView(
@@ -151,7 +151,7 @@ class RecipeEditPage extends StatelessWidget {
                                           recipeEditController.recipe.name,
                                       onChanged:
                                           recipeEditController.setRecipeName,
-                                      decoration: getInputDecoration('Name',
+                                      decoration: CustomInputDecoration('Name',
                                           contentPadding: const EdgeInsets.only(
                                               left: 20, top: 15, bottom: 15)),
                                       validator: (value) {

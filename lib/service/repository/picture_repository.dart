@@ -7,7 +7,7 @@ class PictureRepository extends GetxService {
 
   Future<Picture> create(Picture picture) async {
     final id = await (await DataBaseProvider.database)
-        .insert(tablePictures, picture.toMap(true));
+        .insert(tablePictures, picture.toDatabaseJson(true));
     return picture.copy(id: id);
   }
 
@@ -21,7 +21,7 @@ class PictureRepository extends GetxService {
       whereArgs: [id],
     );
     if (maps.isNotEmpty) {
-      return Picture.fromMap(maps.first);
+      return Picture.fromDatabaseJson(maps.first);
     }
     return Picture();
   }
@@ -31,7 +31,7 @@ class PictureRepository extends GetxService {
 
     (await DataBaseProvider.database).update(
       tablePictures,
-      picture.toMap(),
+      picture.toDatabaseJson(),
       where: '${PictureFields.id} = ?',
       whereArgs: [picture.id],
     );
@@ -56,7 +56,7 @@ class PictureRepository extends GetxService {
     );
     if (maps.isNotEmpty) {
       for (var picture in maps) {
-        pictures.add(Picture.fromMap(picture));
+        pictures.add(Picture.fromDatabaseJson(picture));
       }
     }
     return pictures;

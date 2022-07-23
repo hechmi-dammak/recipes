@@ -14,17 +14,13 @@ class RecipeRepository extends GetxService {
     }
     final List<Recipe> foundRecipesByName = await readAllByName(recipe.name);
     if (foundRecipesByName.isNotEmpty) {
-      final setOfNames = Set<String>.from(
-          foundRecipesByName.map<String>((recipe) => recipe.name));
-      var index = 1;
-      while (true) {
-        if (setOfNames.contains('${recipe.name}_$index')) {
-          index++;
-        } else {
-          recipe.name += '_$index';
-          break;
-        }
+      final setOfNames =
+          foundRecipesByName.map<String>((recipe) => recipe.name).toSet();
+      int index = 1;
+      while (setOfNames.contains('${recipe.name}_$index')) {
+        index++;
       }
+      recipe.name += '_$index';
     }
     final id = await (await DataBaseProvider.database)
         .insert(tableRecipes, recipe.toDatabaseJson(true));
@@ -52,7 +48,6 @@ class RecipeRepository extends GetxService {
           await InstructionRepository.find.readAllByRecipeId(id);
       recipe.picture = await PictureRepository.find
           .read(maps.first[RecipeFields.pictureId] as int?);
-      recipe.initIngredientsByCategory();
       return recipe;
     }
     return Recipe();
@@ -137,7 +132,6 @@ class RecipeRepository extends GetxService {
             await InstructionRepository.find.readAllByRecipeId(recipe.id!);
         recipe.picture = await PictureRepository.find
             .read(recipeJson[RecipeFields.pictureId] as int?);
-        recipe.initIngredientsByCategory();
         recipes.add(recipe);
       }
     }

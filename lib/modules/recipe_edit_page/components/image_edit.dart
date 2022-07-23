@@ -3,14 +3,9 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:recipes/modules/recipe_edit_page/recipe_edit_controller.dart';
 
-class ImageEditField extends StatefulWidget {
+class ImageEditField extends StatelessWidget {
   const ImageEditField({Key? key}) : super(key: key);
 
-  @override
-  ImageEditFieldState createState() => ImageEditFieldState();
-}
-
-class ImageEditFieldState extends State<ImageEditField> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<RecipeEditController>(builder: (recipeEditController) {
@@ -49,9 +44,7 @@ class ImageEditFieldState extends State<ImageEditField> {
                       children: [
                         RoundedButton(
                           onPressed: () {
-                            setState(() {
-                              recipeEditController.recipe.picture = null;
-                            });
+                            recipeEditController.clearRecipeImage();
                           },
                           child: Icon(
                             Icons.close_rounded,

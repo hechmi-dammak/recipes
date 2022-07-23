@@ -16,38 +16,38 @@ import 'package:recipes/service/repository/instruction_repository.dart';
 import 'package:recipes/service/repository/recipe_repository.dart';
 
 class RecipeEditController extends GetxController {
-  final int defaultServingValue = 4;
+  static const int _defaultServingValue = 4;
   final int? recipeId;
 
   final ScrollController mainScrollController = ScrollController();
   final GlobalKey ingredientListKey = GlobalKey();
 
-  final Rx<List<String>> _recipeCategories = Rx<List<String>>(<String>[]);
-  final Rx<List<String>> _ingredientCategories = Rx<List<String>>(<String>[]);
-  final Rx<List<String>> _ingredientMeasuring = Rx<List<String>>(<String>[]);
-  final Rx<List<String>> _ingredientSizes = Rx<List<String>>(<String>[]);
+  List<String> _recipeCategories = [];
+  List<String> _ingredientCategories = [];
+  List<String> _ingredientMeasuring = [];
+  List<String> _ingredientSizes = [];
   final ValueNotifier<bool> _isDialOpen = ValueNotifier<bool>(false);
-  final RxBool _selectionIsActive = false.obs;
-  final RxBool _allItemsSelected = false.obs;
+  final bool _selectionIsActive = false;
+  final bool _allItemsSelected = false;
   final RxBool _validation = true.obs;
-  final Rx<Recipe> _recipe = Rx<Recipe>(Recipe());
-  final RxInt _servings = 4.obs;
-  final RxBool _loading = false.obs;
+  Recipe _recipe = Recipe();
+  int _servings = _defaultServingValue;
+  bool _loading = false;
   final ingredientsListKey = GlobalKey<IngredientEditListState>();
   final instructionsListKey = GlobalKey<InstructionEditListState>();
   final recipeFormKey = GlobalKey<FormState>();
 
   RecipeEditController({this.recipeId}) {
-    initRecipe();
+    _initRecipe();
   }
 
-  List<String> get recipeCategories => _recipeCategories.value;
+  List<String> get recipeCategories => _recipeCategories;
 
-  List<String> get ingredientCategories => _ingredientCategories.value;
+  List<String> get ingredientCategories => _ingredientCategories;
 
-  List<String> get ingredientMeasuring => _ingredientMeasuring.value;
+  List<String> get ingredientMeasuring => _ingredientMeasuring;
 
-  List<String> get ingredientSizes => _ingredientSizes.value;
+  List<String> get ingredientSizes => _ingredientSizes;
 
   bool get isDialOpen => _isDialOpen.value;
 
@@ -58,60 +58,57 @@ class RecipeEditController extends GetxController {
     update();
   }
 
-  bool get selectionIsActive => _selectionIsActive.value;
+  bool get selectionIsActive => _selectionIsActive;
 
-  set selectionIsActive(bool value) => _selectionIsActive(value);
+  // set selectionIsActive(bool value) => _selectionIsActive(value);
 
-  bool get allItemsSelected => _allItemsSelected.value;
+  bool get allItemsSelected => _allItemsSelected;
 
-  set allItemsSelected(bool value) => _allItemsSelected(value);
+  // set allItemsSelected(bool value) => _allItemsSelected(value);
 
   bool get validation => _validation.value;
 
   set validation(bool value) => _validation(value);
 
-  Recipe get recipe => _recipe.value;
+  Recipe get recipe => _recipe;
 
-  set recipe(Recipe value) => _recipe(value);
-
-  int get servings => _servings.value;
-
-  set servings(int? value) {
-    if (value != null) {
-      _servings(value);
-      return;
-    }
-    _servings(defaultServingValue);
+  set recipe(Recipe value) {
+    _recipe = value;
+    update();
   }
 
-  bool get loading => _loading.value;
+  int get servings => _servings;
 
-  set loading(value) => _loading(value);
+  set servings(int? value) {
+    _servings = (value) ?? _defaultServingValue;
+  }
+
+  bool get loading => _loading;
+
+  set loading(value) {
+    _loading = value;
+    update();
+  }
 
   static RecipeEditController get find => Get.find<RecipeEditController>();
 
 //-----------init/save  Data---------------
-  Future<void> initRecipe() async {
+  Future<void> _initRecipe() async {
     final recipeRepository = RecipeRepository.find;
     final ingredientRepository = IngredientRepository.find;
     loading = true;
-    if (recipeId == null) {
-      recipe = Recipe();
-      servings = null;
-    } else {
+    if (recipeId != null) {
       recipe = await recipeRepository.read(recipeId) ?? Recipe();
       servings = recipe.servings;
     }
-    _recipeCategories(await recipeRepository.getAllCategories());
-    _ingredientCategories(await ingredientRepository
-        .getAllValuesOfAttribute(IngredientFields.category));
-    _ingredientMeasuring(await ingredientRepository
-        .getAllValuesOfAttribute(IngredientFields.measuring));
-    _ingredientSizes(await ingredientRepository
-        .getAllValuesOfAttribute(IngredientFields.size));
-
+    _recipeCategories = await recipeRepository.getAllCategories();
+    _ingredientCategories = await ingredientRepository
+        .getAllValuesOfAttribute(IngredientFields.category);
+    _ingredientMeasuring = await ingredientRepository
+        .getAllValuesOfAttribute(IngredientFields.measuring);
+    _ingredientSizes = await ingredientRepository
+        .getAllValuesOfAttribute(IngredientFields.size);
     loading = false;
-    update();
   }
 
   Future<void> saveRecipe() async {
@@ -200,20 +197,12 @@ class RecipeEditController extends GetxController {
   }
 
   void setSelectAllValue([bool value = false]) {
-    _recipe.update((recipe) {
-      if (recipe == null) {
-        return;
-      }
-
-      for (var element in recipe.instructions) {
-        element.selected = value;
-      }
-
-      for (var element in recipe.ingredients) {
-        element.selected = value;
-      }
-    });
-
+    for (var element in _recipe.instructions) {
+      element.selected = value;
+    }
+    for (var element in _recipe.ingredients) {
+      element.selected = value;
+    }
     updateSelectionIsActive(value);
     updateAllItemsSelected(value);
     update();
@@ -224,51 +213,41 @@ class RecipeEditController extends GetxController {
     loading = true;
     final instructionRepository = InstructionRepository.find;
     final ingredientRepository = IngredientRepository.find;
-    _recipe.update((recipe) {
-      if (recipe == null) {
-        return;
+    //todo review deletion without copy
+    final instructions = recipe.instructions.toList();
+    instructions.removeWhere((instruction) {
+      if (instruction.selected) {
+        instructionRepository.delete(instruction.id);
       }
-
-      final instructions = recipe.instructions.toList();
-      instructions.removeWhere((instruction) {
-        if (instruction.selected) {
-          instructionRepository.delete(instruction.id);
-        }
-        return instruction.selected;
-      });
-      recipe.instructions = instructions;
-
-      final ingredients = recipe.ingredients.toList();
-      ingredients.removeWhere((ingredient) {
-        if (ingredient.selected) {
-          ingredientRepository.delete(ingredient.id);
-        }
-        return ingredient.selected;
-      });
-      recipe.ingredients = ingredients;
+      return instruction.selected;
     });
+    recipe.instructions = instructions;
+
+    final ingredients = recipe.ingredients.toList();
+    ingredients.removeWhere((ingredient) {
+      if (ingredient.selected) {
+        ingredientRepository.delete(ingredient.id);
+      }
+      return ingredient.selected;
+    });
+    recipe.ingredients = ingredients;
     updateSelectionIsActive();
     loading = false;
     CustomSnackBar.success('Selected items were deleted.');
   }
 
   void setInEditing(dynamic editable, {bool value = true}) {
-    _recipe.update((recipe) {
-      if (recipe == null) {
-        return;
-      }
-      if (value == false) {
-        editable.inEditing = false;
-        return;
-      }
-      for (var ingredient in recipe.ingredients) {
-        ingredient.inEditing = false;
-      }
-      for (var instruction in recipe.instructions) {
-        instruction.inEditing = false;
-      }
-      editable.inEditing = true;
-    });
+    if (value == false) {
+      editable.inEditing = false;
+      return;
+    }
+    for (var ingredient in recipe.ingredients) {
+      ingredient.inEditing = false;
+    }
+    for (var instruction in recipe.instructions) {
+      instruction.inEditing = false;
+    }
+    editable.inEditing = true;
     update();
   }
 
@@ -278,59 +257,38 @@ class RecipeEditController extends GetxController {
     update();
   }
 
-  //-----------new Elements---------------
+//-----------new Elements---------------
   void addNewRecipeCategory(String category) {
-    _recipeCategories.update((val) {
-      val = val ?? [];
-      val.add(category);
-    });
+    _recipeCategories.add(category);
+    update();
   }
 
   void addNewIngredientCategory(String category) {
-    _ingredientCategories.update((val) {
-      val = val ?? [];
-      val.add(category);
-    });
+    _ingredientCategories.add(category);
+    update();
   }
 
   void addNewIngredientMeasuring(String measuring) {
-    _ingredientMeasuring.update((val) {
-      val = val ?? [];
-      val.add(measuring);
-    });
+    _ingredientMeasuring.add(measuring);
+    update();
   }
 
   void addNewIngredientSize(String size) {
-    _ingredientSizes.update((val) {
-      val = val ?? [];
-      val.add(size);
-    });
+    _ingredientSizes.add(size);
+    update();
   }
 
   Future<void> addNewInstruction() async {
-    _recipe.update((recipe) {
-      if (recipe == null) {
-        recipe = Recipe(instructions: [Instruction(key: const ValueKey(0))]);
-        return;
-      }
-      final instructions = recipe.instructions.toList();
-      instructions.add(Instruction(key: ValueKey(instructions.length)));
-      recipe.instructions = instructions;
-      setInEditing(recipe.instructions.last);
-    });
+    final instructions = recipe.instructions.toList();
+    instructions.add(Instruction(key: ValueKey(instructions.length)));
+    recipe.instructions = instructions;
+    setInEditing(recipe.instructions.last);
     update();
   }
 
   Future<void> addNewIngredient() async {
-    _recipe.update((recipe) {
-      if (recipe == null) {
-        recipe = Recipe(ingredients: [Ingredient()]);
-        return;
-      }
-      recipe.ingredients.add(Ingredient());
-      setInEditing(recipe.ingredients.last);
-    });
-
+    recipe.ingredients.add(Ingredient());
+    setInEditing(recipe.ingredients.last);
     update();
   }
 
@@ -341,19 +299,12 @@ class RecipeEditController extends GetxController {
   }
 
   bool reorderCallback(Key item, Key newPosition) {
-    _recipe.update((recipe) {
-      if (recipe == null) {
-        return;
-      }
-
-      final instructions = recipe.instructions.toList();
-      final int draggingIndex = _indexOfKey(item);
-      final int newPositionIndex = _indexOfKey(newPosition);
-      final draggedItem = instructions.removeAt(draggingIndex);
-      instructions.insert(newPositionIndex, draggedItem);
-      recipe.instructions = instructions;
-    });
-
+    final instructions = recipe.instructions.toList();
+    final int draggingIndex = _indexOfKey(item);
+    final int newPositionIndex = _indexOfKey(newPosition);
+    final draggedItem = instructions.removeAt(draggingIndex);
+    instructions.insert(newPositionIndex, draggedItem);
+    recipe.instructions = instructions;
     update();
     return true;
   }
@@ -370,7 +321,7 @@ class RecipeEditController extends GetxController {
   Future<void> submit() async {
     loading = true;
 
-    await validateRecipe();
+    await _validateRecipe();
     if (validation) {
       await saveRecipe();
       isDialOpen = false;
@@ -388,7 +339,7 @@ class RecipeEditController extends GetxController {
     }
   }
 
-  Future validateRecipe() async {
+  Future<void> _validateRecipe() async {
     validation = true;
     if (recipeFormKey.currentState == null ||
         !recipeFormKey.currentState!.validate()) {
@@ -413,9 +364,30 @@ class RecipeEditController extends GetxController {
   }
 
   void setRecipeName(String value) {
-    _recipe.update((val) {
-      if (val == null) return;
-      val.name = value;
-    });
+    _recipe.name = value;
+    update();
+  }
+
+  void changeIngredientCategory(int index, String? category) {
+    recipe.ingredients[index].category = category;
+    update();
+  }
+  void changeIngredientMeasuring(int index, String? measuring) {
+    recipe.ingredients[index].measuring = measuring;
+    update();
+  }
+  void changeIngredientSize(int index, String? size) {
+    recipe.ingredients[index].size = size;
+    update();
+  }
+  void clearRecipeImage() {
+    recipe.picture = null;
+    update();
+  }
+
+  void changeRecipeCategory(String? category) {
+    recipe.category = category;
+    update();
+
   }
 }

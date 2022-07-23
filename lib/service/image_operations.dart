@@ -20,11 +20,12 @@ class ImageOperations extends GetxService {
       return null;
     }
     final CroppedFile? croppedImage = await _cropImage(file.path);
-    if (croppedImage != null) {
-      return await PictureRepository.find
-          .create(Picture(image: await croppedImage.readAsBytes()));
+    if (croppedImage == null) {
+      CustomSnackBar.warning('Failed to crop the image.');
+      return null;
     }
-    return null;
+    return await PictureRepository.find
+        .create(Picture(image: await croppedImage.readAsBytes()));
   }
 
   Future<CroppedFile?> _cropImage(path) async {
@@ -40,13 +41,7 @@ class ImageOperations extends GetxService {
           IOSUiSettings(
               title: 'Crop this image', showCancelConfirmationDialog: true)
         ]);
-
-    if (croppedFile != null) {
       return croppedFile;
-    } else {
-      CustomSnackBar.warning('You have to crop the image.');
-    }
-    return null;
   }
 
   Future<void> requestCameraOrStoragePermissions(ImageSource source) async {

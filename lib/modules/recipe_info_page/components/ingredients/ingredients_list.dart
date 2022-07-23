@@ -13,13 +13,10 @@ class IngredientsList extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<RecipeInfoController>(
       builder: (recipeInfoController) {
-        if (recipeInfoController.recipe.ingredientsByCategory == null) {
-          return Container();
-        }
         return ListView(
           physics: const ClampingScrollPhysics(),
           shrinkWrap: true,
-          children: recipeInfoController.recipe.ingredientsByCategory!.entries
+          children: recipeInfoController.recipe.ingredientsByCategory.entries
               .map((entry) {
             return Container(
               margin: const EdgeInsets.symmetric(vertical: 20),
@@ -66,8 +63,6 @@ class IngredientsList extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return IngredientCard(
                       ingredient: entry.value[index],
-                      servings: recipeInfoController.servings,
-                      recipeServings: recipeInfoController.recipe.servings,
                     );
                   },
                   itemCount: entry.value.length,

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CustomSnackBar {
-  static void success(String text) {
+  CustomSnackBar.success(String text) {
     Get.snackbar('Success', text,
         backgroundGradient: LinearGradient(
           begin: Alignment.topRight,
@@ -16,25 +16,26 @@ class CustomSnackBar {
             Get.theme.colorScheme.primary
           ],
         ),
+        backgroundColor: Colors.white,
         snackPosition: SnackPosition.BOTTOM,
         colorText: Get.theme.colorScheme.onPrimary);
   }
 
-  static void error(String text) {
+  CustomSnackBar.error(String text) {
     Get.snackbar('', text,
         backgroundColor: Get.theme.errorColor,
         snackPosition: SnackPosition.BOTTOM,
         colorText: Get.theme.colorScheme.onError);
   }
 
-  static void warning(String text) {
-    Get.snackbar('', text,
+  CustomSnackBar.warning(String text) {
+    Get.snackbar(text, '',
         backgroundGradient: LinearGradient(
           begin: Alignment.topRight,
           end: Alignment.bottomLeft,
           stops: const [
-            0.1,
-            0.9,
+            0.0,
+            1,
           ],
           colors: [
             Get.theme.colorScheme.secondaryContainer,
@@ -42,6 +43,7 @@ class CustomSnackBar {
           ],
         ),
         snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.white,
         colorText: Get.theme.colorScheme.onSecondary);
   }
 }

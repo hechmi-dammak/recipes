@@ -14,19 +14,19 @@ class Picture {
 
   Picture({this.id, this.image});
 
-  static Picture fromMap(Map map) => Picture(
+  factory Picture.fromDatabaseJson(Map map) => Picture(
         id: map[PictureFields.id],
         image: map[PictureFields.image],
       );
 
-  static Picture fromJson(Map<String, dynamic> json) => Picture(
+  factory Picture.fromJson(Map<String, dynamic> json) => Picture(
         id: json[PictureFields.id] as int?,
         image: json[PictureFields.image] != null
             ? Uint8List.fromList(json[PictureFields.image].codeUnits)
             : null,
       );
 
-  Map<String, dynamic> toMap([bool noId = false]) => {
+  Map<String, dynamic> toDatabaseJson([bool noId = false]) => {
         PictureFields.id: noId ? null : id,
         PictureFields.image: image,
       };

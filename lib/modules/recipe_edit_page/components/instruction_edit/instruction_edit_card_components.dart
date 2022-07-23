@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_reorderable_list/flutter_reorderable_list.dart';
 import 'package:get/get.dart';
 import 'package:recipes/components/ensure_visible.dart';
+import 'package:recipes/decorations/custom_input_decoration.dart';
 import 'package:recipes/decorations/gradient_decoration.dart';
-import 'package:recipes/decorations/input_decoration.dart';
 import 'package:recipes/modules/recipe_edit_page/recipe_edit_controller.dart';
 
 class EditButton extends StatelessWidget {
@@ -22,7 +22,7 @@ class EditButton extends StatelessWidget {
         child: Material(
           color: Colors.transparent,
           child: Ink(
-            decoration: gradientDecorationRounded(),
+            decoration:GradientDecoration.rounded(),
             child: InkWell(
                 onTap: () {
                   recipeEditController.setInEditing(
@@ -60,7 +60,7 @@ class DragButton extends StatelessWidget {
       child: Container(
         height: 60,
         width: 60,
-        decoration: gradientDecorationRounded(),
+        decoration: GradientDecoration.rounded(),
         child: SizedBox(
           height: double.infinity,
           width: double.infinity,
@@ -130,7 +130,7 @@ class InsideInstructionCardState extends State<InsideInstructionCard> {
               if (validation != null) validation = null;
             });
           },
-          decoration: getInputDecoration(
+          decoration: CustomInputDecoration(
             'To Do',
           ),
         ),
