@@ -388,6 +388,5 @@ class RecipeEditController extends GetxController {
   void changeRecipeCategory(String? category) {
     recipe.category = category;
     update();
-
   }
 }

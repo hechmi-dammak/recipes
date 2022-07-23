@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:recipes/components/custom_dropdown.dart';
 import 'package:recipes/components/show_dialog.dart';
-import 'package:recipes/components/snack_bar.dart';
 import 'package:recipes/modules/recipe_edit_page/recipe_edit_controller.dart';
 
-class IngredientCategoryDropDownInput extends StatelessWidget {
-  const IngredientCategoryDropDownInput({super.key, required this.index});
+class IngredientCategoryDropdownInput extends StatelessWidget {
+  const IngredientCategoryDropdownInput({super.key, required this.index});
 
   final int index;
 
@@ -29,11 +28,14 @@ class IngredientCategoryDropDownInput extends StatelessWidget {
             InputDialog(
                 title: 'Create a new category',
                 label: 'Category',
-                confirm: (controller) async {
-                  if (controller.text == '') {
-                    CustomSnackBar.warning("Category shouldn't be empty.");
-                    return;
+                validate: (value) {
+                  if (value?.isEmpty ?? true) {
+                    return "Category shouldn't be empty.";
                   }
+                  return null;
+                },
+                confirm: (formKey, controller) async {
+                  if (!(formKey.currentState?.validate() ?? false)) return;
                   recipeEditController
                       .addNewIngredientCategory(controller.text);
                   recipeEditController.changeIngredientCategory(

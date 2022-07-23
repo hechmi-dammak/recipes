@@ -157,12 +157,15 @@ class RecipesListController extends GetxController {
     InputDialog(
         title: 'Pick a name for the file',
         label: 'File name',
-        confirm: (controller) async {
+        validate: (value) {
+          if (value?.isEmpty ?? true) {
+            return "File name shouldn't be empty.";
+          }
+          return null;
+        },
+        confirm: (formKey, controller) async {
           try {
-            if (controller.text == '') {
-              CustomSnackBar.warning("File name shouldn't be empty.");
-              return;
-            }
+            if (!(formKey.currentState?.validate() ?? false)) return;
             await requestStoragePermissions();
             final String? fileDirectory = await FilePicker.platform
                 .getDirectoryPath(dialogTitle: 'Select where to save to file');
@@ -185,12 +188,15 @@ class RecipesListController extends GetxController {
     InputDialog(
         title: 'Pick a name for the file',
         label: 'File name',
-        confirm: (controller) async {
+        validate: (value) {
+          if (value?.isEmpty ?? true) {
+            return "File name shouldn't be empty.";
+          }
+          return null;
+        },
+        confirm: (formKey, controller) async {
           try {
-            if (controller.text == '') {
-              CustomSnackBar.warning("File name shouldn't be empty.");
-              return;
-            }
+            if (!(formKey.currentState?.validate() ?? false)) return;
             await requestStoragePermissions();
             final tempDir = await getTemporaryDirectory();
             final fileLocation = '${tempDir.path}/${controller.text}.recipe';

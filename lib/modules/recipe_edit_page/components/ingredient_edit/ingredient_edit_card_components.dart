@@ -3,9 +3,9 @@ import 'package:get/get.dart';
 import 'package:recipes/components/ensure_visible.dart';
 import 'package:recipes/decorations/custom_input_decoration.dart';
 import 'package:recipes/decorations/gradient_decoration.dart';
-import 'package:recipes/modules/recipe_edit_page/components/ingredient_edit/dropdowns/ingredient_category_drop_down.dart';
-import 'package:recipes/modules/recipe_edit_page/components/ingredient_edit/dropdowns/ingredient_measuring_drop_down.dart';
-import 'package:recipes/modules/recipe_edit_page/components/ingredient_edit/dropdowns/ingredient_size_drop_down.dart';
+import 'package:recipes/modules/recipe_edit_page/components/ingredient_edit/dropdowns/ingredient_category_dropdown.dart';
+import 'package:recipes/modules/recipe_edit_page/components/ingredient_edit/dropdowns/ingredient_measuring_dropdown.dart';
+import 'package:recipes/modules/recipe_edit_page/components/ingredient_edit/dropdowns/ingredient_size_dropdown.dart';
 import 'package:recipes/modules/recipe_edit_page/recipe_edit_controller.dart';
 
 class EditButton extends StatelessWidget {
@@ -119,7 +119,7 @@ class InsideIngredientCardState extends State<InsideIngredientCard> {
               ),
               Container(
                 margin: const EdgeInsets.only(bottom: 15),
-                child: IngredientCategoryDropDownInput(index: widget.index),
+                child: IngredientCategoryDropdownInput(index: widget.index),
               ),
               Container(
                 margin: const EdgeInsets.only(bottom: 15),
@@ -150,11 +150,11 @@ class InsideIngredientCardState extends State<InsideIngredientCard> {
               ),
               Container(
                 margin: const EdgeInsets.only(bottom: 15),
-                child: IngredientMeasuringDropDownInput(index: widget.index),
+                child: IngredientMeasuringDropdownInput(index: widget.index),
               ),
               Container(
                 margin: const EdgeInsets.only(bottom: 15),
-                child: IngredientSizeDropDownInput(index: widget.index),
+                child: IngredientSizeDropdownInput(index: widget.index),
               ),
               Container(
                 margin: const EdgeInsets.only(bottom: 15),

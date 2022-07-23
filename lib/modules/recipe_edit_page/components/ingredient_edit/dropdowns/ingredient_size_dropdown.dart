@@ -5,8 +5,8 @@ import 'package:recipes/components/show_dialog.dart';
 import 'package:recipes/components/snack_bar.dart';
 import 'package:recipes/modules/recipe_edit_page/recipe_edit_controller.dart';
 
-class IngredientSizeDropDownInput extends StatelessWidget {
-  const IngredientSizeDropDownInput({Key? key, required this.index})
+class IngredientSizeDropdownInput extends StatelessWidget {
+  const IngredientSizeDropdownInput({Key? key, required this.index})
       : super(key: key);
   final int index;
 
@@ -28,11 +28,14 @@ class IngredientSizeDropDownInput extends StatelessWidget {
             InputDialog(
                 title: 'Create a new size',
                 label: 'Size',
-                confirm: (controller) async {
-                  if (controller.text == '') {
-                    CustomSnackBar.warning("Size shouldn't be empty.");
-                    return;
+                validate: (value) {
+                  if (value?.isEmpty ?? true) {
+                    return "Size shouldn't be empty.";
                   }
+                  return null;
+                },
+                confirm: (formKey, controller) async {
+                  if (!(formKey.currentState?.validate() ?? false)) return;
                   recipeEditController.addNewIngredientSize(controller.text);
                   recipeEditController.changeIngredientSize(
                       index, controller.text);

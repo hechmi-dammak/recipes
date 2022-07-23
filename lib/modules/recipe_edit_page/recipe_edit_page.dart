@@ -11,7 +11,7 @@ import 'package:recipes/modules/recipe_edit_page/components/floating_action_butt
 import 'package:recipes/modules/recipe_edit_page/components/image_edit.dart';
 import 'package:recipes/modules/recipe_edit_page/components/ingredient_edit/ingredient_edit_list.dart';
 import 'package:recipes/modules/recipe_edit_page/components/instruction_edit/instruction_edit_list.dart';
-import 'package:recipes/modules/recipe_edit_page/components/recipe_category_drop_down.dart';
+import 'package:recipes/modules/recipe_edit_page/components/recipe_category_dropdown.dart';
 import 'package:recipes/modules/recipe_edit_page/recipe_edit_controller.dart';
 
 class RecipeEditPage extends StatelessWidget {
@@ -165,7 +165,7 @@ class RecipeEditPage extends StatelessWidget {
                                 ),
                                 Container(
                                   margin: const EdgeInsets.only(bottom: 15),
-                                  child: const RecipeCategoryDropDownInput(),
+                                  child: const RecipeCategoryDropdownInput(),
                                 ),
                               ],
                             ),

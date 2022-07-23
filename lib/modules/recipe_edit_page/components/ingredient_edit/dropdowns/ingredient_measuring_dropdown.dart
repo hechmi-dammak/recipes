@@ -5,8 +5,8 @@ import 'package:recipes/components/show_dialog.dart';
 import 'package:recipes/components/snack_bar.dart';
 import 'package:recipes/modules/recipe_edit_page/recipe_edit_controller.dart';
 
-class IngredientMeasuringDropDownInput extends StatelessWidget {
-  const IngredientMeasuringDropDownInput({Key? key, required this.index})
+class IngredientMeasuringDropdownInput extends StatelessWidget {
+  const IngredientMeasuringDropdownInput({Key? key, required this.index})
       : super(key: key);
   final int index;
 
@@ -30,11 +30,14 @@ class IngredientMeasuringDropDownInput extends StatelessWidget {
             InputDialog(
                 title: 'Create a new measuring',
                 label: 'Measuring',
-                confirm: (controller) async {
-                  if (controller.text == '') {
-                    CustomSnackBar.warning("Measuring shouldn't be empty.");
-                    return;
+                validate: (value) {
+                  if (value?.isEmpty ?? true) {
+                    return "Measuring shouldn't be empty.";
                   }
+                  return null;
+                },
+                confirm: (formKey, controller) async {
+                  if (!(formKey.currentState?.validate() ?? false)) return;
                   recipeEditController
                       .addNewIngredientMeasuring(controller.text);
                   recipeEditController.changeIngredientMeasuring(

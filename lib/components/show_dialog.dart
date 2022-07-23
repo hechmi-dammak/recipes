@@ -4,16 +4,20 @@ import 'package:recipes/components/custom_dialog.dart';
 import 'package:recipes/decorations/custom_input_decoration.dart';
 
 class InputDialog extends CustomDialog {
-  final TextEditingController controller=TextEditingController();
+  final TextEditingController controller = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
   final String label;
   final String title;
-  final void Function(TextEditingController controller) confirm;
+  final String? Function(String? value) validate;
+  final void Function(
+      GlobalKey<FormState> formkey, TextEditingController controller) confirm;
 
-   InputDialog(
+  InputDialog(
       {super.key,
       required this.label,
       required this.title,
-      required this.confirm});
+      required this.confirm,
+      required this.validate});
 
   @override
   Widget build(BuildContext context) {
@@ -71,15 +75,18 @@ class InputDialog extends CustomDialog {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(fontSize: 20),
               ),
-              onPressed: () => confirm(controller),
+              onPressed: () => confirm(_formKey, controller),
             ),
           ],
         )
       ],
-      content: TextField(
-        onSubmitted: (String value) => confirm(controller),
-        controller: controller,
-        decoration: CustomInputDecoration(label),
+      content: Form(
+        key: _formKey,
+        child: TextFormField(
+          validator: validate,
+          controller: controller,
+          decoration: CustomInputDecoration(label),
+        ),
       ),
     );
   }
