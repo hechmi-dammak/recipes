@@ -9,7 +9,7 @@ import 'package:recipes/modules/recipe_edit_page/components/ingredient_edit/drop
 import 'package:recipes/modules/recipe_edit_page/recipe_edit_controller.dart';
 
 class EditButton extends StatelessWidget {
-  EditButton({Key? key, required this.index}) : super(key: key);
+  const EditButton({Key? key, required this.index}) : super(key: key);
   final int index;
 
   @override

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:recipes/components/custom_dropdown.dart';
 import 'package:recipes/components/show_dialog.dart';
-import 'package:recipes/components/snack_bar.dart';
 import 'package:recipes/modules/recipe_edit_page/recipe_edit_controller.dart';
 
 class IngredientMeasuringDropdownInput extends StatelessWidget {
