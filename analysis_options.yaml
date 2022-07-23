@@ -8,7 +8,10 @@
 # The following line activates a set of recommended lints for Flutter apps,
 # packages, and plugins designed to encourage good coding practices.
 include: package:flutter_lints/flutter.yaml
-# include: package:very_good_analysis/analysis_options.2.3.0.yaml
+analyzer:
+  errors:
+    todo: ignore
+    avoid_function_literals_in_foreach_calls: ignore
 linter:
   # The lint rules applied to this project can be customized in the
   # section below to disable rules from the `package:flutter_lints/flutter.yaml`
@@ -22,6 +25,15 @@ linter:
   # `// ignore_for_file: name_of_lint` syntax on the line or in the file
   # producing the lint.
   rules:
+    - prefer_single_quotes
+    - sort_child_properties_last
+    - always_use_package_imports
+    - prefer_final_locals
+    - avoid_redundant_argument_values
+    - avoid_returning_null_for_future
+    - avoid_returning_this
+    - always_declare_return_types
+    - directives_ordering
     # avoid_print: false  # Uncomment to disable the `avoid_print` rule
     # prefer_single_quotes: true  # Uncomment to enable the `prefer_single_quotes` rule
 

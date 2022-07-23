@@ -30,11 +30,12 @@ class Ingredient {
   String? measuring;
   String? size;
   String? method;
-  bool? selected;
-  bool? inEditing;
+  bool selected;
+  bool inEditing;
+
   Ingredient(
       {this.id,
-      this.name = "",
+      this.name = '',
       this.category,
       this.quantity,
       this.measuring,
@@ -66,43 +67,45 @@ class Ingredient {
         if (!export) IngredientFields.id: id,
         IngredientFields.name: name,
         if (!export || (category != null && category!.isNotEmpty))
-          IngredientFields.category: category == "" ? null : category,
+          IngredientFields.category: category == '' ? null : category,
         if (!export || quantity != null) IngredientFields.quantity: quantity,
         if (!export || (measuring != null && measuring!.isNotEmpty))
-          IngredientFields.measuring: measuring == "" ? null : measuring,
+          IngredientFields.measuring: measuring == '' ? null : measuring,
         if (!export || (size != null && size!.isNotEmpty))
-          IngredientFields.size: size == "" ? null : size,
+          IngredientFields.size: size == '' ? null : size,
         if (!export || (method != null && method!.isNotEmpty))
-          IngredientFields.method: method == "" ? null : method,
+          IngredientFields.method: method == '' ? null : method,
       };
+
   Map<String, dynamic> toDatabaseJson(int? recipeId, [bool noId = false]) => {
         IngredientFields.id: noId ? null : id,
         IngredientFields.name: name,
-        IngredientFields.category: category == "" ? null : category,
+        IngredientFields.category: category == '' ? null : category,
         IngredientFields.quantity: quantity,
-        IngredientFields.measuring: measuring == "" ? null : measuring,
-        IngredientFields.size: size == "" ? null : size,
-        IngredientFields.method: method == "" ? null : method,
+        IngredientFields.measuring: measuring == '' ? null : measuring,
+        IngredientFields.size: size == '' ? null : size,
+        IngredientFields.method: method == '' ? null : method,
         IngredientFields.recipeId: recipeId,
       };
 
   String? getQuantity(int servings, [int? recipeServings]) {
-    String result = "";
+    String result = '';
     if (quantity != null) {
-      num resultQuantity = ((quantity! * servings) / (recipeServings ?? 1));
+      final num resultQuantity =
+          ((quantity! * servings) / (recipeServings ?? 1));
       if (resultQuantity % 1 == 0) {
-        result += resultQuantity.toInt().toString() + " ";
+        result += '${resultQuantity.toInt()} ';
       } else {
-        result += resultQuantity.toString() + " ";
+        result += '$resultQuantity ';
       }
     }
     if (size != null) {
-      result += size! + " ";
+      result += '${size!} ';
     }
     if (measuring != null) {
-      result += measuring! + " ";
+      result += '${measuring!} ';
     }
-    return result == "" ? null : result;
+    return result == '' ? null : result;
   }
 
   Ingredient copy(

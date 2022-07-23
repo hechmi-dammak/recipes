@@ -23,9 +23,9 @@ CREATE TABLE ingredients (
     FOREIGN KEY (recipe_id) REFERENCES recipes (_id)
 );
 
-CREATE TABLE steps (
+CREATE TABLE instructions (
     _id INTEGER PRIMARY KEY AUTOINCREMENT,
-    step_order INTEGER,
+    instruction_order INTEGER,
     to_do TEXT,
     recipe_id INTEGER,
     FOREIGN KEY (recipe_id) REFERENCES recipes (_id)
