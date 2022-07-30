@@ -14,7 +14,6 @@ class RecipeInfoPage extends StatelessWidget {
 
   const RecipeInfoPage({Key? key}) : super(key: key);
 
-
   @override
   Widget build(BuildContext context) {
     return GetBuilder<RecipeInfoController>(

@@ -13,19 +13,13 @@ class IngredientEditList extends StatefulWidget {
 class IngredientEditListState extends State<IngredientEditList> {
   List<GlobalObjectKey<IngredientEditCardState>> ingredientListKeys = [];
   List<Widget> children = [];
-  final RecipeEditController recipeEditController = RecipeEditController.find;
 
   @override
   Widget build(BuildContext context) {
     ingredientListKeys = List.generate(
-        recipeEditController.recipe.ingredients.length,
+        RecipeEditController.find.recipe.ingredients.length,
         (index) => GlobalObjectKey<IngredientEditCardState>(index));
-    children = List.generate(
-        recipeEditController.recipe.ingredients.length,
-        (index) =>
-            IngredientEditCard(index: index, key: ingredientListKeys[index]));
-
-    return GetBuilder<RecipeEditController>(builder: (_) {
+    return GetBuilder<RecipeEditController>(builder: (recipeEditController) {
       return Column(
         children: [
           if (recipeEditController.recipe.ingredients.isNotEmpty)
@@ -42,7 +36,10 @@ class IngredientEditListState extends State<IngredientEditList> {
               key: recipeEditController.ingredientListKey,
               physics: const ClampingScrollPhysics(),
               shrinkWrap: true,
-              children: children),
+              children: List.generate(
+                  recipeEditController.recipe.ingredients.length,
+                  (index) => IngredientEditCard(
+                      index: index, key: ingredientListKeys[index]))),
         ],
       );
     });
@@ -51,7 +48,7 @@ class IngredientEditListState extends State<IngredientEditList> {
   Future validate() async {
     for (var key in ingredientListKeys) {
       if (key.currentState == null) {
-        recipeEditController.validation = false;
+        RecipeEditController.find.validation = false;
       } else {
         await key.currentState!.validate();
       }

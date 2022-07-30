@@ -41,7 +41,7 @@ class ImageOperations extends GetxService {
           IOSUiSettings(
               title: 'Crop this image', showCancelConfirmationDialog: true)
         ]);
-      return croppedFile;
+    return croppedFile;
   }
 
   Future<void> requestCameraOrStoragePermissions(ImageSource source) async {

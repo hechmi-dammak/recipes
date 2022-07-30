@@ -1,6 +1,6 @@
-import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:recipes/components/expandable.dart';
 import 'package:recipes/modules/recipe_info_page/components/instructions/instruction_card.dart';
 import 'package:recipes/modules/recipe_info_page/recipe_info_controller.dart';
 
@@ -17,6 +17,7 @@ class InstructionsList extends StatelessWidget {
         return Container(
           margin: const EdgeInsets.symmetric(vertical: 20),
           child: ExpandablePanel(
+            initialExpanded: true,
             theme: ExpandableThemeData(
                 tapBodyToExpand: false,
                 tapHeaderToExpand: true,
@@ -26,7 +27,6 @@ class InstructionsList extends StatelessWidget {
                 iconColor: Get.theme.primaryColor,
                 collapseIcon: Icons.remove_circle_outline_rounded,
                 expandIcon: Icons.add_circle_outline_rounded),
-            controller: ExpandableController(initialExpanded: true),
             header: SizedBox(
               height: 40,
               child: Text(

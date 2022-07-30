@@ -219,7 +219,7 @@ class InsideIngredientCardState extends State<InsideIngredientCard> {
               ),
             ),
           if (recipeEditController.recipe.ingredients[widget.index]
-              .getQuantity(1) !=
+                  .getQuantity(1) !=
               null)
             Container(
               margin: const EdgeInsets.only(bottom: 10),

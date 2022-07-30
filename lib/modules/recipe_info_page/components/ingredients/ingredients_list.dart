@@ -1,8 +1,8 @@
 import 'dart:math';
 
-import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:recipes/components/expandable.dart';
 import 'package:recipes/modules/recipe_info_page/components/ingredients/ingredient_card.dart';
 import 'package:recipes/modules/recipe_info_page/recipe_info_controller.dart';
 
@@ -21,7 +21,7 @@ class IngredientsList extends StatelessWidget {
             return Container(
               margin: const EdgeInsets.symmetric(vertical: 20),
               child: ExpandablePanel(
-                controller: ExpandableController(initialExpanded: true),
+                initialExpanded: true,
                 header: Container(
                   height: 40,
                   margin: const EdgeInsets.only(bottom: 10),

@@ -372,14 +372,17 @@ class RecipeEditController extends GetxController {
     recipe.ingredients[index].category = category;
     update();
   }
+
   void changeIngredientMeasuring(int index, String? measuring) {
     recipe.ingredients[index].measuring = measuring;
     update();
   }
+
   void changeIngredientSize(int index, String? size) {
     recipe.ingredients[index].size = size;
     update();
   }
+
   void clearRecipeImage() {
     recipe.picture = null;
     update();

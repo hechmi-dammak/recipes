@@ -5,14 +5,12 @@ import 'package:recipes/decorations/modal_paint.dart';
 import 'package:recipes/models/instruction.dart';
 
 class InstructionInfoBottomSheet extends CustomBottomSheet {
-  final Instruction instruction ;
-final int index;
+  final Instruction instruction;
+
+  final int index;
 
   const InstructionInfoBottomSheet(
-      {required this.instruction,
-      required this.index,
-
-      Key? key})
+      {required this.instruction, required this.index, Key? key})
       : super(key: key);
 
   @override
@@ -23,8 +21,7 @@ final int index;
               ? Get.theme.colorScheme.secondary
               : Get.theme.primaryColor,
           borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(10.0),
-              topRight: Radius.circular(10.0))),
+              topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0))),
       child: CustomPaint(
         painter: ModalPainter(
           instruction.selected
@@ -43,10 +40,8 @@ final int index;
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                       color: instruction.selected
-                          ? Get.theme.buttonTheme.colorScheme!
-                          .onSecondary
-                          : Get.theme.buttonTheme.colorScheme!
-                          .onPrimary),
+                          ? Get.theme.buttonTheme.colorScheme!.onSecondary
+                          : Get.theme.buttonTheme.colorScheme!.onPrimary),
                 ),
                 title: Text(
                   instruction.toDo.capitalize!,
@@ -55,10 +50,8 @@ final int index;
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: instruction.selected
-                          ? Get.theme.buttonTheme.colorScheme!
-                          .onSecondary
-                          : Get.theme.buttonTheme.colorScheme!
-                          .onPrimary),
+                          ? Get.theme.buttonTheme.colorScheme!.onSecondary
+                          : Get.theme.buttonTheme.colorScheme!.onPrimary),
                 ),
               ),
             ),
@@ -73,10 +66,8 @@ final int index;
                         fontSize: 17,
                         fontWeight: FontWeight.bold,
                         color: instruction.selected
-                            ? Get.theme.buttonTheme.colorScheme!
-                            .onSecondary
-                            : Get.theme.buttonTheme.colorScheme!
-                            .onPrimary),
+                            ? Get.theme.buttonTheme.colorScheme!.onSecondary
+                            : Get.theme.buttonTheme.colorScheme!.onPrimary),
                   ),
                   title: Text(
                     (index + 1).toString(),
@@ -85,10 +76,8 @@ final int index;
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                         color: instruction.selected
-                            ? Get.theme.buttonTheme.colorScheme!
-                            .onSecondary
-                            : Get.theme.buttonTheme.colorScheme!
-                            .onPrimary),
+                            ? Get.theme.buttonTheme.colorScheme!.onSecondary
+                            : Get.theme.buttonTheme.colorScheme!.onPrimary),
                   ),
                 ),
               ),
@@ -97,5 +86,4 @@ final int index;
       ),
     );
   }
-
 }

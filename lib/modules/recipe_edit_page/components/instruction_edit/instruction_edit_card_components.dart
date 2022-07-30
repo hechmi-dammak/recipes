@@ -22,7 +22,7 @@ class EditButton extends StatelessWidget {
         child: Material(
           color: Colors.transparent,
           child: Ink(
-            decoration:GradientDecoration.rounded(),
+            decoration: GradientDecoration.rounded(),
             child: InkWell(
                 onTap: () {
                   recipeEditController.setInEditing(

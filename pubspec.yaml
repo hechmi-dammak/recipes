@@ -35,7 +35,7 @@ dependencies:
   sqflite: ^2.0.3
   path: ^1.8.1
   flutter_speed_dial: ^6.0.0
-  file_picker: ^4.6.1
+  file_picker: ^5.0.0
   get: ^4.6.5
   image_picker: ^0.8.5+3
   image_cropper: ^2.0.3
@@ -44,7 +44,6 @@ dependencies:
   permission_handler: ^10.0.0
   content_resolver: ^0.1.0
   app_links: ^3.2.0
-  expandable: ^5.0.1
   flutter_reorderable_list: ^1.2.0
 
 

@@ -41,9 +41,8 @@ class Instruction {
 
   Map<String, dynamic> toJson() => {
         InstructionFields.id: id,
-        if ( order != null) InstructionFields.order: order,
-        if ( toDo.isNotEmpty)
-          InstructionFields.toDo: toDo == '' ? null : toDo,
+        if (order != null) InstructionFields.order: order,
+        if (toDo.isNotEmpty) InstructionFields.toDo: toDo == '' ? null : toDo,
       };
 
   Map<String, dynamic> toDatabaseJson(int? recipeId, [bool noId = false]) => {

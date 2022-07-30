@@ -173,5 +173,3 @@ class RecipeListPage extends StatelessWidget {
     });
   }
 }
-
-
