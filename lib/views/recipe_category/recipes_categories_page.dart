@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:recipes/views/recipe_category/add_recipe_category_button.dart';
+import 'package:recipes/views/recipe_category/widgets/add_recipe_category_button.dart';
 import 'package:recipes/views/recipe_category/recipes_categories_controller.dart';
 import 'package:recipes/widgets/loading_widget.dart';
 
