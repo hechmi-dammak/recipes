@@ -9,6 +9,14 @@ abstract class Controller extends GetxController
 
   Controller({this.child});
 
+  void decoratorUpdate({bool callChild = true}) {
+    if (child != null && callChild) {
+      child!.decoratorUpdate();
+      return;
+    }
+    update();
+  }
+
   @mustCallSuper
-  void initState(GetBuilderState<Controller> state, {callChild = true});
+  void initState(GetBuilderState<Controller> state, {bool callChild = true});
 }

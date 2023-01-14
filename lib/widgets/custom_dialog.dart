@@ -28,4 +28,19 @@ abstract class CustomDialog<T> extends StatelessWidget {
       Get.back<T>(result: result);
     }
   }
+
+  @protected
+  Widget buildChild(BuildContext context);
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        child: Container(
+            decoration: BoxDecoration(
+                color: Get.theme.colorScheme.primaryContainer,
+                borderRadius: BorderRadius.circular(6.5)),
+            child: buildChild(context)));
+  }
 }

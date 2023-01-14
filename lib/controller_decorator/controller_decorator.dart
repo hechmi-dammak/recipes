@@ -9,7 +9,7 @@ abstract class ControllerDecorator extends Controller {
   ControllerDecorator({required this.controller, super.child});
 
   @override
-  bool getLoading({callChild = true}) {
+  bool getLoading({bool callChild = true}) {
     if (child != null && callChild) {
       return child!.getLoading();
     }
@@ -17,7 +17,7 @@ abstract class ControllerDecorator extends Controller {
   }
 
   @override
-  void setLoading(bool loading, {callChild = true}) {
+  void setLoading(bool loading, {bool callChild = true}) {
     if (child != null && callChild) {
       child!.setLoading(loading);
       return;
@@ -26,7 +26,15 @@ abstract class ControllerDecorator extends Controller {
   }
 
   @override
-  Future<void> fetchData({callChild = true}) async {
+  void decoratorUpdate({bool callChild = true}) {
+    if (child != null && callChild) {
+      return child!.decoratorUpdate();
+    }
+    update();
+  }
+
+  @override
+  Future<void> fetchData({bool callChild = true}) async {
     if (child != null && callChild) {
       await child!.fetchData();
       return;
@@ -35,7 +43,7 @@ abstract class ControllerDecorator extends Controller {
   }
 
   @override
-  void initState(GetBuilderState<Controller> state, {callChild = true}) {
+  void initState(GetBuilderState<Controller> state, {bool callChild = true}) {
     if (child != null && callChild) {
       child!.initState(state);
       return;
@@ -50,7 +58,7 @@ abstract class ControllerDecorator extends Controller {
   }
 
   @override
-  Future<void> loadData({callChild = true}) async {
+  Future<void> loadData({bool callChild = true}) async {
     if (child != null && callChild) {
       await child!.loadData();
     }

@@ -5,7 +5,7 @@ class BaseController extends Controller {
   bool _loading = true;
 
   @override
-  bool getLoading({callChild = true}) {
+  bool getLoading({bool callChild = true}) {
     if (child != null && callChild) {
       return child!.getLoading();
     }
@@ -13,17 +13,18 @@ class BaseController extends Controller {
   }
 
   @override
-  void setLoading(bool loading, {callChild = true}) {
+  void setLoading(bool loading, {bool callChild = true}) {
     if (child != null && callChild) {
       child!.setLoading(loading);
       return;
     }
     _loading = loading;
-    update();
+    decoratorUpdate();
   }
 
+
   @override
-  Future<void> fetchData({callChild = true}) async {
+  Future<void> fetchData({bool callChild = true}) async {
     if (child != null && callChild) {
       await child!.fetchData();
       return;
@@ -34,7 +35,7 @@ class BaseController extends Controller {
   }
 
   @override
-  void initState(GetBuilderState<Controller> state, {callChild = true}) {
+  void initState(GetBuilderState<Controller> state, {bool callChild = true}) {
     if (child != null && callChild) {
       child!.initState(state);
       return;
@@ -43,7 +44,7 @@ class BaseController extends Controller {
   }
 
   @override
-  Future<void> loadData({callChild = true}) async {
+  Future<void> loadData({bool callChild = true}) async {
     if (child != null && callChild) {
       await child!.loadData();
     }

@@ -26,7 +26,7 @@ class RecipesCategoriesController extends ControllerDecorator {
   }
 
   @override
-  Future<void> loadData({callChild = true}) async {
+  Future<void> loadData({bool callChild = true}) async {
     if (child != null && callChild) {
       await child!.loadData();
       return;

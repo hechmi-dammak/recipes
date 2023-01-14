@@ -13,32 +13,23 @@ class AddRecipeCategoryDialog extends CustomDialog<bool> {
   const AddRecipeCategoryDialog({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Dialog(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        child: Container(
-          decoration: BoxDecoration(
-              color: Get.theme.colorScheme.primaryContainer,
-              borderRadius: BorderRadius.circular(6.5)),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(30),
-                constraints: BoxConstraints(maxHeight: Get.height * .45),
-                child: const SingleChildScrollView(
-                  child: AddRecipeCategoryForm(),
-                ),
-              ),
-              DialogBottom(
-                onConfirm: () =>
-                    AddRecipeCategoryController.find.confirm(close),
-                onCancel: () => close(false, true),
-              )
-            ],
+  Widget buildChild(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          padding: const EdgeInsets.all(30),
+          constraints: BoxConstraints(maxHeight: Get.height * .45),
+          child: const SingleChildScrollView(
+            child: AddRecipeCategoryForm(),
           ),
-        ));
+        ),
+        DialogBottom(
+          onConfirm: () => AddRecipeCategoryController.find.confirm(close),
+          onCancel: () => close(false, true),
+        )
+      ],
+    );
   }
 }
 
@@ -51,6 +42,7 @@ class AddRecipeCategoryForm extends StatelessWidget {
         init: AddRecipeCategoryController(),
         builder: (controller) {
           return Form(
+            key: controller.formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
@@ -73,6 +65,7 @@ class AddRecipeCategoryForm extends StatelessWidget {
                 ),
                 const SizedBox(height: 7),
                 TextFormField(
+                  controller: controller.descriptionController,
                   maxLines: null,
                   style: Get.textTheme.bodyLarge,
                   decoration: CustomInputDecoration(),
@@ -83,18 +76,48 @@ class AddRecipeCategoryForm extends StatelessWidget {
                   style: Get.textTheme.bodyLarge,
                 ),
                 const SizedBox(height: 7),
-                Container(
-                  height: controller.picture == null?60:null,
+                AnimatedContainer(
+                  height: controller.picture == null ? 60 : null,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(6.5),
                     border: Border.all(color: Get.theme.colorScheme.secondary),
                   ),
+                  duration: const Duration(seconds: 1),
                   child: ConditionalWidget(
                     condition: controller.picture == null,
-                    secondChild: (context) =>
-                        AspectRatio(
-                            aspectRatio: 2,
-                            child: Image.memory(controller.picture!.image,fit: BoxFit.cover,)),
+                    secondChild: (context) => AspectRatio(
+                      aspectRatio: 2,
+                      child: Stack(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(6.5),
+                            child: Image.memory(
+                              controller.picture!.image,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          Positioned(
+                              top: 10,
+                              right: 10,
+                              child: GestureDetector(
+                                onTap: controller.clearImage,
+                                child: Container(
+                                  width: 32,
+                                  height: 32,
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Get.theme.colorScheme.secondary),
+                                  child: SvgPicture.asset(
+                                      'assets/icons/trash_icon.svg',
+                                      fit: BoxFit.scaleDown,
+                                      height: 16,
+                                      width: 14,
+                                      color: Get.theme.colorScheme.onSecondary),
+                                ),
+                              ))
+                        ],
+                      ),
+                    ),
                     child: (context) => Row(
                       children: [
                         Flexible(
