@@ -11,7 +11,10 @@ class DescriptionDialog extends CustomDialog<void> {
 
   @override
   Widget buildChild(BuildContext context) {
-    return Padding(
+    return Container(
+      decoration: BoxDecoration(
+          color: Get.theme.colorScheme.primaryContainer,
+          borderRadius: BorderRadius.circular(6.5)),
       padding: const EdgeInsets.all(30),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -27,8 +30,11 @@ class DescriptionDialog extends CustomDialog<void> {
           Container(
             constraints: BoxConstraints(maxHeight: Get.height * .45),
             child: SingleChildScrollView(
-              child: Text(description, style: Get.textTheme.bodyMedium
-                  ?.copyWith(color: Get.theme.colorScheme.onPrimaryContainer),),
+              child: Text(
+                description,
+                style: Get.textTheme.bodyMedium
+                    ?.copyWith(color: Get.theme.colorScheme.onPrimaryContainer),
+              ),
             ),
           ),
         ],

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:recipes/widgets/custom_card.dart';
 
 class AddRecipeCategoryCard extends StatelessWidget {
   const AddRecipeCategoryCard(
@@ -12,18 +11,20 @@ class AddRecipeCategoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomCard(
-      backgroundColor:
-      Get.theme.colorScheme.tertiaryContainer,
+    return GestureDetector(
       onTap: onTap,
-      child: Center(
-        child: SvgPicture.asset('assets/icons/big_plus_icon.svg',
-            color: Get.theme.colorScheme.onTertiaryContainer,
-            semanticsLabel: semanticsLabel,
-            height: 30,
-            width: 30,
-            fit: BoxFit.scaleDown),
-      ),
+      child: Container(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(6.5),
+              color: Get.theme.colorScheme.tertiaryContainer),
+          child: Center(
+            child: SvgPicture.asset('assets/icons/big_plus_icon.svg',
+                color: Get.theme.colorScheme.onTertiaryContainer,
+                semanticsLabel: semanticsLabel,
+                height: 30,
+                width: 30,
+                fit: BoxFit.scaleDown),
+          )),
     );
   }
 }

@@ -26,6 +26,13 @@ class RecipeCategory {
     this.picture,
   });
 
+  RecipeCategory.fromCopy(RecipeCategory recipeCategory)
+      : id = recipeCategory.id,
+        uuid = recipeCategory.uuid,
+        name = recipeCategory.name,
+        description = recipeCategory.description,
+        picture = recipeCategory.picture;
+
   factory RecipeCategory.fromJson(
     Map<String, dynamic> json, {
     bool database = false,

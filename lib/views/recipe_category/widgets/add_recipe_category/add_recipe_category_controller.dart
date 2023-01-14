@@ -24,10 +24,10 @@ class AddRecipeCategoryController extends GetxController {
   Future<void> confirm(
       void Function([bool? result, bool forceClose]) close) async {
     if (formKey.currentState?.validate() ?? false) {
-      final description =descriptionController.text.trim();
+      final description = descriptionController.text.trim();
       await RecipeCategoryRepository.find.save(RecipeCategory(
           name: nameController.text.trim(),
-          description: description.isEmpty?null:description,
+          description: description.isEmpty ? null : description,
           picture: picture));
       close(true, true);
     }

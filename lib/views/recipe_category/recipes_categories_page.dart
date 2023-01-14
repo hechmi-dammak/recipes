@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:recipes/models/recipe_category.dart';
+import 'package:recipes/views/recipe_category/models/recipe_category_page_model.dart';
 import 'package:recipes/views/recipe_category/recipes_categories_controller.dart';
 import 'package:recipes/views/recipe_category/widgets/add_recipe_category_card.dart';
+import 'package:recipes/views/recipe_category/widgets/description_dialog.dart';
 import 'package:recipes/widgets/conditional_widget.dart';
-import 'package:recipes/widgets/custom_card.dart';
 import 'package:recipes/widgets/loading_widget.dart';
-
-import 'widgets/description_dialog.dart';
 
 class RecipesCategoriesPage extends StatelessWidget {
   static const routeName = '/recipes-categories';
@@ -74,71 +72,103 @@ class RecipesCategoriesPage extends StatelessWidget {
 class RecipeCategoryCard extends StatelessWidget {
   const RecipeCategoryCard({Key? key, required this.recipeCategory})
       : super(key: key);
-  final RecipeCategory recipeCategory;
+  final RecipeCategoryPageModel recipeCategory;
+  static const double borderWidth = 4;
+  static const double borderRadius = 6.5;
 
   @override
   Widget build(BuildContext context) {
-    return CustomCard(
-      backgroundColor: Get.theme.colorScheme.tertiary,
-      child: Stack(
-        children: [
-          ConditionalWidget(
-              condition: recipeCategory.picture != null,
-              child: (context) => ClipRRect(
-                    borderRadius: BorderRadius.circular(6.5),
-                    child: Image.memory(
-                      recipeCategory.picture!.image,
-                      fit: BoxFit.cover,
-                    ),
-                  )),
-          ConditionalWidget(
-              child: (context) => Positioned(
-                    top: 8,
-                    left: 7,
-                    child: GestureDetector(
-                      onTap: () {
-                        DescriptionDialog(
-                                title: recipeCategory.name,
-                                description: recipeCategory.description!)
-                            .show();
-                      },
-                      child: Container(
-                        height: 18,
-                        width: 18,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Get.theme.colorScheme.primary),
-                        child: SvgPicture.asset(
-                          'assets/icons/info_icon.svg',
-                          width: 2, height: 9, fit: BoxFit.scaleDown,
-                          // color: Get.theme.colorScheme.onPrimary,
+    return GetBuilder<RecipesCategoriesController>(builder: (controller) {
+      return GestureDetector(
+        onTap: () {
+          if (controller.getSelectionIsActive()) {
+            controller.selectCategory(recipeCategory);
+          } else {
+            //todo navigate to recipes
+          }
+        },
+        onLongPress: () => controller.selectCategory(recipeCategory),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(borderRadius),
+            color: Get.theme.colorScheme.tertiary,
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(borderRadius),
+            child: Stack(
+              children: [
+                ConditionalWidget(
+                    condition: recipeCategory.picture != null,
+                    child: (context) => Image.memory(
+                          recipeCategory.picture!.image,
+                          width: double.infinity,
+                          height: double.infinity,
+                          fit: BoxFit.cover,
+                        )),
+                ConditionalWidget(
+                    child: (context) => Positioned(
+                          top: 8,
+                          left: 7,
+                          child: GestureDetector(
+                            onTap: () {
+                              DescriptionDialog(
+                                      title: recipeCategory.name,
+                                      description: recipeCategory.description!)
+                                  .show();
+                            },
+                            child: Container(
+                              height: 18,
+                              width: 18,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Get.theme.colorScheme.primary),
+                              child: SvgPicture.asset(
+                                'assets/icons/info_icon.svg',
+                                width: 2, height: 9, fit: BoxFit.scaleDown,
+                                // color: Get.theme.colorScheme.onPrimary,
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
+                    condition: recipeCategory.description != null),
+                LayoutBuilder(
+                  builder: (context, constrain) => Transform.translate(
+                    offset: Offset(
+                        constrain.maxWidth * 0.43, constrain.maxHeight * 0.16),
+                    child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 12),
+                        width: constrain.maxWidth * 0.57,
+                        decoration: BoxDecoration(
+                            color: Get.theme.colorScheme.primaryContainer,
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              bottomLeft: Radius.circular(20),
+                            )),
+                        child: Text(recipeCategory.name,
+                            style: Get.textTheme.headlineMedium?.copyWith(
+                                color: Get.theme.colorScheme.onPrimaryContainer,
+                                overflow: TextOverflow.ellipsis))),
                   ),
-              condition: recipeCategory.description != null),
-          LayoutBuilder(
-            builder: (context, constrain) => Transform.translate(
-              offset:
-                  Offset(constrain.maxWidth * .43, constrain.maxHeight * 0.16),
-              child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
-                  width: constrain.maxWidth * 0.57,
-                  decoration: BoxDecoration(
-                      color: Get.theme.colorScheme.primaryContainer,
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(20),
-                        bottomLeft: Radius.circular(20),
-                      )),
-                  child: Text(recipeCategory.name,
-                      style: Get.textTheme.headlineMedium?.copyWith(
-                          color: Get.theme.colorScheme.onPrimaryContainer,
-                          overflow: TextOverflow.ellipsis))),
+                ),
+                ConditionalWidget(
+                    condition: recipeCategory.selected,
+                    child: (context) => Container(
+                          width: double.infinity,
+                          height: double.infinity,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(borderRadius),
+                            border: Border.all(
+                              width: borderWidth,
+                              color: Get.theme.colorScheme.primary,
+                            ),
+                          ),
+                        ))
+              ],
             ),
-          )
-        ],
-      ),
-    );
+          ),
+        ),
+      );
+    });
   }
 }

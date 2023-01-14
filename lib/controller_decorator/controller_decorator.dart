@@ -26,14 +26,6 @@ abstract class ControllerDecorator extends Controller {
   }
 
   @override
-  void decoratorUpdate({bool callChild = true}) {
-    if (child != null && callChild) {
-      return child!.decoratorUpdate();
-    }
-    update();
-  }
-
-  @override
   Future<void> fetchData({bool callChild = true}) async {
     if (child != null && callChild) {
       await child!.fetchData();
@@ -63,5 +55,64 @@ abstract class ControllerDecorator extends Controller {
       await child!.loadData();
     }
     await controller.loadData(callChild: false);
+  }
+
+  @override
+  bool getAllItemsSelected({bool callChild = true}) {
+    if (child != null && callChild) {
+      return child!.getAllItemsSelected();
+    }
+    return controller.getAllItemsSelected(callChild: false);
+  }
+
+  @override
+  bool getSelectionIsActive({bool callChild = true}) {
+    if (child != null && callChild) {
+      return child!.getSelectionIsActive();
+    }
+    return controller.getSelectionIsActive(callChild: false);
+  }
+
+  @override
+  void setAllItemsSelected(bool? allItemsSelected, {bool callChild = true}) {
+    if (child != null && callChild) {
+      child!.setAllItemsSelected(allItemsSelected);
+      return;
+    }
+    controller.setAllItemsSelected(allItemsSelected, callChild: false);
+  }
+
+  @override
+  void setSelectionIsActive(bool? selectionIsActive, {bool callChild = true}) {
+    if (child != null && callChild) {
+      child!.setSelectionIsActive(selectionIsActive);
+      return;
+    }
+    controller.setSelectionIsActive(selectionIsActive, callChild: false);
+  }
+
+  @override
+  bool allItemsSelectedFallBack({bool callChild = true}) {
+    if (child != null && callChild) {
+      return child!.allItemsSelectedFallBack();
+    }
+    return controller.allItemsSelectedFallBack(callChild: false);
+  }
+
+  @override
+  bool selectionIsActiveFallBack({bool callChild = true}) {
+    if (child != null && callChild) {
+      return child!.selectionIsActiveFallBack();
+    }
+    return controller.selectionIsActiveFallBack(callChild: false);
+  }
+
+  @override
+  void setSelectAllValue({bool value = false, bool callChild = true}) {
+    if (child != null && callChild) {
+      child!.setSelectAllValue(value: value);
+      return;
+    }
+    controller.setSelectAllValue(value: value, callChild: false);
   }
 }

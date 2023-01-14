@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:recipes/controller_decorator/base_contoller.dart';
+import 'package:recipes/controller_decorator/base_controller/base_contoller.dart';
+import 'package:recipes/controller_decorator/decorators/selection_decorator.dart';
 import 'package:recipes/helpers/theme.dart';
 import 'package:recipes/service/data_base_provider.dart';
 import 'package:recipes/service/image_operations.dart';
@@ -37,7 +38,8 @@ class RecipesApp extends StatelessWidget {
             page: () => const RecipesCategoriesPage(),
             binding: BindingsBuilder.put(
               () => RecipesCategoriesController.create(
-                  controller: BaseController()),
+                  controller:
+                      SelectionDecorator.create(controller: BaseController())),
             ),
           ),
         ],

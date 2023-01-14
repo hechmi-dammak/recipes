@@ -37,10 +37,6 @@ abstract class CustomDialog<T> extends StatelessWidget {
     return Dialog(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        child: Container(
-            decoration: BoxDecoration(
-                color: Get.theme.colorScheme.primaryContainer,
-                borderRadius: BorderRadius.circular(6.5)),
-            child: buildChild(context)));
+        child: buildChild(context));
   }
 }

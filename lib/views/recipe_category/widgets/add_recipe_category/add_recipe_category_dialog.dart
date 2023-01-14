@@ -4,13 +4,13 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:recipes/helpers/form_validators.dart';
 import 'package:recipes/helpers/input_decoration.dart';
-import 'package:recipes/views/recipe_category/widgets/add_recipe_category/add_recipe_cateogry_controller.dart';
+import 'package:recipes/views/recipe_category/widgets/add_recipe_category/add_recipe_category_controller.dart';
 import 'package:recipes/widgets/conditional_widget.dart';
 import 'package:recipes/widgets/custom_dialog.dart';
 import 'package:recipes/widgets/dialog_bottom.dart';
 
 class AddRecipeCategoryDialog extends CustomDialog<bool> {
-  const AddRecipeCategoryDialog({super.key});
+  const AddRecipeCategoryDialog({super.key}) : super(dismissible: false);
 
   @override
   Widget buildChild(BuildContext context) {
@@ -18,6 +18,11 @@ class AddRecipeCategoryDialog extends CustomDialog<bool> {
       mainAxisSize: MainAxisSize.min,
       children: [
         Container(
+          decoration: BoxDecoration(
+              color: Get.theme.colorScheme.primaryContainer,
+              borderRadius: const BorderRadius.only(
+                  topRight: Radius.circular(6.5),
+                  topLeft: Radius.circular(6.5))),
           padding: const EdgeInsets.all(30),
           constraints: BoxConstraints(maxHeight: Get.height * .45),
           child: const SingleChildScrollView(
