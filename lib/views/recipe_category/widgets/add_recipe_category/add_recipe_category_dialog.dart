@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:recipes/helpers/form_validators.dart';
 import 'package:recipes/helpers/input_decoration.dart';
 import 'package:recipes/views/recipe_category/widgets/add_recipe_category/add_recipe_cateogry_controller.dart';
+import 'package:recipes/widgets/conditional_widget.dart';
 import 'package:recipes/widgets/custom_dialog.dart';
-import 'package:recipes/widgets/dialog_buttom.dart';
+import 'package:recipes/widgets/dialog_bottom.dart';
 
 class AddRecipeCategoryDialog extends CustomDialog<bool> {
   const AddRecipeCategoryDialog({super.key});
@@ -23,7 +26,7 @@ class AddRecipeCategoryDialog extends CustomDialog<bool> {
             children: [
               Container(
                 padding: const EdgeInsets.all(30),
-                constraints: BoxConstraints(maxHeight: Get.height * .5),
+                constraints: BoxConstraints(maxHeight: Get.height * .45),
                 child: const SingleChildScrollView(
                   child: AddRecipeCategoryForm(),
                 ),
@@ -44,86 +47,105 @@ class AddRecipeCategoryForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            'Name:'.tr,
-            style: Get.textTheme.bodyLarge,
-          ),
-          const SizedBox(height: 7),
-          TextFormField(
-            style: Get.textTheme.bodyLarge,
-            decoration: CustomInputDecoration(),
-          ),
-          const SizedBox(height: 15),
-          Text(
-            'Description:'.tr,
-            style: Get.textTheme.bodyLarge,
-          ),
-          const SizedBox(height: 7),
-          TextFormField(
-            maxLines: null,
-            style: Get.textTheme.bodyLarge,
-            decoration: CustomInputDecoration(),
-          ),
-          Text(
-            'Image:'.tr,
-            style: Get.textTheme.bodyLarge,
-          ),
-          const SizedBox(height: 7),
-          Container(
-            height: 60,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(6.5),
-              border: Border.all(color: Get.theme.colorScheme.secondary),
-            ),
-            child: Row(
+    return GetBuilder<AddRecipeCategoryController>(
+        init: AddRecipeCategoryController(),
+        builder: (controller) {
+          return Form(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Flexible(
-                  child: GestureDetector(
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: Center(
-                        child: SvgPicture.asset(
-                          'assets/icons/gallery_icon.svg',
-                          color: Get.theme.colorScheme.secondary,
-                          height: 25.5,
-                          width: 38,
-                        ),
-                      ),
-                    ),
+                Text(
+                  'Name:'.tr,
+                  style: Get.textTheme.bodyLarge,
+                ),
+                const SizedBox(height: 7),
+                TextFormField(
+                  controller: controller.nameController,
+                  style: Get.textTheme.bodyLarge,
+                  decoration: CustomInputDecoration(),
+                  validator: FormValidators.notEmptyOrNullValidator,
+                ),
+                const SizedBox(height: 15),
+                Text(
+                  'Description:'.tr,
+                  style: Get.textTheme.bodyLarge,
+                ),
+                const SizedBox(height: 7),
+                TextFormField(
+                  maxLines: null,
+                  style: Get.textTheme.bodyLarge,
+                  decoration: CustomInputDecoration(),
+                ),
+                const SizedBox(height: 15),
+                Text(
+                  'Image:'.tr,
+                  style: Get.textTheme.bodyLarge,
+                ),
+                const SizedBox(height: 7),
+                Container(
+                  height: controller.picture == null?60:null,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(6.5),
+                    border: Border.all(color: Get.theme.colorScheme.secondary),
                   ),
-                ),
-                VerticalDivider(
-                  indent: 7,
-                  endIndent: 7,
-                  width: 2,
-                  thickness: 2,
-                  color: Get.theme.colorScheme.secondary,
-                ),
-                Flexible(
-                  child: GestureDetector(
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: Center(
-                        child: SvgPicture.asset(
-                          'assets/icons/camera_icon.svg',
-                          color: Get.theme.colorScheme.secondary,
-                          height: 25,
-                          width: 35,
+                  child: ConditionalWidget(
+                    condition: controller.picture == null,
+                    secondChild: (context) =>
+                        AspectRatio(
+                            aspectRatio: 2,
+                            child: Image.memory(controller.picture!.image,fit: BoxFit.cover,)),
+                    child: (context) => Row(
+                      children: [
+                        Flexible(
+                          child: GestureDetector(
+                            behavior: HitTestBehavior.opaque,
+                            onTap: () =>
+                                controller.pickImage(ImageSource.gallery),
+                            child: SizedBox(
+                              // width: double.infinity,
+                              child: Center(
+                                child: SvgPicture.asset(
+                                  'assets/icons/gallery_icon.svg',
+                                  color: Get.theme.colorScheme.secondary,
+                                  height: 30,
+                                  width: 40,
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
+                        VerticalDivider(
+                          indent: 7,
+                          endIndent: 7,
+                          width: 1,
+                          thickness: 1,
+                          color: Get.theme.colorScheme.secondary,
+                        ),
+                        Flexible(
+                          child: GestureDetector(
+                            behavior: HitTestBehavior.opaque,
+                            onTap: () =>
+                                controller.pickImage(ImageSource.camera),
+                            child: SizedBox(
+                              child: Center(
+                                child: SvgPicture.asset(
+                                  'assets/icons/camera_icon.svg',
+                                  color: Get.theme.colorScheme.secondary,
+                                  height: 30,
+                                  width: 40,
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
                     ),
                   ),
                 )
               ],
             ),
-          )
-        ],
-      ),
-    );
+          );
+        });
   }
 }

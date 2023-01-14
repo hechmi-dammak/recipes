@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class ConditionalWidget extends StatelessWidget {
-  final Widget child;
-  final Widget? secondChild;
+  final WidgetBuilder child;
+  final WidgetBuilder? secondChild;
   final bool condition;
 
   const ConditionalWidget(
@@ -13,6 +13,8 @@ class ConditionalWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return condition ? child : (secondChild ?? Container());
+    return condition
+        ? child(context)
+        : (secondChild?.call(context) ?? Container());
   }
 }

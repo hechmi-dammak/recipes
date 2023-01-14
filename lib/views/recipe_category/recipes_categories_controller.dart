@@ -21,7 +21,8 @@ class RecipesCategoriesController extends ControllerDecorator {
   List<RecipeCategory> recipeCategories = [];
 
   Future<void> addRecipeCategory() async {
-    await const AddRecipeCategoryDialog().show(false);
+    final created = await const AddRecipeCategoryDialog().show(false);
+    if (created ?? false) await fetchData();
   }
 
   @override

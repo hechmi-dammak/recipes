@@ -31,7 +31,7 @@ abstract class ControllerDecorator extends Controller {
       await child!.fetchData();
       return;
     }
-    controller.fetchData(callChild: false);
+    await controller.fetchData(callChild: false);
   }
 
   @override

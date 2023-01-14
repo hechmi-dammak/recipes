@@ -11,12 +11,12 @@ class PictureFields {
 class Picture {
   int? id;
   String? uuid;
-  Uint8List? image;
+  Uint8List image;
 
   Picture({
     this.id,
     this.uuid,
-    this.image,
+    required this.image,
   });
 
   static Picture fromJson(
@@ -43,9 +43,8 @@ class Picture {
   }) =>
       {
         if (!database || withId) PictureFields.id: id,
-        if (!database && image != null)
-          PictureFields.image: String.fromCharCodes(image!),
-        if (database && image != null) PictureFields.image: image,
+        if (!database) PictureFields.image: String.fromCharCodes(image),
+        if (database) PictureFields.image: image,
       };
 
   Picture copy({

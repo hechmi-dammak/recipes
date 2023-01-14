@@ -11,15 +11,20 @@ class ImageOperations extends GetxService {
 
   final ImagePicker _picker = ImagePicker();
 
-  Future<Picture?> getImage(ImageSource source) async {
+  Future<Picture?> getImage(ImageSource source,
+      [CropAspectRatio crop =
+          const CropAspectRatio(ratioX: 2, ratioY: 1)]) async {
     await requestCameraOrStoragePermissions(source);
-    final XFile? file =
-        await _picker.pickImage(source: source, maxHeight: 480, maxWidth: 640);
+    final XFile? file = await _picker.pickImage(
+        source: source,
+        maxHeight: 480,
+        maxWidth: 640,
+        requestFullMetadata: false);
     if (file == null) {
-      CustomSnackBar.warning('You have to choose an image.');
+      CustomSnackBar.warning('You have to choose an image.'.tr);
       return null;
     }
-    final CroppedFile? croppedImage = await _cropImage(file.path);
+    final CroppedFile? croppedImage = await _cropImage(file.path, crop);
     if (croppedImage != null) {
       return await PictureRepository.find
           .save(Picture(image: await croppedImage.readAsBytes()));
@@ -27,24 +32,22 @@ class ImageOperations extends GetxService {
     return null;
   }
 
-  Future<CroppedFile?> _cropImage(path) async {
-    final CroppedFile? croppedFile = await ImageCropper().cropImage(
-        sourcePath: path,
-        aspectRatio: const CropAspectRatio(ratioX: 10, ratioY: 7),
-        uiSettings: [
-          AndroidUiSettings(
-            toolbarTitle: 'Crop this image',
-            toolbarColor: Get.theme.colorScheme.primary,
-            toolbarWidgetColor: Get.theme.colorScheme.onPrimary,
-          ),
-          IOSUiSettings(
-              title: 'Crop this image', showCancelConfirmationDialog: true)
-        ]);
+  Future<CroppedFile?> _cropImage(String path, CropAspectRatio crop) async {
+    final CroppedFile? croppedFile = await ImageCropper()
+        .cropImage(sourcePath: path, aspectRatio: crop, uiSettings: [
+      AndroidUiSettings(
+        toolbarTitle: 'Crop this image'.tr,
+        toolbarColor: Get.theme.colorScheme.primary,
+        toolbarWidgetColor: Get.theme.colorScheme.onPrimary,
+      ),
+      IOSUiSettings(
+          title: 'Crop this image'.tr, showCancelConfirmationDialog: true)
+    ]);
 
     if (croppedFile != null) {
       return croppedFile;
     } else {
-      CustomSnackBar.warning('You have to crop the image.');
+      CustomSnackBar.warning('You have to crop the image.'.tr);
     }
     return null;
   }

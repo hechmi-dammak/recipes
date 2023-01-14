@@ -3,9 +3,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class DialogBottom extends StatelessWidget {
+  const DialogBottom(
+      {super.key, required this.onConfirm, required this.onCancel});
 
-
-  const DialogBottom({super.key, required this.onConfirm, required this.onCancel});
   final VoidCallback onConfirm;
   final VoidCallback onCancel;
 
@@ -55,12 +55,12 @@ class DialogBottom extends StatelessWidget {
 class DialogButton extends StatelessWidget {
   const DialogButton(
       {super.key,
-        required this.icon,
-        required this.text,
-        required this.backgroundColor,
-        required this.onTap,
-        this.isLeft = false,
-        this.isRight = false});
+      required this.icon,
+      required this.text,
+      required this.backgroundColor,
+      required this.onTap,
+      this.isLeft = false,
+      this.isRight = false});
 
   final Widget icon;
   final Widget text;
@@ -81,7 +81,7 @@ class DialogButton extends StatelessWidget {
               borderRadius: BorderRadius.only(
                   bottomLeft: isLeft ? const Radius.circular(6.5) : Radius.zero,
                   bottomRight:
-                  isRight ? const Radius.circular(6.5) : Radius.zero)),
+                      isRight ? const Radius.circular(6.5) : Radius.zero)),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
