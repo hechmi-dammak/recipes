@@ -22,12 +22,12 @@ class SelectionDecorator extends ControllerDecorator {
   }
 
   @override
-  void setSelectionIsActive(bool? selectionIsActive, {callChild = true}) {
+  void updateSelectionIsActive({callChild = true}) {
     if (child != null && callChild) {
-      child!.setSelectionIsActive(selectionIsActive);
+      child!.updateSelectionIsActive();
       return;
     }
-    _selectionIsActive = selectionIsActive ?? selectionIsActiveFallBack();
+    _selectionIsActive = selectionIsActiveFallBack();
     decoratorUpdate();
   }
 
@@ -40,12 +40,22 @@ class SelectionDecorator extends ControllerDecorator {
   }
 
   @override
-  void setAllItemsSelected(bool? allItemsSelected, {callChild = true}) {
+  void updateAllItemsSelected({bool callChild = true}) {
     if (child != null && callChild) {
-      child!.setAllItemsSelected(allItemsSelected);
+      child!.updateAllItemsSelected();
       return;
     }
-    _allItemsSelected = allItemsSelected ?? allItemsSelectedFallBack();
+    _allItemsSelected = allItemsSelectedFallBack();
+    decoratorUpdate();
+  }
+
+  @override
+  void setSelectAllValue({bool value = false, callChild = true}) {
+    if (child != null && callChild) {
+      child!.setSelectAllValue(value: value);
+      return;
+    }
+    updateAllItemsSelected();
     decoratorUpdate();
   }
 

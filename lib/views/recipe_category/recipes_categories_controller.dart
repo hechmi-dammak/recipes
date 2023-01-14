@@ -44,9 +44,22 @@ class RecipesCategoriesController extends ControllerDecorator {
 
   Future<void> selectCategory(RecipeCategoryPageModel recipeCategory) async {
     recipeCategory.selected = !recipeCategory.selected;
-    setSelectionIsActive(null);
-    setAllItemsSelected(null);
+    updateSelectionIsActive();
+    updateAllItemsSelected();
     decoratorUpdate();
+  }
+
+  @override
+  void setSelectAllValue({bool value = false, callChild = true}) {
+    if (child != null && callChild) {
+      child!.setSelectAllValue(value: value);
+      return;
+    }
+
+    for (var recipeCategory in recipeCategories) {
+      recipeCategory.selected = value;
+    }
+    super.setSelectAllValue(value: value, callChild: false);
   }
 
   @override

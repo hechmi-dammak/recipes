@@ -73,22 +73,24 @@ abstract class ControllerDecorator extends Controller {
     return controller.getSelectionIsActive(callChild: false);
   }
 
+
+
   @override
-  void setAllItemsSelected(bool? allItemsSelected, {bool callChild = true}) {
+  void updateSelectionIsActive({bool callChild = true}) {
     if (child != null && callChild) {
-      child!.setAllItemsSelected(allItemsSelected);
+      child!.updateSelectionIsActive();
       return;
     }
-    controller.setAllItemsSelected(allItemsSelected, callChild: false);
+    controller.updateSelectionIsActive(callChild: false);
   }
 
   @override
-  void setSelectionIsActive(bool? selectionIsActive, {bool callChild = true}) {
+  void updateAllItemsSelected({bool callChild = true}) {
     if (child != null && callChild) {
-      child!.setSelectionIsActive(selectionIsActive);
+      child!.updateAllItemsSelected();
       return;
     }
-    controller.setSelectionIsActive(selectionIsActive, callChild: false);
+    controller.updateAllItemsSelected(callChild: false);
   }
 
   @override

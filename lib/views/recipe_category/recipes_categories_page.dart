@@ -19,24 +19,55 @@ class RecipesCategoriesPage extends StatelessWidget {
         initState: RecipesCategoriesController.find.initState,
         builder: (controller) {
           return Scaffold(
-            appBar: AppBar(
-              centerTitle: true,
-              leading: InkWell(
-                radius: 1, borderRadius: BorderRadius.circular(5),
-                //todo
-                onTap: () {},
-                child: SvgPicture.asset('assets/icons/menu_icon.svg',
-                    semanticsLabel: 'Menu'.tr,
-                    height: 20,
-                    width: 20,
-                    fit: BoxFit.scaleDown),
-              ),
-              title: Text(
-                'Categories'.tr,
-                style: Get.textTheme.headlineLarge
-                    ?.copyWith(color: Get.theme.colorScheme.onPrimary),
-              ),
-            ),
+            appBar: controller.getSelectionIsActive()
+                ? AppBar(
+                    centerTitle: true,
+                    leading: GestureDetector(
+                      onTap: () {
+                        controller.setSelectAllValue();
+                      },
+                      child: SvgPicture.asset(
+                          'assets/icons/back_arrow_icon.svg',
+                          semanticsLabel: 'Cancel Selection'.tr,
+                          height: 20,
+                          width: 20,
+                          fit: BoxFit.scaleDown),
+                    ),
+                    actions: [
+                      GestureDetector(
+                        onTap: () {
+                          controller.setSelectAllValue(
+                              value: !controller.getAllItemsSelected());
+                        },
+                        child: SvgPicture.asset(
+                            !controller.getAllItemsSelected()
+                                ? 'assets/icons/deselect_all_icon.svg'
+                                : 'assets/icons/select_all_icon.svg',
+                            semanticsLabel: !controller.getAllItemsSelected()
+                                ? 'Deselect All'.tr
+                                : 'Select All'.tr,
+                            height: 20,
+                            width: 20,
+                            fit: BoxFit.scaleDown),
+                      ),
+                    ],
+                  )
+                : AppBar(
+                    centerTitle: true,
+                    leading: GestureDetector(
+                      onTap: () {}, //todo
+                      child: SvgPicture.asset('assets/icons/menu_icon.svg',
+                          semanticsLabel: 'Menu'.tr,
+                          height: 20,
+                          width: 20,
+                          fit: BoxFit.scaleDown),
+                    ),
+                    title: Text(
+                      'Categories'.tr,
+                      style: Get.textTheme.headlineLarge
+                          ?.copyWith(color: Get.theme.colorScheme.onPrimary),
+                    ),
+                  ),
             body: SafeArea(
               child: LoadingWidget(
                 loading: controller.getLoading(),
