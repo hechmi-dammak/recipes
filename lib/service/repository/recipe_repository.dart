@@ -153,10 +153,22 @@ class RecipeRepository extends GetxService {
   }
 
   Future<int> deleteByRecipeCategoryId(int recipeCategoryId) async {
+    //todo: delete ingredients(only info not the element) and instructions
     return await (await DataBaseProvider.database).delete(
       tableRecipes,
       where: '${RecipeFields.categoryId} = ?',
       whereArgs: [recipeCategoryId],
+    );
+  }
+
+  Future<int> deleteByRecipeCategoryIdsIn(List<int?> recipeCategoryIds) async {
+    final listNotNull = recipeCategoryIds.toList()
+      ..removeWhere((element) => element == null);
+    //todo: delete ingredients(only info not the element) and instructions
+    return await (await DataBaseProvider.database).delete(
+      tableRecipes,
+      where: '${RecipeFields.categoryId} = ?',
+      whereArgs: [listNotNull],
     );
   }
 
