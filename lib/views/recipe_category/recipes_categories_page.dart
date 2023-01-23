@@ -205,9 +205,9 @@ class RecipeCategoryCard extends StatelessWidget {
             child: Stack(
               children: [
                 ConditionalWidget(
-                    condition: recipeCategory.picture != null,
+                    condition: recipeCategory.picture.value != null,
                     child: (context) => Image.memory(
-                          recipeCategory.picture!.image,
+                          recipeCategory.picture.value!.memoryImage,
                           width: double.infinity,
                           height: double.infinity,
                           fit: BoxFit.cover,

@@ -15,4 +15,6 @@ abstract class SelectionInterface {
   bool allItemsSelectedFallBack({bool callChild = true});
 
   void setSelectAllValue({bool value = false, bool callChild = true}) {}
+
+  void updateSelection({callChild = true});
 }
