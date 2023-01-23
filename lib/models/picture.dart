@@ -7,10 +7,8 @@ part 'picture.g.dart';
 @collection
 class Picture {
   Id? id;
-  List<int> image;
+  Uint8List image;
 
-  @ignore
-  Uint8List get memoryImage => Uint8List.fromList(image);
 
   Picture({
     required this.image,

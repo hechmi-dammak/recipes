@@ -17,4 +17,6 @@ abstract class SelectionInterface {
   void setSelectAllValue({bool value = false, bool callChild = true}) {}
 
   void updateSelection({callChild = true});
+
+  int selectionCount({callChild = true});
 }

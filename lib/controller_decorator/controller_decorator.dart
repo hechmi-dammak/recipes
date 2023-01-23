@@ -124,4 +124,12 @@ abstract class ControllerDecorator extends Controller {
     }
     controller.updateSelection(callChild: false);
   }
+
+  @override
+  int selectionCount({callChild = true}) {
+    if (child != null && callChild) {
+      return child!.selectionCount();
+    }
+    return controller.selectionCount(callChild: false);
+  }
 }

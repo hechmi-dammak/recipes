@@ -67,15 +67,25 @@ class RecipesCategoriesPage extends StatelessWidget {
                             controller.deleteSelectedCategories();
                           },
                         ),
-                        const SizedBox(
-                          width: 25,
-                        ),
-                        TitleAppBarButton(
-                          title: 'Edit'.tr,
-                          icon: 'assets/icons/edit_icon.svg',
-                          onTap: () {
-                            //todo: implement edit
-                          },
+                        AnimatedSize(
+                          duration: const Duration(milliseconds: 500),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: controller.selectionCount() == 1
+                                ? [
+                                    const SizedBox(
+                                      width: 25,
+                                    ),
+                                    TitleAppBarButton(
+                                      title: 'Edit'.tr,
+                                      icon: 'assets/icons/edit_icon.svg',
+                                      onTap: () {
+                                        //todo: implement edit
+                                      },
+                                    )
+                                  ]
+                                : [],
+                          ),
                         ),
                         const SizedBox(
                           width: 25,
@@ -176,7 +186,7 @@ class TitleAppBarButton extends StatelessWidget {
   }
 }
 
-class RecipeCategoryCard extends StatelessWidget {
+class RecipeCategoryCard extends GetView<RecipesCategoriesController> {
   const RecipeCategoryCard({Key? key, required this.recipeCategory})
       : super(key: key);
   final RecipeCategoryPageModel recipeCategory;
@@ -185,97 +195,95 @@ class RecipeCategoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<RecipesCategoriesController>(builder: (controller) {
-      return GestureDetector(
-        onTap: () {
-          if (controller.getSelectionIsActive()) {
-            controller.selectCategory(recipeCategory);
-          } else {
-            //todo navigate to recipes
-          }
-        },
-        onLongPress: () => controller.selectCategory(recipeCategory),
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(borderRadius),
-            color: Get.theme.colorScheme.tertiary,
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(borderRadius),
-            child: Stack(
-              children: [
-                ConditionalWidget(
-                    condition: recipeCategory.picture.value != null,
-                    child: (context) => Image.memory(
-                          recipeCategory.picture.value!.memoryImage,
-                          width: double.infinity,
-                          height: double.infinity,
-                          fit: BoxFit.cover,
-                        )),
-                ConditionalWidget(
-                    child: (context) => Positioned(
-                          top: 8,
-                          left: 7,
-                          child: GestureDetector(
-                            onTap: () {
-                              DescriptionDialog(
-                                      title: recipeCategory.name,
-                                      description: recipeCategory.description!)
-                                  .show();
-                            },
-                            child: Container(
-                              height: 18,
-                              width: 18,
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Get.theme.colorScheme.primary),
-                              child: SvgPicture.asset(
-                                'assets/icons/info_icon.svg',
-                                width: 2, height: 9, fit: BoxFit.scaleDown,
-                                // color: Get.theme.colorScheme.onPrimary,
-                              ),
+    return GestureDetector(
+      onTap: () {
+        if (controller.getSelectionIsActive()) {
+          controller.selectCategory(recipeCategory);
+        } else {
+          //todo navigate to recipes
+        }
+      },
+      onLongPress: () => controller.selectCategory(recipeCategory),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(borderRadius),
+          color: Get.theme.colorScheme.tertiary,
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(borderRadius),
+          child: Stack(
+            children: [
+              ConditionalWidget(
+                  condition: recipeCategory.picture.value != null,
+                  child: (context) => Image.memory(
+                        recipeCategory.picture.value!.image,
+                        width: double.infinity,
+                        height: double.infinity,
+                        fit: BoxFit.cover,
+                      )),
+              ConditionalWidget(
+                  child: (context) => Positioned(
+                        top: 8,
+                        left: 7,
+                        child: GestureDetector(
+                          onTap: () {
+                            DescriptionDialog(
+                                    title: recipeCategory.name,
+                                    description: recipeCategory.description!)
+                                .show();
+                          },
+                          child: Container(
+                            height: 18,
+                            width: 18,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Get.theme.colorScheme.primary),
+                            child: SvgPicture.asset(
+                              'assets/icons/info_icon.svg',
+                              width: 2, height: 9, fit: BoxFit.scaleDown,
+                              // color: Get.theme.colorScheme.onPrimary,
                             ),
                           ),
                         ),
-                    condition: recipeCategory.description != null),
-                LayoutBuilder(
-                  builder: (context, constrain) => Transform.translate(
-                    offset: Offset(
-                        constrain.maxWidth * 0.43, constrain.maxHeight * 0.16),
-                    child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 12),
-                        width: constrain.maxWidth * 0.57,
-                        decoration: BoxDecoration(
-                            color: Get.theme.colorScheme.primaryContainer,
-                            borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(20),
-                              bottomLeft: Radius.circular(20),
-                            )),
-                        child: Text(recipeCategory.name,
-                            style: Get.textTheme.headlineMedium?.copyWith(
-                                color: Get.theme.colorScheme.onPrimaryContainer,
-                                overflow: TextOverflow.ellipsis))),
-                  ),
+                      ),
+                  condition: recipeCategory.description != null),
+              LayoutBuilder(
+                builder: (context, constrain) => Transform.translate(
+                  offset: Offset(
+                      constrain.maxWidth * 0.43, constrain.maxHeight * 0.16),
+                  child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 12),
+                      width: constrain.maxWidth * 0.57,
+                      decoration: BoxDecoration(
+                          color: Get.theme.colorScheme.primaryContainer,
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(20),
+                            bottomLeft: Radius.circular(20),
+                          )),
+                      child: Text(recipeCategory.name,
+                          style: Get.textTheme.headlineMedium?.copyWith(
+                              color: Get.theme.colorScheme.onPrimaryContainer,
+                              overflow: TextOverflow.ellipsis))),
                 ),
-                ConditionalWidget(
-                    condition: recipeCategory.selected,
-                    child: (context) => Container(
-                          width: double.infinity,
-                          height: double.infinity,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(borderRadius),
-                            border: Border.all(
-                              width: borderWidth,
-                              color: Get.theme.colorScheme.primary,
-                            ),
+              ),
+              ConditionalWidget(
+                  condition: recipeCategory.selected,
+                  child: (context) => Container(
+                        width: double.infinity,
+                        height: double.infinity,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(borderRadius),
+                          border: Border.all(
+                            width: borderWidth,
+                            color: Get.theme.colorScheme.primary,
                           ),
-                        ))
-              ],
-            ),
+                        ),
+                      ))
+            ],
           ),
         ),
-      );
-    });
+      ),
+    );
   }
 }

@@ -63,7 +63,7 @@ Picture _pictureDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = Picture(
-    image: reader.readLongList(offsets[0]) ?? [],
+    image: Uint8List.fromList(reader.readLongList(offsets[0]) ?? []),
   );
   object.id = id;
   return object;

@@ -97,7 +97,7 @@ class AddRecipeCategoryForm extends StatelessWidget {
                           ClipRRect(
                             borderRadius: BorderRadius.circular(6.5),
                             child: Image.memory(
-                              controller.picture!.memoryImage,
+                              controller.picture!.image,
                               fit: BoxFit.cover,
                             ),
                           ),

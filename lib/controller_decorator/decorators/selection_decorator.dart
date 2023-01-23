@@ -24,7 +24,7 @@ class SelectionDecorator extends ControllerDecorator {
   @override
   void updateSelection({callChild = true}) {
     if (child != null && callChild) {
-      child!.updateSelectionIsActive();
+      child!.updateSelection();
       return;
     }
     updateSelectionIsActive();
@@ -67,6 +67,14 @@ class SelectionDecorator extends ControllerDecorator {
     }
     updateAllItemsSelected();
     decoratorUpdate();
+  }
+
+  @override
+  int selectionCount({callChild = true}) {
+    if (child != null && callChild) {
+      return child!.selectionCount();
+    }
+    throw UnimplementedError();
   }
 
   @override

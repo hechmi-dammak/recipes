@@ -94,4 +94,14 @@ class RecipesCategoriesController extends ControllerDecorator {
     setLoading(false);
     CustomSnackBar.success('Selected Recipe Categories were deleted.'.tr);
   }
+
+  @override
+  int selectionCount({callChild = true}) {
+    if (child != null && callChild) {
+      return child!.selectionCount();
+    }
+    return recipeCategories
+        .where((recipeCategory) => recipeCategory.selected)
+        .length;
+  }
 }
