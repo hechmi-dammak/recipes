@@ -41,13 +41,12 @@ class RecipesCategoriesController extends ControllerDecorator {
         .map((recipeCategory) =>
             RecipeCategoryPageModel(recipeCategory: recipeCategory))
         .toList();
+    updateSelection();
   }
 
   Future<void> selectCategory(RecipeCategoryPageModel recipeCategory) async {
     recipeCategory.selected = !recipeCategory.selected;
-    updateSelectionIsActive();
-    updateAllItemsSelected();
-    decoratorUpdate();
+    updateSelection();
   }
 
   @override
@@ -79,19 +78,20 @@ class RecipesCategoriesController extends ControllerDecorator {
     return recipeCategories.every((recipeCategory) => recipeCategory.selected);
   }
 
-  void deleteSelectedCategories() {
+  Future<void> deleteSelectedCategories() async {
     setLoading(true);
     final recipeCategories = this.recipeCategories.toList();
     for (RecipeCategoryPageModel recipeCategory in this.recipeCategories) {
-      if ((recipeCategory.selected) && (recipeCategory.id != null)) {
-        RecipeCategoryRepository.find.deleteById(recipeCategory.id!);
-        recipeCategories.remove(recipeCategory);
+      if ((recipeCategory.selected)) {
+        if (await RecipeCategoryRepository.find
+            .deleteById(recipeCategory.id!)) {
+          recipeCategories.remove(recipeCategory);
+        }
       }
       this.recipeCategories = recipeCategories;
     }
-    updateSelectionIsActive();
+    updateSelection();
     setLoading(false);
-    decoratorUpdate();
     CustomSnackBar.success('Selected Recipe Categories were deleted.'.tr);
   }
 }

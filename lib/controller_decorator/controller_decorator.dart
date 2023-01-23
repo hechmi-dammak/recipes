@@ -73,8 +73,6 @@ abstract class ControllerDecorator extends Controller {
     return controller.getSelectionIsActive(callChild: false);
   }
 
-
-
   @override
   void updateSelectionIsActive({bool callChild = true}) {
     if (child != null && callChild) {
@@ -116,5 +114,14 @@ abstract class ControllerDecorator extends Controller {
       return;
     }
     controller.setSelectAllValue(value: value, callChild: false);
+  }
+
+  @override
+  void updateSelection({callChild = true}) {
+    if (child != null && callChild) {
+      child!.updateSelection();
+      return;
+    }
+    controller.updateSelection(callChild: false);
   }
 }

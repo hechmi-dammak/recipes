@@ -27,8 +27,8 @@ class AddRecipeCategoryController extends GetxController {
       final description = descriptionController.text.trim();
       await RecipeCategoryRepository.find.save(RecipeCategory(
           name: nameController.text.trim(),
-          description: description.isEmpty ? null : description,
-          picture: picture));
+          description: description.isEmpty ? null : description)
+          ..picture.value = picture);
       close(true, true);
     }
   }

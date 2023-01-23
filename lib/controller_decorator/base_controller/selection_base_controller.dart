@@ -37,4 +37,8 @@ abstract class SelectionBaseController extends DataFetchingBaseController {
   void updateAllItemsSelected({bool callChild = true}) {
     throw UnimplementedError();
   }
+  @override
+  void updateSelection({callChild = true}) {
+    throw UnimplementedError();
+  }
 }
