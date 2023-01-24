@@ -58,6 +58,7 @@ class RecipeCategoryRepository extends GetxService {
     final setOfNames = (await findAllByNameStartWith(recipeCategory.name))
         .map((recipeCategory) => recipeCategory.name)
         .toSet();
+    if (!setOfNames.contains(recipeCategory.name)) return;
     var index = 1;
     while (true) {
       if (setOfNames.contains('${recipeCategory.name}_$index')) {

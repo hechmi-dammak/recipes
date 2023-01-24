@@ -11,7 +11,7 @@ class RecipeCategory {
   String? description;
   final picture = IsarLink<Picture>();
 
-  RecipeCategory({this.name = '', this.description});
+  RecipeCategory({this.id,this.name = '', this.description});
 
   RecipeCategory.fromCopy(RecipeCategory recipeCategory)
       : id = recipeCategory.id,

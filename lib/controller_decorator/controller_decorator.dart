@@ -35,7 +35,7 @@ abstract class ControllerDecorator extends Controller {
   }
 
   @override
-  void initState(GetBuilderState<Controller> state, {bool callChild = true}) {
+  void initState(GetBuilderState<Controller>? state, {bool callChild = true}) {
     if (child != null && callChild) {
       child!.initState(state);
       return;

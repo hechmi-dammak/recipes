@@ -19,5 +19,5 @@ abstract class Controller extends GetxController
   }
 
   @mustCallSuper
-  void initState(GetBuilderState<Controller> state, {bool callChild = true});
+  void initState(GetBuilderState<Controller>? state, {bool callChild = true});
 }

@@ -69,22 +69,27 @@ class RecipesCategoriesPage extends StatelessWidget {
                         ),
                         AnimatedSize(
                           duration: const Duration(milliseconds: 500),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: controller.selectionCount() == 1
-                                ? [
-                                    const SizedBox(
-                                      width: 25,
-                                    ),
-                                    TitleAppBarButton(
+                          child: Container(
+                            constraints: controller.selectionCount() != 1
+                                ? const BoxConstraints(
+                                    maxWidth: 0.0, maxHeight: 0.0)
+                                : const BoxConstraints(),
+                            child: AnimatedScale(
+                              duration: const Duration(milliseconds: 400),
+                              scale: controller.selectionCount() != 1 ? 0 : 1,
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  const SizedBox(
+                                    width: 25,
+                                  ),
+                                  TitleAppBarButton(
                                       title: 'Edit'.tr,
                                       icon: 'assets/icons/edit_icon.svg',
-                                      onTap: () {
-                                        //todo: implement edit
-                                      },
-                                    )
-                                  ]
-                                : [],
+                                      onTap: controller.editRecipeCategory)
+                                ],
+                              ),
+                            ),
                           ),
                         ),
                         const SizedBox(
