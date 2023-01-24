@@ -228,25 +228,31 @@ class RecipeCategoryCard extends GetView<RecipesCategoriesController> {
                       )),
               ConditionalWidget(
                   child: (context) => Positioned(
-                        top: 8,
-                        left: 7,
+                        top: 0,
+                        left: 0,
                         child: GestureDetector(
+                          behavior: HitTestBehavior.opaque,
                           onTap: () {
                             DescriptionDialog(
                                     title: recipeCategory.name,
                                     description: recipeCategory.description!)
                                 .show();
                           },
-                          child: Container(
-                            height: 18,
-                            width: 18,
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Get.theme.colorScheme.primary),
-                            child: SvgPicture.asset(
-                              'assets/icons/info_icon.svg',
-                              width: 2, height: 9, fit: BoxFit.scaleDown,
-                              // color: Get.theme.colorScheme.onPrimary,
+                          child: SizedBox(
+                              height: 34,
+                            width: 32,
+                            child: Align(child: Container(
+                                height: 18,
+                                width: 18,
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Get.theme.colorScheme.primary),
+                                child: SvgPicture.asset(
+                                  'assets/icons/info_icon.svg',
+                                  width: 2, height: 9, fit: BoxFit.scaleDown,
+                                  // color: Get.theme.colorScheme.onPrimary,
+                                ),
+                              ),
                             ),
                           ),
                         ),
