@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'recipe_ingredient.dart';
+part of '../recipe_ingredient.dart';
 
 // **************************************************************************
 // IsarCollectionGenerator

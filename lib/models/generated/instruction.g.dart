@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'recipe_category.dart';
+part of '../instruction.dart';
 
 // **************************************************************************
 // IsarCollectionGenerator
@@ -9,101 +9,88 @@ part of 'recipe_category.dart';
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters
 
-extension GetRecipeCategoryCollection on Isar {
-  IsarCollection<RecipeCategory> get recipeCategories => this.collection();
+extension GetInstructionCollection on Isar {
+  IsarCollection<Instruction> get instructions => this.collection();
 }
 
-const RecipeCategorySchema = CollectionSchema(
-  name: r'RecipeCategory',
-  id: -8421939447651788337,
+const InstructionSchema = CollectionSchema(
+  name: r'Instruction',
+  id: 4657070553429627997,
   properties: {
     r'description': PropertySchema(
       id: 0,
       name: r'description',
       type: IsarType.string,
     ),
-    r'name': PropertySchema(
+    r'order': PropertySchema(
       id: 1,
-      name: r'name',
-      type: IsarType.string,
+      name: r'order',
+      type: IsarType.long,
     )
   },
-  estimateSize: _recipeCategoryEstimateSize,
-  serialize: _recipeCategorySerialize,
-  deserialize: _recipeCategoryDeserialize,
-  deserializeProp: _recipeCategoryDeserializeProp,
+  estimateSize: _instructionEstimateSize,
+  serialize: _instructionSerialize,
+  deserialize: _instructionDeserialize,
+  deserializeProp: _instructionDeserializeProp,
   idName: r'id',
   indexes: {
-    r'name': IndexSchema(
-      id: 879695947855722453,
-      name: r'name',
+    r'order': IndexSchema(
+      id: 5897270977454184057,
+      name: r'order',
       unique: false,
       replace: false,
       properties: [
         IndexPropertySchema(
-          name: r'name',
-          type: IndexType.hash,
-          caseSensitive: true,
+          name: r'order',
+          type: IndexType.value,
+          caseSensitive: false,
         )
       ],
     )
   },
-  links: {
-    r'picture': LinkSchema(
-      id: -1064666838404911939,
-      name: r'picture',
-      target: r'Picture',
-      single: true,
-    )
-  },
+  links: {},
   embeddedSchemas: {},
-  getId: _recipeCategoryGetId,
-  getLinks: _recipeCategoryGetLinks,
-  attach: _recipeCategoryAttach,
+  getId: _instructionGetId,
+  getLinks: _instructionGetLinks,
+  attach: _instructionAttach,
   version: '3.0.5',
 );
 
-int _recipeCategoryEstimateSize(
-  RecipeCategory object,
+int _instructionEstimateSize(
+  Instruction object,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
-  {
-    final value = object.description;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
-  bytesCount += 3 + object.name.length * 3;
+  bytesCount += 3 + object.description.length * 3;
   return bytesCount;
 }
 
-void _recipeCategorySerialize(
-  RecipeCategory object,
+void _instructionSerialize(
+  Instruction object,
   IsarWriter writer,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeString(offsets[0], object.description);
-  writer.writeString(offsets[1], object.name);
+  writer.writeLong(offsets[1], object.order);
 }
 
-RecipeCategory _recipeCategoryDeserialize(
+Instruction _instructionDeserialize(
   Id id,
   IsarReader reader,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = RecipeCategory(
-    description: reader.readStringOrNull(offsets[0]),
-    name: reader.readStringOrNull(offsets[1]) ?? '',
+  final object = Instruction(
+    description: reader.readStringOrNull(offsets[0]) ?? '',
+    order: reader.readLong(offsets[1]),
   );
   object.id = id;
   return object;
 }
 
-P _recipeCategoryDeserializeProp<P>(
+P _instructionDeserializeProp<P>(
   IsarReader reader,
   int propertyId,
   int offset,
@@ -111,41 +98,47 @@ P _recipeCategoryDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readStringOrNull(offset)) as P;
-    case 1:
       return (reader.readStringOrNull(offset) ?? '') as P;
+    case 1:
+      return (reader.readLong(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
 }
 
-Id _recipeCategoryGetId(RecipeCategory object) {
+Id _instructionGetId(Instruction object) {
   return object.id ?? Isar.autoIncrement;
 }
 
-List<IsarLinkBase<dynamic>> _recipeCategoryGetLinks(RecipeCategory object) {
-  return [object.picture];
+List<IsarLinkBase<dynamic>> _instructionGetLinks(Instruction object) {
+  return [];
 }
 
-void _recipeCategoryAttach(
-    IsarCollection<dynamic> col, Id id, RecipeCategory object) {
+void _instructionAttach(
+    IsarCollection<dynamic> col, Id id, Instruction object) {
   object.id = id;
-  object.picture.attach(col, col.isar.collection<Picture>(), r'picture', id);
 }
 
-extension RecipeCategoryQueryWhereSort
-    on QueryBuilder<RecipeCategory, RecipeCategory, QWhere> {
-  QueryBuilder<RecipeCategory, RecipeCategory, QAfterWhere> anyId() {
+extension InstructionQueryWhereSort
+    on QueryBuilder<Instruction, Instruction, QWhere> {
+  QueryBuilder<Instruction, Instruction, QAfterWhere> anyId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
     });
   }
+
+  QueryBuilder<Instruction, Instruction, QAfterWhere> anyOrder() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        const IndexWhereClause.any(indexName: r'order'),
+      );
+    });
+  }
 }
 
-extension RecipeCategoryQueryWhere
-    on QueryBuilder<RecipeCategory, RecipeCategory, QWhereClause> {
-  QueryBuilder<RecipeCategory, RecipeCategory, QAfterWhereClause> idEqualTo(
-      Id id) {
+extension InstructionQueryWhere
+    on QueryBuilder<Instruction, Instruction, QWhereClause> {
+  QueryBuilder<Instruction, Instruction, QAfterWhereClause> idEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(
         lower: id,
@@ -154,7 +147,7 @@ extension RecipeCategoryQueryWhere
     });
   }
 
-  QueryBuilder<RecipeCategory, RecipeCategory, QAfterWhereClause> idNotEqualTo(
+  QueryBuilder<Instruction, Instruction, QAfterWhereClause> idNotEqualTo(
       Id id) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
@@ -177,8 +170,7 @@ extension RecipeCategoryQueryWhere
     });
   }
 
-  QueryBuilder<RecipeCategory, RecipeCategory, QAfterWhereClause> idGreaterThan(
-      Id id,
+  QueryBuilder<Instruction, Instruction, QAfterWhereClause> idGreaterThan(Id id,
       {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
@@ -187,8 +179,7 @@ extension RecipeCategoryQueryWhere
     });
   }
 
-  QueryBuilder<RecipeCategory, RecipeCategory, QAfterWhereClause> idLessThan(
-      Id id,
+  QueryBuilder<Instruction, Instruction, QAfterWhereClause> idLessThan(Id id,
       {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
@@ -197,7 +188,7 @@ extension RecipeCategoryQueryWhere
     });
   }
 
-  QueryBuilder<RecipeCategory, RecipeCategory, QAfterWhereClause> idBetween(
+  QueryBuilder<Instruction, Instruction, QAfterWhereClause> idBetween(
     Id lowerId,
     Id upperId, {
     bool includeLower = true,
@@ -213,75 +204,102 @@ extension RecipeCategoryQueryWhere
     });
   }
 
-  QueryBuilder<RecipeCategory, RecipeCategory, QAfterWhereClause> nameEqualTo(
-      String name) {
+  QueryBuilder<Instruction, Instruction, QAfterWhereClause> orderEqualTo(
+      int order) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
-        indexName: r'name',
-        value: [name],
+        indexName: r'order',
+        value: [order],
       ));
     });
   }
 
-  QueryBuilder<RecipeCategory, RecipeCategory, QAfterWhereClause>
-      nameNotEqualTo(String name) {
+  QueryBuilder<Instruction, Instruction, QAfterWhereClause> orderNotEqualTo(
+      int order) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'name',
+              indexName: r'order',
               lower: [],
-              upper: [name],
+              upper: [order],
               includeUpper: false,
             ))
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'name',
-              lower: [name],
+              indexName: r'order',
+              lower: [order],
               includeLower: false,
               upper: [],
             ));
       } else {
         return query
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'name',
-              lower: [name],
+              indexName: r'order',
+              lower: [order],
               includeLower: false,
               upper: [],
             ))
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'name',
+              indexName: r'order',
               lower: [],
-              upper: [name],
+              upper: [order],
               includeUpper: false,
             ));
       }
     });
   }
+
+  QueryBuilder<Instruction, Instruction, QAfterWhereClause> orderGreaterThan(
+    int order, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'order',
+        lower: [order],
+        includeLower: include,
+        upper: [],
+      ));
+    });
+  }
+
+  QueryBuilder<Instruction, Instruction, QAfterWhereClause> orderLessThan(
+    int order, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'order',
+        lower: [],
+        upper: [order],
+        includeUpper: include,
+      ));
+    });
+  }
+
+  QueryBuilder<Instruction, Instruction, QAfterWhereClause> orderBetween(
+    int lowerOrder,
+    int upperOrder, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'order',
+        lower: [lowerOrder],
+        includeLower: includeLower,
+        upper: [upperOrder],
+        includeUpper: includeUpper,
+      ));
+    });
+  }
 }
 
-extension RecipeCategoryQueryFilter
-    on QueryBuilder<RecipeCategory, RecipeCategory, QFilterCondition> {
-  QueryBuilder<RecipeCategory, RecipeCategory, QAfterFilterCondition>
-      descriptionIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'description',
-      ));
-    });
-  }
-
-  QueryBuilder<RecipeCategory, RecipeCategory, QAfterFilterCondition>
-      descriptionIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'description',
-      ));
-    });
-  }
-
-  QueryBuilder<RecipeCategory, RecipeCategory, QAfterFilterCondition>
+extension InstructionQueryFilter
+    on QueryBuilder<Instruction, Instruction, QFilterCondition> {
+  QueryBuilder<Instruction, Instruction, QAfterFilterCondition>
       descriptionEqualTo(
-    String? value, {
+    String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -293,9 +311,9 @@ extension RecipeCategoryQueryFilter
     });
   }
 
-  QueryBuilder<RecipeCategory, RecipeCategory, QAfterFilterCondition>
+  QueryBuilder<Instruction, Instruction, QAfterFilterCondition>
       descriptionGreaterThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -309,9 +327,9 @@ extension RecipeCategoryQueryFilter
     });
   }
 
-  QueryBuilder<RecipeCategory, RecipeCategory, QAfterFilterCondition>
+  QueryBuilder<Instruction, Instruction, QAfterFilterCondition>
       descriptionLessThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -325,10 +343,10 @@ extension RecipeCategoryQueryFilter
     });
   }
 
-  QueryBuilder<RecipeCategory, RecipeCategory, QAfterFilterCondition>
+  QueryBuilder<Instruction, Instruction, QAfterFilterCondition>
       descriptionBetween(
-    String? lower,
-    String? upper, {
+    String lower,
+    String upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
@@ -345,7 +363,7 @@ extension RecipeCategoryQueryFilter
     });
   }
 
-  QueryBuilder<RecipeCategory, RecipeCategory, QAfterFilterCondition>
+  QueryBuilder<Instruction, Instruction, QAfterFilterCondition>
       descriptionStartsWith(
     String value, {
     bool caseSensitive = true,
@@ -359,7 +377,7 @@ extension RecipeCategoryQueryFilter
     });
   }
 
-  QueryBuilder<RecipeCategory, RecipeCategory, QAfterFilterCondition>
+  QueryBuilder<Instruction, Instruction, QAfterFilterCondition>
       descriptionEndsWith(
     String value, {
     bool caseSensitive = true,
@@ -373,7 +391,7 @@ extension RecipeCategoryQueryFilter
     });
   }
 
-  QueryBuilder<RecipeCategory, RecipeCategory, QAfterFilterCondition>
+  QueryBuilder<Instruction, Instruction, QAfterFilterCondition>
       descriptionContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
@@ -384,7 +402,7 @@ extension RecipeCategoryQueryFilter
     });
   }
 
-  QueryBuilder<RecipeCategory, RecipeCategory, QAfterFilterCondition>
+  QueryBuilder<Instruction, Instruction, QAfterFilterCondition>
       descriptionMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
@@ -395,7 +413,7 @@ extension RecipeCategoryQueryFilter
     });
   }
 
-  QueryBuilder<RecipeCategory, RecipeCategory, QAfterFilterCondition>
+  QueryBuilder<Instruction, Instruction, QAfterFilterCondition>
       descriptionIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -405,7 +423,7 @@ extension RecipeCategoryQueryFilter
     });
   }
 
-  QueryBuilder<RecipeCategory, RecipeCategory, QAfterFilterCondition>
+  QueryBuilder<Instruction, Instruction, QAfterFilterCondition>
       descriptionIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
@@ -415,8 +433,7 @@ extension RecipeCategoryQueryFilter
     });
   }
 
-  QueryBuilder<RecipeCategory, RecipeCategory, QAfterFilterCondition>
-      idIsNull() {
+  QueryBuilder<Instruction, Instruction, QAfterFilterCondition> idIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
         property: r'id',
@@ -424,8 +441,7 @@ extension RecipeCategoryQueryFilter
     });
   }
 
-  QueryBuilder<RecipeCategory, RecipeCategory, QAfterFilterCondition>
-      idIsNotNull() {
+  QueryBuilder<Instruction, Instruction, QAfterFilterCondition> idIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
         property: r'id',
@@ -433,7 +449,7 @@ extension RecipeCategoryQueryFilter
     });
   }
 
-  QueryBuilder<RecipeCategory, RecipeCategory, QAfterFilterCondition> idEqualTo(
+  QueryBuilder<Instruction, Instruction, QAfterFilterCondition> idEqualTo(
       Id? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -443,8 +459,7 @@ extension RecipeCategoryQueryFilter
     });
   }
 
-  QueryBuilder<RecipeCategory, RecipeCategory, QAfterFilterCondition>
-      idGreaterThan(
+  QueryBuilder<Instruction, Instruction, QAfterFilterCondition> idGreaterThan(
     Id? value, {
     bool include = false,
   }) {
@@ -457,8 +472,7 @@ extension RecipeCategoryQueryFilter
     });
   }
 
-  QueryBuilder<RecipeCategory, RecipeCategory, QAfterFilterCondition>
-      idLessThan(
+  QueryBuilder<Instruction, Instruction, QAfterFilterCondition> idLessThan(
     Id? value, {
     bool include = false,
   }) {
@@ -471,7 +485,7 @@ extension RecipeCategoryQueryFilter
     });
   }
 
-  QueryBuilder<RecipeCategory, RecipeCategory, QAfterFilterCondition> idBetween(
+  QueryBuilder<Instruction, Instruction, QAfterFilterCondition> idBetween(
     Id? lower,
     Id? upper, {
     bool includeLower = true,
@@ -488,268 +502,166 @@ extension RecipeCategoryQueryFilter
     });
   }
 
-  QueryBuilder<RecipeCategory, RecipeCategory, QAfterFilterCondition>
-      nameEqualTo(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Instruction, Instruction, QAfterFilterCondition> orderEqualTo(
+      int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'name',
+        property: r'order',
         value: value,
-        caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<RecipeCategory, RecipeCategory, QAfterFilterCondition>
-      nameGreaterThan(
-    String value, {
+  QueryBuilder<Instruction, Instruction, QAfterFilterCondition>
+      orderGreaterThan(
+    int value, {
     bool include = false,
-    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
-        property: r'name',
+        property: r'order',
         value: value,
-        caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<RecipeCategory, RecipeCategory, QAfterFilterCondition>
-      nameLessThan(
-    String value, {
+  QueryBuilder<Instruction, Instruction, QAfterFilterCondition> orderLessThan(
+    int value, {
     bool include = false,
-    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
-        property: r'name',
+        property: r'order',
         value: value,
-        caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<RecipeCategory, RecipeCategory, QAfterFilterCondition>
-      nameBetween(
-    String lower,
-    String upper, {
+  QueryBuilder<Instruction, Instruction, QAfterFilterCondition> orderBetween(
+    int lower,
+    int upper, {
     bool includeLower = true,
     bool includeUpper = true,
-    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
-        property: r'name',
+        property: r'order',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<RecipeCategory, RecipeCategory, QAfterFilterCondition>
-      nameStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'name',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<RecipeCategory, RecipeCategory, QAfterFilterCondition>
-      nameEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'name',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<RecipeCategory, RecipeCategory, QAfterFilterCondition>
-      nameContains(String value, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'name',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<RecipeCategory, RecipeCategory, QAfterFilterCondition>
-      nameMatches(String pattern, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'name',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<RecipeCategory, RecipeCategory, QAfterFilterCondition>
-      nameIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'name',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<RecipeCategory, RecipeCategory, QAfterFilterCondition>
-      nameIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'name',
-        value: '',
       ));
     });
   }
 }
 
-extension RecipeCategoryQueryObject
-    on QueryBuilder<RecipeCategory, RecipeCategory, QFilterCondition> {}
+extension InstructionQueryObject
+    on QueryBuilder<Instruction, Instruction, QFilterCondition> {}
 
-extension RecipeCategoryQueryLinks
-    on QueryBuilder<RecipeCategory, RecipeCategory, QFilterCondition> {
-  QueryBuilder<RecipeCategory, RecipeCategory, QAfterFilterCondition> picture(
-      FilterQuery<Picture> q) {
-    return QueryBuilder.apply(this, (query) {
-      return query.link(q, r'picture');
-    });
-  }
+extension InstructionQueryLinks
+    on QueryBuilder<Instruction, Instruction, QFilterCondition> {}
 
-  QueryBuilder<RecipeCategory, RecipeCategory, QAfterFilterCondition>
-      pictureIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'picture', 0, true, 0, true);
-    });
-  }
-}
-
-extension RecipeCategoryQuerySortBy
-    on QueryBuilder<RecipeCategory, RecipeCategory, QSortBy> {
-  QueryBuilder<RecipeCategory, RecipeCategory, QAfterSortBy>
-      sortByDescription() {
+extension InstructionQuerySortBy
+    on QueryBuilder<Instruction, Instruction, QSortBy> {
+  QueryBuilder<Instruction, Instruction, QAfterSortBy> sortByDescription() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'description', Sort.asc);
     });
   }
 
-  QueryBuilder<RecipeCategory, RecipeCategory, QAfterSortBy>
-      sortByDescriptionDesc() {
+  QueryBuilder<Instruction, Instruction, QAfterSortBy> sortByDescriptionDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'description', Sort.desc);
     });
   }
 
-  QueryBuilder<RecipeCategory, RecipeCategory, QAfterSortBy> sortByName() {
+  QueryBuilder<Instruction, Instruction, QAfterSortBy> sortByOrder() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'name', Sort.asc);
+      return query.addSortBy(r'order', Sort.asc);
     });
   }
 
-  QueryBuilder<RecipeCategory, RecipeCategory, QAfterSortBy> sortByNameDesc() {
+  QueryBuilder<Instruction, Instruction, QAfterSortBy> sortByOrderDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'name', Sort.desc);
+      return query.addSortBy(r'order', Sort.desc);
     });
   }
 }
 
-extension RecipeCategoryQuerySortThenBy
-    on QueryBuilder<RecipeCategory, RecipeCategory, QSortThenBy> {
-  QueryBuilder<RecipeCategory, RecipeCategory, QAfterSortBy>
-      thenByDescription() {
+extension InstructionQuerySortThenBy
+    on QueryBuilder<Instruction, Instruction, QSortThenBy> {
+  QueryBuilder<Instruction, Instruction, QAfterSortBy> thenByDescription() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'description', Sort.asc);
     });
   }
 
-  QueryBuilder<RecipeCategory, RecipeCategory, QAfterSortBy>
-      thenByDescriptionDesc() {
+  QueryBuilder<Instruction, Instruction, QAfterSortBy> thenByDescriptionDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'description', Sort.desc);
     });
   }
 
-  QueryBuilder<RecipeCategory, RecipeCategory, QAfterSortBy> thenById() {
+  QueryBuilder<Instruction, Instruction, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
     });
   }
 
-  QueryBuilder<RecipeCategory, RecipeCategory, QAfterSortBy> thenByIdDesc() {
+  QueryBuilder<Instruction, Instruction, QAfterSortBy> thenByIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.desc);
     });
   }
 
-  QueryBuilder<RecipeCategory, RecipeCategory, QAfterSortBy> thenByName() {
+  QueryBuilder<Instruction, Instruction, QAfterSortBy> thenByOrder() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'name', Sort.asc);
+      return query.addSortBy(r'order', Sort.asc);
     });
   }
 
-  QueryBuilder<RecipeCategory, RecipeCategory, QAfterSortBy> thenByNameDesc() {
+  QueryBuilder<Instruction, Instruction, QAfterSortBy> thenByOrderDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'name', Sort.desc);
+      return query.addSortBy(r'order', Sort.desc);
     });
   }
 }
 
-extension RecipeCategoryQueryWhereDistinct
-    on QueryBuilder<RecipeCategory, RecipeCategory, QDistinct> {
-  QueryBuilder<RecipeCategory, RecipeCategory, QDistinct> distinctByDescription(
+extension InstructionQueryWhereDistinct
+    on QueryBuilder<Instruction, Instruction, QDistinct> {
+  QueryBuilder<Instruction, Instruction, QDistinct> distinctByDescription(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'description', caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<RecipeCategory, RecipeCategory, QDistinct> distinctByName(
-      {bool caseSensitive = true}) {
+  QueryBuilder<Instruction, Instruction, QDistinct> distinctByOrder() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'name', caseSensitive: caseSensitive);
+      return query.addDistinctBy(r'order');
     });
   }
 }
 
-extension RecipeCategoryQueryProperty
-    on QueryBuilder<RecipeCategory, RecipeCategory, QQueryProperty> {
-  QueryBuilder<RecipeCategory, int, QQueryOperations> idProperty() {
+extension InstructionQueryProperty
+    on QueryBuilder<Instruction, Instruction, QQueryProperty> {
+  QueryBuilder<Instruction, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
     });
   }
 
-  QueryBuilder<RecipeCategory, String?, QQueryOperations>
-      descriptionProperty() {
+  QueryBuilder<Instruction, String, QQueryOperations> descriptionProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'description');
     });
   }
 
-  QueryBuilder<RecipeCategory, String, QQueryOperations> nameProperty() {
+  QueryBuilder<Instruction, int, QQueryOperations> orderProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'name');
+      return query.addPropertyName(r'order');
     });
   }
 }

@@ -10,8 +10,11 @@ import 'package:recipes/service/repository/instruction_repository.dart';
 import 'package:recipes/service/repository/picture_repository.dart';
 import 'package:recipes/service/repository/recipe_category_repository.dart';
 import 'package:recipes/service/repository/recipe_repository.dart';
-import 'package:recipes/views/recipe_category/recipes_categories_controller.dart';
-import 'package:recipes/views/recipe_category/recipes_categories_page.dart';
+import 'package:recipes/views/recipe_categories/recipe_categories_controller.dart';
+import 'package:recipes/views/recipe_categories/recipe_categories_page.dart';
+import 'package:recipes/views/recipes/recipes_page.dart';
+
+import 'views/recipes/recipes_controller.dart';
 
 void main() async{
   Get.put(IsarService());
@@ -33,13 +36,21 @@ class RecipesApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Recipes',
         theme: ApplicationTheme.getTheme(),
-        initialRoute: RecipesCategoriesPage.routeName,
+        initialRoute: RecipeCategoriesPage.routeName,
         getPages: [
           GetPage(
-            name: RecipesCategoriesPage.routeName,
-            page: () => const RecipesCategoriesPage(),
+            name: RecipeCategoriesPage.routeName,
+            page: () => const RecipeCategoriesPage(),
             binding: BindingsBuilder.put(
-              () => RecipesCategoriesController.create(
+              () => RecipeCategoriesController.create(
+                  controller:
+                      SelectionDecorator.create(controller: BaseController())),
+            ),
+          ),          GetPage(
+            name: RecipesPage.routeName,
+            page: () => const RecipesPage(),
+            binding: BindingsBuilder.put(
+              () => RecipesController.create(
                   controller:
                       SelectionDecorator.create(controller: BaseController())),
             ),

@@ -4,7 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:recipes/models/picture.dart';
 import 'package:recipes/service/repository/picture_repository.dart';
-import 'package:recipes/widgets/snack_bar.dart';
+import 'package:recipes/widgets/common/snack_bar.dart';
 
 class ImageOperations extends GetxService {
   static ImageOperations get find => Get.find<ImageOperations>();

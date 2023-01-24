@@ -4,7 +4,7 @@ import 'package:recipes/models/picture.dart';
 import 'package:recipes/models/recipe_category.dart';
 import 'package:recipes/models/recipe_ingredient.dart';
 
-part 'recipe.g.dart';
+part 'generated/recipe.g.dart';
 
 @collection
 class Recipe {

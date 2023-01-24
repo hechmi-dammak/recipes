@@ -1,6 +1,6 @@
 import 'package:isar/isar.dart';
 
-part 'instruction.g.dart';
+part 'generated/instruction.g.dart';
 
 @collection
 class Instruction {

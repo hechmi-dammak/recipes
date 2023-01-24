@@ -1,20 +1,22 @@
 import 'package:get/get.dart';
 import 'package:recipes/controller_decorator/controller.dart';
 import 'package:recipes/controller_decorator/controller_decorator.dart';
+import 'package:recipes/helpers/getx_extenstion.dart';
 import 'package:recipes/service/repository/recipe_category_repository.dart';
-import 'package:recipes/views/recipe_category/models/recipe_category_page_model.dart';
-import 'package:recipes/views/recipe_category/widgets/add_recipe_category/upsert_recipe_category_dialog.dart';
-import 'package:recipes/widgets/snack_bar.dart';
+import 'package:recipes/views/recipe_categories/models/recipe_category_page_model.dart';
+import 'package:recipes/views/recipe_categories/widgets/add_recipe_category/upsert_recipe_category_dialog.dart';
+import 'package:recipes/views/recipes/recipes_page.dart';
+import 'package:recipes/widgets/common/snack_bar.dart';
 
-class RecipesCategoriesController extends ControllerDecorator {
-  RecipesCategoriesController({required super.controller, super.child});
+class RecipeCategoriesController extends ControllerDecorator {
+  RecipeCategoriesController({required super.controller, super.child});
 
-  static RecipesCategoriesController get find =>
-      Get.find<RecipesCategoriesController>();
+  static RecipeCategoriesController get find =>
+      Get.find<RecipeCategoriesController>();
 
-  factory RecipesCategoriesController.create({required Controller controller}) {
+  factory RecipeCategoriesController.create({required Controller controller}) {
     final recipesCategoriesController =
-        RecipesCategoriesController(controller: controller);
+        RecipeCategoriesController(controller: controller);
     recipesCategoriesController.controller.child = recipesCategoriesController;
     return recipesCategoriesController;
   }
@@ -105,5 +107,12 @@ class RecipesCategoriesController extends ControllerDecorator {
 
   Iterable<RecipeCategoryPageModel> getSelectedItems() {
     return recipeCategories.where((recipeCategory) => recipeCategory.selected);
+  }
+
+  void goToRecipes(RecipeCategoryPageModel recipeCategory) {
+    Get.toNamedWithPathParams(
+      RecipesPage.routeName,
+      pathParameters: {'id': recipeCategory.id.toString()},
+    );
   }
 }

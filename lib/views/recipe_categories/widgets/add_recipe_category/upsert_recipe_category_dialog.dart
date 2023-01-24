@@ -5,11 +5,11 @@ import 'package:image_picker/image_picker.dart';
 import 'package:recipes/controller_decorator/base_controller/base_contoller.dart';
 import 'package:recipes/helpers/form_validators.dart';
 import 'package:recipes/helpers/input_decoration.dart';
-import 'package:recipes/views/recipe_category/widgets/add_recipe_category/upsert_recipe_category_controller.dart';
-import 'package:recipes/widgets/conditional_widget.dart';
-import 'package:recipes/widgets/custom_dialog.dart';
-import 'package:recipes/widgets/dialog_bottom.dart';
-import 'package:recipes/widgets/loading_widget.dart';
+import 'package:recipes/views/recipe_categories/widgets/add_recipe_category/upsert_recipe_category_controller.dart';
+import 'package:recipes/widgets/common/conditional_widget.dart';
+import 'package:recipes/widgets/common/custom_dialog.dart';
+import 'package:recipes/widgets/project/dialog_bottom.dart';
+import 'package:recipes/widgets/common/loading_widget.dart';
 
 class UpsertRecipeCategoryDialog extends CustomDialog<bool> {
   const UpsertRecipeCategoryDialog({this.id, super.key})

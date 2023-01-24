@@ -1,7 +1,7 @@
 import 'package:isar/isar.dart';
 import 'package:recipes/models/picture.dart';
 
-part 'recipe_category.g.dart';
+part 'generated/recipe_category.g.dart';
 
 @Collection(accessor: 'recipeCategories')
 class RecipeCategory {

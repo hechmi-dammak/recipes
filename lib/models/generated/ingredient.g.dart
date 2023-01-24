@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'ingredient_category.dart';
+part of '../ingredient.dart';
 
 // **************************************************************************
 // IsarCollectionGenerator
@@ -9,14 +9,13 @@ part of 'ingredient_category.dart';
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters
 
-extension GetIngredientCategoryCollection on Isar {
-  IsarCollection<IngredientCategory> get ingredientCategories =>
-      this.collection();
+extension GetIngredientCollection on Isar {
+  IsarCollection<Ingredient> get ingredients => this.collection();
 }
 
-const IngredientCategorySchema = CollectionSchema(
-  name: r'IngredientCategory',
-  id: 4451931187895980915,
+const IngredientSchema = CollectionSchema(
+  name: r'Ingredient',
+  id: 800151778681338436,
   properties: {
     r'name': PropertySchema(
       id: 0,
@@ -24,10 +23,10 @@ const IngredientCategorySchema = CollectionSchema(
       type: IsarType.string,
     )
   },
-  estimateSize: _ingredientCategoryEstimateSize,
-  serialize: _ingredientCategorySerialize,
-  deserialize: _ingredientCategoryDeserialize,
-  deserializeProp: _ingredientCategoryDeserializeProp,
+  estimateSize: _ingredientEstimateSize,
+  serialize: _ingredientSerialize,
+  deserialize: _ingredientDeserialize,
+  deserializeProp: _ingredientDeserializeProp,
   idName: r'id',
   indexes: {
     r'name': IndexSchema(
@@ -44,16 +43,23 @@ const IngredientCategorySchema = CollectionSchema(
       ],
     )
   },
-  links: {},
+  links: {
+    r'picture': LinkSchema(
+      id: -8751952095627791049,
+      name: r'picture',
+      target: r'Picture',
+      single: true,
+    )
+  },
   embeddedSchemas: {},
-  getId: _ingredientCategoryGetId,
-  getLinks: _ingredientCategoryGetLinks,
-  attach: _ingredientCategoryAttach,
+  getId: _ingredientGetId,
+  getLinks: _ingredientGetLinks,
+  attach: _ingredientAttach,
   version: '3.0.5',
 );
 
-int _ingredientCategoryEstimateSize(
-  IngredientCategory object,
+int _ingredientEstimateSize(
+  Ingredient object,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
@@ -62,8 +68,8 @@ int _ingredientCategoryEstimateSize(
   return bytesCount;
 }
 
-void _ingredientCategorySerialize(
-  IngredientCategory object,
+void _ingredientSerialize(
+  Ingredient object,
   IsarWriter writer,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
@@ -71,20 +77,20 @@ void _ingredientCategorySerialize(
   writer.writeString(offsets[0], object.name);
 }
 
-IngredientCategory _ingredientCategoryDeserialize(
+Ingredient _ingredientDeserialize(
   Id id,
   IsarReader reader,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = IngredientCategory(
+  final object = Ingredient(
     name: reader.readStringOrNull(offsets[0]) ?? '',
   );
   object.id = id;
   return object;
 }
 
-P _ingredientCategoryDeserializeProp<P>(
+P _ingredientDeserializeProp<P>(
   IsarReader reader,
   int propertyId,
   int offset,
@@ -98,33 +104,31 @@ P _ingredientCategoryDeserializeProp<P>(
   }
 }
 
-Id _ingredientCategoryGetId(IngredientCategory object) {
+Id _ingredientGetId(Ingredient object) {
   return object.id ?? Isar.autoIncrement;
 }
 
-List<IsarLinkBase<dynamic>> _ingredientCategoryGetLinks(
-    IngredientCategory object) {
-  return [];
+List<IsarLinkBase<dynamic>> _ingredientGetLinks(Ingredient object) {
+  return [object.picture];
 }
 
-void _ingredientCategoryAttach(
-    IsarCollection<dynamic> col, Id id, IngredientCategory object) {
+void _ingredientAttach(IsarCollection<dynamic> col, Id id, Ingredient object) {
   object.id = id;
+  object.picture.attach(col, col.isar.collection<Picture>(), r'picture', id);
 }
 
-extension IngredientCategoryQueryWhereSort
-    on QueryBuilder<IngredientCategory, IngredientCategory, QWhere> {
-  QueryBuilder<IngredientCategory, IngredientCategory, QAfterWhere> anyId() {
+extension IngredientQueryWhereSort
+    on QueryBuilder<Ingredient, Ingredient, QWhere> {
+  QueryBuilder<Ingredient, Ingredient, QAfterWhere> anyId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
     });
   }
 }
 
-extension IngredientCategoryQueryWhere
-    on QueryBuilder<IngredientCategory, IngredientCategory, QWhereClause> {
-  QueryBuilder<IngredientCategory, IngredientCategory, QAfterWhereClause>
-      idEqualTo(Id id) {
+extension IngredientQueryWhere
+    on QueryBuilder<Ingredient, Ingredient, QWhereClause> {
+  QueryBuilder<Ingredient, Ingredient, QAfterWhereClause> idEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(
         lower: id,
@@ -133,8 +137,7 @@ extension IngredientCategoryQueryWhere
     });
   }
 
-  QueryBuilder<IngredientCategory, IngredientCategory, QAfterWhereClause>
-      idNotEqualTo(Id id) {
+  QueryBuilder<Ingredient, Ingredient, QAfterWhereClause> idNotEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -156,8 +159,8 @@ extension IngredientCategoryQueryWhere
     });
   }
 
-  QueryBuilder<IngredientCategory, IngredientCategory, QAfterWhereClause>
-      idGreaterThan(Id id, {bool include = false}) {
+  QueryBuilder<Ingredient, Ingredient, QAfterWhereClause> idGreaterThan(Id id,
+      {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IdWhereClause.greaterThan(lower: id, includeLower: include),
@@ -165,8 +168,8 @@ extension IngredientCategoryQueryWhere
     });
   }
 
-  QueryBuilder<IngredientCategory, IngredientCategory, QAfterWhereClause>
-      idLessThan(Id id, {bool include = false}) {
+  QueryBuilder<Ingredient, Ingredient, QAfterWhereClause> idLessThan(Id id,
+      {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IdWhereClause.lessThan(upper: id, includeUpper: include),
@@ -174,8 +177,7 @@ extension IngredientCategoryQueryWhere
     });
   }
 
-  QueryBuilder<IngredientCategory, IngredientCategory, QAfterWhereClause>
-      idBetween(
+  QueryBuilder<Ingredient, Ingredient, QAfterWhereClause> idBetween(
     Id lowerId,
     Id upperId, {
     bool includeLower = true,
@@ -191,8 +193,8 @@ extension IngredientCategoryQueryWhere
     });
   }
 
-  QueryBuilder<IngredientCategory, IngredientCategory, QAfterWhereClause>
-      nameEqualTo(String name) {
+  QueryBuilder<Ingredient, Ingredient, QAfterWhereClause> nameEqualTo(
+      String name) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
         indexName: r'name',
@@ -201,8 +203,8 @@ extension IngredientCategoryQueryWhere
     });
   }
 
-  QueryBuilder<IngredientCategory, IngredientCategory, QAfterWhereClause>
-      nameNotEqualTo(String name) {
+  QueryBuilder<Ingredient, Ingredient, QAfterWhereClause> nameNotEqualTo(
+      String name) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -237,10 +239,9 @@ extension IngredientCategoryQueryWhere
   }
 }
 
-extension IngredientCategoryQueryFilter
-    on QueryBuilder<IngredientCategory, IngredientCategory, QFilterCondition> {
-  QueryBuilder<IngredientCategory, IngredientCategory, QAfterFilterCondition>
-      idIsNull() {
+extension IngredientQueryFilter
+    on QueryBuilder<Ingredient, Ingredient, QFilterCondition> {
+  QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition> idIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
         property: r'id',
@@ -248,8 +249,7 @@ extension IngredientCategoryQueryFilter
     });
   }
 
-  QueryBuilder<IngredientCategory, IngredientCategory, QAfterFilterCondition>
-      idIsNotNull() {
+  QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition> idIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
         property: r'id',
@@ -257,8 +257,8 @@ extension IngredientCategoryQueryFilter
     });
   }
 
-  QueryBuilder<IngredientCategory, IngredientCategory, QAfterFilterCondition>
-      idEqualTo(Id? value) {
+  QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition> idEqualTo(
+      Id? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'id',
@@ -267,8 +267,7 @@ extension IngredientCategoryQueryFilter
     });
   }
 
-  QueryBuilder<IngredientCategory, IngredientCategory, QAfterFilterCondition>
-      idGreaterThan(
+  QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition> idGreaterThan(
     Id? value, {
     bool include = false,
   }) {
@@ -281,8 +280,7 @@ extension IngredientCategoryQueryFilter
     });
   }
 
-  QueryBuilder<IngredientCategory, IngredientCategory, QAfterFilterCondition>
-      idLessThan(
+  QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition> idLessThan(
     Id? value, {
     bool include = false,
   }) {
@@ -295,8 +293,7 @@ extension IngredientCategoryQueryFilter
     });
   }
 
-  QueryBuilder<IngredientCategory, IngredientCategory, QAfterFilterCondition>
-      idBetween(
+  QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition> idBetween(
     Id? lower,
     Id? upper, {
     bool includeLower = true,
@@ -313,8 +310,7 @@ extension IngredientCategoryQueryFilter
     });
   }
 
-  QueryBuilder<IngredientCategory, IngredientCategory, QAfterFilterCondition>
-      nameEqualTo(
+  QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition> nameEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -327,8 +323,7 @@ extension IngredientCategoryQueryFilter
     });
   }
 
-  QueryBuilder<IngredientCategory, IngredientCategory, QAfterFilterCondition>
-      nameGreaterThan(
+  QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition> nameGreaterThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -343,8 +338,7 @@ extension IngredientCategoryQueryFilter
     });
   }
 
-  QueryBuilder<IngredientCategory, IngredientCategory, QAfterFilterCondition>
-      nameLessThan(
+  QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition> nameLessThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -359,8 +353,7 @@ extension IngredientCategoryQueryFilter
     });
   }
 
-  QueryBuilder<IngredientCategory, IngredientCategory, QAfterFilterCondition>
-      nameBetween(
+  QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition> nameBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -379,8 +372,7 @@ extension IngredientCategoryQueryFilter
     });
   }
 
-  QueryBuilder<IngredientCategory, IngredientCategory, QAfterFilterCondition>
-      nameStartsWith(
+  QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition> nameStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -393,8 +385,7 @@ extension IngredientCategoryQueryFilter
     });
   }
 
-  QueryBuilder<IngredientCategory, IngredientCategory, QAfterFilterCondition>
-      nameEndsWith(
+  QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition> nameEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -407,8 +398,9 @@ extension IngredientCategoryQueryFilter
     });
   }
 
-  QueryBuilder<IngredientCategory, IngredientCategory, QAfterFilterCondition>
-      nameContains(String value, {bool caseSensitive = true}) {
+  QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition> nameContains(
+      String value,
+      {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
         property: r'name',
@@ -418,8 +410,9 @@ extension IngredientCategoryQueryFilter
     });
   }
 
-  QueryBuilder<IngredientCategory, IngredientCategory, QAfterFilterCondition>
-      nameMatches(String pattern, {bool caseSensitive = true}) {
+  QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition> nameMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
         property: r'name',
@@ -429,8 +422,7 @@ extension IngredientCategoryQueryFilter
     });
   }
 
-  QueryBuilder<IngredientCategory, IngredientCategory, QAfterFilterCondition>
-      nameIsEmpty() {
+  QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition> nameIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'name',
@@ -439,8 +431,7 @@ extension IngredientCategoryQueryFilter
     });
   }
 
-  QueryBuilder<IngredientCategory, IngredientCategory, QAfterFilterCondition>
-      nameIsNotEmpty() {
+  QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition> nameIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'name',
@@ -450,79 +441,86 @@ extension IngredientCategoryQueryFilter
   }
 }
 
-extension IngredientCategoryQueryObject
-    on QueryBuilder<IngredientCategory, IngredientCategory, QFilterCondition> {}
+extension IngredientQueryObject
+    on QueryBuilder<Ingredient, Ingredient, QFilterCondition> {}
 
-extension IngredientCategoryQueryLinks
-    on QueryBuilder<IngredientCategory, IngredientCategory, QFilterCondition> {}
+extension IngredientQueryLinks
+    on QueryBuilder<Ingredient, Ingredient, QFilterCondition> {
+  QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition> picture(
+      FilterQuery<Picture> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.link(q, r'picture');
+    });
+  }
 
-extension IngredientCategoryQuerySortBy
-    on QueryBuilder<IngredientCategory, IngredientCategory, QSortBy> {
-  QueryBuilder<IngredientCategory, IngredientCategory, QAfterSortBy>
-      sortByName() {
+  QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition> pictureIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'picture', 0, true, 0, true);
+    });
+  }
+}
+
+extension IngredientQuerySortBy
+    on QueryBuilder<Ingredient, Ingredient, QSortBy> {
+  QueryBuilder<Ingredient, Ingredient, QAfterSortBy> sortByName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'name', Sort.asc);
     });
   }
 
-  QueryBuilder<IngredientCategory, IngredientCategory, QAfterSortBy>
-      sortByNameDesc() {
+  QueryBuilder<Ingredient, Ingredient, QAfterSortBy> sortByNameDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'name', Sort.desc);
     });
   }
 }
 
-extension IngredientCategoryQuerySortThenBy
-    on QueryBuilder<IngredientCategory, IngredientCategory, QSortThenBy> {
-  QueryBuilder<IngredientCategory, IngredientCategory, QAfterSortBy>
-      thenById() {
+extension IngredientQuerySortThenBy
+    on QueryBuilder<Ingredient, Ingredient, QSortThenBy> {
+  QueryBuilder<Ingredient, Ingredient, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
     });
   }
 
-  QueryBuilder<IngredientCategory, IngredientCategory, QAfterSortBy>
-      thenByIdDesc() {
+  QueryBuilder<Ingredient, Ingredient, QAfterSortBy> thenByIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.desc);
     });
   }
 
-  QueryBuilder<IngredientCategory, IngredientCategory, QAfterSortBy>
-      thenByName() {
+  QueryBuilder<Ingredient, Ingredient, QAfterSortBy> thenByName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'name', Sort.asc);
     });
   }
 
-  QueryBuilder<IngredientCategory, IngredientCategory, QAfterSortBy>
-      thenByNameDesc() {
+  QueryBuilder<Ingredient, Ingredient, QAfterSortBy> thenByNameDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'name', Sort.desc);
     });
   }
 }
 
-extension IngredientCategoryQueryWhereDistinct
-    on QueryBuilder<IngredientCategory, IngredientCategory, QDistinct> {
-  QueryBuilder<IngredientCategory, IngredientCategory, QDistinct>
-      distinctByName({bool caseSensitive = true}) {
+extension IngredientQueryWhereDistinct
+    on QueryBuilder<Ingredient, Ingredient, QDistinct> {
+  QueryBuilder<Ingredient, Ingredient, QDistinct> distinctByName(
+      {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'name', caseSensitive: caseSensitive);
     });
   }
 }
 
-extension IngredientCategoryQueryProperty
-    on QueryBuilder<IngredientCategory, IngredientCategory, QQueryProperty> {
-  QueryBuilder<IngredientCategory, int, QQueryOperations> idProperty() {
+extension IngredientQueryProperty
+    on QueryBuilder<Ingredient, Ingredient, QQueryProperty> {
+  QueryBuilder<Ingredient, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
     });
   }
 
-  QueryBuilder<IngredientCategory, String, QQueryOperations> nameProperty() {
+  QueryBuilder<Ingredient, String, QQueryOperations> nameProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'name');
     });

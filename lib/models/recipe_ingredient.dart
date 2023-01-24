@@ -2,7 +2,7 @@ import 'package:isar/isar.dart';
 import 'package:recipes/models/ingredient.dart';
 import 'package:recipes/models/ingredient_category.dart';
 
-part 'recipe_ingredient.g.dart';
+part 'generated/recipe_ingredient.g.dart';
 
 @collection
 class RecipeIngredient {

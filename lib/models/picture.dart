@@ -2,7 +2,7 @@ import 'dart:typed_data';
 
 import 'package:isar/isar.dart';
 
-part 'picture.g.dart';
+part 'generated/picture.g.dart';
 
 @collection
 class Picture {
