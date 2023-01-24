@@ -43,7 +43,7 @@ class RecipeCategoriesController extends ControllerDecorator {
     for (var recipeCategory in recipeCategories) {
       recipeCategory.selected = value;
     }
-    setSelectAllValue(value: value, callChild: false);
+    super.setSelectAllValue(value: value, callChild: false);
   }
 
   @override
