@@ -65,7 +65,7 @@ class SelectionDecorator extends ControllerDecorator {
       child!.setSelectAllValue(value: value);
       return;
     }
-    updateAllItemsSelected();
+    updateSelection();
     decoratorUpdate();
   }
 

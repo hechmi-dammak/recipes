@@ -67,14 +67,14 @@ class RecipeCategoriesPage extends StatelessWidget {
                           },
                         ),
                         AnimatedSize(
-                          duration: const Duration(milliseconds: 500),
+                          duration: const Duration(milliseconds:200),
                           child: Container(
                             constraints: controller.selectionCount() != 1
                                 ? const BoxConstraints(
                                     maxWidth: 0.0, maxHeight: 0.0)
                                 : const BoxConstraints(),
                             child: AnimatedScale(
-                              duration: const Duration(milliseconds: 400),
+                              duration: const Duration(milliseconds: 200),
                               scale: controller.selectionCount() != 1 ? 0 : 1,
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
