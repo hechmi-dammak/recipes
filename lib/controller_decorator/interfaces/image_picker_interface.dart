@@ -6,7 +6,8 @@ abstract class ImagePickerInterface {
 
   void setPicture(Picture? picture, {bool callChild = true});
 
-  Future<void> pickImage(ImageSource? imageSource, {bool callChild = true});
+  Future<void> pickImage(ImageSource? imageSource,
+      {bool callChild = true, double aspectRatio = 2});
 
   void clearImage({bool callChild = true});
 }

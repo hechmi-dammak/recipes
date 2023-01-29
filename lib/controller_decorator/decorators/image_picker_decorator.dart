@@ -1,3 +1,4 @@
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:recipes/controller_decorator/controller.dart';
 import 'package:recipes/controller_decorator/controller_decorator.dart';
@@ -35,14 +36,15 @@ class ImagePickerDecorator extends ControllerDecorator {
 
   @override
   Future<void> pickImage(ImageSource? imageSource,
-      {bool callChild = true}) async {
+      {double aspectRatio = 2, bool callChild = true}) async {
     if (child != null && callChild) {
-      child!.pickImage(imageSource);
+      child!.pickImage(imageSource, aspectRatio: aspectRatio);
       return;
     }
     if (imageSource == null) return;
-    setPicture(
-        await ImageOperations.find.getImage(imageSource) ?? getPicture());
+    setPicture(await ImageOperations.find.getImage(imageSource,
+            crop: CropAspectRatio(ratioX: aspectRatio, ratioY: 1)) ??
+        getPicture());
     decoratorUpdate();
   }
 

@@ -6,7 +6,9 @@ import 'package:recipes/controller_decorator/controller.dart';
 import 'package:recipes/widgets/common/conditional_widget.dart';
 
 class ImagePickerFormDialog<T extends Controller> extends StatelessWidget {
-  const ImagePickerFormDialog({Key? key}) : super(key: key);
+  const ImagePickerFormDialog({Key? key, this.aspectRatio = 2})
+      : super(key: key);
+  final double aspectRatio;
 
   @override
   Widget build(BuildContext context) {
@@ -31,14 +33,18 @@ class ImagePickerFormDialog<T extends Controller> extends StatelessWidget {
               child: ConditionalWidget(
                 condition: controller.getPicture() == null,
                 secondChild: (context) => AspectRatio(
-                  aspectRatio: 2,
+                  aspectRatio: aspectRatio,
                   child: Stack(
                     children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(6.5),
-                        child: Image.memory(
-                          controller.getPicture()!.image,
-                          fit: BoxFit.cover,
+                      SizedBox(
+                        height: double.infinity,
+                        width: double.infinity,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(6.5),
+                          child: Image.memory(
+                            controller.getPicture()!.image,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                       Positioned(
@@ -68,7 +74,8 @@ class ImagePickerFormDialog<T extends Controller> extends StatelessWidget {
                     Flexible(
                       child: GestureDetector(
                         behavior: HitTestBehavior.opaque,
-                        onTap: () => controller.pickImage(ImageSource.gallery),
+                        onTap: () => controller.pickImage(ImageSource.gallery,
+                            aspectRatio: aspectRatio),
                         child: SizedBox(
                           // width: double.infinity,
                           child: Center(
@@ -92,7 +99,8 @@ class ImagePickerFormDialog<T extends Controller> extends StatelessWidget {
                     Flexible(
                       child: GestureDetector(
                         behavior: HitTestBehavior.opaque,
-                        onTap: () => controller.pickImage(ImageSource.camera),
+                        onTap: () => controller.pickImage(ImageSource.camera,
+                            aspectRatio: aspectRatio),
                         child: SizedBox(
                           child: Center(
                             child: SvgPicture.asset(

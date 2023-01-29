@@ -12,7 +12,8 @@ abstract class ImagePickerBaseController extends SelectionBaseController {
   }
 
   @override
-  Future<void> pickImage(ImageSource? imageSource, {bool callChild = true}) {
+  Future<void> pickImage(ImageSource? imageSource,
+      {bool callChild = true, double aspectRatio = 2}) {
     throw UnimplementedError();
   }
 

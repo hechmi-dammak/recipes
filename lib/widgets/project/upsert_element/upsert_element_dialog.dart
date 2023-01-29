@@ -10,9 +10,10 @@ import 'package:recipes/widgets/project/upsert_element/upsert_element_controller
 
 class UpsertElementDialog<T extends UpsertElementController>
     extends CustomDialog<bool> {
-  const UpsertElementDialog({this.controller, super.key})
+  const UpsertElementDialog({this.controller, super.key, this.aspectRatio = 2})
       : super(dismissible: false);
   final T? controller;
+  final double aspectRatio;
 
   @override
   Widget buildChild(BuildContext context) {
@@ -33,7 +34,7 @@ class UpsertElementDialog<T extends UpsertElementController>
                             topLeft: Radius.circular(6.5))),
                     padding: const EdgeInsets.all(30),
                     child: SingleChildScrollView(
-                      child: AddElementForm<T>(),
+                      child: AddElementForm<T>(aspectRatio: aspectRatio,),
                     ),
                   ),
                 ),
@@ -50,7 +51,8 @@ class UpsertElementDialog<T extends UpsertElementController>
 
 class AddElementForm<T extends UpsertElementController>
     extends StatelessWidget {
-  const AddElementForm({Key? key}) : super(key: key);
+  const AddElementForm({Key? key,  this.aspectRatio=2}) : super(key: key);
+  final double aspectRatio;
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +87,7 @@ class AddElementForm<T extends UpsertElementController>
               decoration: CustomInputDecoration(),
             ),
             const SizedBox(height: 15),
-            ImagePickerFormDialog<T>()
+            ImagePickerFormDialog<T>(aspectRatio:aspectRatio,)
           ],
         ),
       );

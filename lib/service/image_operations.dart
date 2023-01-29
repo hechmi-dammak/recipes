@@ -12,8 +12,8 @@ class ImageOperations extends GetxService {
   final ImagePicker _picker = ImagePicker();
 
   Future<Picture?> getImage(ImageSource source,
-      [CropAspectRatio crop =
-          const CropAspectRatio(ratioX: 2, ratioY: 1)]) async {
+      {CropAspectRatio crop =
+          const CropAspectRatio(ratioX: 2, ratioY: 1)}) async {
     await requestCameraOrStoragePermissions(source);
     final XFile? file = await _picker.pickImage(
         source: source,

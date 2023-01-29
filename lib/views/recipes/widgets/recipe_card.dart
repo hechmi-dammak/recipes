@@ -38,25 +38,22 @@ class RecipeCard extends GetView<RecipesController> {
                         height: double.infinity,
                         fit: BoxFit.cover,
                       )),
-              LayoutBuilder(
-                builder: (context, constrain) => Transform.translate(
-                  offset: Offset(
-                      constrain.maxWidth * 0.43, constrain.maxHeight * 0.16),
-                  child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 10, horizontal: 12),
-                      width: constrain.maxWidth * 0.57,
-                      decoration: BoxDecoration(
-                          color: Get.theme.colorScheme.primaryContainer,
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(20),
-                            bottomLeft: Radius.circular(20),
-                          )),
-                      child: Text(recipe.name,
-                          style: Get.textTheme.headlineMedium?.copyWith(
-                              color: Get.theme.colorScheme.onPrimaryContainer,
-                              overflow: TextOverflow.ellipsis))),
-                ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                    margin: const EdgeInsets.only(left: 10, right: 10, bottom: 20),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 12),
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        color: Get.theme.colorScheme.primaryContainer,
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(20),
+                        )),
+                    child: Text(recipe.name,
+                        style: Get.textTheme.headlineMedium?.copyWith(
+                            color: Get.theme.colorScheme.onPrimaryContainer,
+                            overflow: TextOverflow.ellipsis))),
               ),
               ConditionalWidget(
                   condition: recipe.selected,

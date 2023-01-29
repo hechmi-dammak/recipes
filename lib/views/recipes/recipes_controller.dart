@@ -100,6 +100,7 @@ class RecipesController extends ControllerDecorator {
 
   Future<void> addRecipe() async {
     final created = await UpsertElementDialog<UpsertRecipeController>(
+      aspectRatio: 1,
       controller: UpsertRecipeController.create(
         controller: ImagePickerDecorator.create(),
         categoryId: categoryId,
@@ -111,6 +112,7 @@ class RecipesController extends ControllerDecorator {
   Future<void> editRecipe() async {
     if (selectionCount() != 1) return;
     final updated = await UpsertElementDialog<UpsertRecipeController>(
+      aspectRatio: 1,
       controller: UpsertRecipeController.create(
         id: getSelectedItems().first.id,
         controller: ImagePickerDecorator.create(),

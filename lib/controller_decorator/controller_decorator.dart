@@ -156,12 +156,13 @@ abstract class ControllerDecorator extends Controller {
 
   @override
   Future<void> pickImage(ImageSource? imageSource,
-      {bool callChild = true}) async {
+      {double aspectRatio = 2, bool callChild = true}) async {
     if (child != null && callChild) {
-      await child!.pickImage(imageSource);
+      await child!.pickImage(imageSource, aspectRatio: aspectRatio);
       return;
     }
-    await controller.pickImage(imageSource, callChild: false);
+    await controller.pickImage(imageSource,
+        aspectRatio: aspectRatio, callChild: false);
   }
 
   @override
