@@ -74,7 +74,7 @@ class CustomSnackBar {
         onTap: onTap,
         snackPosition: SnackPosition.BOTTOM,
         margin: const EdgeInsets.all(10),
-        backgroundColor: Get.theme.errorColor,
+        backgroundColor: Get.theme.colorScheme.error,
         colorText: Get.theme.colorScheme.onError,
         duration: duration,
         isDismissible: isDismissible);

@@ -1,20 +1,14 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:recipes/controller_decorator/base_controller/base_contoller.dart';
 import 'package:recipes/controller_decorator/controller.dart';
-import 'package:recipes/controller_decorator/controller_decorator.dart';
-import 'package:recipes/models/picture.dart';
+import 'package:recipes/controller_decorator/decorators/image_picker_decorator.dart';
 import 'package:recipes/models/recipe_category.dart';
-import 'package:recipes/service/image_operations.dart';
 import 'package:recipes/service/repository/recipe_category_repository.dart';
+import 'package:recipes/widgets/project/upsert_element/upsert_element_controller.dart';
 
-class UpsertRecipeCategoryController extends ControllerDecorator {
+class UpsertRecipeCategoryController extends UpsertElementController {
   static UpsertRecipeCategoryController get find =>
       Get.find<UpsertRecipeCategoryController>();
-  late TextEditingController nameController = TextEditingController();
-  late TextEditingController descriptionController = TextEditingController();
-  Picture? picture;
-  late GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final int? id;
 
   UpsertRecipeCategoryController(
@@ -23,10 +17,14 @@ class UpsertRecipeCategoryController extends ControllerDecorator {
   RecipeCategory recipeCategory = RecipeCategory();
 
   factory UpsertRecipeCategoryController.create(
-      {int? id, required Controller controller}) {
-    final recipesCategoriesController =
-        UpsertRecipeCategoryController(controller: controller, id: id);
+      {int? id, Controller? controller}) {
+    final recipesCategoriesController = UpsertRecipeCategoryController(
+        controller: ImagePickerDecorator.create(
+          controller: BaseController(),
+        ),
+        id: id);
     recipesCategoriesController.controller.child = recipesCategoriesController;
+
     recipesCategoriesController.initState(null);
     return recipesCategoriesController;
   }
@@ -47,17 +45,11 @@ class UpsertRecipeCategoryController extends ControllerDecorator {
           await RecipeCategoryRepository.find.findById(id) ?? recipeCategory;
       nameController.text = recipeCategory.name;
       descriptionController.text = recipeCategory.description ?? '';
-      picture = recipeCategory.picture.value;
+      setPicture(recipeCategory.picture.value);
     }
   }
 
   @override
-  void dispose() {
-    nameController.dispose();
-    descriptionController.dispose();
-    super.dispose();
-  }
-
   Future<void> confirm(
       void Function([bool? result, bool forceClose]) close) async {
     if (formKey.currentState?.validate() ?? false) {
@@ -65,19 +57,9 @@ class UpsertRecipeCategoryController extends ControllerDecorator {
       recipeCategory
         ..name = nameController.text.trim()
         ..description = description.isEmpty ? null : description
-        ..picture.value = picture;
+        ..picture.value = getPicture();
       await RecipeCategoryRepository.find.save(recipeCategory);
       close(true, true);
     }
-  }
-
-  Future<void> pickImage(ImageSource imageSource) async {
-    picture = await ImageOperations.find.getImage(imageSource) ?? picture;
-    decoratorUpdate();
-  }
-
-  void clearImage() {
-    picture = null;
-    decoratorUpdate();
   }
 }

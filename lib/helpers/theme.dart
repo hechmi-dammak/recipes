@@ -130,15 +130,12 @@ class ApplicationTheme {
       scaffoldBackgroundColor: colorScheme.background,
       cardColor: colorScheme.surface,
       dividerColor: dividerColor,
-      backgroundColor: colorScheme.background,
       disabledColor: disabledColor,
       hintColor: hintColor,
       dialogBackgroundColor: colorScheme.surface,
-      errorColor: colorScheme.error,
       indicatorColor: selectedTabColor,
       applyElevationOverlayColor: false,
       colorScheme: colorScheme,
-      toggleableActiveColor: colorScheme.secondary,
       primaryColorDark: primaryColorDark,
       primaryColorLight: primaryColorLight,
       secondaryHeaderColor: secondaryHeaderColor,
@@ -163,7 +160,6 @@ class ApplicationTheme {
           systemNavigationBarIconBrightness: Brightness.dark,
         ),
       ),
-      bottomAppBarColor: colorScheme.background,
       bottomAppBarTheme: BottomAppBarTheme(
         color: colorScheme.background,
         elevation: 0.2,
@@ -185,11 +181,11 @@ class ApplicationTheme {
       chipTheme: ChipThemeData.fromDefaults(
         secondaryColor: colorScheme.primary,
         brightness: colorScheme.brightness,
-        labelStyle: textTheme.bodyText1!,
+        labelStyle: textTheme.bodyLarge!,
       ),
       tabBarTheme: TabBarTheme(
         indicatorSize: TabBarIndicatorSize.tab,
-        labelStyle: const TextTheme().button,
+        labelStyle: const TextTheme().bodyLarge,
         labelColor: selectedTabColor,
         unselectedLabelColor: unselectedTabColor,
       ),
@@ -202,7 +198,7 @@ class ApplicationTheme {
       tooltipTheme: TooltipThemeData(
         padding: tooltipPadding(),
         margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-        textStyle: textTheme.bodyText2!.copyWith(
+        textStyle: textTheme.bodyMedium!.copyWith(
           inherit: false,
           color: Colors.white,
           fontSize: tooltipFontSize(),

@@ -2,7 +2,7 @@ import 'dart:typed_data';
 
 import 'package:isar/isar.dart';
 
-part 'generated/picture.g.dart';
+part 'picture.g.dart';
 
 @collection
 class Picture {
@@ -11,6 +11,7 @@ class Picture {
 
 
   Picture({
+    this.id,
     required this.image,
   });
 }

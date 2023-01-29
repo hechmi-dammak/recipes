@@ -2,9 +2,9 @@ import 'package:recipes/controller_decorator/controller.dart';
 import 'package:recipes/controller_decorator/controller_decorator.dart';
 
 class SelectionDecorator extends ControllerDecorator {
-  SelectionDecorator({required super.controller});
+  SelectionDecorator({super.controller});
 
-  factory SelectionDecorator.create({required Controller controller}) {
+  factory SelectionDecorator.create({Controller? controller}) {
     final selectionDecorator = SelectionDecorator(controller: controller);
     selectionDecorator.controller.child = selectionDecorator;
     return selectionDecorator;

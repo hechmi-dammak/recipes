@@ -21,8 +21,6 @@ abstract class SelectionBaseController extends DataFetchingBaseController {
     throw UnimplementedError();
   }
 
-
-
   @override
   void setSelectAllValue({bool value = false, bool callChild = true}) {
     throw UnimplementedError();
@@ -37,10 +35,14 @@ abstract class SelectionBaseController extends DataFetchingBaseController {
   void updateAllItemsSelected({bool callChild = true}) {
     throw UnimplementedError();
   }
+
   @override
   void updateSelection({callChild = true}) {
     throw UnimplementedError();
   }
+
   @override
-  int selectionCount({callChild = true}) {throw UnimplementedError();}
+  int selectionCount({callChild = true}) {
+    throw UnimplementedError();
+  }
 }

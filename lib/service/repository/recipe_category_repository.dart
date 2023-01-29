@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:isar/isar.dart';
 import 'package:recipes/models/recipe_category.dart';
 import 'package:recipes/service/isar_service.dart';
+import 'package:recipes/service/utils_service.dart';
 
 class RecipeCategoryRepository extends GetxService {
   static RecipeCategoryRepository get find =>
@@ -9,7 +10,11 @@ class RecipeCategoryRepository extends GetxService {
 
   Future<void> save(RecipeCategory recipeCategory) async {
     if (recipeCategory.id == null) {
-      await _setUniqueName(recipeCategory);
+      recipeCategory.name = await UtilsService.find.getUniqueName(
+          recipeCategory.name,
+          (name) async => (await findAllByNameStartWith(recipeCategory.name))
+              .map((recipeCategory) => recipeCategory.name)
+              .toSet());
     }
     await IsarService.isar.writeTxn(() async {
       await IsarService.isar.recipeCategories.put(recipeCategory);
@@ -19,21 +24,10 @@ class RecipeCategoryRepository extends GetxService {
 
   Future<bool> deleteById(int? id) async {
     if (id == null) return false;
+    //todo delete recipes
     return await IsarService.isar
         .writeTxn(() => IsarService.isar.recipeCategories.delete(id));
   }
-
-  //
-  // Future<int> deleteByIdsIn(List<int?> ids) async {
-  //   final idsNotNull = ids.toList();
-  //   idsNotNull.removeWhere((element) => element == null);
-  //   await RecipeRepository.find.deleteByRecipeCategoryIdsIn(ids);
-  //   return await (await DataBaseProvider.database).delete(
-  //     tableRecipesCategories,
-  //     where: '${RecipeCategoryFields.id} in (?)',
-  //     whereArgs: [idsNotNull],
-  //   );
-  // }
 
   Future<RecipeCategory?> findById(
     int? id, {
@@ -52,21 +46,5 @@ class RecipeCategoryRepository extends GetxService {
         .filter()
         .nameStartsWith(name)
         .findAll();
-  }
-
-  Future<void> _setUniqueName(RecipeCategory recipeCategory) async {
-    final setOfNames = (await findAllByNameStartWith(recipeCategory.name))
-        .map((recipeCategory) => recipeCategory.name)
-        .toSet();
-    if (!setOfNames.contains(recipeCategory.name)) return;
-    var index = 1;
-    while (true) {
-      if (setOfNames.contains('${recipeCategory.name}_$index')) {
-        index++;
-      } else {
-        recipeCategory.name += '_$index';
-        break;
-      }
-    }
   }
 }

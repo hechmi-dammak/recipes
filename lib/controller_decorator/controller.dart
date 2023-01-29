@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:recipes/controller_decorator/interfaces/data_fetching_interface.dart';
+import 'package:recipes/controller_decorator/interfaces/image_picker_interface.dart';
 import 'package:recipes/controller_decorator/interfaces/loading_interface.dart';
 import 'package:recipes/controller_decorator/interfaces/selection_interface.dart';
 
 abstract class Controller extends GetxController
-    implements LoadingInterface, DataFetchingInterface, SelectionInterface {
+    implements
+        LoadingInterface,
+        DataFetchingInterface,
+        SelectionInterface,
+        ImagePickerInterface {
   Controller? child;
 
   Controller({this.child});

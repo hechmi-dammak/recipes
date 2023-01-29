@@ -1,6 +1,6 @@
 import 'package:isar/isar.dart';
 
-part 'generated/ingredient_category.g.dart';
+part 'ingredient_category.g.dart';
 
 @Collection(accessor: 'ingredientCategories')
 class IngredientCategory {

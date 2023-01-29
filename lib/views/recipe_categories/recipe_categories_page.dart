@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:recipes/views/recipe_categories/recipe_categories_controller.dart';
-import 'package:recipes/views/recipe_categories/widgets/add_recipe_category_card.dart';
 import 'package:recipes/views/recipe_categories/widgets/recipe_category_card.dart';
-import 'package:recipes/widgets/project/custom_app_bar.dart';
 import 'package:recipes/widgets/common/loading_widget.dart';
+import 'package:recipes/widgets/project/add_element_card.dart';
+import 'package:recipes/widgets/project/custom_app_bar.dart';
 import 'package:recipes/widgets/project/title_app_bar_button.dart';
 
 class RecipeCategoriesPage extends StatelessWidget {
@@ -67,7 +67,7 @@ class RecipeCategoriesPage extends StatelessWidget {
                           },
                         ),
                         AnimatedSize(
-                          duration: const Duration(milliseconds:200),
+                          duration: const Duration(milliseconds: 200),
                           child: Container(
                             constraints: controller.selectionCount() != 1
                                 ? const BoxConstraints(
@@ -139,7 +139,7 @@ class RecipeCategoriesPage extends StatelessWidget {
                           .map((recipeCategory) => RecipeCategoryCard(
                               recipeCategory: recipeCategory))
                           .toList(),
-                      AddRecipeCategoryCard(
+                      AddElementCard(
                           onTap: controller.addRecipeCategory,
                           semanticsLabel: 'Add Recipe Category'.tr),
                     ],

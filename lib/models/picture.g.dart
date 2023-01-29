@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of '../picture.dart';
+part of 'picture.dart';
 
 // **************************************************************************
 // IsarCollectionGenerator
@@ -63,9 +63,9 @@ Picture _pictureDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = Picture(
+    id: id,
     image: Uint8List.fromList(reader.readLongList(offsets[0]) ?? []),
   );
-  object.id = id;
   return object;
 }
 

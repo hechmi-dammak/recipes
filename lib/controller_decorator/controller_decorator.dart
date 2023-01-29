@@ -1,12 +1,16 @@
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:recipes/controller_decorator/base_controller/base_contoller.dart';
 import 'package:recipes/controller_decorator/controller.dart';
+import 'package:recipes/models/picture.dart';
 
 abstract class ControllerDecorator extends Controller {
   final Controller controller;
 
   static ControllerDecorator get find => Get.find<ControllerDecorator>();
 
-  ControllerDecorator({required this.controller, super.child});
+  ControllerDecorator({Controller? controller, super.child})
+      : controller = controller ?? BaseController();
 
   @override
   bool getLoading({bool callChild = true}) {
@@ -131,5 +135,41 @@ abstract class ControllerDecorator extends Controller {
       return child!.selectionCount();
     }
     return controller.selectionCount(callChild: false);
+  }
+
+  @override
+  void clearImage({bool callChild = true}) {
+    if (child != null && callChild) {
+      child!.clearImage();
+      return;
+    }
+    controller.clearImage(callChild: false);
+  }
+
+  @override
+  Picture? getPicture({bool callChild = true}) {
+    if (child != null && callChild) {
+      return child!.getPicture();
+    }
+    return controller.getPicture(callChild: false);
+  }
+
+  @override
+  Future<void> pickImage(ImageSource? imageSource,
+      {bool callChild = true}) async {
+    if (child != null && callChild) {
+      await child!.pickImage(imageSource);
+      return;
+    }
+    await controller.pickImage(imageSource, callChild: false);
+  }
+
+  @override
+  void setPicture(Picture? picture, {bool callChild = true}) {
+    if (child != null && callChild) {
+      child!.setPicture(picture);
+      return;
+    }
+    controller.setPicture(picture, callChild: false);
   }
 }
