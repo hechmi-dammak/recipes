@@ -4,7 +4,7 @@ import 'package:recipes/controller_decorator/controller.dart';
 import 'package:recipes/controller_decorator/decorators/image_picker_decorator.dart';
 import 'package:recipes/models/recipe_category.dart';
 import 'package:recipes/service/repository/recipe_category_repository.dart';
-import 'package:recipes/widgets/project/upsert_element/upsert_element_controller.dart';
+import 'package:recipes/widgets/project/upsert_element/controllers/upsert_element_controller.dart';
 
 class UpsertRecipeCategoryController extends UpsertElementController {
   static UpsertRecipeCategoryController get find =>

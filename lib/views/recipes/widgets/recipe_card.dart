@@ -50,7 +50,7 @@ class RecipeCard extends GetView<RecipesController> {
                         borderRadius: const BorderRadius.all(
                           Radius.circular(20),
                         )),
-                    child: Text(recipe.name,
+                    child: Text(recipe.name,textAlign: TextAlign.center,
                         style: Get.textTheme.headlineMedium?.copyWith(
                             color: Get.theme.colorScheme.onPrimaryContainer,
                             overflow: TextOverflow.ellipsis))),

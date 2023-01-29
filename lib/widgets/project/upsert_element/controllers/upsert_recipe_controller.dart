@@ -3,7 +3,7 @@ import 'package:recipes/controller_decorator/controller.dart';
 import 'package:recipes/models/recipe.dart';
 import 'package:recipes/service/repository/recipe_category_repository.dart';
 import 'package:recipes/service/repository/recipe_repository.dart';
-import 'package:recipes/widgets/project/upsert_element/upsert_element_controller.dart';
+import 'package:recipes/widgets/project/upsert_element/controllers/upsert_element_controller.dart';
 
 class UpsertRecipeController extends UpsertElementController {
   static UpsertRecipeController get find => Get.find<UpsertRecipeController>();

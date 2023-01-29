@@ -6,7 +6,7 @@ import 'package:recipes/widgets/common/custom_dialog.dart';
 import 'package:recipes/widgets/common/loading_widget.dart';
 import 'package:recipes/widgets/project/dialog_bottom.dart';
 import 'package:recipes/widgets/project/image_picker_form_dialog.dart';
-import 'package:recipes/widgets/project/upsert_element/upsert_element_controller.dart';
+import 'package:recipes/widgets/project/upsert_element/controllers/upsert_element_controller.dart';
 
 class UpsertElementDialog<T extends UpsertElementController>
     extends CustomDialog<bool> {

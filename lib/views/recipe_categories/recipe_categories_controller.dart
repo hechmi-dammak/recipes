@@ -5,9 +5,9 @@ import 'package:recipes/controller_decorator/decorators/image_picker_decorator.d
 import 'package:recipes/helpers/getx_extension.dart';
 import 'package:recipes/service/repository/recipe_category_repository.dart';
 import 'package:recipes/views/recipe_categories/models/recipe_category_page_model.dart';
-import 'package:recipes/views/recipe_categories/widgets/upsert_recipe_category/upsert_recipe_category_controller.dart';
 import 'package:recipes/views/recipes/recipes_page.dart';
 import 'package:recipes/widgets/common/snack_bar.dart';
+import 'package:recipes/widgets/project/upsert_element/controllers/upsert_recipe_category_controller.dart';
 import 'package:recipes/widgets/project/upsert_element/upsert_element_dialog.dart';
 
 class RecipeCategoriesController extends ControllerDecorator {

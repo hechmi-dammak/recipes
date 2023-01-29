@@ -4,8 +4,8 @@ import 'package:recipes/controller_decorator/controller_decorator.dart';
 import 'package:recipes/controller_decorator/decorators/image_picker_decorator.dart';
 import 'package:recipes/service/repository/recipe_repository.dart';
 import 'package:recipes/views/recipes/models/recipe_page_model.dart';
-import 'package:recipes/views/recipes/widgets/upsert_recipe/upsert_recipe_controller.dart';
 import 'package:recipes/widgets/common/snack_bar.dart';
+import 'package:recipes/widgets/project/upsert_element/controllers/upsert_recipe_controller.dart';
 import 'package:recipes/widgets/project/upsert_element/upsert_element_dialog.dart';
 
 class RecipesController extends ControllerDecorator {
