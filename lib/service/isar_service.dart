@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import 'package:isar/isar.dart';
 import 'package:recipes/models/ingredient.dart';
 import 'package:recipes/models/ingredient_category.dart';
-import 'package:recipes/models/instruction.dart';
+import 'package:recipes/models/step.dart';
 import 'package:recipes/models/picture.dart';
 import 'package:recipes/models/recipe.dart';
 import 'package:recipes/models/recipe_category.dart';
@@ -19,7 +19,7 @@ class IsarService extends GetxService {
     _isar = await Isar.open([
       IngredientSchema,
       IngredientCategorySchema,
-      InstructionSchema,
+      StepSchema,
       PictureSchema,
       RecipeSchema,
       RecipeCategorySchema,

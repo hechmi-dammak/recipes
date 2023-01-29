@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'instruction.dart';
+part of 'step.dart';
 
 // **************************************************************************
 // IsarCollectionGenerator
@@ -9,17 +9,17 @@ part of 'instruction.dart';
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters
 
-extension GetInstructionCollection on Isar {
-  IsarCollection<Instruction> get instructions => this.collection();
+extension GetStepCollection on Isar {
+  IsarCollection<Step> get steps => this.collection();
 }
 
-const InstructionSchema = CollectionSchema(
-  name: r'Instruction',
-  id: 4657070553429627997,
+const StepSchema = CollectionSchema(
+  name: r'Step',
+  id: 5530288897656118150,
   properties: {
-    r'description': PropertySchema(
+    r'instruction': PropertySchema(
       id: 0,
-      name: r'description',
+      name: r'instruction',
       type: IsarType.string,
     ),
     r'order': PropertySchema(
@@ -28,10 +28,10 @@ const InstructionSchema = CollectionSchema(
       type: IsarType.long,
     )
   },
-  estimateSize: _instructionEstimateSize,
-  serialize: _instructionSerialize,
-  deserialize: _instructionDeserialize,
-  deserializeProp: _instructionDeserializeProp,
+  estimateSize: _stepEstimateSize,
+  serialize: _stepSerialize,
+  deserialize: _stepDeserialize,
+  deserializeProp: _stepDeserializeProp,
   idName: r'id',
   indexes: {
     r'order': IndexSchema(
@@ -50,47 +50,47 @@ const InstructionSchema = CollectionSchema(
   },
   links: {},
   embeddedSchemas: {},
-  getId: _instructionGetId,
-  getLinks: _instructionGetLinks,
-  attach: _instructionAttach,
+  getId: _stepGetId,
+  getLinks: _stepGetLinks,
+  attach: _stepAttach,
   version: '3.0.5',
 );
 
-int _instructionEstimateSize(
-  Instruction object,
+int _stepEstimateSize(
+  Step object,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
-  bytesCount += 3 + object.description.length * 3;
+  bytesCount += 3 + object.instruction.length * 3;
   return bytesCount;
 }
 
-void _instructionSerialize(
-  Instruction object,
+void _stepSerialize(
+  Step object,
   IsarWriter writer,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeString(offsets[0], object.description);
+  writer.writeString(offsets[0], object.instruction);
   writer.writeLong(offsets[1], object.order);
 }
 
-Instruction _instructionDeserialize(
+Step _stepDeserialize(
   Id id,
   IsarReader reader,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = Instruction(
-    description: reader.readStringOrNull(offsets[0]) ?? '',
+  final object = Step(
+    instruction: reader.readStringOrNull(offsets[0]) ?? '',
     order: reader.readLong(offsets[1]),
   );
   object.id = id;
   return object;
 }
 
-P _instructionDeserializeProp<P>(
+P _stepDeserializeProp<P>(
   IsarReader reader,
   int propertyId,
   int offset,
@@ -106,28 +106,26 @@ P _instructionDeserializeProp<P>(
   }
 }
 
-Id _instructionGetId(Instruction object) {
+Id _stepGetId(Step object) {
   return object.id ?? Isar.autoIncrement;
 }
 
-List<IsarLinkBase<dynamic>> _instructionGetLinks(Instruction object) {
+List<IsarLinkBase<dynamic>> _stepGetLinks(Step object) {
   return [];
 }
 
-void _instructionAttach(
-    IsarCollection<dynamic> col, Id id, Instruction object) {
+void _stepAttach(IsarCollection<dynamic> col, Id id, Step object) {
   object.id = id;
 }
 
-extension InstructionQueryWhereSort
-    on QueryBuilder<Instruction, Instruction, QWhere> {
-  QueryBuilder<Instruction, Instruction, QAfterWhere> anyId() {
+extension StepQueryWhereSort on QueryBuilder<Step, Step, QWhere> {
+  QueryBuilder<Step, Step, QAfterWhere> anyId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
     });
   }
 
-  QueryBuilder<Instruction, Instruction, QAfterWhere> anyOrder() {
+  QueryBuilder<Step, Step, QAfterWhere> anyOrder() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         const IndexWhereClause.any(indexName: r'order'),
@@ -136,9 +134,8 @@ extension InstructionQueryWhereSort
   }
 }
 
-extension InstructionQueryWhere
-    on QueryBuilder<Instruction, Instruction, QWhereClause> {
-  QueryBuilder<Instruction, Instruction, QAfterWhereClause> idEqualTo(Id id) {
+extension StepQueryWhere on QueryBuilder<Step, Step, QWhereClause> {
+  QueryBuilder<Step, Step, QAfterWhereClause> idEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(
         lower: id,
@@ -147,8 +144,7 @@ extension InstructionQueryWhere
     });
   }
 
-  QueryBuilder<Instruction, Instruction, QAfterWhereClause> idNotEqualTo(
-      Id id) {
+  QueryBuilder<Step, Step, QAfterWhereClause> idNotEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -170,7 +166,7 @@ extension InstructionQueryWhere
     });
   }
 
-  QueryBuilder<Instruction, Instruction, QAfterWhereClause> idGreaterThan(Id id,
+  QueryBuilder<Step, Step, QAfterWhereClause> idGreaterThan(Id id,
       {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
@@ -179,7 +175,7 @@ extension InstructionQueryWhere
     });
   }
 
-  QueryBuilder<Instruction, Instruction, QAfterWhereClause> idLessThan(Id id,
+  QueryBuilder<Step, Step, QAfterWhereClause> idLessThan(Id id,
       {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
@@ -188,7 +184,7 @@ extension InstructionQueryWhere
     });
   }
 
-  QueryBuilder<Instruction, Instruction, QAfterWhereClause> idBetween(
+  QueryBuilder<Step, Step, QAfterWhereClause> idBetween(
     Id lowerId,
     Id upperId, {
     bool includeLower = true,
@@ -204,8 +200,7 @@ extension InstructionQueryWhere
     });
   }
 
-  QueryBuilder<Instruction, Instruction, QAfterWhereClause> orderEqualTo(
-      int order) {
+  QueryBuilder<Step, Step, QAfterWhereClause> orderEqualTo(int order) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
         indexName: r'order',
@@ -214,8 +209,7 @@ extension InstructionQueryWhere
     });
   }
 
-  QueryBuilder<Instruction, Instruction, QAfterWhereClause> orderNotEqualTo(
-      int order) {
+  QueryBuilder<Step, Step, QAfterWhereClause> orderNotEqualTo(int order) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -249,7 +243,7 @@ extension InstructionQueryWhere
     });
   }
 
-  QueryBuilder<Instruction, Instruction, QAfterWhereClause> orderGreaterThan(
+  QueryBuilder<Step, Step, QAfterWhereClause> orderGreaterThan(
     int order, {
     bool include = false,
   }) {
@@ -263,7 +257,7 @@ extension InstructionQueryWhere
     });
   }
 
-  QueryBuilder<Instruction, Instruction, QAfterWhereClause> orderLessThan(
+  QueryBuilder<Step, Step, QAfterWhereClause> orderLessThan(
     int order, {
     bool include = false,
   }) {
@@ -277,7 +271,7 @@ extension InstructionQueryWhere
     });
   }
 
-  QueryBuilder<Instruction, Instruction, QAfterWhereClause> orderBetween(
+  QueryBuilder<Step, Step, QAfterWhereClause> orderBetween(
     int lowerOrder,
     int upperOrder, {
     bool includeLower = true,
@@ -295,145 +289,8 @@ extension InstructionQueryWhere
   }
 }
 
-extension InstructionQueryFilter
-    on QueryBuilder<Instruction, Instruction, QFilterCondition> {
-  QueryBuilder<Instruction, Instruction, QAfterFilterCondition>
-      descriptionEqualTo(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'description',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Instruction, Instruction, QAfterFilterCondition>
-      descriptionGreaterThan(
-    String value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'description',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Instruction, Instruction, QAfterFilterCondition>
-      descriptionLessThan(
-    String value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'description',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Instruction, Instruction, QAfterFilterCondition>
-      descriptionBetween(
-    String lower,
-    String upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'description',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Instruction, Instruction, QAfterFilterCondition>
-      descriptionStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'description',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Instruction, Instruction, QAfterFilterCondition>
-      descriptionEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'description',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Instruction, Instruction, QAfterFilterCondition>
-      descriptionContains(String value, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'description',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Instruction, Instruction, QAfterFilterCondition>
-      descriptionMatches(String pattern, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'description',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Instruction, Instruction, QAfterFilterCondition>
-      descriptionIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'description',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<Instruction, Instruction, QAfterFilterCondition>
-      descriptionIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'description',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<Instruction, Instruction, QAfterFilterCondition> idIsNull() {
+extension StepQueryFilter on QueryBuilder<Step, Step, QFilterCondition> {
+  QueryBuilder<Step, Step, QAfterFilterCondition> idIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
         property: r'id',
@@ -441,7 +298,7 @@ extension InstructionQueryFilter
     });
   }
 
-  QueryBuilder<Instruction, Instruction, QAfterFilterCondition> idIsNotNull() {
+  QueryBuilder<Step, Step, QAfterFilterCondition> idIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
         property: r'id',
@@ -449,8 +306,7 @@ extension InstructionQueryFilter
     });
   }
 
-  QueryBuilder<Instruction, Instruction, QAfterFilterCondition> idEqualTo(
-      Id? value) {
+  QueryBuilder<Step, Step, QAfterFilterCondition> idEqualTo(Id? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'id',
@@ -459,7 +315,7 @@ extension InstructionQueryFilter
     });
   }
 
-  QueryBuilder<Instruction, Instruction, QAfterFilterCondition> idGreaterThan(
+  QueryBuilder<Step, Step, QAfterFilterCondition> idGreaterThan(
     Id? value, {
     bool include = false,
   }) {
@@ -472,7 +328,7 @@ extension InstructionQueryFilter
     });
   }
 
-  QueryBuilder<Instruction, Instruction, QAfterFilterCondition> idLessThan(
+  QueryBuilder<Step, Step, QAfterFilterCondition> idLessThan(
     Id? value, {
     bool include = false,
   }) {
@@ -485,7 +341,7 @@ extension InstructionQueryFilter
     });
   }
 
-  QueryBuilder<Instruction, Instruction, QAfterFilterCondition> idBetween(
+  QueryBuilder<Step, Step, QAfterFilterCondition> idBetween(
     Id? lower,
     Id? upper, {
     bool includeLower = true,
@@ -502,8 +358,137 @@ extension InstructionQueryFilter
     });
   }
 
-  QueryBuilder<Instruction, Instruction, QAfterFilterCondition> orderEqualTo(
-      int value) {
+  QueryBuilder<Step, Step, QAfterFilterCondition> instructionEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'instruction',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Step, Step, QAfterFilterCondition> instructionGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'instruction',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Step, Step, QAfterFilterCondition> instructionLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'instruction',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Step, Step, QAfterFilterCondition> instructionBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'instruction',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Step, Step, QAfterFilterCondition> instructionStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'instruction',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Step, Step, QAfterFilterCondition> instructionEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'instruction',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Step, Step, QAfterFilterCondition> instructionContains(
+      String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'instruction',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Step, Step, QAfterFilterCondition> instructionMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'instruction',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Step, Step, QAfterFilterCondition> instructionIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'instruction',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Step, Step, QAfterFilterCondition> instructionIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'instruction',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Step, Step, QAfterFilterCondition> orderEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'order',
@@ -512,8 +497,7 @@ extension InstructionQueryFilter
     });
   }
 
-  QueryBuilder<Instruction, Instruction, QAfterFilterCondition>
-      orderGreaterThan(
+  QueryBuilder<Step, Step, QAfterFilterCondition> orderGreaterThan(
     int value, {
     bool include = false,
   }) {
@@ -526,7 +510,7 @@ extension InstructionQueryFilter
     });
   }
 
-  QueryBuilder<Instruction, Instruction, QAfterFilterCondition> orderLessThan(
+  QueryBuilder<Step, Step, QAfterFilterCondition> orderLessThan(
     int value, {
     bool include = false,
   }) {
@@ -539,7 +523,7 @@ extension InstructionQueryFilter
     });
   }
 
-  QueryBuilder<Instruction, Instruction, QAfterFilterCondition> orderBetween(
+  QueryBuilder<Step, Step, QAfterFilterCondition> orderBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -557,109 +541,103 @@ extension InstructionQueryFilter
   }
 }
 
-extension InstructionQueryObject
-    on QueryBuilder<Instruction, Instruction, QFilterCondition> {}
+extension StepQueryObject on QueryBuilder<Step, Step, QFilterCondition> {}
 
-extension InstructionQueryLinks
-    on QueryBuilder<Instruction, Instruction, QFilterCondition> {}
+extension StepQueryLinks on QueryBuilder<Step, Step, QFilterCondition> {}
 
-extension InstructionQuerySortBy
-    on QueryBuilder<Instruction, Instruction, QSortBy> {
-  QueryBuilder<Instruction, Instruction, QAfterSortBy> sortByDescription() {
+extension StepQuerySortBy on QueryBuilder<Step, Step, QSortBy> {
+  QueryBuilder<Step, Step, QAfterSortBy> sortByInstruction() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'description', Sort.asc);
+      return query.addSortBy(r'instruction', Sort.asc);
     });
   }
 
-  QueryBuilder<Instruction, Instruction, QAfterSortBy> sortByDescriptionDesc() {
+  QueryBuilder<Step, Step, QAfterSortBy> sortByInstructionDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'description', Sort.desc);
+      return query.addSortBy(r'instruction', Sort.desc);
     });
   }
 
-  QueryBuilder<Instruction, Instruction, QAfterSortBy> sortByOrder() {
+  QueryBuilder<Step, Step, QAfterSortBy> sortByOrder() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'order', Sort.asc);
     });
   }
 
-  QueryBuilder<Instruction, Instruction, QAfterSortBy> sortByOrderDesc() {
+  QueryBuilder<Step, Step, QAfterSortBy> sortByOrderDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'order', Sort.desc);
     });
   }
 }
 
-extension InstructionQuerySortThenBy
-    on QueryBuilder<Instruction, Instruction, QSortThenBy> {
-  QueryBuilder<Instruction, Instruction, QAfterSortBy> thenByDescription() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'description', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Instruction, Instruction, QAfterSortBy> thenByDescriptionDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'description', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Instruction, Instruction, QAfterSortBy> thenById() {
+extension StepQuerySortThenBy on QueryBuilder<Step, Step, QSortThenBy> {
+  QueryBuilder<Step, Step, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
     });
   }
 
-  QueryBuilder<Instruction, Instruction, QAfterSortBy> thenByIdDesc() {
+  QueryBuilder<Step, Step, QAfterSortBy> thenByIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.desc);
     });
   }
 
-  QueryBuilder<Instruction, Instruction, QAfterSortBy> thenByOrder() {
+  QueryBuilder<Step, Step, QAfterSortBy> thenByInstruction() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'instruction', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Step, Step, QAfterSortBy> thenByInstructionDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'instruction', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Step, Step, QAfterSortBy> thenByOrder() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'order', Sort.asc);
     });
   }
 
-  QueryBuilder<Instruction, Instruction, QAfterSortBy> thenByOrderDesc() {
+  QueryBuilder<Step, Step, QAfterSortBy> thenByOrderDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'order', Sort.desc);
     });
   }
 }
 
-extension InstructionQueryWhereDistinct
-    on QueryBuilder<Instruction, Instruction, QDistinct> {
-  QueryBuilder<Instruction, Instruction, QDistinct> distinctByDescription(
+extension StepQueryWhereDistinct on QueryBuilder<Step, Step, QDistinct> {
+  QueryBuilder<Step, Step, QDistinct> distinctByInstruction(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'description', caseSensitive: caseSensitive);
+      return query.addDistinctBy(r'instruction', caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<Instruction, Instruction, QDistinct> distinctByOrder() {
+  QueryBuilder<Step, Step, QDistinct> distinctByOrder() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'order');
     });
   }
 }
 
-extension InstructionQueryProperty
-    on QueryBuilder<Instruction, Instruction, QQueryProperty> {
-  QueryBuilder<Instruction, int, QQueryOperations> idProperty() {
+extension StepQueryProperty on QueryBuilder<Step, Step, QQueryProperty> {
+  QueryBuilder<Step, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
     });
   }
 
-  QueryBuilder<Instruction, String, QQueryOperations> descriptionProperty() {
+  QueryBuilder<Step, String, QQueryOperations> instructionProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'description');
+      return query.addPropertyName(r'instruction');
     });
   }
 
-  QueryBuilder<Instruction, int, QQueryOperations> orderProperty() {
+  QueryBuilder<Step, int, QQueryOperations> orderProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'order');
     });

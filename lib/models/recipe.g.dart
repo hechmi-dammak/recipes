@@ -60,10 +60,10 @@ const RecipeSchema = CollectionSchema(
       target: r'RecipeCategory',
       single: true,
     ),
-    r'instructions': LinkSchema(
-      id: 8958837968045588785,
-      name: r'instructions',
-      target: r'Instruction',
+    r'steps': LinkSchema(
+      id: 6057392964655359920,
+      name: r'steps',
+      target: r'Step',
       single: false,
     ),
     r'ingredients': LinkSchema(
@@ -151,20 +151,14 @@ Id _recipeGetId(Recipe object) {
 }
 
 List<IsarLinkBase<dynamic>> _recipeGetLinks(Recipe object) {
-  return [
-    object.category,
-    object.instructions,
-    object.ingredients,
-    object.picture
-  ];
+  return [object.category, object.steps, object.ingredients, object.picture];
 }
 
 void _recipeAttach(IsarCollection<dynamic> col, Id id, Recipe object) {
   object.id = id;
   object.category
       .attach(col, col.isar.collection<RecipeCategory>(), r'category', id);
-  object.instructions
-      .attach(col, col.isar.collection<Instruction>(), r'instructions', id);
+  object.steps.attach(col, col.isar.collection<Step>(), r'steps', id);
   object.ingredients
       .attach(col, col.isar.collection<RecipeIngredient>(), r'ingredients', id);
   object.picture.attach(col, col.isar.collection<Picture>(), r'picture', id);
@@ -702,53 +696,51 @@ extension RecipeQueryLinks on QueryBuilder<Recipe, Recipe, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Recipe, Recipe, QAfterFilterCondition> instructions(
-      FilterQuery<Instruction> q) {
+  QueryBuilder<Recipe, Recipe, QAfterFilterCondition> steps(
+      FilterQuery<Step> q) {
     return QueryBuilder.apply(this, (query) {
-      return query.link(q, r'instructions');
+      return query.link(q, r'steps');
     });
   }
 
-  QueryBuilder<Recipe, Recipe, QAfterFilterCondition> instructionsLengthEqualTo(
+  QueryBuilder<Recipe, Recipe, QAfterFilterCondition> stepsLengthEqualTo(
       int length) {
     return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'instructions', length, true, length, true);
+      return query.linkLength(r'steps', length, true, length, true);
     });
   }
 
-  QueryBuilder<Recipe, Recipe, QAfterFilterCondition> instructionsIsEmpty() {
+  QueryBuilder<Recipe, Recipe, QAfterFilterCondition> stepsIsEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'instructions', 0, true, 0, true);
+      return query.linkLength(r'steps', 0, true, 0, true);
     });
   }
 
-  QueryBuilder<Recipe, Recipe, QAfterFilterCondition> instructionsIsNotEmpty() {
+  QueryBuilder<Recipe, Recipe, QAfterFilterCondition> stepsIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'instructions', 0, false, 999999, true);
+      return query.linkLength(r'steps', 0, false, 999999, true);
     });
   }
 
-  QueryBuilder<Recipe, Recipe, QAfterFilterCondition>
-      instructionsLengthLessThan(
+  QueryBuilder<Recipe, Recipe, QAfterFilterCondition> stepsLengthLessThan(
     int length, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'instructions', 0, true, length, include);
+      return query.linkLength(r'steps', 0, true, length, include);
     });
   }
 
-  QueryBuilder<Recipe, Recipe, QAfterFilterCondition>
-      instructionsLengthGreaterThan(
+  QueryBuilder<Recipe, Recipe, QAfterFilterCondition> stepsLengthGreaterThan(
     int length, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'instructions', length, include, 999999, true);
+      return query.linkLength(r'steps', length, include, 999999, true);
     });
   }
 
-  QueryBuilder<Recipe, Recipe, QAfterFilterCondition> instructionsLengthBetween(
+  QueryBuilder<Recipe, Recipe, QAfterFilterCondition> stepsLengthBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -756,7 +748,7 @@ extension RecipeQueryLinks on QueryBuilder<Recipe, Recipe, QFilterCondition> {
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.linkLength(
-          r'instructions', lower, includeLower, upper, includeUpper);
+          r'steps', lower, includeLower, upper, includeUpper);
     });
   }
 

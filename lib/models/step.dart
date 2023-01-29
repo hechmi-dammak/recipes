@@ -1,16 +1,16 @@
 import 'package:isar/isar.dart';
 
-part 'instruction.g.dart';
+part 'step.g.dart';
 
 @collection
-class Instruction {
+class Step {
   Id? id;
   @Index()
   int order;
-  String description;
+  String instruction;
 
-  Instruction({
-    this.description = '',
+  Step({
+    this.instruction = '',
     required this.order,
   });
 }

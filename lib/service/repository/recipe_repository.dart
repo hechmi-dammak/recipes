@@ -20,7 +20,7 @@ class RecipeRepository extends GetxService {
       await IsarService.isar.recipes.put(recipe);
       await recipe.picture.save();
       await recipe.category.save();
-      await recipe.instructions.save();
+      await recipe.steps.save();
       await recipe.ingredients.save();
     });
   }

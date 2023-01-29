@@ -1,5 +1,5 @@
 import 'package:isar/isar.dart';
-import 'package:recipes/models/instruction.dart';
+import 'package:recipes/models/step.dart';
 import 'package:recipes/models/picture.dart';
 import 'package:recipes/models/recipe_category.dart';
 import 'package:recipes/models/recipe_ingredient.dart';
@@ -14,7 +14,7 @@ class Recipe {
   String? description;
   final IsarLink<RecipeCategory> category;
   int servings;
-  final IsarLinks<Instruction> instructions;
+  final IsarLinks<Step> steps;
   final IsarLinks<RecipeIngredient> ingredients;
   final IsarLink<Picture> picture;
 
@@ -25,11 +25,11 @@ class Recipe {
     IsarLink<RecipeCategory>? category,
     this.servings = 4,
     IsarLinks<RecipeIngredient>? ingredients,
-    IsarLinks<Instruction>? instructions,
+    IsarLinks<Step>? steps,
     IsarLink<Picture>? picture,
   })  : category = category ?? IsarLink<RecipeCategory>(),
         ingredients = ingredients ?? IsarLinks<RecipeIngredient>(),
-        instructions = instructions ?? IsarLinks<Instruction>(),
+        steps = steps ?? IsarLinks<Step>(),
         picture = picture ?? IsarLink<Picture>();
 
   Recipe.fromCopy(Recipe recipe)
@@ -39,6 +39,6 @@ class Recipe {
         servings = recipe.servings,
         category = recipe.category,
         ingredients = recipe.ingredients,
-        instructions = recipe.instructions,
+        steps = recipe.steps,
         picture = recipe.picture;
 }
