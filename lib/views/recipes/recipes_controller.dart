@@ -3,7 +3,7 @@ import 'package:recipes/controller_decorator/controller.dart';
 import 'package:recipes/controller_decorator/controller_decorator.dart';
 import 'package:recipes/controller_decorator/decorators/image_picker_decorator.dart';
 import 'package:recipes/service/repository/recipe_repository.dart';
-import 'package:recipes/views/recipes/models/recipe_page_model.dart';
+import 'package:recipes/views/recipes/models/recipe_pm_recipes.dart';
 import 'package:recipes/widgets/common/snack_bar.dart';
 import 'package:recipes/widgets/project/upsert_element/controllers/upsert_recipe_controller.dart';
 import 'package:recipes/widgets/project/upsert_element/upsert_element_dialog.dart';
@@ -15,14 +15,14 @@ class RecipesController extends ControllerDecorator {
 
   factory RecipesController.create(
       {Controller? controller, required int categoryId}) {
-    final recipesCategoriesController =
+    final recipesController =
         RecipesController(controller: controller, categoryId: categoryId);
-    recipesCategoriesController.controller.child = recipesCategoriesController;
-    return recipesCategoriesController;
+    recipesController.controller.child = recipesController;
+    return recipesController;
   }
 
   final int categoryId;
-  List<RecipePageModel> recipes = [];
+  List<RecipePMRecipes> recipes = [];
 
   @override
   Future<void> loadData({bool callChild = true}) async {
@@ -70,28 +70,28 @@ class RecipesController extends ControllerDecorator {
     return getSelectedItems().length;
   }
 
-  Iterable<RecipePageModel> getSelectedItems() {
+  Iterable<RecipePMRecipes> getSelectedItems() {
     return recipes.where((recipe) => recipe.selected);
   }
 
   Future<void> fetchRecipes() async {
     recipes =
         (await RecipeRepository.find.findAllByRecipeCategoryId(categoryId))
-            .map((recipe) => RecipePageModel(recipe: recipe))
+            .map((recipe) => RecipePMRecipes(recipe: recipe))
             .toList();
     updateSelection();
   }
 
-  void goToRecipe(RecipePageModel recipe) {}
+  void goToRecipe(RecipePMRecipes recipe) {}
 
-  void selectRecipe(RecipePageModel recipe) {
+  void selectRecipe(RecipePMRecipes recipe) {
     recipe.selected = !recipe.selected;
     updateSelection();
   }
 
   Future<void> deleteSelectedRecipes() async {
     setLoading(true);
-    for (RecipePageModel recipe in getSelectedItems()) {
+    for (RecipePMRecipes recipe in getSelectedItems()) {
       await RecipeRepository.find.deleteById(recipe.id!);
     }
     await fetchData();

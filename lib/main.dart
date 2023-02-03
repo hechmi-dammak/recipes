@@ -4,10 +4,15 @@ import 'package:recipes/controller_decorator/decorators/selection_decorator.dart
 import 'package:recipes/helpers/theme.dart';
 import 'package:recipes/service/image_operations.dart';
 import 'package:recipes/service/isar_service.dart';
+import 'package:recipes/service/repository/ingredient_repository.dart';
 import 'package:recipes/service/repository/picture_repository.dart';
 import 'package:recipes/service/repository/recipe_category_repository.dart';
+import 'package:recipes/service/repository/recipe_ingredient_repository.dart';
 import 'package:recipes/service/repository/recipe_repository.dart';
+import 'package:recipes/service/repository/step_repository.dart';
 import 'package:recipes/service/utils_service.dart';
+import 'package:recipes/views/recipe/recipe_controller.dart';
+import 'package:recipes/views/recipe/recipe_page.dart';
 import 'package:recipes/views/recipe_categories/recipe_categories_controller.dart';
 import 'package:recipes/views/recipe_categories/recipe_categories_page.dart';
 import 'package:recipes/views/recipes/recipes_controller.dart';
@@ -52,6 +57,15 @@ class RecipesApp extends StatelessWidget {
                   categoryId: int.parse(Get.parameters['id'] ?? '')),
             ),
           ),
+          GetPage(
+            name: RecipePage.routeName,
+            page: () => const RecipePage(),
+            binding: BindingsBuilder.put(
+              () => RecipeController.create(
+                  controller: SelectionDecorator.create(),
+                  categoryId: int.parse(Get.parameters['id'] ?? '')),
+            ),
+          ),
         ],
       ),
     );
@@ -61,9 +75,10 @@ class RecipesApp extends StatelessWidget {
 class InitialBindings implements Bindings {
   @override
   void dependencies() async {
-    // Get.put(InstructionRepository());
+    Get.put(StepRepository());
     Get.put(PictureRepository());
-    // Get.put(IngredientRepository());
+    Get.put(IngredientRepository());
+    Get.put(RecipeIngredientRepository());
     Get.put(RecipeRepository());
     Get.put(UtilsService());
     Get.put(RecipeCategoryRepository());

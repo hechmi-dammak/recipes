@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:recipes/views/recipes/models/recipe_page_model.dart';
+import 'package:recipes/views/recipes/models/recipe_pm_recipes.dart';
 import 'package:recipes/views/recipes/recipes_controller.dart';
 import 'package:recipes/widgets/common/conditional_widget.dart';
 
 class RecipeCard extends GetView<RecipesController> {
   const RecipeCard({Key? key, required this.recipe}) : super(key: key);
-  final RecipePageModel recipe;
+  final RecipePMRecipes recipe;
   static const double borderWidth = 4;
   static const double borderRadius = 6.5;
 

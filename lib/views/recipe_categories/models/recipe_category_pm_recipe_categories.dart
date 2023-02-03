@@ -1,9 +1,9 @@
 import 'package:recipes/models/recipe_category.dart';
 
-class RecipeCategoryPageModel extends RecipeCategory {
-  bool selected = false;
+class RecipeCategoryPMRecipeCategories extends RecipeCategory {
+  bool selected;
 
-  RecipeCategoryPageModel(
+  RecipeCategoryPMRecipeCategories(
       {this.selected = false, required RecipeCategory recipeCategory})
       : super.fromCopy(recipeCategory);
 }

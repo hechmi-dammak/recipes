@@ -1,8 +1,8 @@
 import 'package:isar/isar.dart';
-import 'package:recipes/models/step.dart';
 import 'package:recipes/models/picture.dart';
 import 'package:recipes/models/recipe_category.dart';
 import 'package:recipes/models/recipe_ingredient.dart';
+import 'package:recipes/models/step.dart';
 
 part 'recipe.g.dart';
 

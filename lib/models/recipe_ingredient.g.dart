@@ -98,11 +98,12 @@ RecipeIngredient _recipeIngredientDeserialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = RecipeIngredient();
-  object.description = reader.readStringOrNull(offsets[0]);
-  object.id = id;
-  object.measuring = reader.readStringOrNull(offsets[1]);
-  object.quantity = reader.readDoubleOrNull(offsets[2]);
+  final object = RecipeIngredient(
+    description: reader.readStringOrNull(offsets[0]),
+    id: id,
+    measuring: reader.readStringOrNull(offsets[1]),
+    quantity: reader.readDoubleOrNull(offsets[2]),
+  );
   return object;
 }
 

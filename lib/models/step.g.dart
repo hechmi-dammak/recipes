@@ -48,7 +48,14 @@ const StepSchema = CollectionSchema(
       ],
     )
   },
-  links: {},
+  links: {
+    r'picture': LinkSchema(
+      id: -6648206405154287265,
+      name: r'picture',
+      target: r'Picture',
+      single: true,
+    )
+  },
   embeddedSchemas: {},
   getId: _stepGetId,
   getLinks: _stepGetLinks,
@@ -111,11 +118,12 @@ Id _stepGetId(Step object) {
 }
 
 List<IsarLinkBase<dynamic>> _stepGetLinks(Step object) {
-  return [];
+  return [object.picture];
 }
 
 void _stepAttach(IsarCollection<dynamic> col, Id id, Step object) {
   object.id = id;
+  object.picture.attach(col, col.isar.collection<Picture>(), r'picture', id);
 }
 
 extension StepQueryWhereSort on QueryBuilder<Step, Step, QWhere> {
@@ -543,7 +551,20 @@ extension StepQueryFilter on QueryBuilder<Step, Step, QFilterCondition> {
 
 extension StepQueryObject on QueryBuilder<Step, Step, QFilterCondition> {}
 
-extension StepQueryLinks on QueryBuilder<Step, Step, QFilterCondition> {}
+extension StepQueryLinks on QueryBuilder<Step, Step, QFilterCondition> {
+  QueryBuilder<Step, Step, QAfterFilterCondition> picture(
+      FilterQuery<Picture> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.link(q, r'picture');
+    });
+  }
+
+  QueryBuilder<Step, Step, QAfterFilterCondition> pictureIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'picture', 0, true, 0, true);
+    });
+  }
+}
 
 extension StepQuerySortBy on QueryBuilder<Step, Step, QSortBy> {
   QueryBuilder<Step, Step, QAfterSortBy> sortByInstruction() {

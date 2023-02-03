@@ -30,9 +30,7 @@ class RecipeCategoryRepository extends GetxService {
   }
 
   Future<RecipeCategory?> findById(
-    int? id, {
-    withPicture = true,
-  }) async {
+    int? id) async {
     if (id == null) return null;
     return IsarService.isar.recipeCategories.get(id);
   }

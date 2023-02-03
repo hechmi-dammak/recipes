@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:recipes/views/recipe_categories/models/recipe_category_page_model.dart';
+import 'package:recipes/views/recipe_categories/models/recipe_category_pm_recipe_categories.dart';
 import 'package:recipes/views/recipe_categories/recipe_categories_controller.dart';
 import 'package:recipes/views/recipe_categories/widgets/description_dialog.dart';
 import 'package:recipes/widgets/common/conditional_widget.dart';
@@ -9,7 +9,7 @@ import 'package:recipes/widgets/common/conditional_widget.dart';
 class RecipeCategoryCard extends GetView<RecipeCategoriesController> {
   const RecipeCategoryCard({Key? key, required this.recipeCategory})
       : super(key: key);
-  final RecipeCategoryPageModel recipeCategory;
+  final RecipeCategoryPMRecipeCategories recipeCategory;
   static const double borderWidth = 4;
   static const double borderRadius = 6.5;
 

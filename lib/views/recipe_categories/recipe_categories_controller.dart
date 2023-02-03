@@ -4,7 +4,7 @@ import 'package:recipes/controller_decorator/controller_decorator.dart';
 import 'package:recipes/controller_decorator/decorators/image_picker_decorator.dart';
 import 'package:recipes/helpers/getx_extension.dart';
 import 'package:recipes/service/repository/recipe_category_repository.dart';
-import 'package:recipes/views/recipe_categories/models/recipe_category_page_model.dart';
+import 'package:recipes/views/recipe_categories/models/recipe_category_pm_recipe_categories.dart';
 import 'package:recipes/views/recipes/recipes_page.dart';
 import 'package:recipes/widgets/common/snack_bar.dart';
 import 'package:recipes/widgets/project/upsert_element/controllers/upsert_recipe_category_controller.dart';
@@ -23,7 +23,7 @@ class RecipeCategoriesController extends ControllerDecorator {
     return recipesCategoriesController;
   }
 
-  List<RecipeCategoryPageModel> recipeCategories = [];
+  List<RecipeCategoryPMRecipeCategories> recipeCategories = [];
 
   @override
   Future<void> loadData({bool callChild = true}) async {
@@ -95,30 +95,30 @@ class RecipeCategoriesController extends ControllerDecorator {
   Future<void> fetchRecipeCategories() async {
     recipeCategories = (await RecipeCategoryRepository.find.findAll())
         .map((recipeCategory) =>
-            RecipeCategoryPageModel(recipeCategory: recipeCategory))
+            RecipeCategoryPMRecipeCategories(recipeCategory: recipeCategory))
         .toList();
     updateSelection();
   }
 
-  Future<void> selectCategory(RecipeCategoryPageModel recipeCategory) async {
+  Future<void> selectCategory(RecipeCategoryPMRecipeCategories recipeCategory) async {
     recipeCategory.selected = !recipeCategory.selected;
     updateSelection();
   }
 
   Future<void> deleteSelectedCategories() async {
     setLoading(true);
-    for (RecipeCategoryPageModel recipeCategory in getSelectedItems()) {
+    for (RecipeCategoryPMRecipeCategories recipeCategory in getSelectedItems()) {
       await RecipeCategoryRepository.find.deleteById(recipeCategory.id!);
     }
     await fetchData();
     CustomSnackBar.success('Selected Recipe Categories were deleted.'.tr);
   }
 
-  Iterable<RecipeCategoryPageModel> getSelectedItems() {
+  Iterable<RecipeCategoryPMRecipeCategories> getSelectedItems() {
     return recipeCategories.where((recipeCategory) => recipeCategory.selected);
   }
 
-  void goToRecipes(RecipeCategoryPageModel recipeCategory) {
+  void goToRecipes(RecipeCategoryPMRecipeCategories recipeCategory) {
     Get.toNamedWithPathParams(
       RecipesPage.routeName,
       pathParameters: {'id': recipeCategory.id.toString()},

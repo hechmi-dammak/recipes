@@ -7,9 +7,27 @@ part 'recipe_ingredient.g.dart';
 @collection
 class RecipeIngredient {
   Id? id;
-  final category = IsarLink<IngredientCategory>();
-  final ingredient = IsarLink<Ingredient>();
+  final IsarLink<IngredientCategory> category;
+  final IsarLink<Ingredient> ingredient;
   double? quantity;
   String? measuring;
   String? description;
+
+  RecipeIngredient({
+    this.id,
+    this.description,
+    this.measuring,
+    this.quantity,
+    IsarLink<Ingredient>? ingredient,
+    IsarLink<IngredientCategory>? category,
+  })  : ingredient = ingredient ?? IsarLink<Ingredient>(),
+        category = category ?? IsarLink<IngredientCategory>();
+
+  RecipeIngredient.fromCopy(RecipeIngredient recipeIngredient)
+      : id = recipeIngredient.id,
+        description = recipeIngredient.description,
+        measuring = recipeIngredient.measuring,
+        quantity = recipeIngredient.quantity,
+        ingredient = recipeIngredient.ingredient,
+        category = recipeIngredient.category;
 }
