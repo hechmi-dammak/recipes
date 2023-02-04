@@ -44,4 +44,9 @@ class RecipeController extends ControllerDecorator
   Future<void> fetchRecipe() async {
     recipe = await RecipeRepository.find.findById(recipeId);
   }
+
+  void changeTab(int index) {
+    tabController.index = index;
+    decoratorUpdate();
+  }
 }

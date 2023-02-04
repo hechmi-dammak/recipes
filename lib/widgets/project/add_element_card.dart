@@ -4,10 +4,14 @@ import 'package:recipes/widgets/common/svg_button.dart';
 
 class AddElementCard extends StatelessWidget {
   const AddElementCard(
-      {Key? key, required this.onTap, required this.semanticsLabel})
+      {Key? key,
+      required this.onTap,
+      required this.semanticsLabel,
+      this.height})
       : super(key: key);
   final VoidCallback onTap;
   final String semanticsLabel;
+  final double? height;
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +23,7 @@ class AddElementCard extends StatelessWidget {
       iconWidth: 30,
       iconColor: Get.theme.colorScheme.onTertiaryContainer,
       parentBuilder: (child) => Container(
+        height: height,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(6.5),
             color: Get.theme.colorScheme.tertiaryContainer),
