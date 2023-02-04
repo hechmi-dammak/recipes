@@ -20,7 +20,8 @@ class DialogBottom extends StatelessWidget {
             'assets/icons/confirm_icon.svg',
             fit: BoxFit.scaleDown,
             height: 25,
-            color: Get.theme.colorScheme.onPrimary,
+            colorFilter: ColorFilter.mode(
+                Get.theme.colorScheme.onPrimary, BlendMode.srcIn),
             width: 25,
           ),
           text: Text(
@@ -36,7 +37,8 @@ class DialogBottom extends StatelessWidget {
           icon: SvgPicture.asset(
             'assets/icons/cancel_icon.svg',
             fit: BoxFit.scaleDown,
-            color: Get.theme.colorScheme.onSecondary,
+            colorFilter: ColorFilter.mode(
+                Get.theme.colorScheme.onSecondary, BlendMode.srcIn),
             height: 25,
             width: 25,
           ),
@@ -73,6 +75,7 @@ class DialogButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Flexible(
       child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
         onTap: onTap,
         child: Container(
           height: 50,

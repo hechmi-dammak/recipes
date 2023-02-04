@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
-import 'package:recipes/controller_decorator/base_controller/base_contoller.dart';
-import 'package:recipes/controller_decorator/controller.dart';
-import 'package:recipes/controller_decorator/decorators/image_picker_decorator.dart';
+import 'package:recipes/decorator/decorators/data_fetching_decorator.dart';
+import 'package:recipes/decorator/decorators/image_picker_decorator.dart';
+import 'package:recipes/decorator/decorators/loading_decorator.dart';
 import 'package:recipes/models/recipe_category.dart';
 import 'package:recipes/service/repository/recipe_category_repository.dart';
 import 'package:recipes/widgets/project/upsert_element/controllers/upsert_element_controller.dart';
@@ -11,16 +11,16 @@ class UpsertRecipeCategoryController extends UpsertElementController {
       Get.find<UpsertRecipeCategoryController>();
   final int? id;
 
-  UpsertRecipeCategoryController(
-      {this.id, required super.controller, super.child});
+  UpsertRecipeCategoryController({this.id, super.controller, super.child});
 
   RecipeCategory recipeCategory = RecipeCategory();
 
-  factory UpsertRecipeCategoryController.create(
-      {int? id, Controller? controller}) {
+  factory UpsertRecipeCategoryController.create({int? id}) {
     final recipesCategoriesController = UpsertRecipeCategoryController(
         controller: ImagePickerDecorator.create(
-          controller: BaseController(),
+          controller: DataFetchingDecorator.create(
+            controller: LoadingDecorator.create(),
+          ),
         ),
         id: id);
     recipesCategoriesController.controller.child = recipesCategoriesController;

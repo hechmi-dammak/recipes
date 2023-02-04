@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
-import 'package:recipes/controller_decorator/controller.dart';
-import 'package:recipes/controller_decorator/controller_decorator.dart';
-import 'package:recipes/controller_decorator/decorators/image_picker_decorator.dart';
+import 'package:recipes/decorator/decorators.dart';
+import 'package:recipes/helpers/getx_extension.dart';
 import 'package:recipes/service/repository/recipe_repository.dart';
+import 'package:recipes/views/recipe/recipe_page.dart';
 import 'package:recipes/views/recipes/models/recipe_pm_recipes.dart';
 import 'package:recipes/widgets/common/snack_bar.dart';
 import 'package:recipes/widgets/project/upsert_element/controllers/upsert_recipe_controller.dart';
@@ -13,10 +13,14 @@ class RecipesController extends ControllerDecorator {
 
   static RecipesController get find => Get.find<RecipesController>();
 
-  factory RecipesController.create(
-      {Controller? controller, required int categoryId}) {
-    final recipesController =
-        RecipesController(controller: controller, categoryId: categoryId);
+  factory RecipesController.create({required int categoryId}) {
+    final recipesController = RecipesController(
+        controller: SelectionDecorator.create(
+          controller: DataFetchingDecorator.create(
+            controller: LoadingDecorator.create(),
+          ),
+        ),
+        categoryId: categoryId);
     recipesController.controller.child = recipesController;
     return recipesController;
   }
@@ -82,7 +86,12 @@ class RecipesController extends ControllerDecorator {
     updateSelection();
   }
 
-  void goToRecipe(RecipePMRecipes recipe) {}
+  void goToRecipe(RecipePMRecipes recipe) {
+    Get.toNamedWithPathParams(
+      RecipePage.routeName,
+      pathParameters: {'id': recipe.id.toString()},
+    );
+  }
 
   void selectRecipe(RecipePMRecipes recipe) {
     recipe.selected = !recipe.selected;
@@ -102,7 +111,6 @@ class RecipesController extends ControllerDecorator {
     final created = await UpsertElementDialog<UpsertRecipeController>(
       aspectRatio: 1,
       controller: UpsertRecipeController.create(
-        controller: ImagePickerDecorator.create(),
         categoryId: categoryId,
       ),
     ).show(false);
@@ -115,7 +123,6 @@ class RecipesController extends ControllerDecorator {
       aspectRatio: 1,
       controller: UpsertRecipeController.create(
         id: getSelectedItems().first.id,
-        controller: ImagePickerDecorator.create(),
         categoryId: categoryId,
       ),
     ).show(false);

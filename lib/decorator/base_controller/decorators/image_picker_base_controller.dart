@@ -1,5 +1,5 @@
 import 'package:image_picker/image_picker.dart';
-import 'package:recipes/controller_decorator/base_controller/selection_base_controller.dart';
+import 'package:recipes/decorator/base_controller/decorators/selection_base_controller.dart';
 import 'package:recipes/models/picture.dart';
 
 abstract class ImagePickerBaseController extends SelectionBaseController {

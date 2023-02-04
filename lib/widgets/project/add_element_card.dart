@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:recipes/widgets/common/svg_button.dart';
 
 class AddElementCard extends StatelessWidget {
   const AddElementCard(
@@ -11,20 +11,19 @@ class AddElementCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return SvgButton(
       onTap: onTap,
-      child: Container(
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(6.5),
-              color: Get.theme.colorScheme.tertiaryContainer),
-          child: Center(
-            child: SvgPicture.asset('assets/icons/big_plus_icon.svg',
-                color: Get.theme.colorScheme.onTertiaryContainer,
-                semanticsLabel: semanticsLabel,
-                height: 30,
-                width: 30,
-                fit: BoxFit.scaleDown),
-          )),
+      icon: 'assets/icons/big_plus_icon.svg',
+      center: true,
+      iconHeight: 30,
+      iconWidth: 30,
+      iconColor: Get.theme.colorScheme.onTertiaryContainer,
+      parentBuilder: (child) => Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(6.5),
+            color: Get.theme.colorScheme.tertiaryContainer),
+        child: child,
+      ),
     );
   }
 }

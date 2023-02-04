@@ -16,7 +16,7 @@ abstract class CustomDialog<T> extends StatelessWidget {
         body: GestureDetector(
             behavior: HitTestBehavior.opaque,
             onTap: () => close(defaultResult),
-            child: GestureDetector(onTap: () {}, child: this)),
+            child: GestureDetector(child: this)),
         backgroundColor: Colors.transparent));
   }
 

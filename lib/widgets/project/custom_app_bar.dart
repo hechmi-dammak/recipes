@@ -26,9 +26,17 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           bottom: false,
           child: ClipRect(
             child: NavigationToolbar(
-              leading: leading,
+              leading: ConstrainedBox(
+                constraints: const BoxConstraints.tightFor(
+                    width: kToolbarHeight, height: kToolbarHeight),
+                child: leading,
+              ),
               middle: title,
-              trailing: action,
+              trailing: ConstrainedBox(
+                constraints: const BoxConstraints.tightFor(
+                    width: kToolbarHeight, height: kToolbarHeight),
+                child: action,
+              ),
             ),
           ),
         ),

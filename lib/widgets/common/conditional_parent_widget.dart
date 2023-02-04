@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+typedef ParentChildBuilder = Widget Function(Widget child);
+
 class ConditionalParentWidget extends StatelessWidget {
   const ConditionalParentWidget({
     super.key,
@@ -12,7 +14,7 @@ class ConditionalParentWidget extends StatelessWidget {
 
   final bool condition;
 
-  final Widget Function(Widget child) parentBuilder;
+  final ParentChildBuilder parentBuilder;
 
   @override
   Widget build(BuildContext context) {

@@ -13,6 +13,7 @@ class RecipeCard extends GetView<RecipesController> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onTap: () {
         if (controller.getSelectionIsActive()) {
           controller.selectRecipe(recipe);
@@ -41,7 +42,8 @@ class RecipeCard extends GetView<RecipesController> {
               Align(
                 alignment: Alignment.bottomCenter,
                 child: Container(
-                    margin: const EdgeInsets.only(left: 10, right: 10, bottom: 20),
+                    margin:
+                        const EdgeInsets.only(left: 10, right: 10, bottom: 20),
                     padding: const EdgeInsets.symmetric(
                         vertical: 10, horizontal: 12),
                     width: double.infinity,
@@ -50,7 +52,8 @@ class RecipeCard extends GetView<RecipesController> {
                         borderRadius: const BorderRadius.all(
                           Radius.circular(20),
                         )),
-                    child: Text(recipe.name,textAlign: TextAlign.center,
+                    child: Text(recipe.name,
+                        textAlign: TextAlign.center,
                         style: Get.textTheme.headlineMedium?.copyWith(
                             color: Get.theme.colorScheme.onPrimaryContainer,
                             overflow: TextOverflow.ellipsis))),

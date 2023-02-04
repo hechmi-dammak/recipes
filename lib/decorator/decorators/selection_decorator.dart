@@ -1,5 +1,5 @@
-import 'package:recipes/controller_decorator/controller.dart';
-import 'package:recipes/controller_decorator/controller_decorator.dart';
+import 'package:recipes/decorator/controller.dart';
+import 'package:recipes/decorator/controller_decorator.dart';
 
 class SelectionDecorator extends ControllerDecorator {
   SelectionDecorator({super.controller});
@@ -60,6 +60,15 @@ class SelectionDecorator extends ControllerDecorator {
   }
 
   @override
+  void toggleSelectAllValue({bool value = false, callChild = true}) {
+    if (child != null && callChild) {
+      child!.toggleSelectAllValue();
+      return;
+    }
+    setSelectAllValue(value: !getAllItemsSelected());
+  }
+
+  @override
   void setSelectAllValue({bool value = false, callChild = true}) {
     if (child != null && callChild) {
       child!.setSelectAllValue(value: value);
@@ -67,29 +76,5 @@ class SelectionDecorator extends ControllerDecorator {
     }
     updateSelection();
     decoratorUpdate();
-  }
-
-  @override
-  int selectionCount({callChild = true}) {
-    if (child != null && callChild) {
-      return child!.selectionCount();
-    }
-    throw UnimplementedError();
-  }
-
-  @override
-  bool allItemsSelectedFallBack({callChild = true}) {
-    if (child != null && callChild) {
-      return child!.allItemsSelectedFallBack();
-    }
-    throw UnimplementedError();
-  }
-
-  @override
-  bool selectionIsActiveFallBack({callChild = true}) {
-    if (child != null && callChild) {
-      return child!.selectionIsActiveFallBack();
-    }
-    throw UnimplementedError();
   }
 }

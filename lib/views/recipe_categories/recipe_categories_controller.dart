@@ -1,7 +1,5 @@
 import 'package:get/get.dart';
-import 'package:recipes/controller_decorator/controller.dart';
-import 'package:recipes/controller_decorator/controller_decorator.dart';
-import 'package:recipes/controller_decorator/decorators/image_picker_decorator.dart';
+import 'package:recipes/decorator/decorators.dart';
 import 'package:recipes/helpers/getx_extension.dart';
 import 'package:recipes/service/repository/recipe_category_repository.dart';
 import 'package:recipes/views/recipe_categories/models/recipe_category_pm_recipe_categories.dart';
@@ -11,14 +9,18 @@ import 'package:recipes/widgets/project/upsert_element/controllers/upsert_recipe
 import 'package:recipes/widgets/project/upsert_element/upsert_element_dialog.dart';
 
 class RecipeCategoriesController extends ControllerDecorator {
-  RecipeCategoriesController({required super.controller, super.child});
+  RecipeCategoriesController({super.controller, super.child});
 
   static RecipeCategoriesController get find =>
       Get.find<RecipeCategoriesController>();
 
-  factory RecipeCategoriesController.create({required Controller controller}) {
-    final recipesCategoriesController =
-        RecipeCategoriesController(controller: controller);
+  factory RecipeCategoriesController.create() {
+    final recipesCategoriesController = RecipeCategoriesController(
+        controller: SelectionDecorator.create(
+      controller: DataFetchingDecorator.create(
+        controller: LoadingDecorator.create(),
+      ),
+    ));
     recipesCategoriesController.controller.child = recipesCategoriesController;
     return recipesCategoriesController;
   }
@@ -74,9 +76,7 @@ class RecipeCategoriesController extends ControllerDecorator {
 
   Future<void> addRecipeCategory() async {
     final created = await UpsertElementDialog<UpsertRecipeCategoryController>(
-      controller: UpsertRecipeCategoryController.create(
-        controller: ImagePickerDecorator.create(),
-      ),
+      controller: UpsertRecipeCategoryController.create(),
     ).show(false);
     if (created ?? false) await fetchData();
   }
@@ -85,9 +85,7 @@ class RecipeCategoriesController extends ControllerDecorator {
     if (selectionCount() != 1) return;
     final updated = await UpsertElementDialog<UpsertRecipeCategoryController>(
       controller: UpsertRecipeCategoryController.create(
-        id: getSelectedItems().first.id,
-        controller: ImagePickerDecorator.create(),
-      ),
+          id: getSelectedItems().first.id),
     ).show(false);
     if (updated ?? false) await fetchData();
   }
@@ -100,14 +98,16 @@ class RecipeCategoriesController extends ControllerDecorator {
     updateSelection();
   }
 
-  Future<void> selectCategory(RecipeCategoryPMRecipeCategories recipeCategory) async {
+  Future<void> selectCategory(
+      RecipeCategoryPMRecipeCategories recipeCategory) async {
     recipeCategory.selected = !recipeCategory.selected;
     updateSelection();
   }
 
   Future<void> deleteSelectedCategories() async {
     setLoading(true);
-    for (RecipeCategoryPMRecipeCategories recipeCategory in getSelectedItems()) {
+    for (RecipeCategoryPMRecipeCategories recipeCategory
+        in getSelectedItems()) {
       await RecipeCategoryRepository.find.deleteById(recipeCategory.id!);
     }
     await fetchData();

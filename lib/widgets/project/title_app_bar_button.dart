@@ -16,8 +16,8 @@ class TitleAppBarButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
       behavior: HitTestBehavior.opaque,
+      onTap: onTap,
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [

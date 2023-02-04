@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
-import 'package:recipes/controller_decorator/controller.dart';
+import 'package:recipes/decorator/controller.dart';
+import 'package:recipes/decorator/decorators.dart';
 import 'package:recipes/models/recipe.dart';
 import 'package:recipes/service/repository/recipe_category_repository.dart';
 import 'package:recipes/service/repository/recipe_repository.dart';
@@ -19,7 +20,13 @@ class UpsertRecipeController extends UpsertElementController {
   factory UpsertRecipeController.create(
       {int? id, required int categoryId, Controller? controller}) {
     final recipesCategoriesController = UpsertRecipeController(
-        controller: controller, id: id, categoryId: categoryId);
+        controller: ImagePickerDecorator.create(
+          controller: DataFetchingDecorator.create(
+            controller: LoadingDecorator.create(),
+          ),
+        ),
+        id: id,
+        categoryId: categoryId);
     recipesCategoriesController.controller.child = recipesCategoriesController;
     recipesCategoriesController.initState(null);
     return recipesCategoriesController;

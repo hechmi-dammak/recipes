@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:recipes/controller_decorator/controller.dart';
+import 'package:recipes/decorator/controller.dart';
 import 'package:recipes/widgets/common/conditional_widget.dart';
+import 'package:recipes/widgets/common/svg_button.dart';
 
 class ImagePickerFormDialog<T extends Controller> extends StatelessWidget {
   const ImagePickerFormDialog({Key? key, this.aspectRatio = 2})
@@ -48,45 +48,38 @@ class ImagePickerFormDialog<T extends Controller> extends StatelessWidget {
                         ),
                       ),
                       Positioned(
-                          top: 10,
-                          right: 10,
-                          child: GestureDetector(
-                            onTap: controller.clearImage,
-                            child: Container(
-                              width: 32,
-                              height: 32,
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Get.theme.colorScheme.secondary),
-                              child: SvgPicture.asset(
-                                  'assets/icons/trash_icon.svg',
-                                  fit: BoxFit.scaleDown,
-                                  height: 16,
-                                  width: 14,
-                                  color: Get.theme.colorScheme.onSecondary),
-                            ),
-                          ))
+                        top: 10,
+                        right: 10,
+                        child: SvgButton(
+                          onTap: controller.clearImage,
+                          icon: 'assets/icons/trash_icon.svg',
+                          iconHeight: 16,
+                          iconWidth: 14,
+                          iconColor: Get.theme.colorScheme.onSecondary,
+                          parentBuilder: (child) => Container(
+                            width: 32,
+                            height: 32,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Get.theme.colorScheme.secondary),
+                            child: child,
+                          ),
+                        ),
+                      )
                     ],
                   ),
                 ),
                 child: (context) => Row(
                   children: [
                     Flexible(
-                      child: GestureDetector(
-                        behavior: HitTestBehavior.opaque,
+                      child: SvgButton(
                         onTap: () => controller.pickImage(ImageSource.gallery,
                             aspectRatio: aspectRatio),
-                        child: SizedBox(
-                          // width: double.infinity,
-                          child: Center(
-                            child: SvgPicture.asset(
-                              'assets/icons/gallery_icon.svg',
-                              color: Get.theme.colorScheme.secondary,
-                              height: 30,
-                              width: 40,
-                            ),
-                          ),
-                        ),
+                        icon: 'assets/icons/gallery_icon.svg',
+                        center: true,
+                        iconColor: Get.theme.colorScheme.secondary,
+                        iconHeight: 30,
+                        iconWidth: 40,
                       ),
                     ),
                     VerticalDivider(
@@ -97,20 +90,14 @@ class ImagePickerFormDialog<T extends Controller> extends StatelessWidget {
                       color: Get.theme.colorScheme.secondary,
                     ),
                     Flexible(
-                      child: GestureDetector(
-                        behavior: HitTestBehavior.opaque,
+                      child: SvgButton(
                         onTap: () => controller.pickImage(ImageSource.camera,
                             aspectRatio: aspectRatio),
-                        child: SizedBox(
-                          child: Center(
-                            child: SvgPicture.asset(
-                              'assets/icons/camera_icon.svg',
-                              color: Get.theme.colorScheme.secondary,
-                              height: 30,
-                              width: 40,
-                            ),
-                          ),
-                        ),
+                        icon: 'assets/icons/camera_icon.svg',
+                        center: true,
+                        iconColor: Get.theme.colorScheme.secondary,
+                        iconHeight: 30,
+                        iconWidth: 40,
                       ),
                     )
                   ],

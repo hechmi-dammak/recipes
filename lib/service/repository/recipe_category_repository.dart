@@ -29,8 +29,7 @@ class RecipeCategoryRepository extends GetxService {
         .writeTxn(() => IsarService.isar.recipeCategories.delete(id));
   }
 
-  Future<RecipeCategory?> findById(
-    int? id) async {
+  Future<RecipeCategory?> findById(int? id) async {
     if (id == null) return null;
     return IsarService.isar.recipeCategories.get(id);
   }

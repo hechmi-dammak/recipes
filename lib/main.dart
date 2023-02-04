@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:recipes/controller_decorator/decorators/selection_decorator.dart';
 import 'package:recipes/helpers/theme.dart';
 import 'package:recipes/service/image_operations.dart';
 import 'package:recipes/service/isar_service.dart';
@@ -44,8 +43,7 @@ class RecipesApp extends StatelessWidget {
             name: RecipeCategoriesPage.routeName,
             page: () => const RecipeCategoriesPage(),
             binding: BindingsBuilder.put(
-              () => RecipeCategoriesController.create(
-                  controller: SelectionDecorator.create()),
+              () => RecipeCategoriesController.create(),
             ),
           ),
           GetPage(
@@ -53,7 +51,6 @@ class RecipesApp extends StatelessWidget {
             page: () => const RecipesPage(),
             binding: BindingsBuilder.put(
               () => RecipesController.create(
-                  controller: SelectionDecorator.create(),
                   categoryId: int.parse(Get.parameters['id'] ?? '')),
             ),
           ),
@@ -62,7 +59,6 @@ class RecipesApp extends StatelessWidget {
             page: () => const RecipePage(),
             binding: BindingsBuilder.put(
               () => RecipeController.create(
-                  controller: SelectionDecorator.create(),
                   categoryId: int.parse(Get.parameters['id'] ?? '')),
             ),
           ),

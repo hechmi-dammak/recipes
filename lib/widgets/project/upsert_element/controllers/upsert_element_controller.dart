@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:recipes/controller_decorator/controller_decorator.dart';
+import 'package:recipes/decorator/controller_decorator.dart';
 
 abstract class UpsertElementController extends ControllerDecorator {
-  UpsertElementController({super.controller,super.child});
+  UpsertElementController({super.controller, super.child});
 
   static UpsertElementController get find =>
       Get.find<UpsertElementController>();

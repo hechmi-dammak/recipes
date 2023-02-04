@@ -1,4 +1,4 @@
-import 'package:recipes/controller_decorator/base_controller/data_fetching_base_controller.dart';
+import 'package:recipes/decorator/base_controller/decorators/data_fetching_base_controller.dart';
 
 abstract class SelectionBaseController extends DataFetchingBaseController {
   @override
@@ -43,6 +43,11 @@ abstract class SelectionBaseController extends DataFetchingBaseController {
 
   @override
   int selectionCount({callChild = true}) {
+    throw UnimplementedError();
+  }
+
+  @override
+  void toggleSelectAllValue({bool callChild = true}) {
     throw UnimplementedError();
   }
 }

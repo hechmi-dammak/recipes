@@ -1,7 +1,7 @@
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:recipes/controller_decorator/controller.dart';
-import 'package:recipes/controller_decorator/controller_decorator.dart';
+import 'package:recipes/decorator/controller.dart';
+import 'package:recipes/decorator/controller_decorator.dart';
 import 'package:recipes/models/picture.dart';
 import 'package:recipes/service/image_operations.dart';
 

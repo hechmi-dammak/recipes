@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:recipes/controller_decorator/base_controller/base_contoller.dart';
-import 'package:recipes/controller_decorator/controller.dart';
+import 'package:recipes/decorator/base_controller/base_controller.dart';
+import 'package:recipes/decorator/controller.dart';
 import 'package:recipes/models/picture.dart';
 
 abstract class ControllerDecorator extends Controller {
@@ -109,6 +109,15 @@ abstract class ControllerDecorator extends Controller {
       return child!.selectionIsActiveFallBack();
     }
     return controller.selectionIsActiveFallBack(callChild: false);
+  }
+
+  @override
+  void toggleSelectAllValue({bool callChild = true}) {
+    if (child != null && callChild) {
+      child!.toggleSelectAllValue();
+      return;
+    }
+    controller.toggleSelectAllValue(callChild: false);
   }
 
   @override

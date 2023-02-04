@@ -34,7 +34,9 @@ class UpsertElementDialog<T extends UpsertElementController>
                             topLeft: Radius.circular(6.5))),
                     padding: const EdgeInsets.all(30),
                     child: SingleChildScrollView(
-                      child: AddElementForm<T>(aspectRatio: aspectRatio,),
+                      child: AddElementForm<T>(
+                        aspectRatio: aspectRatio,
+                      ),
                     ),
                   ),
                 ),
@@ -51,7 +53,7 @@ class UpsertElementDialog<T extends UpsertElementController>
 
 class AddElementForm<T extends UpsertElementController>
     extends StatelessWidget {
-  const AddElementForm({Key? key,  this.aspectRatio=2}) : super(key: key);
+  const AddElementForm({Key? key, this.aspectRatio = 2}) : super(key: key);
   final double aspectRatio;
 
   @override
@@ -87,7 +89,9 @@ class AddElementForm<T extends UpsertElementController>
               decoration: CustomInputDecoration(),
             ),
             const SizedBox(height: 15),
-            ImagePickerFormDialog<T>(aspectRatio:aspectRatio,)
+            ImagePickerFormDialog<T>(
+              aspectRatio: aspectRatio,
+            )
           ],
         ),
       );

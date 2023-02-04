@@ -25,8 +25,7 @@ class RecipeRepository extends GetxService {
     });
   }
 
-  Future<Recipe?> findById(
-    int? id) async {
+  Future<Recipe?> findById(int? id) async {
     if (id == null) return null;
     return IsarService.isar.recipes.get(id);
   }
@@ -66,5 +65,4 @@ class RecipeRepository extends GetxService {
 //     whereArgs: [recipeCategoryId],
 //   );
 // }
-
 }
