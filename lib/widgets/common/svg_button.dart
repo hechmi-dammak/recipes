@@ -12,11 +12,13 @@ class SvgButton extends StatelessWidget {
       this.iconWidth = 20,
       this.iconHeight = 20,
       this.iconColor,
-      this.parentBuilder});
+      this.parentBuilder,
+      this.scaleDown = true});
 
   final VoidCallback onTap;
   final String icon;
   final bool center;
+  final bool scaleDown;
   final double iconWidth;
   final double iconHeight;
   final Color? iconColor;
@@ -44,7 +46,7 @@ class SvgButton extends StatelessWidget {
             icon,
             height: iconHeight,
             width: iconWidth,
-            fit: BoxFit.scaleDown,
+            fit: scaleDown ? BoxFit.scaleDown : BoxFit.contain,
             colorFilter: iconColor != null
                 ? ColorFilter.mode(iconColor!, BlendMode.srcIn)
                 : null,

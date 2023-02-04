@@ -8,6 +8,10 @@ abstract class CustomPage<T extends Controller> extends StatelessWidget {
 
   Widget bodyBuilder(T controller, BuildContext context);
 
+  Widget? bottomNavigationBar(T controller, BuildContext context) {
+    return null;
+  }
+
   PreferredSizeWidget? appBarBuilder(T controller, BuildContext context) {
     return null;
   }
@@ -18,6 +22,7 @@ abstract class CustomPage<T extends Controller> extends StatelessWidget {
         initState: Get.find<T>().initState,
         builder: (controller) {
           return Scaffold(
+            bottomNavigationBar: bottomNavigationBar(controller, context),
             appBar: appBarBuilder(controller, context),
             body: SafeArea(
                 child: LoadingWidget(

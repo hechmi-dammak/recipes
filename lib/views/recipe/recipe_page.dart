@@ -18,7 +18,19 @@ class RecipePage extends CustomPage<RecipeController> {
       children: const [IngredientsTab(), StepsTab()],
     );
   }
-
+  @override
+  Widget? bottom(
+      RecipeController controller, BuildContext context) {
+    return AppBar(
+      centerTitle: true,
+      leading: SvgButton.backButton(),
+      title: Text(
+        controller.recipe?.name ?? '',
+        style: Get.textTheme.headlineLarge
+            ?.copyWith(color: Get.theme.colorScheme.onPrimary),
+      ),
+    );
+  }
   @override
   PreferredSizeWidget? appBarBuilder(
       RecipeController controller, BuildContext context) {

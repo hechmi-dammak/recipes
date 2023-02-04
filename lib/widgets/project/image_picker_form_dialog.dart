@@ -80,6 +80,7 @@ class ImagePickerFormDialog<T extends Controller> extends StatelessWidget {
                         iconColor: Get.theme.colorScheme.secondary,
                         iconHeight: 30,
                         iconWidth: 40,
+                        scaleDown: false,
                       ),
                     ),
                     VerticalDivider(
@@ -98,6 +99,7 @@ class ImagePickerFormDialog<T extends Controller> extends StatelessWidget {
                         iconColor: Get.theme.colorScheme.secondary,
                         iconHeight: 30,
                         iconWidth: 40,
+                        scaleDown: false,
                       ),
                     )
                   ],
