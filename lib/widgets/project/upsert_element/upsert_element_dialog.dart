@@ -19,7 +19,7 @@ class UpsertElementDialog<T extends UpsertElementController>
         init: controller,
         builder: (controller) {
           return LoadingWidget(
-            loading: controller.getLoading(),
+            loading: controller.loading,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -40,7 +40,7 @@ class UpsertElementDialog<T extends UpsertElementController>
                 ),
                 DialogBottom(
                   onConfirm: () => controller.confirm(close),
-                  onCancel: () => close(false, true),
+                  onCancel: () => controller.cancel(close),
                 )
               ],
             ),

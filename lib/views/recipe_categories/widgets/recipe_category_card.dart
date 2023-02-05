@@ -17,7 +17,7 @@ class RecipeCategoryCard extends GetView<RecipeCategoriesController> {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
-        if (controller.getSelectionIsActive()) {
+        if (controller.selectionIsActive) {
           controller.selectCategory(recipeCategory);
           return;
         }

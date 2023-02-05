@@ -1,6 +1,4 @@
 import 'package:get/get.dart';
-import 'package:recipes/decorator/decorators/data_fetching_decorator.dart';
-import 'package:recipes/decorator/decorators/loading_decorator.dart';
 import 'package:recipes/helpers/form_validators.dart';
 import 'package:recipes/models/recipe_category.dart';
 import 'package:recipes/service/repository/recipe_category_repository.dart';
@@ -11,43 +9,24 @@ class UpsertRecipeCategoryController extends UpsertElementController {
   static UpsertRecipeCategoryController get find =>
       Get.find<UpsertRecipeCategoryController>();
   final int? id;
-
-  UpsertRecipeCategoryController(
-      {this.id, super.controller, super.child, required super.formFields});
-
   RecipeCategory recipeCategory = RecipeCategory();
 
-  factory UpsertRecipeCategoryController.create({int? id}) {
-    final recipesCategoriesController = UpsertRecipeCategoryController(
-        controller: DataFetchingDecorator.create(
-          controller: LoadingDecorator.create(),
-        ),
-        id: id,
-        formFields: [
-          TextUpsertFormField(
-              name: 'name',
-              label: 'Name :'.tr,
-              validator: FormValidators.notEmptyOrNullValidator),
-          TextUpsertFormField(
-            name: 'description',
-            label: 'Description :'.tr,
-          ),
-          PictureUpsertFormField(name: 'picture')
-        ]);
-    recipesCategoriesController.controller.child = recipesCategoriesController;
-
-    recipesCategoriesController.initState(null);
-    return recipesCategoriesController;
+  UpsertRecipeCategoryController({this.id}) {
+    formFields = [
+      TextUpsertFormField(
+          name: 'name',
+          label: 'Name :'.tr,
+          validator: FormValidators.notEmptyOrNullValidator),
+      TextUpsertFormField(
+          name: 'description', label: 'Description :'.tr, maxLines: null),
+      PictureUpsertFormField(name: 'picture')
+    ];
+    initState(null);
   }
 
   @override
-  Future<void> loadData({bool callChild = true}) async {
-    if (child != null && callChild) {
-      await child!.loadData();
-      return;
-    }
-    await Future.wait(
-        [super.loadData(callChild: false), fetchRecipeCategories()]);
+  Future<void> loadData() async {
+    await Future.wait([super.loadData(), fetchRecipeCategories()]);
   }
 
   Future<void> fetchRecipeCategories() async {

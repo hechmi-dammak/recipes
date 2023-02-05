@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:recipes/decorator/controller.dart';
+import 'package:recipes/decorator/decorators.dart';
 import 'package:recipes/widgets/common/loading_widget.dart';
 
 abstract class CustomPage<T extends Controller> extends StatelessWidget {
@@ -27,7 +27,7 @@ abstract class CustomPage<T extends Controller> extends StatelessWidget {
             appBar: appBarBuilder(controller, context),
             body: SafeArea(
                 child: LoadingWidget(
-                    loading: controller.getLoading(),
+                    loading: controller.loading,
                     child: RefreshIndicator(
                         onRefresh: controller.fetchData,
                         child: bodyBuilder(controller, context)))),

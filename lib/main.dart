@@ -43,14 +43,14 @@ class RecipesApp extends StatelessWidget {
             name: RecipeCategoriesPage.routeName,
             page: () => const RecipeCategoriesPage(),
             binding: BindingsBuilder.put(
-              () => RecipeCategoriesController.create(),
+              () => RecipeCategoriesController(),
             ),
           ),
           GetPage(
             name: RecipesPage.routeName,
             page: () => const RecipesPage(),
             binding: BindingsBuilder.put(
-              () => RecipesController.create(
+              () => RecipesController(
                   categoryId: int.parse(Get.parameters['id'] ?? '')),
             ),
           ),
@@ -58,8 +58,8 @@ class RecipesApp extends StatelessWidget {
             name: RecipePage.routeName,
             page: () => const RecipePage(),
             binding: BindingsBuilder.put(
-              () => RecipeController.create(
-                  categoryId: int.parse(Get.parameters['id'] ?? '')),
+              () => RecipeController(
+                  recipeId: int.parse(Get.parameters['id'] ?? '')),
             ),
           ),
         ],

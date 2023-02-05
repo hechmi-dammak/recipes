@@ -8,71 +8,38 @@ import 'package:recipes/widgets/common/snack_bar.dart';
 import 'package:recipes/widgets/project/upsert_element/controllers/upsert_recipe_controller.dart';
 import 'package:recipes/widgets/project/upsert_element/upsert_element_dialog.dart';
 
-class RecipesController extends ControllerDecorator {
-  RecipesController({super.controller, super.child, required this.categoryId});
+class RecipesController extends BaseController
+    with SelectionDecorator, DataFetchingDecorator, LoadingDecorator {
+  RecipesController({required this.categoryId});
 
   static RecipesController get find => Get.find<RecipesController>();
-
-  factory RecipesController.create({required int categoryId}) {
-    final recipesController = RecipesController(
-        controller: SelectionDecorator.create(
-          controller: DataFetchingDecorator.create(
-            controller: LoadingDecorator.create(),
-          ),
-        ),
-        categoryId: categoryId);
-    recipesController.controller.child = recipesController;
-    return recipesController;
-  }
 
   final int categoryId;
   List<RecipePMRecipes> recipes = [];
 
   @override
-  Future<void> loadData({bool callChild = true}) async {
-    if (child != null && callChild) {
-      await child!.loadData();
-      return;
-    }
-    await Future.wait([super.loadData(callChild: false), fetchRecipes()]);
+  Future<void> loadData() async {
+    await Future.wait([super.loadData(), fetchRecipes()]);
   }
 
   @override
-  void setSelectAllValue({bool value = false, callChild = true}) {
-    if (child != null && callChild) {
-      child!.setSelectAllValue(value: value);
-      return;
-    }
-
+  void setSelectAllValue([bool value = false]) {
     for (var recipe in recipes) {
       recipe.selected = value;
     }
-    super.setSelectAllValue(value: value, callChild: false);
+    super.setSelectAllValue(value);
   }
 
   @override
-  bool selectionIsActiveFallBack({bool callChild = true}) {
-    if (child != null && callChild) {
-      return child!.selectionIsActiveFallBack();
-    }
-    return recipes.any((recipe) => recipe.selected);
-  }
+  bool get selectionIsActiveFallBack =>
+      recipes.any((recipe) => recipe.selected);
 
   @override
-  bool allItemsSelectedFallBack({bool callChild = true}) {
-    if (child != null && callChild) {
-      return child!.allItemsSelectedFallBack();
-    }
-    return recipes.every((recipe) => recipe.selected);
-  }
+  bool get allItemsSelectedFallBack =>
+      recipes.every((recipe) => recipe.selected);
 
   @override
-  int selectionCount({callChild = true}) {
-    if (child != null && callChild) {
-      return child!.selectionCount();
-    }
-    return getSelectedItems().length;
-  }
+  int get selectionCount => getSelectedItems().length;
 
   Iterable<RecipePMRecipes> getSelectedItems() {
     return recipes.where((recipe) => recipe.selected);
@@ -99,7 +66,7 @@ class RecipesController extends ControllerDecorator {
   }
 
   Future<void> deleteSelectedRecipes() async {
-    setLoading(true);
+    loading = true;
     for (RecipePMRecipes recipe in getSelectedItems()) {
       await RecipeRepository.find.deleteById(recipe.id!);
     }
@@ -110,7 +77,7 @@ class RecipesController extends ControllerDecorator {
   Future<void> addRecipe() async {
     final created = await UpsertElementDialog<UpsertRecipeController>(
       aspectRatio: 1,
-      controller: UpsertRecipeController.create(
+      controller: UpsertRecipeController(
         categoryId: categoryId,
       ),
     ).show(false);
@@ -118,10 +85,10 @@ class RecipesController extends ControllerDecorator {
   }
 
   Future<void> editRecipe() async {
-    if (selectionCount() != 1) return;
+    if (selectionCount != 1) return;
     final updated = await UpsertElementDialog<UpsertRecipeController>(
       aspectRatio: 1,
-      controller: UpsertRecipeController.create(
+      controller: UpsertRecipeController(
         id: getSelectedItems().first.id,
         categoryId: categoryId,
       ),

@@ -19,13 +19,13 @@ class RecipesPage extends CustomPage<RecipesController> {
   @override
   PreferredSizeWidget? appBarBuilder(
       RecipesController controller, BuildContext context) {
-    return controller.getSelectionIsActive()
+    return controller.selectionIsActive
         ? CustomAppBar(
             leading: SvgButton.backButton(
               onTap: controller.setSelectAllValue,
             ),
             action: SelectAllButton(
-                allItemsSelected: controller.getAllItemsSelected(),
+                allItemsSelected: controller.allItemsSelected,
                 onTap: controller.toggleSelectAllValue),
             title: Row(
               mainAxisSize: MainAxisSize.min,
@@ -38,7 +38,7 @@ class RecipesPage extends CustomPage<RecipesController> {
                   },
                 ),
                 HiddenTitleButton(
-                    hidden: controller.selectionCount() != 1,
+                    hidden: controller.selectionCount != 1,
                     child: TitleAppBarButton(
                         title: 'Edit'.tr,
                         icon: 'assets/icons/edit_icon.svg',

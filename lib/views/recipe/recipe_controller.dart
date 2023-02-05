@@ -3,24 +3,18 @@ import 'package:get/get.dart';
 import 'package:recipes/decorator/decorators.dart';
 import 'package:recipes/models/recipe.dart';
 import 'package:recipes/service/repository/recipe_repository.dart';
+import 'package:recipes/widgets/project/upsert_element/controllers/upsert_step_controller.dart';
+import 'package:recipes/widgets/project/upsert_element/upsert_element_dialog.dart';
 
-class RecipeController extends ControllerDecorator
-    with GetSingleTickerProviderStateMixin {
-  RecipeController({super.controller, required this.recipeId});
+class RecipeController extends BaseController
+    with
+        GetSingleTickerProviderStateMixin,
+        SelectionDecorator,
+        DataFetchingDecorator,
+        LoadingDecorator {
+  RecipeController({required this.recipeId});
 
   static RecipeController get find => Get.find<RecipeController>();
-
-  factory RecipeController.create({required int categoryId}) {
-    final recipeController = RecipeController(
-        controller: SelectionDecorator.create(
-          controller: DataFetchingDecorator.create(
-            controller: LoadingDecorator.create(),
-          ),
-        ),
-        recipeId: categoryId);
-    recipeController.controller.child = recipeController;
-    return recipeController;
-  }
 
   @override
   void onInit() {
@@ -33,12 +27,8 @@ class RecipeController extends ControllerDecorator
   late TabController tabController;
 
   @override
-  Future<void> loadData({bool callChild = true}) async {
-    if (child != null && callChild) {
-      await child!.loadData();
-      return;
-    }
-    await Future.wait([super.loadData(callChild: false), fetchRecipe()]);
+  Future<void> loadData() async {
+    await Future.wait([super.loadData(), fetchRecipe()]);
   }
 
   Future<void> fetchRecipe() async {
@@ -47,6 +37,22 @@ class RecipeController extends ControllerDecorator
 
   void changeTab(int index) {
     tabController.index = index;
-    decoratorUpdate();
+    update();
+  }
+
+  @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
+  }
+
+  Future<void> addStep() async {
+    final created = await UpsertElementDialog<UpsertStepController>(
+      aspectRatio: 1,
+      controller: UpsertStepController(
+        recipeId: recipeId,
+      ),
+    ).show(false);
+    if (created ?? false) await fetchData();
   }
 }

@@ -11,6 +11,7 @@ class TextUpsertFormFieldWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           formField.label,
@@ -21,6 +22,7 @@ class TextUpsertFormFieldWidget extends StatelessWidget {
           controller: formField.controller,
           style: Get.textTheme.bodyLarge,
           decoration: CustomInputDecoration(),
+          maxLines: formField.maxLines,
           validator: formField.validator,
         ),
       ],

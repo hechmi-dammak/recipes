@@ -1,41 +1,21 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:recipes/decorator/controller.dart';
-import 'package:recipes/decorator/controller_decorator.dart';
 
-class DataFetchingDecorator extends ControllerDecorator {
-  DataFetchingDecorator({super.controller});
-
-  factory DataFetchingDecorator.create({Controller? controller}) {
-    final dataFetchingDecorator = DataFetchingDecorator(controller: controller);
-    dataFetchingDecorator.controller.child = dataFetchingDecorator;
-    return dataFetchingDecorator;
-  }
-
+mixin DataFetchingDecorator on Controller {
   @override
-  Future<void> loadData({bool callChild = true}) async {
-    if (child != null && callChild) {
-      await child!.loadData();
-    }
-  }
-
-  @override
-  Future<void> fetchData({bool callChild = true}) async {
-    if (child != null && callChild) {
-      await child!.fetchData();
-      return;
-    }
-    setLoading(true);
+  Future<void> fetchData() async {
+    loading = true;
     await loadData();
-    setLoading(false);
+    loading = false;
   }
 
   @override
-  void initState(GetBuilderState<Controller>? state,
-      {bool callChild = true}) async {
-    if (child != null && callChild) {
-      child!.initState(state);
-      return;
-    }
+  void initState(GetBuilderState<Controller>? state) {
     fetchData();
   }
+
+  @mustCallSuper
+  @override
+  Future<void> loadData() async {}
 }

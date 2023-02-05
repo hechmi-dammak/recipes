@@ -1,5 +1,5 @@
 abstract class LoadingInterface {
-  bool getLoading({bool callChild = true});
+  bool get loading;
 
-  void setLoading(bool loading, {bool callChild = true});
+  set loading(bool loading);
 }

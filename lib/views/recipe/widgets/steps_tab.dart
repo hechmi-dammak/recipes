@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:recipes/views/recipe/recipe_controller.dart';
 import 'package:recipes/widgets/project/add_element_card.dart';
 
 class StepsTab extends StatelessWidget {
@@ -7,15 +8,17 @@ class StepsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-      children: [
-        AddElementCard(
-          onTap: () {},
-          semanticsLabel: 'Add Step'.tr,
-          height: Get.height * 0.2,
-        ),
-      ],
-    );
+    return GetBuilder<RecipeController>(builder: (controller) {
+      return ListView(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        children: [
+          AddElementCard(
+            onTap: controller.addStep,
+            semanticsLabel: 'Add Step'.tr,
+            height: Get.height * 0.2,
+          ),
+        ],
+      );
+    });
   }
 }

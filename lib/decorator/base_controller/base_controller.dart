@@ -1,3 +1,7 @@
-import 'package:recipes/decorator/base_controller/decorators/selection_base_controller.dart';
+import 'package:recipes/decorator/base_controller/mixins/data_fetching_base_mixin.dart';
+import 'package:recipes/decorator/base_controller/mixins/loading_base_mixin.dart';
+import 'package:recipes/decorator/base_controller/mixins/selection_base_mixin.dart';
+import 'package:recipes/decorator/controller.dart';
 
-class BaseController extends SelectionBaseController {}
+class BaseController extends Controller
+    with SelectionBaseMixin, LoadingBaseMixin, DataFetchingBassMixin {}

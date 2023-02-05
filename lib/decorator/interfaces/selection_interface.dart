@@ -1,24 +1,24 @@
 import 'package:flutter/foundation.dart';
 
 abstract class SelectionInterface {
-  bool getSelectionIsActive({bool callChild = true});
+  bool get selectionIsActive;
 
-  void updateSelectionIsActive({bool callChild = true});
+  void updateSelectionIsActive();
 
-  void updateAllItemsSelected({bool callChild = true});
+  void updateAllItemsSelected();
 
-  bool getAllItemsSelected({bool callChild = true});
+  bool get allItemsSelected;
+
+  bool get selectionIsActiveFallBack;
+
+  bool get allItemsSelectedFallBack;
+
+  void toggleSelectAllValue();
 
   @mustCallSuper
-  bool selectionIsActiveFallBack({bool callChild = true});
+  void setSelectAllValue([bool value = false]);
 
-  bool allItemsSelectedFallBack({bool callChild = true});
+  void updateSelection();
 
-  void toggleSelectAllValue({bool callChild = true});
-
-  void setSelectAllValue({bool value = false, bool callChild = true});
-
-  void updateSelection({callChild = true});
-
-  int selectionCount({callChild = true});
+  int get selectionCount;
 }
