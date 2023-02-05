@@ -78,6 +78,6 @@ class InitialBindings implements Bindings {
     Get.put(RecipeRepository());
     Get.put(UtilsService());
     Get.put(RecipeCategoryRepository());
-    Get.put(ImageOperations());
+    Get.put(ImageService());
   }
 }

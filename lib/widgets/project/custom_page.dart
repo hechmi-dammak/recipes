@@ -22,7 +22,8 @@ abstract class CustomPage<T extends Controller> extends StatelessWidget {
         initState: Get.find<T>().initState,
         builder: (controller) {
           return Scaffold(
-            bottomNavigationBar: bottomNavigationBarBuilder(controller, context),
+            bottomNavigationBar:
+                bottomNavigationBarBuilder(controller, context),
             appBar: appBarBuilder(controller, context),
             body: SafeArea(
                 child: LoadingWidget(

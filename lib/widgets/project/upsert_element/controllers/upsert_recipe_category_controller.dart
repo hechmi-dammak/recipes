@@ -1,28 +1,39 @@
 import 'package:get/get.dart';
 import 'package:recipes/decorator/decorators/data_fetching_decorator.dart';
-import 'package:recipes/decorator/decorators/image_picker_decorator.dart';
 import 'package:recipes/decorator/decorators/loading_decorator.dart';
+import 'package:recipes/helpers/form_validators.dart';
 import 'package:recipes/models/recipe_category.dart';
 import 'package:recipes/service/repository/recipe_category_repository.dart';
 import 'package:recipes/widgets/project/upsert_element/controllers/upsert_element_controller.dart';
+import 'package:recipes/widgets/project/upsert_element/models/upsert_from_field.dart';
 
 class UpsertRecipeCategoryController extends UpsertElementController {
   static UpsertRecipeCategoryController get find =>
       Get.find<UpsertRecipeCategoryController>();
   final int? id;
 
-  UpsertRecipeCategoryController({this.id, super.controller, super.child});
+  UpsertRecipeCategoryController(
+      {this.id, super.controller, super.child, required super.formFields});
 
   RecipeCategory recipeCategory = RecipeCategory();
 
   factory UpsertRecipeCategoryController.create({int? id}) {
     final recipesCategoriesController = UpsertRecipeCategoryController(
-        controller: ImagePickerDecorator.create(
-          controller: DataFetchingDecorator.create(
-            controller: LoadingDecorator.create(),
-          ),
+        controller: DataFetchingDecorator.create(
+          controller: LoadingDecorator.create(),
         ),
-        id: id);
+        id: id,
+        formFields: [
+          TextUpsertFormField(
+              name: 'name',
+              label: 'Name :'.tr,
+              validator: FormValidators.notEmptyOrNullValidator),
+          TextUpsertFormField(
+            name: 'description',
+            label: 'Description :'.tr,
+          ),
+          PictureUpsertFormField(name: 'picture')
+        ]);
     recipesCategoriesController.controller.child = recipesCategoriesController;
 
     recipesCategoriesController.initState(null);
@@ -43,9 +54,11 @@ class UpsertRecipeCategoryController extends UpsertElementController {
     if (id != null) {
       recipeCategory =
           await RecipeCategoryRepository.find.findById(id) ?? recipeCategory;
-      nameController.text = recipeCategory.name;
-      descriptionController.text = recipeCategory.description ?? '';
-      setPicture(recipeCategory.picture.value);
+      getTextFormFieldByName('name')?.controller.text = recipeCategory.name;
+      getTextFormFieldByName('description')?.controller.text =
+          recipeCategory.description ?? '';
+      getPictureFormFieldByName('picture')?.picture =
+          recipeCategory.picture.value;
     }
   }
 
@@ -53,11 +66,12 @@ class UpsertRecipeCategoryController extends UpsertElementController {
   Future<void> confirm(
       void Function([bool? result, bool forceClose]) close) async {
     if (formKey.currentState?.validate() ?? false) {
-      final description = descriptionController.text.trim();
+      final description =
+          getTextFormFieldByName('description')?.controller.text.trim() ?? '';
       recipeCategory
-        ..name = nameController.text.trim()
+        ..name = getTextFormFieldByName('name')?.controller.text.trim() ?? ''
         ..description = description.isEmpty ? null : description
-        ..picture.value = getPicture();
+        ..picture.value = getPictureFormFieldByName('picture')?.picture;
       await RecipeCategoryRepository.find.save(recipeCategory);
       close(true, true);
     }

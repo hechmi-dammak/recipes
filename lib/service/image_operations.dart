@@ -6,8 +6,8 @@ import 'package:recipes/models/picture.dart';
 import 'package:recipes/service/repository/picture_repository.dart';
 import 'package:recipes/widgets/common/snack_bar.dart';
 
-class ImageOperations extends GetxService {
-  static ImageOperations get find => Get.find<ImageOperations>();
+class ImageService extends GetxService {
+  static ImageService get find => Get.find<ImageService>();
 
   final ImagePicker _picker = ImagePicker();
 

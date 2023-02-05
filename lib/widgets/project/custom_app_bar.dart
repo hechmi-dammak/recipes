@@ -3,10 +3,7 @@ import 'package:get/get.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar(
-      {super.key,
-       this.leading,
-      required this.title,
-       this.action})
+      {super.key, this.leading, required this.title, this.action})
       : preferredSize = const Size.fromHeight(kToolbarHeight);
 
   final Widget? leading;

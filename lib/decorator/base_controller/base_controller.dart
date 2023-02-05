@@ -1,3 +1,3 @@
-import 'package:recipes/decorator/base_controller/decorators/image_picker_base_controller.dart';
+import 'package:recipes/decorator/base_controller/decorators/selection_base_controller.dart';
 
-class BaseController extends ImagePickerBaseController {}
+class BaseController extends SelectionBaseController {}
