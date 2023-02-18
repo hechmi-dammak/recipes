@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:recipes/helpers/input_decoration.dart';
@@ -20,7 +22,10 @@ class TextUpsertFormFieldWidget extends StatelessWidget {
         const SizedBox(height: 7),
         TextFormField(
           controller: formField.controller,
-          style: Get.textTheme.bodyLarge,
+          style: Get.textTheme.bodyLarge?.copyWith(fontFeatures: [
+            const FontFeature.tabularFigures(),
+            const FontFeature.liningFigures()
+          ]),
           decoration: CustomInputDecoration(),
           maxLines: formField.maxLines,
           validator: formField.validator,
