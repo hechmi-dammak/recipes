@@ -31,12 +31,9 @@ class RecipesPage extends CustomPage<RecipesController> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 TitleAppBarButton(
-                  title: 'Delete'.tr,
-                  icon: 'assets/icons/trash_icon.svg',
-                  onTap: () {
-                    controller.deleteSelectedRecipes();
-                  },
-                ),
+                    title: 'Delete'.tr,
+                    icon: 'assets/icons/trash_icon.svg',
+                    onTap: controller.deleteSelectedRecipes),
                 HiddenTitleButton(
                     hidden: controller.selectionCount != 1,
                     child: TitleAppBarButton(
@@ -56,8 +53,7 @@ class RecipesPage extends CustomPage<RecipesController> {
               ],
             ),
           )
-        : AppBar(
-            centerTitle: true,
+        : CustomAppBar(
             leading: SvgButton.backButton(),
             title: Text(
               'Recipes'.tr,

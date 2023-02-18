@@ -21,11 +21,6 @@ const StepSchema = CollectionSchema(
       id: 0,
       name: r'instruction',
       type: IsarType.string,
-    ),
-    r'order': PropertySchema(
-      id: 1,
-      name: r'order',
-      type: IsarType.long,
     )
   },
   estimateSize: _stepEstimateSize,
@@ -34,16 +29,16 @@ const StepSchema = CollectionSchema(
   deserializeProp: _stepDeserializeProp,
   idName: r'id',
   indexes: {
-    r'order': IndexSchema(
-      id: 5897270977454184057,
-      name: r'order',
+    r'instruction': IndexSchema(
+      id: 1534773907639968272,
+      name: r'instruction',
       unique: false,
       replace: false,
       properties: [
         IndexPropertySchema(
-          name: r'order',
-          type: IndexType.value,
-          caseSensitive: false,
+          name: r'instruction',
+          type: IndexType.hash,
+          caseSensitive: true,
         )
       ],
     )
@@ -54,6 +49,13 @@ const StepSchema = CollectionSchema(
       name: r'picture',
       target: r'Picture',
       single: true,
+    ),
+    r'recipe': LinkSchema(
+      id: 8111099506753257848,
+      name: r'recipe',
+      target: r'Recipe',
+      single: true,
+      linkName: r'steps',
     )
   },
   embeddedSchemas: {},
@@ -80,7 +82,6 @@ void _stepSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeString(offsets[0], object.instruction);
-  writer.writeLong(offsets[1], object.order);
 }
 
 Step _stepDeserialize(
@@ -91,7 +92,6 @@ Step _stepDeserialize(
 ) {
   final object = Step(
     instruction: reader.readStringOrNull(offsets[0]) ?? '',
-    order: reader.readLong(offsets[1]),
   );
   object.id = id;
   return object;
@@ -106,8 +106,6 @@ P _stepDeserializeProp<P>(
   switch (propertyId) {
     case 0:
       return (reader.readStringOrNull(offset) ?? '') as P;
-    case 1:
-      return (reader.readLong(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -118,26 +116,19 @@ Id _stepGetId(Step object) {
 }
 
 List<IsarLinkBase<dynamic>> _stepGetLinks(Step object) {
-  return [object.picture];
+  return [object.picture, object.recipe];
 }
 
 void _stepAttach(IsarCollection<dynamic> col, Id id, Step object) {
   object.id = id;
   object.picture.attach(col, col.isar.collection<Picture>(), r'picture', id);
+  object.recipe.attach(col, col.isar.collection<Recipe>(), r'recipe', id);
 }
 
 extension StepQueryWhereSort on QueryBuilder<Step, Step, QWhere> {
   QueryBuilder<Step, Step, QAfterWhere> anyId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
-    });
-  }
-
-  QueryBuilder<Step, Step, QAfterWhere> anyOrder() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(
-        const IndexWhereClause.any(indexName: r'order'),
-      );
     });
   }
 }
@@ -208,91 +199,48 @@ extension StepQueryWhere on QueryBuilder<Step, Step, QWhereClause> {
     });
   }
 
-  QueryBuilder<Step, Step, QAfterWhereClause> orderEqualTo(int order) {
+  QueryBuilder<Step, Step, QAfterWhereClause> instructionEqualTo(
+      String instruction) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
-        indexName: r'order',
-        value: [order],
+        indexName: r'instruction',
+        value: [instruction],
       ));
     });
   }
 
-  QueryBuilder<Step, Step, QAfterWhereClause> orderNotEqualTo(int order) {
+  QueryBuilder<Step, Step, QAfterWhereClause> instructionNotEqualTo(
+      String instruction) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'order',
+              indexName: r'instruction',
               lower: [],
-              upper: [order],
+              upper: [instruction],
               includeUpper: false,
             ))
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'order',
-              lower: [order],
+              indexName: r'instruction',
+              lower: [instruction],
               includeLower: false,
               upper: [],
             ));
       } else {
         return query
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'order',
-              lower: [order],
+              indexName: r'instruction',
+              lower: [instruction],
               includeLower: false,
               upper: [],
             ))
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'order',
+              indexName: r'instruction',
               lower: [],
-              upper: [order],
+              upper: [instruction],
               includeUpper: false,
             ));
       }
-    });
-  }
-
-  QueryBuilder<Step, Step, QAfterWhereClause> orderGreaterThan(
-    int order, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'order',
-        lower: [order],
-        includeLower: include,
-        upper: [],
-      ));
-    });
-  }
-
-  QueryBuilder<Step, Step, QAfterWhereClause> orderLessThan(
-    int order, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'order',
-        lower: [],
-        upper: [order],
-        includeUpper: include,
-      ));
-    });
-  }
-
-  QueryBuilder<Step, Step, QAfterWhereClause> orderBetween(
-    int lowerOrder,
-    int upperOrder, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'order',
-        lower: [lowerOrder],
-        includeLower: includeLower,
-        upper: [upperOrder],
-        includeUpper: includeUpper,
-      ));
     });
   }
 }
@@ -495,58 +443,6 @@ extension StepQueryFilter on QueryBuilder<Step, Step, QFilterCondition> {
       ));
     });
   }
-
-  QueryBuilder<Step, Step, QAfterFilterCondition> orderEqualTo(int value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'order',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Step, Step, QAfterFilterCondition> orderGreaterThan(
-    int value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'order',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Step, Step, QAfterFilterCondition> orderLessThan(
-    int value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'order',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Step, Step, QAfterFilterCondition> orderBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'order',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
-    });
-  }
 }
 
 extension StepQueryObject on QueryBuilder<Step, Step, QFilterCondition> {}
@@ -564,6 +460,19 @@ extension StepQueryLinks on QueryBuilder<Step, Step, QFilterCondition> {
       return query.linkLength(r'picture', 0, true, 0, true);
     });
   }
+
+  QueryBuilder<Step, Step, QAfterFilterCondition> recipe(
+      FilterQuery<Recipe> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.link(q, r'recipe');
+    });
+  }
+
+  QueryBuilder<Step, Step, QAfterFilterCondition> recipeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'recipe', 0, true, 0, true);
+    });
+  }
 }
 
 extension StepQuerySortBy on QueryBuilder<Step, Step, QSortBy> {
@@ -576,18 +485,6 @@ extension StepQuerySortBy on QueryBuilder<Step, Step, QSortBy> {
   QueryBuilder<Step, Step, QAfterSortBy> sortByInstructionDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'instruction', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Step, Step, QAfterSortBy> sortByOrder() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'order', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Step, Step, QAfterSortBy> sortByOrderDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'order', Sort.desc);
     });
   }
 }
@@ -616,18 +513,6 @@ extension StepQuerySortThenBy on QueryBuilder<Step, Step, QSortThenBy> {
       return query.addSortBy(r'instruction', Sort.desc);
     });
   }
-
-  QueryBuilder<Step, Step, QAfterSortBy> thenByOrder() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'order', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Step, Step, QAfterSortBy> thenByOrderDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'order', Sort.desc);
-    });
-  }
 }
 
 extension StepQueryWhereDistinct on QueryBuilder<Step, Step, QDistinct> {
@@ -635,12 +520,6 @@ extension StepQueryWhereDistinct on QueryBuilder<Step, Step, QDistinct> {
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'instruction', caseSensitive: caseSensitive);
-    });
-  }
-
-  QueryBuilder<Step, Step, QDistinct> distinctByOrder() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'order');
     });
   }
 }
@@ -655,12 +534,6 @@ extension StepQueryProperty on QueryBuilder<Step, Step, QQueryProperty> {
   QueryBuilder<Step, String, QQueryOperations> instructionProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'instruction');
-    });
-  }
-
-  QueryBuilder<Step, int, QQueryOperations> orderProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'order');
     });
   }
 }

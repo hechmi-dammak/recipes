@@ -9,8 +9,10 @@ class InfoButton extends StatelessWidget {
     super.key,
     required this.name,
     this.description,
+    this.isRight = false,
   });
 
+  final bool isRight;
   final String name;
   final String? description;
 
@@ -19,7 +21,8 @@ class InfoButton extends StatelessWidget {
     return ConditionalWidget(
         child: (context) => Positioned(
               top: 0,
-              left: 0,
+              left: isRight ? null : 0,
+              right: isRight ? 0 : null,
               child: SvgButton(
                 onTap: DescriptionDialog(title: name, description: description!)
                     .show,

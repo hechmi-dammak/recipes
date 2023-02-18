@@ -53,8 +53,7 @@ class RecipeCategoriesPage extends CustomPage<RecipeCategoriesController> {
               ],
             ),
           )
-        : AppBar(
-            centerTitle: true,
+        : CustomAppBar(
             leading: SvgButton(
               onTap: () {}, //todo
               icon: 'assets/icons/menu_icon.svg',

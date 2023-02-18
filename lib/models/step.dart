@@ -1,5 +1,6 @@
 import 'package:isar/isar.dart';
 import 'package:recipes/models/picture.dart';
+import 'package:recipes/models/recipe.dart';
 
 part 'step.g.dart';
 
@@ -7,19 +8,21 @@ part 'step.g.dart';
 class Step {
   Id? id;
   @Index()
-  int order;
   String instruction;
   final IsarLink<Picture> picture;
+  @Backlink(to: 'steps')
+  final IsarLink<Recipe> recipe;
 
   Step({
     this.instruction = '',
-    required this.order,
     IsarLink<Picture>? picture,
-  }) : picture = picture ?? IsarLink<Picture>();
+    IsarLink<Recipe>? recipe,
+  })  : picture = picture ?? IsarLink<Picture>(),
+        recipe = recipe ?? IsarLink<Recipe>();
 
   Step.fromCopy(Step step)
       : id = step.id,
         instruction = step.instruction,
-        order = step.order,
-        picture = step.picture;
+        picture = step.picture,
+        recipe = step.recipe;
 }

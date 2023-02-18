@@ -8,10 +8,9 @@ import 'package:recipes/widgets/project/upsert_element/widgets/upsert_form_field
 
 class UpsertElementDialog<T extends UpsertElementController>
     extends CustomDialog<bool> {
-  const UpsertElementDialog({this.controller, super.key, this.aspectRatio = 2})
+  const UpsertElementDialog({this.controller, super.key})
       : super(dismissible: false);
   final T? controller;
-  final double aspectRatio;
 
   @override
   Widget buildChild(BuildContext context) {
@@ -32,9 +31,7 @@ class UpsertElementDialog<T extends UpsertElementController>
                             topLeft: Radius.circular(6.5))),
                     padding: const EdgeInsets.all(30),
                     child: SingleChildScrollView(
-                      child: AddElementForm<T>(
-                        aspectRatio: aspectRatio,
-                      ),
+                      child: AddElementForm<T>(),
                     ),
                   ),
                 ),
@@ -51,8 +48,7 @@ class UpsertElementDialog<T extends UpsertElementController>
 
 class AddElementForm<T extends UpsertElementController>
     extends StatelessWidget {
-  const AddElementForm({Key? key, this.aspectRatio = 2}) : super(key: key);
-  final double aspectRatio;
+  const AddElementForm({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

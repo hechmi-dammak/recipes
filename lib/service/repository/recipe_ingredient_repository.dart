@@ -2,16 +2,20 @@ import 'package:get/get.dart';
 import 'package:isar/isar.dart';
 import 'package:recipes/models/recipe_ingredient.dart';
 import 'package:recipes/service/isar_service.dart';
+import 'package:recipes/service/repository/ingredient_repository.dart';
 
 class RecipeIngredientRepository extends GetxService {
   static RecipeIngredientRepository get find =>
       Get.find<RecipeIngredientRepository>();
 
   Future<RecipeIngredient> save(RecipeIngredient recipeIngredient) async {
+    //todo review usage of ingredients by name
+    IngredientRepository.find.save(recipeIngredient.ingredient.value!);
     await IsarService.isar.writeTxn(() async {
       await IsarService.isar.recipeIngredients.put(recipeIngredient);
       await recipeIngredient.category.save();
       await recipeIngredient.ingredient.save();
+      await recipeIngredient.recipe.save();
     });
     return recipeIngredient;
   }

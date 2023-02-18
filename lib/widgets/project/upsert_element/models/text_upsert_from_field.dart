@@ -11,7 +11,7 @@ class TextUpsertFormField extends UpsertFormField {
       {required super.name,
       this.validator,
       required this.label,
-      this.maxLines=1});
+      this.maxLines = 1});
 
   @override
   void dispose() {

@@ -10,6 +10,7 @@ class StepRepository extends GetxService {
     await IsarService.isar.writeTxn(() async {
       await IsarService.isar.steps.put(step);
       await step.picture.save();
+      await step.recipe.save();
     });
     return step;
   }

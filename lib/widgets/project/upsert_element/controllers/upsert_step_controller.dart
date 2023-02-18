@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:recipes/helpers/form_validators.dart';
 import 'package:recipes/models/step.dart';
+import 'package:recipes/service/repository/recipe_repository.dart';
 import 'package:recipes/service/repository/step_repository.dart';
 import 'package:recipes/widgets/project/upsert_element/controllers/upsert_element_controller.dart';
 import 'package:recipes/widgets/project/upsert_element/models/upsert_from_field.dart';
@@ -10,10 +11,9 @@ class UpsertStepController extends UpsertElementController {
 
   final int? id;
   final int recipeId;
-  Step step;
+  Step step = Step();
 
-  UpsertStepController({int order = 0, required this.recipeId, this.id})
-      : step = Step(order: order) {
+  UpsertStepController({required this.recipeId, this.id}) {
     formFields = [
       TextUpsertFormField(
           name: 'instruction',
@@ -37,6 +37,7 @@ class UpsertStepController extends UpsertElementController {
       getPictureFormFieldByName('picture')?.picture = step.picture.value;
       return;
     }
+    step.recipe.value = await RecipeRepository.find.findById(recipeId);
   }
 
   @override

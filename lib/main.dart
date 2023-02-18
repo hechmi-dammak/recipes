@@ -10,7 +10,7 @@ import 'package:recipes/service/repository/recipe_ingredient_repository.dart';
 import 'package:recipes/service/repository/recipe_repository.dart';
 import 'package:recipes/service/repository/step_repository.dart';
 import 'package:recipes/service/utils_service.dart';
-import 'package:recipes/views/recipe/recipe_controller.dart';
+import 'package:recipes/views/recipe/recipe_controller/recipe_controller.dart';
 import 'package:recipes/views/recipe/recipe_page.dart';
 import 'package:recipes/views/recipe_categories/recipe_categories_controller.dart';
 import 'package:recipes/views/recipe_categories/recipe_categories_page.dart';

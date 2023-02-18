@@ -9,7 +9,7 @@ import 'package:recipes/widgets/project/upsert_element/controllers/upsert_recipe
 import 'package:recipes/widgets/project/upsert_element/upsert_element_dialog.dart';
 
 class RecipeCategoriesController extends BaseController
-    with SelectionDecorator, DataFetchingDecorator, LoadingDecorator {
+    with LoadingDecorator, DataFetchingDecorator, SelectionDecorator {
   static RecipeCategoriesController get find =>
       Get.find<RecipeCategoriesController>();
 
@@ -49,8 +49,8 @@ class RecipeCategoriesController extends BaseController
   Future<void> editRecipeCategory() async {
     if (selectionCount != 1) return;
     final updated = await UpsertElementDialog<UpsertRecipeCategoryController>(
-      controller: UpsertRecipeCategoryController(
-          id: getSelectedItems().first.id),
+      controller:
+          UpsertRecipeCategoryController(id: getSelectedItems().first.id),
     ).show(false);
     if (updated ?? false) await fetchData();
   }
@@ -60,7 +60,6 @@ class RecipeCategoriesController extends BaseController
         .map((recipeCategory) =>
             RecipeCategoryPMRecipeCategories(recipeCategory: recipeCategory))
         .toList();
-    updateSelection();
   }
 
   Future<void> selectCategory(

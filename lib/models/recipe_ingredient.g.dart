@@ -51,6 +51,13 @@ const RecipeIngredientSchema = CollectionSchema(
       name: r'ingredient',
       target: r'Ingredient',
       single: true,
+    ),
+    r'recipe': LinkSchema(
+      id: 3302829883746766901,
+      name: r'recipe',
+      target: r'Recipe',
+      single: true,
+      linkName: r'ingredients',
     )
   },
   embeddedSchemas: {},
@@ -130,7 +137,7 @@ Id _recipeIngredientGetId(RecipeIngredient object) {
 }
 
 List<IsarLinkBase<dynamic>> _recipeIngredientGetLinks(RecipeIngredient object) {
-  return [object.category, object.ingredient];
+  return [object.category, object.ingredient, object.recipe];
 }
 
 void _recipeIngredientAttach(
@@ -140,6 +147,7 @@ void _recipeIngredientAttach(
       .attach(col, col.isar.collection<IngredientCategory>(), r'category', id);
   object.ingredient
       .attach(col, col.isar.collection<Ingredient>(), r'ingredient', id);
+  object.recipe.attach(col, col.isar.collection<Recipe>(), r'recipe', id);
 }
 
 extension RecipeIngredientQueryWhereSort
@@ -720,6 +728,20 @@ extension RecipeIngredientQueryLinks
       ingredientIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.linkLength(r'ingredient', 0, true, 0, true);
+    });
+  }
+
+  QueryBuilder<RecipeIngredient, RecipeIngredient, QAfterFilterCondition>
+      recipe(FilterQuery<Recipe> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.link(q, r'recipe');
+    });
+  }
+
+  QueryBuilder<RecipeIngredient, RecipeIngredient, QAfterFilterCondition>
+      recipeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'recipe', 0, true, 0, true);
     });
   }
 }

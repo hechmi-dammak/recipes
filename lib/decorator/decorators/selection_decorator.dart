@@ -37,4 +37,12 @@ mixin SelectionDecorator on Controller {
     _selectionIsActive = selectionIsActiveFallBack;
     update();
   }
+
+  @override
+  Future<void> fetchData() async {
+    loading = true;
+    await loadData();
+    updateSelection();
+    loading = false;
+  }
 }
