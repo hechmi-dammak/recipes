@@ -85,6 +85,19 @@ class StepCard extends GetView<RecipeController> {
                       ),
                     ),
                   ),
+                  ConditionalWidget(
+                    condition: step.used,
+                    child: (context) => Container(
+                      decoration: BoxDecoration(
+                        color: Get.theme.colorScheme.tertiary.withOpacity(0.3),
+                        borderRadius: BorderRadius.circular(borderRadius),
+                        border: Border.all(
+                          width: borderWidth,
+                          color: Get.theme.colorScheme.tertiary,
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),

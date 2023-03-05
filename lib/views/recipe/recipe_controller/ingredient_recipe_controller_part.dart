@@ -16,7 +16,7 @@ extension IngredientRecipeController on RecipeController {
   }
 
   Future<void> editIngredient() async {
-    if (selectionCount != 1 && ingredientSelectionCount != 1) return;
+    if (ingredientSelectionCount != 1) return;
     final created = await UpsertElementDialog<UpsertIngredientController>(
       controller: UpsertIngredientController(
           recipeId: recipeId,

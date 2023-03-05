@@ -10,11 +10,11 @@ import 'package:recipes/widgets/project/upsert_element/upsert_element_dialog.dar
 
 class RecipesController extends BaseController
     with LoadingDecorator, DataFetchingDecorator, SelectionDecorator {
-  RecipesController({required this.categoryId});
+  RecipesController({this.categoryId});
 
   static RecipesController get find => Get.find<RecipesController>();
 
-  final int categoryId;
+  final int? categoryId;
   List<RecipePMRecipes> recipes = [];
 
   @override
@@ -46,10 +46,16 @@ class RecipesController extends BaseController
   }
 
   Future<void> fetchRecipes() async {
-    recipes =
-        (await RecipeRepository.find.findAllByRecipeCategoryId(categoryId))
-            .map((recipe) => RecipePMRecipes(recipe: recipe))
-            .toList();
+    if (categoryId == null) {
+      recipes = (await RecipeRepository.find.findAll())
+          .map((recipe) => RecipePMRecipes(recipe: recipe))
+          .toList();
+    } else {
+      recipes =
+          (await RecipeRepository.find.findAllByRecipeCategoryId(categoryId))
+              .map((recipe) => RecipePMRecipes(recipe: recipe))
+              .toList();
+    }
   }
 
   void goToRecipe(RecipePMRecipes recipe) {

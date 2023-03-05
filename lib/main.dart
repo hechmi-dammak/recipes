@@ -37,8 +37,9 @@ class RecipesApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Recipes',
         theme: ApplicationTheme.getTheme(),
-        initialRoute: RecipeCategoriesPage.routeName,
+        initialRoute: RecipesPage.routeName,
         getPages: [
+          //disabled
           GetPage(
             name: RecipeCategoriesPage.routeName,
             page: () => const RecipeCategoriesPage(),
@@ -48,6 +49,13 @@ class RecipesApp extends StatelessWidget {
           ),
           GetPage(
             name: RecipesPage.routeName,
+            page: () => const RecipesPage(),
+            binding: BindingsBuilder.put(
+              () => RecipesController(),
+            ),
+          ),
+          GetPage(
+            name: RecipesPage.routeNameCategoriesRecipes,
             page: () => const RecipesPage(),
             binding: BindingsBuilder.put(
               () => RecipesController(

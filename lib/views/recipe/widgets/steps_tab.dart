@@ -10,20 +10,23 @@ class StepsTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<RecipeController>(builder: (controller) {
-      return ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-        children: [
-          ...controller.recipe!.stepList
-              .map((step) => StepCard(
-                    step: step,
-                  ))
-              .toList(),
-          AddElementCard(
-            onTap: controller.addStep,
-            semanticsLabel: 'Add Step'.tr,
-            height: Get.height * 0.2,
-          ),
-        ],
+      return RefreshIndicator(
+        onRefresh: controller.fetchData,
+        child: ListView(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          children: [
+            ...controller.recipe!.stepList
+                .map((step) => StepCard(
+                      step: step,
+                    ))
+                .toList(),
+            AddElementCard(
+              onTap: controller.addStep,
+              semanticsLabel: 'Add Step'.tr,
+              height: Get.height * 0.2,
+            ),
+          ],
+        ),
       );
     });
   }

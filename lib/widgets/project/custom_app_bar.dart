@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:recipes/widgets/common/conditional_widget.dart';
+import 'package:recipes/widgets/common/svg_button.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar(
@@ -26,7 +28,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               leading: ConstrainedBox(
                 constraints: const BoxConstraints.tightFor(
                     width: kToolbarHeight, height: kToolbarHeight),
-                child: leading,
+                child: leading ??
+                    ConditionalWidget(
+                        child: (context) => SvgButton.backButton(),
+                        condition: Navigator.of(context).canPop()),
               ),
               middle: title,
               trailing: ConstrainedBox(

@@ -105,6 +105,21 @@ class IngredientCard extends GetView<RecipeController> {
                 ],
               ),
               ConditionalWidget(
+                condition: ingredient.used,
+                child: (context) => Container(
+                  width: double.infinity,
+                  height: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Get.theme.colorScheme.tertiary.withOpacity(0.3),
+                    borderRadius: BorderRadius.circular(borderRadius),
+                    border: Border.all(
+                      width: borderWidth,
+                      color: Get.theme.colorScheme.tertiary,
+                    ),
+                  ),
+                ),
+              ),
+              ConditionalWidget(
                 condition: ingredient.selected,
                 child: (context) => Container(
                   width: double.infinity,

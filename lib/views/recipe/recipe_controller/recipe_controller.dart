@@ -31,7 +31,7 @@ class RecipeController extends BaseController
     super.onInit();
     tabController = TabController(vsync: this, length: 2);
     tabController.addListener(() {
-      update();
+      updateSelection();
     });
   }
 
@@ -60,21 +60,37 @@ class RecipeController extends BaseController
   @override
   bool get selectionIsActiveFallBack {
     if (recipe == null) return false;
-    return recipe!.stepList.any((step) => step.selected) ||
-        recipe!.ingredientList.any((ingredient) => ingredient.selected);
+    if (tabController.index == 0) {
+      return recipe!.ingredientList.any((ingredient) => ingredient.selected);
+    }
+    if (tabController.index == 1) {
+      return recipe!.stepList.any((step) => step.selected);
+    }
+    return false;
   }
 
   @override
   bool get allItemsSelectedFallBack {
     if (recipe == null) return false;
-
-    return recipe!.stepList.every((step) => step.selected) &
-        recipe!.ingredientList.every((ingredient) => ingredient.selected);
+    if (tabController.index == 0) {
+      return recipe!.ingredientList.every((ingredient) => ingredient.selected);
+    }
+    if (tabController.index == 1) {
+      return recipe!.stepList.every((step) => step.selected);
+    }
+    return false;
   }
 
   @override
-  int get selectionCount =>
-      getSelectedSteps().length + getSelectedIngredients().length;
+  int get selectionCount {
+    if (tabController.index == 0) {
+      return getSelectedIngredients().length;
+    }
+    if (tabController.index == 1) {
+      return getSelectedSteps().length;
+    }
+    return 0;
+  }
 
   Future<void> fetchRecipe() async {
     final recipe = await RecipeRepository.find.findById(recipeId);
@@ -95,14 +111,22 @@ class RecipeController extends BaseController
   }
 
   void editItem() {
-    editIngredient();
-    editStep();
+    if (tabController.index == 0) {
+      editIngredient();
+    }
+    if (tabController.index == 1) {
+      editStep();
+    }
   }
 
   Future<void> deleteSelectedItems() async {
     loading = true;
-    await deleteSelectedIngredients();
-    await deleteSelectedSteps();
+    if (tabController.index == 0) {
+      await deleteSelectedIngredients();
+    }
+    if (tabController.index == 1) {
+      await deleteSelectedSteps();
+    }
     await fetchData();
     CustomSnackBar.success('Selected Items were deleted.'.tr);
   }

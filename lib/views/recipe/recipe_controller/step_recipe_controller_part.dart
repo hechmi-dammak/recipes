@@ -16,7 +16,7 @@ extension StepRecipeController on RecipeController {
   }
 
   Future<void> editStep() async {
-    if (selectionCount != 1 && stepSelectionCount != 1) return;
+    if (stepSelectionCount != 1) return;
     final created = await UpsertElementDialog<UpsertStepController>(
       controller: UpsertStepController(
           recipeId: recipeId, id: getSelectedSteps().first.id),

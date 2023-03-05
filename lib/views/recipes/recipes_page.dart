@@ -12,7 +12,8 @@ import 'package:recipes/widgets/project/select_all_button.dart';
 import 'package:recipes/widgets/project/title_app_bar_button.dart';
 
 class RecipesPage extends CustomPage<RecipesController> {
-  static const routeName = '${RecipeCategoriesPage.routeName}/:id/recipes';
+  static const routeNameCategoriesRecipes = '${RecipeCategoriesPage.routeName}/:id/recipes';
+  static const routeName = '/recipes';
 
   const RecipesPage({Key? key}) : super(key: key);
 
@@ -54,7 +55,6 @@ class RecipesPage extends CustomPage<RecipesController> {
             ),
           )
         : CustomAppBar(
-            leading: SvgButton.backButton(),
             title: Text(
               'Recipes'.tr,
               style: Get.textTheme.headlineLarge

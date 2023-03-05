@@ -92,7 +92,6 @@ class RecipePage extends CustomPage<RecipeController> {
                 //todo add dialog for servings button
               },
             ),
-            leading: SvgButton.backButton(),
             title: Text(
               controller.recipe?.name ?? '',
               style: Get.textTheme.headlineLarge

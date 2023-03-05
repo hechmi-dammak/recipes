@@ -10,9 +10,9 @@ class UpsertRecipeController extends UpsertElementController {
   static UpsertRecipeController get find => Get.find<UpsertRecipeController>();
 
   final int? id;
-  final int categoryId;
+  final int? categoryId;
 
-  UpsertRecipeController({required this.categoryId, this.id}) {
+  UpsertRecipeController({ this.categoryId, this.id}) {
     formFields = [
       TextUpsertFormField(
           name: 'name',
