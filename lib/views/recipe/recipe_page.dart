@@ -4,6 +4,7 @@ import 'package:recipes/views/recipe/recipe_controller/recipe_controller.dart';
 import 'package:recipes/views/recipe/widgets/bottom_navigation_button.dart';
 import 'package:recipes/views/recipe/widgets/ingredients_tab.dart';
 import 'package:recipes/views/recipe/widgets/servings_button.dart';
+import 'package:recipes/views/recipe/widgets/servings_dialog.dart';
 import 'package:recipes/views/recipe/widgets/steps_tab.dart';
 import 'package:recipes/widgets/common/svg_button.dart';
 import 'package:recipes/widgets/project/custom_app_bar.dart';
@@ -71,27 +72,14 @@ class RecipePage extends CustomPage<RecipeController> {
                     child: TitleAppBarButton(
                         title: 'Edit'.tr,
                         icon: 'assets/icons/edit_icon.svg',
-                        onTap: controller.editItem)),
-                const SizedBox(
-                  width: 25,
-                ),
-                TitleAppBarButton(
-                  title: 'Share'.tr,
-                  icon: 'assets/icons/share_icon.svg',
-                  onTap: () {
-                    //todo: implement share
-                  },
-                )
+                        onTap: controller.editItem))
               ],
             ),
           )
         : CustomAppBar(
             action: ServingsButton(
-              servings: controller.servings,
-              onTap: () {
-                //todo add dialog for servings button
-              },
-            ),
+                servings: controller.servings,
+                onTap: () => const ServingsDialog().show()),
             title: Text(
               controller.recipe?.name ?? '',
               style: Get.textTheme.headlineLarge

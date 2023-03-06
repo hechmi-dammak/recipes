@@ -12,7 +12,7 @@ class UpsertRecipeController extends UpsertElementController {
   final int? id;
   final int? categoryId;
 
-  UpsertRecipeController({ this.categoryId, this.id}) {
+  UpsertRecipeController({this.categoryId, this.id}) {
     formFields = [
       TextUpsertFormField(
           name: 'name',

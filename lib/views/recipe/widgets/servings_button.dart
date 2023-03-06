@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:recipes/views/recipe/widgets/servings_icon.dart';
 
 class ServingsButton extends StatelessWidget {
   const ServingsButton({
@@ -15,29 +15,11 @@ class ServingsButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onTap: onTap,
       behavior: HitTestBehavior.opaque,
-      child: Stack(
-        children: [
-          Align(
-            child: SvgPicture.asset(
-              'assets/icons/portions_icon.svg',
-              height: 20,
-              width: 20,
-              colorFilter: ColorFilter.mode(
-                  Get.theme.colorScheme.onPrimary, BlendMode.srcIn),
-            ),
-          ),
-          Align(
-            child: Container(
-              margin: const EdgeInsets.only(bottom: 20, left: 20),
-              child: Text(
-                servings.toString(),
-                style: Get.textTheme.labelSmall
-                    ?.copyWith(color: Get.theme.colorScheme.onPrimary),
-              ),
-            ),
-          )
-        ],
+      child: ServingsIcon(
+        servings: servings,
+        color: Get.theme.colorScheme.onPrimary,
       ),
     );
   }

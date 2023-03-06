@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -13,7 +15,8 @@ class SvgButton extends StatelessWidget {
       this.iconHeight = 20,
       this.iconColor,
       this.parentBuilder,
-      this.scaleDown = true});
+      this.scaleDown = true,
+      this.flip = false});
 
   final VoidCallback onTap;
   final String icon;
@@ -23,6 +26,7 @@ class SvgButton extends StatelessWidget {
   final double iconHeight;
   final Color? iconColor;
   final ParentChildBuilder? parentBuilder;
+  final bool flip;
 
   factory SvgButton.backButton({VoidCallback? onTap}) {
     return SvgButton(
@@ -42,14 +46,21 @@ class SvgButton extends StatelessWidget {
           parentBuilder: (Widget child) => Center(
             child: child,
           ),
-          child: SvgPicture.asset(
-            icon,
-            height: iconHeight,
-            width: iconWidth,
-            fit: scaleDown ? BoxFit.scaleDown : BoxFit.contain,
-            colorFilter: iconColor != null
-                ? ColorFilter.mode(iconColor!, BlendMode.srcIn)
-                : null,
+          child: ConditionalParentWidget(
+            condition: flip,
+            parentBuilder: (child) => Transform.rotate(
+              angle: math.pi,
+              child: child,
+            ),
+            child: SvgPicture.asset(
+              icon,
+              height: iconHeight,
+              width: iconWidth,
+              fit: scaleDown ? BoxFit.scaleDown : BoxFit.contain,
+              colorFilter: iconColor != null
+                  ? ColorFilter.mode(iconColor!, BlendMode.srcIn)
+                  : null,
+            ),
           ),
         ),
       ),

@@ -31,10 +31,10 @@ class UpsertIngredientController extends UpsertElementController {
 
   @override
   Future<void> loadData({bool callChild = true}) async {
-    await Future.wait([super.loadData(), fetchStep()]);
+    await Future.wait([super.loadData(), fetchIngredient()]);
   }
 
-  Future<void> fetchStep() async {
+  Future<void> fetchIngredient() async {
     if (id != null) {
       recipeIngredient = await RecipeIngredientRepository.find.findById(id) ??
           recipeIngredient;

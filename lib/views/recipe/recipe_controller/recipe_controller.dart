@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:recipes/decorator/decorators.dart';
@@ -13,7 +15,7 @@ import 'package:recipes/widgets/project/upsert_element/controllers/upsert_step_c
 import 'package:recipes/widgets/project/upsert_element/upsert_element_dialog.dart';
 
 part 'ingredient_recipe_controller_part.dart';
-
+part 'serving_recipe_controller_part.dart';
 part 'step_recipe_controller_part.dart';
 
 class RecipeController extends BaseController
@@ -37,8 +39,9 @@ class RecipeController extends BaseController
 
   final int recipeId;
   RecipePMRecipe? recipe;
-  final int servings = 4;
+  int servings = 4;
   late TabController tabController;
+  int tmpServings = 4;
 
   @override
   Future<void> loadData() async {

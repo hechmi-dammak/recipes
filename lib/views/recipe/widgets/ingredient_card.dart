@@ -60,7 +60,10 @@ class IngredientCard extends GetView<RecipeController> {
                               ),
                             ),
                             ConditionalWidget(
-                              condition: ingredient.amount != null,
+                              condition: ingredient.getAmount(
+                                      controller.servings,
+                                      controller.recipe?.servings) !=
+                                  null,
                               child: (context) => Positioned(
                                 left: 0,
                                 top: 14,
