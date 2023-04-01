@@ -46,8 +46,8 @@ class PictureUpsertFormFieldWidget extends StatelessWidget {
                             width: double.infinity,
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(6.5),
-                              child: Image.memory(
-                                controller.picture!.image,
+                              child: Image(
+                                image: controller.image!,
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -56,7 +56,7 @@ class PictureUpsertFormFieldWidget extends StatelessWidget {
                             top: 10,
                             right: 10,
                             child: SvgButton(
-                              onTap: controller.clearImage,
+                              onTap: controller.setPicture,
                               icon: 'assets/icons/trash_icon.svg',
                               iconHeight: 16,
                               iconWidth: 14,

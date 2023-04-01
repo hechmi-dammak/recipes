@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:recipes/decorator/decorators.dart';
 import 'package:recipes/helpers/getx_extension.dart';
@@ -55,6 +56,11 @@ class RecipesController extends BaseController
           (await RecipeRepository.find.findAllByRecipeCategoryId(categoryId))
               .map((recipe) => RecipePMRecipes(recipe: recipe))
               .toList();
+    }
+    for (RecipePMRecipes recipe in recipes) {
+      if (recipe.image != null) {
+        precacheImage(recipe.image!, Get.context!);
+      }
     }
   }
 

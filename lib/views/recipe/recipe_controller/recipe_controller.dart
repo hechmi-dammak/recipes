@@ -96,9 +96,19 @@ class RecipeController extends BaseController
   }
 
   Future<void> fetchRecipe() async {
-    final recipe = await RecipeRepository.find.findById(recipeId);
-    if (recipe != null) {
-      this.recipe = RecipePMRecipe(recipe: recipe);
+    final recipeModel = await RecipeRepository.find.findById(recipeId);
+
+    if (recipeModel == null) return;
+    recipe = RecipePMRecipe(recipe: recipeModel);
+    for (RecipeIngredientPMRecipe ingredient in recipe!.ingredientList) {
+      if (ingredient.image != null) {
+        await precacheImage(ingredient.image!, Get.context!);
+      }
+    }
+    for (StepPMRecipe step in recipe!.stepList) {
+      if (step.image != null) {
+        await precacheImage(step.image!, Get.context!);
+      }
     }
   }
 

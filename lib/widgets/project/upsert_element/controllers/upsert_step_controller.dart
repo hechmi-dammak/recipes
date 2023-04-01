@@ -26,7 +26,7 @@ class UpsertStepController extends UpsertElementController {
   }
 
   @override
-  Future<void> loadData({bool callChild = true}) async {
+  Future<void> loadData() async {
     await Future.wait([super.loadData(), fetchStep()]);
   }
 

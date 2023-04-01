@@ -31,7 +31,7 @@ class UpsertRecipeController extends UpsertElementController {
   Recipe recipe = Recipe();
 
   @override
-  Future<void> loadData({bool callChild = true}) async {
+  Future<void> loadData() async {
     await Future.wait([super.loadData(), fetchRecipe()]);
   }
 

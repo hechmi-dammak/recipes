@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:recipes/decorator/decorators.dart';
 import 'package:recipes/helpers/getx_extension.dart';
@@ -60,6 +61,11 @@ class RecipeCategoriesController extends BaseController
         .map((recipeCategory) =>
             RecipeCategoryPMRecipeCategories(recipeCategory: recipeCategory))
         .toList();
+    for (RecipeCategoryPMRecipeCategories recipeCategory in recipeCategories) {
+      if (recipeCategory.image != null) {
+        precacheImage(recipeCategory.image!, Get.context!);
+      }
+    }
   }
 
   Future<void> selectCategory(

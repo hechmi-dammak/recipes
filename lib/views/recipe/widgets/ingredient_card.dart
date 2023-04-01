@@ -48,12 +48,9 @@ class IngredientCard extends GetView<RecipeController> {
                                   color: Get.theme.colorScheme.tertiary),
                             ),
                             ConditionalWidget(
-                              condition:
-                                  ingredient.ingredient.value?.picture.value !=
-                                      null,
-                              child: (context) => Image.memory(
-                                ingredient
-                                    .ingredient.value!.picture.value!.image,
+                              condition: ingredient.image != null,
+                              child: (context) => Image(
+                                image: ingredient.image!,
                                 width: double.infinity,
                                 height: double.infinity,
                                 fit: BoxFit.cover,

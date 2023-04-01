@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:recipes/decorator/decorators.dart';
+import 'package:recipes/widgets/project/upsert_element/models/autocomplete_upsert_from_field.dart';
 import 'package:recipes/widgets/project/upsert_element/models/upsert_from_field.dart';
 
 abstract class UpsertElementController extends BaseController
@@ -14,6 +15,12 @@ abstract class UpsertElementController extends BaseController
 
   UpsertFormField? _getFormFieldByName(String name) {
     return formFields.firstWhereOrNull((formField) => formField.name == name);
+  }
+
+  AutocompleteUpsertFormField? getAutocompleteUpsertFormFieldByName(
+      String name) {
+    final UpsertFormField? formField = _getFormFieldByName(name);
+    return formField as AutocompleteUpsertFormField?;
   }
 
   TextUpsertFormField? getTextFormFieldByName(String name) {

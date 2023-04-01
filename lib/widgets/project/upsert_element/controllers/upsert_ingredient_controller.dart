@@ -45,7 +45,7 @@ class UpsertIngredientController extends UpsertElementController {
   }
 
   @override
-  Future<void> loadData({bool callChild = true}) async {
+  Future<void> loadData() async {
     await Future.wait(
         [super.loadData(), fetchIngredientAndFillData(), fetchIngredients()]);
   }
@@ -54,7 +54,7 @@ class UpsertIngredientController extends UpsertElementController {
     if (id != null) {
       recipeIngredient = await RecipeIngredientRepository.find.findById(id) ??
           recipeIngredient;
-      getTextFormFieldByName('name')?.controller.text =
+      getAutocompleteUpsertFormFieldByName('name')?.controller.text =
           recipeIngredient.ingredient.value?.name ?? '';
       getTextFormFieldByName('description')?.controller.text =
           recipeIngredient.description ?? '';
@@ -80,8 +80,11 @@ class UpsertIngredientController extends UpsertElementController {
           getTextFormFieldByName('description')?.controller.text.trim() ?? '';
       recipeIngredient.ingredient.value ??= Ingredient();
       recipeIngredient
-        ..ingredient.value!.name =
-            getTextFormFieldByName('name')?.controller.text.trim() ?? ''
+        ..ingredient.value!.name = getAutocompleteUpsertFormFieldByName('name')
+                ?.controller
+                .text
+                .trim() ??
+            ''
         ..description = description.isEmpty ? null : description
         ..amount =
             getTextFormFieldByName('amount')?.controller.text.trim() ?? ''

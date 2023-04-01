@@ -60,11 +60,11 @@ class StepCard extends GetView<RecipeController> {
                         ),
                       ),
                       ConditionalWidget(
-                        condition: step.picture.value != null,
+                        condition: step.image != null,
                         child: (context) => AspectRatio(
                           aspectRatio: 2,
-                          child: Image.memory(
-                            step.picture.value!.image,
+                          child: Image(
+                            image: step.image!,
                             width: double.infinity,
                             height: double.infinity,
                             fit: BoxFit.cover,

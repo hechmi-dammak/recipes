@@ -33,9 +33,9 @@ class RecipeCard extends GetView<RecipesController> {
           child: Stack(
             children: [
               ConditionalWidget(
-                  condition: recipe.picture.value != null,
-                  child: (context) => Image.memory(
-                        recipe.picture.value!.image,
+                  condition: recipe.image != null,
+                  child: (context) => Image(
+                        image: recipe.image!,
                         width: double.infinity,
                         height: double.infinity,
                         fit: BoxFit.cover,
