@@ -38,10 +38,10 @@ class UpsertRecipeController extends UpsertElementController {
   Future<void> fetchRecipe() async {
     if (id != null) {
       recipe = await RecipeRepository.find.findById(id) ?? recipe;
-      getTextFormFieldByName('name')?.controller.text = recipe.name;
-      getTextFormFieldByName('description')?.controller.text =
+      getTextFormFieldByName('name').controller.text = recipe.name;
+      getTextFormFieldByName('description').controller.text =
           recipe.description ?? '';
-      getPictureFormFieldByName('picture')?.picture = recipe.picture.value;
+      getPictureFormFieldByName('picture').picture = recipe.picture.value;
       return;
     }
     recipe.category.value =
@@ -53,11 +53,11 @@ class UpsertRecipeController extends UpsertElementController {
       void Function([bool? result, bool forceClose]) close) async {
     if (formKey.currentState?.validate() ?? false) {
       final description =
-          getTextFormFieldByName('description')?.controller.text.trim() ?? '';
+          getTextFormFieldByName('description').controller.text.trim();
       recipe
-        ..name = getTextFormFieldByName('name')?.controller.text.trim() ?? ''
+        ..name = getTextFormFieldByName('name').controller.text.trim()
         ..description = description.isEmpty ? null : description
-        ..picture.value = getPictureFormFieldByName('picture')?.picture;
+        ..picture.value = getPictureFormFieldByName('picture').picture;
       await RecipeRepository.find.save(recipe);
       close(true, true);
     }

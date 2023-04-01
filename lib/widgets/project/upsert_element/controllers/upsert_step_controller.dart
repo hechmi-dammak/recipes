@@ -33,8 +33,8 @@ class UpsertStepController extends UpsertElementController {
   Future<void> fetchStep() async {
     if (id != null) {
       step = await StepRepository.find.findById(id) ?? step;
-      getTextFormFieldByName('instruction')?.controller.text = step.instruction;
-      getPictureFormFieldByName('picture')?.picture = step.picture.value;
+      getTextFormFieldByName('instruction').controller.text = step.instruction;
+      getPictureFormFieldByName('picture').picture = step.picture.value;
       return;
     }
     step.recipe.value = await RecipeRepository.find.findById(recipeId);
@@ -46,8 +46,8 @@ class UpsertStepController extends UpsertElementController {
     if (formKey.currentState?.validate() ?? false) {
       step
         ..instruction =
-            getTextFormFieldByName('instruction')?.controller.text.trim() ?? ''
-        ..picture.value = getPictureFormFieldByName('picture')?.picture;
+            getTextFormFieldByName('instruction').controller.text.trim()
+        ..picture.value = getPictureFormFieldByName('picture').picture;
       await StepRepository.find.save(step);
       close(true, true);
     }

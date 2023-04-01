@@ -5,6 +5,7 @@ class AutocompleteUpsertFormField<T extends Object> extends UpsertFormField {
   int? maxLines;
   String? Function(String? value)? validator;
   TextEditingController controller = TextEditingController();
+  T? selectedValue;
 
   Type get genericType => T;
   String Function(T) displayLabel;

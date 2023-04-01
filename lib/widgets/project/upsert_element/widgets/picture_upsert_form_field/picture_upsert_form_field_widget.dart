@@ -30,13 +30,13 @@ class PictureUpsertFormFieldWidget extends StatelessWidget {
               AnimatedSize(
                 duration: const Duration(milliseconds: 300),
                 child: Container(
-                  height: controller.pictureIsSet ? null : 60,
+                  height: controller.picture != null ? null : 60,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(6.5),
                     border: Border.all(color: Get.theme.colorScheme.secondary),
                   ),
                   child: ConditionalWidget(
-                    condition: controller.pictureIsSet,
+                    condition: controller.picture != null,
                     child: (context) => AspectRatio(
                       aspectRatio: controller.aspectRatio,
                       child: Stack(
@@ -47,7 +47,7 @@ class PictureUpsertFormFieldWidget extends StatelessWidget {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(6.5),
                               child: Image(
-                                image: controller.image!,
+                                image: controller.formField.image!,
                                 fit: BoxFit.cover,
                               ),
                             ),

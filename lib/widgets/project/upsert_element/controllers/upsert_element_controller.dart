@@ -13,24 +13,24 @@ abstract class UpsertElementController extends BaseController
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  UpsertFormField? _getFormFieldByName(String name) {
-    return formFields.firstWhereOrNull((formField) => formField.name == name);
+  UpsertFormField _getFormFieldByName(String name) {
+    return formFields.firstWhere((formField) => formField.name == name);
   }
 
-  AutocompleteUpsertFormField? getAutocompleteUpsertFormFieldByName(
-      String name) {
-    final UpsertFormField? formField = _getFormFieldByName(name);
-    return formField as AutocompleteUpsertFormField?;
+  AutocompleteUpsertFormField<T>
+      getAutocompleteUpsertFormFieldByName<T extends Object>(String name) {
+    final UpsertFormField formField = _getFormFieldByName(name);
+    return formField as AutocompleteUpsertFormField<T>;
   }
 
-  TextUpsertFormField? getTextFormFieldByName(String name) {
-    final UpsertFormField? formField = _getFormFieldByName(name);
-    return formField as TextUpsertFormField?;
+  TextUpsertFormField getTextFormFieldByName(String name) {
+    final UpsertFormField formField = _getFormFieldByName(name);
+    return formField as TextUpsertFormField;
   }
 
-  PictureUpsertFormField? getPictureFormFieldByName(String name) {
+  PictureUpsertFormField getPictureFormFieldByName(String name) {
     final formField = _getFormFieldByName(name);
-    return formField as PictureUpsertFormField?;
+    return formField as PictureUpsertFormField;
   }
 
   @override

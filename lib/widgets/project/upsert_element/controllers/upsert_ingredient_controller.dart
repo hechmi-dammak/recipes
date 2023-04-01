@@ -28,10 +28,24 @@ class UpsertIngredientController extends UpsertElementController {
             return ingredient.name;
           },
           filter: (TextEditingValue textEditingValue) {
+            final field =
+                getAutocompleteUpsertFormFieldByName<Ingredient>('name');
+            if (field.selectedValue != null &&
+                field.selectedValue!.name != textEditingValue.text) {
+              field.selectedValue = null;
+              update();
+            }
+
             return ingredients.where((ingredient) =>
                 ingredient.name.startsWith(textEditingValue.text));
           },
-          onSelect: (Ingredient ingredient) {},
+          onSelect: (Ingredient ingredient) {
+            getAutocompleteUpsertFormFieldByName<Ingredient>('name')
+                .selectedValue = ingredient;
+            getPictureFormFieldByName('picture').picture =
+                ingredient.picture.value;
+            update();
+          },
           validator: FormValidators.notEmptyOrNullValidator),
       TextUpsertFormField(name: 'amount', label: 'Amount'.tr, optional: true),
       TextUpsertFormField(
@@ -54,13 +68,13 @@ class UpsertIngredientController extends UpsertElementController {
     if (id != null) {
       recipeIngredient = await RecipeIngredientRepository.find.findById(id) ??
           recipeIngredient;
-      getAutocompleteUpsertFormFieldByName('name')?.controller.text =
-          recipeIngredient.ingredient.value?.name ?? '';
-      getTextFormFieldByName('description')?.controller.text =
+      getAutocompleteUpsertFormFieldByName<Ingredient>('name').selectedValue =
+          recipeIngredient.ingredient.value;
+      getTextFormFieldByName('description').controller.text =
           recipeIngredient.description ?? '';
-      getTextFormFieldByName('amount')?.controller.text =
+      getTextFormFieldByName('amount').controller.text =
           recipeIngredient.amount ?? '';
-      getPictureFormFieldByName('picture')?.picture =
+      getPictureFormFieldByName('picture').picture =
           recipeIngredient.ingredient.value?.picture.value;
       return;
     }
@@ -77,19 +91,20 @@ class UpsertIngredientController extends UpsertElementController {
       void Function([bool? result, bool forceClose]) close) async {
     if (formKey.currentState?.validate() ?? false) {
       final description =
-          getTextFormFieldByName('description')?.controller.text.trim() ?? '';
-      recipeIngredient.ingredient.value ??= Ingredient();
+          getTextFormFieldByName('description').controller.text.trim();
+      final name = getAutocompleteUpsertFormFieldByName<Ingredient>('name');
+      if (name.selectedValue == null) {
+        recipeIngredient.ingredient.value ??= Ingredient();
+        recipeIngredient.ingredient.value!.name = name.controller.text.trim();
+      } else {
+        recipeIngredient.ingredient.value = name.selectedValue;
+      }
       recipeIngredient
-        ..ingredient.value!.name = getAutocompleteUpsertFormFieldByName('name')
-                ?.controller
-                .text
-                .trim() ??
-            ''
+        ..ingredient.value!.name = name.controller.text.trim()
         ..description = description.isEmpty ? null : description
-        ..amount =
-            getTextFormFieldByName('amount')?.controller.text.trim() ?? ''
+        ..amount = getTextFormFieldByName('amount').controller.text.trim()
         ..ingredient.value!.picture.value =
-            getPictureFormFieldByName('picture')?.picture;
+            getPictureFormFieldByName('picture').picture;
       await RecipeIngredientRepository.find.save(recipeIngredient);
       close(true, true);
     }
