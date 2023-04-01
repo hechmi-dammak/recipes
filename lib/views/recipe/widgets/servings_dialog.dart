@@ -23,6 +23,7 @@ class ServingsDialog extends CustomDialog<bool> {
           children: [
             Flexible(
               child: Container(
+                width: double.infinity,
                 decoration: BoxDecoration(
                     color: Get.theme.colorScheme.primaryContainer,
                     borderRadius: const BorderRadius.only(

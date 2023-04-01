@@ -12,6 +12,8 @@ class Recipe {
   @Index()
   String name;
   String? description;
+
+  //todo omitted for this iteration
   final IsarLink<RecipeCategory> category;
   int servings;
   final IsarLinks<Step> steps;

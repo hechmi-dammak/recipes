@@ -77,9 +77,11 @@ class RecipePage extends CustomPage<RecipeController> {
             ),
           )
         : CustomAppBar(
-            action: ServingsButton(
-                servings: controller.servings,
-                onTap: () => const ServingsDialog().show()),
+            action: controller.tabController.index == 0
+                ? ServingsButton(
+                    servings: controller.servings,
+                    onTap: () => const ServingsDialog().show())
+                : null,
             title: Text(
               controller.recipe?.name ?? '',
               style: Get.textTheme.headlineLarge

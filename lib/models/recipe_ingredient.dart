@@ -44,16 +44,13 @@ class RecipeIngredient {
   }
 
   set amount(String? amount) {
-    if (amount == null || amount.isEmpty) return;
-    final amountSplit = amount.split(' ');
-    if (amountSplit.length > 1) {
-      quantity = double.tryParse(amountSplit[0].trim());
+    if (amount == null || amount.isEmpty) {
+      quantity = null;
+      measuring = null;
+      return;
     }
-    if (quantity == null) {
-      measuring = amount;
-    } else {
-      measuring = amountSplit.sublist(1).join(' ');
-    }
+    quantity = double.tryParse(amount.replaceAll(RegExp(r'[^0-9\\.]'), ''));
+    measuring = amount.replaceAll(RegExp(r'[0-9\\.]'), '').trim();
   }
 
   RecipeIngredient({

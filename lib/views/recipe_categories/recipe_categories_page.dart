@@ -74,8 +74,8 @@ class RecipeCategoriesPage extends CustomPage<RecipeCategoriesController> {
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           childAspectRatio: 2,
           crossAxisCount: (MediaQuery.of(context).size.width / 600).ceil(),
-          mainAxisSpacing: 20,
-          crossAxisSpacing: 20),
+          mainAxisSpacing: 10,
+          crossAxisSpacing: 10),
       children: [
         ...controller.recipeCategories
             .map((recipeCategory) =>

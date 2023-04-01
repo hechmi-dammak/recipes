@@ -16,11 +16,14 @@ class UpsertRecipeController extends UpsertElementController {
     formFields = [
       TextUpsertFormField(
           name: 'name',
-          label: 'Name :'.tr,
+          label: 'Name'.tr,
           validator: FormValidators.notEmptyOrNullValidator),
       TextUpsertFormField(
-          name: 'description', label: 'Description :'.tr, maxLines: null),
-      PictureUpsertFormField(name: 'picture', aspectRatio: 1)
+          name: 'description',
+          label: 'Description'.tr,
+          maxLines: null,
+          optional: true),
+      PictureUpsertFormField(name: 'picture', aspectRatio: 1, optional: true)
     ];
     initState(null);
   }

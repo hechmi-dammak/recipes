@@ -16,8 +16,8 @@ class IngredientsTab extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: (Get.width / 300).ceil(),
-              mainAxisSpacing: 20,
-              crossAxisSpacing: 20),
+              mainAxisSpacing: 10,
+              crossAxisSpacing: 10),
           children: [
             ...controller.recipe!.ingredientList
                 .map((ingredient) => IngredientCard(

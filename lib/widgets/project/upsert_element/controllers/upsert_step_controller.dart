@@ -17,10 +17,10 @@ class UpsertStepController extends UpsertElementController {
     formFields = [
       TextUpsertFormField(
           name: 'instruction',
-          label: 'Instruction :'.tr,
+          label: 'Instruction'.tr,
           maxLines: null,
           validator: FormValidators.notEmptyOrNullValidator),
-      PictureUpsertFormField(name: 'picture')
+      PictureUpsertFormField(name: 'picture', optional: true)
     ];
     initState(null);
   }

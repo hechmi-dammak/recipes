@@ -5,8 +5,11 @@ export 'package:recipes/widgets/project/upsert_element/models/text_upsert_from_f
 
 abstract class UpsertFormField {
   String name;
+  bool optional;
+  String label;
 
-  UpsertFormField({required this.name});
+  UpsertFormField(
+      {required this.name, this.optional = false, required this.label});
 
   @mustCallSuper
   void dispose() {}

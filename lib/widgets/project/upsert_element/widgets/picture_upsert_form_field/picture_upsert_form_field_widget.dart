@@ -4,6 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:recipes/widgets/common/conditional_widget.dart';
 import 'package:recipes/widgets/common/svg_button.dart';
 import 'package:recipes/widgets/project/upsert_element/models/upsert_from_field.dart';
+import 'package:recipes/widgets/project/upsert_element/widgets/field_title.dart';
 import 'package:recipes/widgets/project/upsert_element/widgets/picture_upsert_form_field/picture_upsert_form_field_controller.dart';
 
 class PictureUpsertFormFieldWidget extends StatelessWidget {
@@ -21,9 +22,9 @@ class PictureUpsertFormFieldWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                'Image:'.tr,
-                style: Get.textTheme.bodyLarge,
+              FieldTitle(
+                title: formField.label.tr,
+                optional: formField.optional,
               ),
               const SizedBox(height: 7),
               AnimatedSize(

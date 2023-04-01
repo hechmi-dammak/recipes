@@ -74,18 +74,6 @@ class StepCard extends GetView<RecipeController> {
                     ],
                   ),
                   ConditionalWidget(
-                    condition: step.selected,
-                    child: (context) => Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(borderRadius),
-                        border: Border.all(
-                          width: borderWidth,
-                          color: Get.theme.colorScheme.primary,
-                        ),
-                      ),
-                    ),
-                  ),
-                  ConditionalWidget(
                     condition: step.used,
                     child: (context) => Container(
                       decoration: BoxDecoration(
@@ -94,6 +82,18 @@ class StepCard extends GetView<RecipeController> {
                         border: Border.all(
                           width: borderWidth,
                           color: Get.theme.colorScheme.tertiary,
+                        ),
+                      ),
+                    ),
+                  ),
+                  ConditionalWidget(
+                    condition: step.selected,
+                    child: (context) => Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(borderRadius),
+                        border: Border.all(
+                          width: borderWidth,
+                          color: Get.theme.colorScheme.primary,
                         ),
                       ),
                     ),
