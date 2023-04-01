@@ -15,7 +15,9 @@ import 'package:recipes/widgets/project/upsert_element/controllers/upsert_step_c
 import 'package:recipes/widgets/project/upsert_element/upsert_element_dialog.dart';
 
 part 'ingredient_recipe_controller_part.dart';
+
 part 'serving_recipe_controller_part.dart';
+
 part 'step_recipe_controller_part.dart';
 
 class RecipeController extends BaseController
@@ -51,11 +53,15 @@ class RecipeController extends BaseController
   @override
   void setSelectAllValue([bool value = false]) {
     if (recipe == null) return;
-    for (var step in recipe!.stepList) {
-      step.selected = value;
+    if (tabController.index == 0) {
+      for (var ingredient in recipe!.ingredientList) {
+        ingredient.selected = value;
+      }
     }
-    for (var ingredient in recipe!.ingredientList) {
-      ingredient.selected = value;
+    if (tabController.index == 1) {
+      for (var step in recipe!.stepList) {
+        step.selected = value;
+      }
     }
     super.setSelectAllValue(value);
   }
