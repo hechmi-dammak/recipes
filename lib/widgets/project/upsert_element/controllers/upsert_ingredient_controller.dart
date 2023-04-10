@@ -35,6 +35,7 @@ class UpsertIngredientController extends UpsertElementController {
               field.selectedValue = null;
               update();
             }
+            if (textEditingValue.text.isEmpty) return [];
 
             return ingredients.where((ingredient) =>
                 ingredient.name.startsWith(textEditingValue.text));
