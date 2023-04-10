@@ -20,11 +20,12 @@ class StepsTab extends StatelessWidget {
                       step: step,
                     ))
                 .toList(),
-            AddElementCard(
-              onTap: controller.addStep,
-              semanticsLabel: 'Add Step'.tr,
-              height: Get.height * 0.2,
-            ),
+            if (!controller.selectionIsActive)
+              AddElementCard(
+                onTap: controller.addStep,
+                semanticsLabel: 'Add Step'.tr,
+                height: Get.height * 0.2,
+              ),
           ],
         ),
       );

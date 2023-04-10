@@ -24,9 +24,10 @@ class IngredientsTab extends StatelessWidget {
                       ingredient: ingredient,
                     ))
                 .toList(),
-            AddElementCard(
-                onTap: controller.addIngredient,
-                semanticsLabel: 'Add Ingredient'.tr),
+            if (!controller.selectionIsActive)
+              AddElementCard(
+                  onTap: controller.addIngredient,
+                  semanticsLabel: 'Add Ingredient'.tr),
           ],
         ),
       );
