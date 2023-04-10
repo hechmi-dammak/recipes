@@ -9,7 +9,7 @@ import 'package:recipes/widgets/project/upsert_element/widgets/upsert_form_field
 class UpsertElementDialog<T extends UpsertElementController>
     extends CustomDialog<bool> {
   const UpsertElementDialog({this.controller, super.key})
-      : super(dismissible: false);
+      : super(dismissible: false, withKeyboard: true);
   final T? controller;
 
   @override

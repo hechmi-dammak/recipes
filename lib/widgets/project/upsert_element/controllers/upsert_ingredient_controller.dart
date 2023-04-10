@@ -72,6 +72,8 @@ class UpsertIngredientController extends UpsertElementController {
           recipeIngredient;
       getAutocompleteUpsertFormFieldByName<Ingredient>('name').selectedValue =
           recipeIngredient.ingredient.value;
+      getAutocompleteUpsertFormFieldByName<Ingredient>('name').controller.text =
+          recipeIngredient.ingredient.value?.name ?? '';
       getTextFormFieldByName('description').controller.text =
           recipeIngredient.description ?? '';
       getTextFormFieldByName('amount').controller.text =

@@ -65,20 +65,22 @@ class RecipesPage extends CustomPage<RecipesController> {
 
   @override
   Widget bodyBuilder(RecipesController controller, BuildContext context) {
-    return GridView(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: (Get.width / 300).ceil(),
-          mainAxisSpacing: 10,
-          crossAxisSpacing: 10),
-      children: [
-        ...controller.recipes
-            .map((recipe) => RecipeCard(recipe: recipe))
-            .toList(),
-        if (!controller.selectionIsActive)
-          AddElementCard(
-              onTap: controller.addRecipe, semanticsLabel: 'Add Recipe'.tr),
-      ],
-    );
+    return LayoutBuilder(builder: (context, _) {
+      return GridView(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: (Get.width / 300).ceil(),
+            mainAxisSpacing: 10,
+            crossAxisSpacing: 10),
+        children: [
+          ...controller.recipes
+              .map((recipe) => RecipeCard(recipe: recipe))
+              .toList(),
+          if (!controller.selectionIsActive)
+            AddElementCard(
+                onTap: controller.addRecipe, semanticsLabel: 'Add Recipe'.tr),
+        ],
+      );
+    });
   }
 }

@@ -3,13 +3,14 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import 'conditional_widget.dart';
+
 abstract class CustomDialog<T> extends StatelessWidget {
-  const CustomDialog({
-    super.key,
-    this.dismissible = true,
-  });
+  const CustomDialog(
+      {super.key, this.dismissible = true, this.withKeyboard = false});
 
   final bool dismissible;
+  final bool withKeyboard;
 
   Future<T?> show([T? defaultResult]) async {
     return await Get.dialog<T>(Scaffold(
@@ -34,9 +35,18 @@ abstract class CustomDialog<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Dialog(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        child: buildChild(context));
+    return LayoutBuilder(builder: (context, _) {
+      return ConditionalWidget(
+        condition: Get.height < 450 && withKeyboard,
+        child: (context) => Dialog.fullscreen(
+            backgroundColor: Colors.transparent, child: buildChild(context)),
+        secondChild: (context) {
+          return Dialog(
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              child: buildChild(context));
+        },
+      );
+    });
   }
 }

@@ -18,27 +18,29 @@ class TitleAppBarButton extends StatelessWidget {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: onTap,
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Image(
-              image: AssetService.assets[icon]!,
-              height: 20,
-              width: 20,
-              semanticLabel: title,
-              fit: BoxFit.contain),
-          if (Get.width > 340) ...[
-            const SizedBox(
-              width: 5,
-            ),
-            Text(
-              title,
-              style: Get.textTheme.labelSmall
-                  ?.copyWith(color: Get.theme.colorScheme.onPrimary),
-            )
-          ]
-        ],
-      ),
+      child: LayoutBuilder(builder: (context, _) {
+        return Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Image(
+                image: AssetService.assets[icon]!,
+                height: 20,
+                width: 20,
+                semanticLabel: title,
+                fit: BoxFit.contain),
+            if (Get.width > 340) ...[
+              const SizedBox(
+                width: 5,
+              ),
+              Text(
+                title,
+                style: Get.textTheme.labelSmall
+                    ?.copyWith(color: Get.theme.colorScheme.onPrimary),
+              )
+            ]
+          ],
+        );
+      }),
     );
   }
 }

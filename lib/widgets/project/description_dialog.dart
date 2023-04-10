@@ -27,16 +27,18 @@ class DescriptionDialog extends CustomDialog<void> {
           ),
           Divider(
               thickness: 1, height: 25, color: Get.theme.colorScheme.secondary),
-          Container(
-            constraints: BoxConstraints(maxHeight: Get.height * .45),
-            child: SingleChildScrollView(
-              child: Text(
-                description,
-                style: Get.textTheme.bodyMedium
-                    ?.copyWith(color: Get.theme.colorScheme.onPrimaryContainer),
+          LayoutBuilder(builder: (context, _) {
+            return Container(
+              constraints: BoxConstraints(maxHeight: Get.height * .45),
+              child: SingleChildScrollView(
+                child: Text(
+                  description,
+                  style: Get.textTheme.bodyMedium?.copyWith(
+                      color: Get.theme.colorScheme.onPrimaryContainer),
+                ),
               ),
-            ),
-          ),
+            );
+          }),
         ],
       ),
     );

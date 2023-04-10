@@ -68,23 +68,25 @@ class RecipeCategoriesPage extends CustomPage<RecipeCategoriesController> {
   @override
   Widget bodyBuilder(
       RecipeCategoriesController controller, BuildContext context) {
-    return GridView(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          childAspectRatio: 2,
-          crossAxisCount: (MediaQuery.of(context).size.width / 600).ceil(),
-          mainAxisSpacing: 10,
-          crossAxisSpacing: 10),
-      children: [
-        ...controller.recipeCategories
-            .map((recipeCategory) =>
-                RecipeCategoryCard(recipeCategory: recipeCategory))
-            .toList(),
-        if (!controller.selectionIsActive)
-          AddElementCard(
-              onTap: controller.addRecipeCategory,
-              semanticsLabel: 'Add Recipe Category'.tr),
-      ],
-    );
+    return LayoutBuilder(builder: (context, _) {
+      return GridView(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            childAspectRatio: 2,
+            crossAxisCount: (Get.width / 600).ceil(),
+            mainAxisSpacing: 10,
+            crossAxisSpacing: 10),
+        children: [
+          ...controller.recipeCategories
+              .map((recipeCategory) =>
+                  RecipeCategoryCard(recipeCategory: recipeCategory))
+              .toList(),
+          if (!controller.selectionIsActive)
+            AddElementCard(
+                onTap: controller.addRecipeCategory,
+                semanticsLabel: 'Add Recipe Category'.tr),
+        ],
+      );
+    });
   }
 }

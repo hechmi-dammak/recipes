@@ -12,24 +12,26 @@ class IngredientsTab extends StatelessWidget {
     return GetBuilder<RecipeController>(builder: (controller) {
       return RefreshIndicator(
         onRefresh: controller.fetchData,
-        child: GridView(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: (Get.width / 300).ceil(),
-              mainAxisSpacing: 10,
-              crossAxisSpacing: 10),
-          children: [
-            ...controller.recipe!.ingredientList
-                .map((ingredient) => IngredientCard(
-                      ingredient: ingredient,
-                    ))
-                .toList(),
-            if (!controller.selectionIsActive)
-              AddElementCard(
-                  onTap: controller.addIngredient,
-                  semanticsLabel: 'Add Ingredient'.tr),
-          ],
-        ),
+        child: LayoutBuilder(builder: (context, _) {
+          return GridView(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: (Get.width / 300).ceil(),
+                mainAxisSpacing: 10,
+                crossAxisSpacing: 10),
+            children: [
+              ...controller.recipe!.ingredientList
+                  .map((ingredient) => IngredientCard(
+                        ingredient: ingredient,
+                      ))
+                  .toList(),
+              if (!controller.selectionIsActive)
+                AddElementCard(
+                    onTap: controller.addIngredient,
+                    semanticsLabel: 'Add Ingredient'.tr),
+            ],
+          );
+        }),
       );
     });
   }

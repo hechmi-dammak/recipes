@@ -30,7 +30,7 @@ class InfoButton extends StatelessWidget {
                 iconHeight: 9,
                 iconWidth: 2,
                 iconColor: Get.theme.colorScheme.onPrimary,
-                parentBuilder: (child) => SizedBox(
+                parentBuilder: (context, child) => SizedBox(
                   height: 34,
                   width: 32,
                   child: Center(

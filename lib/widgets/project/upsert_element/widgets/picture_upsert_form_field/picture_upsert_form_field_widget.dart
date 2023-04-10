@@ -61,7 +61,7 @@ class PictureUpsertFormFieldWidget extends StatelessWidget {
                               iconHeight: 16,
                               iconWidth: 14,
                               iconColor: Get.theme.colorScheme.onSecondary,
-                              parentBuilder: (child) => Container(
+                              parentBuilder: (context, child) => Container(
                                 width: 32,
                                 height: 32,
                                 decoration: BoxDecoration(

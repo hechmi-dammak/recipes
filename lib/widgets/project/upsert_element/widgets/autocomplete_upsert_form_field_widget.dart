@@ -81,43 +81,46 @@ class _AutocompleteOptions<T extends Object> extends StatelessWidget {
       alignment: Alignment.topLeft,
       child: Material(
         elevation: 4.0,
-        child: ConstrainedBox(
-          constraints: BoxConstraints(
-              maxHeight: Get.height * .3, maxWidth: Get.width * .64),
-          child: ListView.builder(
-            padding: EdgeInsets.zero,
-            shrinkWrap: true,
-            itemCount: options.length,
-            itemBuilder: (BuildContext context, int index) {
-              final T option = options.elementAt(index);
-              return InkWell(
-                onTap: () {
-                  onSelected(option);
-                },
-                child: Builder(builder: (BuildContext context) {
-                  final bool highlight =
-                      AutocompleteHighlightedOption.of(context) == index;
-                  if (highlight) {
-                    SchedulerBinding.instance
-                        .addPostFrameCallback((Duration timeStamp) {
-                      Scrollable.ensureVisible(context, alignment: 0.5);
-                    });
-                  }
-                  return Container(
-                    color: highlight
-                        ? Get.theme.colorScheme.tertiaryContainer
-                        : Get.theme.colorScheme.primaryContainer,
-                    padding: const EdgeInsets.all(16.0),
-                    child: Text(
-                      displayStringForOption(option),
-                      style: Get.textTheme.bodyLarge,
-                    ),
-                  );
-                }),
-              );
-            },
-          ),
-        ),
+        child: LayoutBuilder(builder: (context, _) {
+          return ConstrainedBox(
+            constraints: BoxConstraints(
+                maxHeight: Get.height * .3,
+                maxWidth: Get.width - 60 - (Get.height > 450 ? 80 : 0)),
+            child: ListView.builder(
+              padding: EdgeInsets.zero,
+              shrinkWrap: true,
+              itemCount: options.length,
+              itemBuilder: (BuildContext context, int index) {
+                final T option = options.elementAt(index);
+                return InkWell(
+                  onTap: () {
+                    onSelected(option);
+                  },
+                  child: Builder(builder: (BuildContext context) {
+                    final bool highlight =
+                        AutocompleteHighlightedOption.of(context) == index;
+                    if (highlight) {
+                      SchedulerBinding.instance
+                          .addPostFrameCallback((Duration timeStamp) {
+                        Scrollable.ensureVisible(context, alignment: 0.5);
+                      });
+                    }
+                    return Container(
+                      color: highlight
+                          ? Get.theme.colorScheme.tertiaryContainer
+                          : Get.theme.colorScheme.primaryContainer,
+                      padding: const EdgeInsets.all(16.0),
+                      child: Text(
+                        displayStringForOption(option),
+                        style: Get.textTheme.bodyLarge,
+                      ),
+                    );
+                  }),
+                );
+              },
+            ),
+          );
+        }),
       ),
     );
   }

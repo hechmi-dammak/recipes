@@ -45,15 +45,16 @@ class AssetButton extends StatelessWidget {
       onTap: onTap,
       child: ConditionalParentWidget(
         condition: parentBuilder != null,
-        parentBuilder: (child) => parentBuilder?.call(child) ?? Container(),
+        parentBuilder: (context, child) =>
+            parentBuilder?.call(context, child) ?? Container(),
         child: ConditionalParentWidget(
           condition: center,
-          parentBuilder: (Widget child) => Center(
+          parentBuilder: (context, child) => Center(
             child: child,
           ),
           child: ConditionalParentWidget(
             condition: flip,
-            parentBuilder: (child) => Transform.rotate(
+            parentBuilder: (context, child) => Transform.rotate(
               angle: math.pi,
               child: child,
             ),

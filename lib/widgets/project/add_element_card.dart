@@ -22,7 +22,7 @@ class AddElementCard extends StatelessWidget {
       iconHeight: 30,
       iconWidth: 30,
       iconColor: Get.theme.colorScheme.onTertiaryContainer,
-      parentBuilder: (child) => Container(
+      parentBuilder: (context, child) => Container(
         height: height,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(6.5),
