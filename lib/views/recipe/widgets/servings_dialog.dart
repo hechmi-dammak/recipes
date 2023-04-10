@@ -123,12 +123,11 @@ class ServingsEditingButton extends StatelessWidget {
             child: SizedBox(
               width: 40,
               height: 40,
-              child: Center(
-                child: AssetButton(
-                    iconColor: Get.theme.colorScheme.secondary,
-                    onTap: controller.decrementTmpServings,
-                    icon: 'back_arrow_icon'),
-              ),
+              child: AssetButton(
+                center: true,
+                  iconColor: Get.theme.colorScheme.secondary,
+                  onTap: controller.decrementTmpServings,
+                  icon: 'back_arrow_icon'),
             ),
           ),
           Container(
@@ -157,13 +156,12 @@ class ServingsEditingButton extends StatelessWidget {
             child: SizedBox(
               width: 40,
               height: 40,
-              child: Center(
-                child: AssetButton(
-                    iconColor: Get.theme.colorScheme.secondary,
-                    flip: true,
-                    onTap: controller.incrementTmpServings,
-                    icon: 'back_arrow_icon'),
-              ),
+              child: AssetButton(
+                  iconColor: Get.theme.colorScheme.secondary,
+                  flip: true,
+                  center: true,
+                  onTap: controller.incrementTmpServings,
+                  icon: 'back_arrow_icon'),
             ),
           )
         ],
