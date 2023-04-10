@@ -120,12 +120,15 @@ class ServingsEditingButton extends StatelessWidget {
                 bottomLeft: Radius.circular(6.5),
               ),
             ),
-            child: ConstrainedBox(
-              constraints: const BoxConstraints.tightFor(width: 40, height: 40),
-              child: AssetButton(
-                  iconColor: Get.theme.colorScheme.secondary,
-                  onTap: controller.decrementTmpServings,
-                  icon: 'back_arrow_icon'),
+            child: SizedBox(
+              width: 40,
+              height: 40,
+              child: Center(
+                child: AssetButton(
+                    iconColor: Get.theme.colorScheme.secondary,
+                    onTap: controller.decrementTmpServings,
+                    icon: 'back_arrow_icon'),
+              ),
             ),
           ),
           Container(
@@ -151,13 +154,16 @@ class ServingsEditingButton extends StatelessWidget {
                 bottomRight: Radius.circular(6.5),
               ),
             ),
-            child: ConstrainedBox(
-              constraints: const BoxConstraints.tightFor(width: 40, height: 40),
-              child: AssetButton(
-                  iconColor: Get.theme.colorScheme.secondary,
-                  flip: true,
-                  onTap: controller.incrementTmpServings,
-                  icon: 'back_arrow_icon'),
+            child: SizedBox(
+              width: 40,
+              height: 40,
+              child: Center(
+                child: AssetButton(
+                    iconColor: Get.theme.colorScheme.secondary,
+                    flip: true,
+                    onTap: controller.incrementTmpServings,
+                    icon: 'back_arrow_icon'),
+              ),
             ),
           )
         ],
