@@ -14,7 +14,7 @@ class CustomInputDecoration extends InputDecoration {
           fillColor: Get.theme.colorScheme.primaryContainer,
           filled: true,
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(6.5),
+            borderRadius: BorderRadius.circular(10),
             borderSide: BorderSide(color: Get.theme.colorScheme.primary),
           ),
         );

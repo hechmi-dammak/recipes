@@ -84,7 +84,7 @@ class _AutocompleteOptions<T extends Object> extends StatelessWidget {
         child: LayoutBuilder(builder: (context, _) {
           return ConstrainedBox(
             constraints: BoxConstraints(
-                maxHeight: Get.height * .3,
+                maxHeight: 35,
                 maxWidth: Get.width - 60 - (Get.height > 450 ? 80 : 0)),
             child: ListView.builder(
               padding: EdgeInsets.zero,
