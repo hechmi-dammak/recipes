@@ -81,10 +81,13 @@ class RecipeCategoriesPage extends CustomPage<RecipeCategoriesController> {
               .map((recipeCategory) =>
                   RecipeCategoryCard(recipeCategory: recipeCategory))
               .toList(),
-          if (!controller.selectionIsActive)
-            AddElementCard(
+          AnimatedOpacity(
+            opacity: controller.selectionIsActive ? 0 : 1,
+            duration: const Duration(milliseconds: 300),
+            child: AddElementCard(
                 onTap: controller.addRecipeCategory,
                 semanticsLabel: 'Add Recipe Category'.tr),
+          ),
         ],
       );
     });

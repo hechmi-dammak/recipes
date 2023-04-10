@@ -29,9 +29,54 @@ class UpsertElementDialog<T extends UpsertElementController>
                         borderRadius: const BorderRadius.only(
                             topRight: Radius.circular(6.5),
                             topLeft: Radius.circular(6.5))),
-                    padding: const EdgeInsets.all(30),
-                    child: SingleChildScrollView(
-                      child: AddElementForm<T>(),
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.only(
+                          topRight: Radius.circular(6.5),
+                          topLeft: Radius.circular(6.5)),
+                      child: IntrinsicHeight(
+                        child: Stack(
+                          children: [
+                            SingleChildScrollView(
+                              child: AddElementForm<T>(),
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                  stops: const [0.4, 1],
+                                  colors: [
+                                    Get.theme.colorScheme.primaryContainer,
+                                    Get.theme.colorScheme.primaryContainer
+                                        .withOpacity(0)
+                                  ],
+                                ),
+                              ),
+                              width: double.infinity,
+                              height: 30,
+                            ),
+                            Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    begin: Alignment.bottomCenter,
+                                    end: Alignment.topCenter,
+                                    stops: const [0.4, 1],
+                                    colors: [
+                                      Get.theme.colorScheme.primaryContainer,
+                                      Get.theme.colorScheme.primaryContainer
+                                          .withOpacity(0)
+                                    ],
+                                  ),
+                                ),
+                                width: double.infinity,
+                                height: 30,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -66,13 +111,15 @@ class AddElementForm<T extends UpsertElementController>
                     ))
                 .toList();
       }
-
-      return Form(
-        key: controller.formKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: formFields,
+      return Padding(
+        padding: const EdgeInsets.all(30),
+        child: Form(
+          key: controller.formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: formFields,
+          ),
         ),
       );
     });

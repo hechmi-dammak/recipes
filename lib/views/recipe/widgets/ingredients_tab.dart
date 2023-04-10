@@ -25,10 +25,13 @@ class IngredientsTab extends StatelessWidget {
                         ingredient: ingredient,
                       ))
                   .toList(),
-              if (!controller.selectionIsActive)
-                AddElementCard(
+              AnimatedOpacity(
+                opacity: controller.selectionIsActive ? 0 : 1,
+                duration: const Duration(milliseconds: 300),
+                child: AddElementCard(
                     onTap: controller.addIngredient,
                     semanticsLabel: 'Add Ingredient'.tr),
+              ),
             ],
           );
         }),

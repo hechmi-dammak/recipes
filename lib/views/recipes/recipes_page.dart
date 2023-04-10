@@ -76,9 +76,14 @@ class RecipesPage extends CustomPage<RecipesController> {
           ...controller.recipes
               .map((recipe) => RecipeCard(recipe: recipe))
               .toList(),
-          if (!controller.selectionIsActive)
-            AddElementCard(
-                onTap: controller.addRecipe, semanticsLabel: 'Add Recipe'.tr),
+          AnimatedOpacity(
+            opacity: controller.selectionIsActive ? 0 : 1,
+            duration: const Duration(milliseconds: 300),
+            child: AddElementCard(
+              onTap: controller.addRecipe,
+              semanticsLabel: 'Add Recipe'.tr,
+            ),
+          ),
         ],
       );
     });

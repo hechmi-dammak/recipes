@@ -56,6 +56,7 @@ class PictureUpsertFormFieldWidget extends StatelessWidget {
                             top: 10,
                             right: 10,
                             child: AssetButton(
+                              center: true,
                               onTap: controller.setPicture,
                               icon: 'trash_icon',
                               iconHeight: 16,

@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:recipes/views/recipes/models/recipe_pm_recipes.dart';
 import 'package:recipes/views/recipes/recipes_controller.dart';
 import 'package:recipes/widgets/common/conditional_widget.dart';
-import 'package:recipes/widgets/info_button.dart';
+import 'package:recipes/widgets/project/info_button.dart';
 
 class RecipeCard extends GetView<RecipesController> {
   const RecipeCard({Key? key, required this.recipe}) : super(key: key);

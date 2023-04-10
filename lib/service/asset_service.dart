@@ -31,6 +31,7 @@ class AssetService extends GetxService {
     'assets/icons_png/share_icon.png',
     'assets/icons_png/trash_icon.png',
     'assets/icons_png/up_arrow_icon.png',
+    'assets/icons_png/used_icon.png',
   ];
 
   Future<void> init() async {

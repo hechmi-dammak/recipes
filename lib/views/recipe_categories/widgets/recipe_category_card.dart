@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:recipes/views/recipe_categories/models/recipe_category_pm_recipe_categories.dart';
 import 'package:recipes/views/recipe_categories/recipe_categories_controller.dart';
 import 'package:recipes/widgets/common/conditional_widget.dart';
-import 'package:recipes/widgets/info_button.dart';
+import 'package:recipes/widgets/project/info_button.dart';
 
 class RecipeCategoryCard extends GetView<RecipeCategoriesController> {
   const RecipeCategoryCard({Key? key, required this.recipeCategory})
