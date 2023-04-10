@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:recipes/widgets/common/asset_button.dart';
 import 'package:recipes/widgets/common/conditional_widget.dart';
-import 'package:recipes/widgets/common/svg_button.dart';
 import 'package:recipes/widgets/project/description_dialog.dart';
 
 class InfoButton extends StatelessWidget {
@@ -23,10 +23,10 @@ class InfoButton extends StatelessWidget {
               top: 0,
               left: isRight ? null : 0,
               right: isRight ? 0 : null,
-              child: SvgButton(
+              child: AssetButton(
                 onTap: DescriptionDialog(title: name, description: description!)
                     .show,
-                icon: 'assets/icons/info_icon.svg',
+                icon: 'info_icon',
                 iconHeight: 9,
                 iconWidth: 2,
                 iconColor: Get.theme.colorScheme.onPrimary,

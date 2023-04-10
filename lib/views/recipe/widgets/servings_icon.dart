@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:recipes/service/asset_service.dart';
 
 class ServingsIcon extends StatelessWidget {
   const ServingsIcon({
@@ -17,12 +17,13 @@ class ServingsIcon extends StatelessWidget {
     return Stack(
       children: [
         Align(
-          child: SvgPicture.asset(
-            'assets/icons/portions_icon.svg',
-            height: 20,
-            width: 20,
-            colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
-          ),
+          child: Image(
+              image: AssetService.assets['portions_icon']!,
+              height: 20,
+              width: 20,
+              colorBlendMode: BlendMode.srcIn,
+              color: color,
+              fit: BoxFit.contain),
         ),
         Align(
           child: Container(

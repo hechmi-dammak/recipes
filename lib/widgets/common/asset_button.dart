@@ -1,12 +1,12 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:recipes/service/asset_service.dart';
 import 'package:recipes/widgets/common/conditional_parent_widget.dart';
 
-class SvgButton extends StatelessWidget {
-  const SvgButton(
+class AssetButton extends StatelessWidget {
+  const AssetButton(
       {super.key,
       required this.onTap,
       required this.icon,
@@ -28,10 +28,15 @@ class SvgButton extends StatelessWidget {
   final ParentChildBuilder? parentBuilder;
   final bool flip;
 
-  factory SvgButton.backButton({VoidCallback? onTap}) {
-    return SvgButton(
-        onTap: onTap ?? Get.back, icon: 'assets/icons/back_arrow_icon.svg');
-  }
+  AssetButton.back({Key? key, VoidCallback? onTap})
+      : this(onTap: onTap ?? Get.back, icon: 'back_arrow_icon', key: key);
+
+  const AssetButton.selectAll(
+      {Key? key, required VoidCallback onTap, required bool allItemsSelected})
+      : this(
+            onTap: onTap,
+            icon: allItemsSelected ? 'select_all_icon' : 'deselect_all_icon',
+            key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -52,15 +57,13 @@ class SvgButton extends StatelessWidget {
               angle: math.pi,
               child: child,
             ),
-            child: SvgPicture.asset(
-              icon,
-              height: iconHeight,
-              width: iconWidth,
-              fit: scaleDown ? BoxFit.scaleDown : BoxFit.contain,
-              colorFilter: iconColor != null
-                  ? ColorFilter.mode(iconColor!, BlendMode.srcIn)
-                  : null,
-            ),
+            child: Image(
+                image: AssetService.assets[icon]!,
+                height: iconHeight,
+                width: iconWidth,
+                colorBlendMode: BlendMode.srcIn,
+                color: iconColor,
+                fit: BoxFit.contain),
           ),
         ),
       ),

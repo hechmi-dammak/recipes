@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:recipes/widgets/common/asset_button.dart';
 import 'package:recipes/widgets/common/conditional_widget.dart';
-import 'package:recipes/widgets/common/svg_button.dart';
 import 'package:recipes/widgets/project/upsert_element/models/upsert_from_field.dart';
 import 'package:recipes/widgets/project/upsert_element/widgets/field_title.dart';
 import 'package:recipes/widgets/project/upsert_element/widgets/picture_upsert_form_field/picture_upsert_form_field_controller.dart';
@@ -55,9 +55,9 @@ class PictureUpsertFormFieldWidget extends StatelessWidget {
                           Positioned(
                             top: 10,
                             right: 10,
-                            child: SvgButton(
+                            child: AssetButton(
                               onTap: controller.setPicture,
-                              icon: 'assets/icons/trash_icon.svg',
+                              icon: 'trash_icon',
                               iconHeight: 16,
                               iconWidth: 14,
                               iconColor: Get.theme.colorScheme.onSecondary,
@@ -77,10 +77,10 @@ class PictureUpsertFormFieldWidget extends StatelessWidget {
                     secondChild: (context) => Row(
                       children: [
                         Flexible(
-                          child: SvgButton(
+                          child: AssetButton(
                             onTap: () =>
                                 controller.pickImage(ImageSource.gallery),
-                            icon: 'assets/icons/gallery_icon.svg',
+                            icon: 'gallery_icon',
                             center: true,
                             iconColor: Get.theme.colorScheme.secondary,
                             iconHeight: 30,
@@ -96,10 +96,10 @@ class PictureUpsertFormFieldWidget extends StatelessWidget {
                           color: Get.theme.colorScheme.secondary,
                         ),
                         Flexible(
-                          child: SvgButton(
+                          child: AssetButton(
                             onTap: () =>
                                 controller.pickImage(ImageSource.camera),
-                            icon: 'assets/icons/camera_icon.svg',
+                            icon: 'camera_icon',
                             center: true,
                             iconColor: Get.theme.colorScheme.secondary,
                             iconHeight: 30,

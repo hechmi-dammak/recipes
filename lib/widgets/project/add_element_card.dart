@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:recipes/widgets/common/svg_button.dart';
+import 'package:recipes/widgets/common/asset_button.dart';
 
 class AddElementCard extends StatelessWidget {
   const AddElementCard(
@@ -15,9 +15,9 @@ class AddElementCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SvgButton(
+    return AssetButton(
       onTap: onTap,
-      icon: 'assets/icons/big_plus_icon.svg',
+      icon: 'big_plus_icon',
       center: true,
       iconHeight: 30,
       iconWidth: 30,

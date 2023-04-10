@@ -37,8 +37,9 @@ class UpsertIngredientController extends UpsertElementController {
             }
             if (textEditingValue.text.isEmpty) return [];
 
-            return ingredients.where((ingredient) =>
-                ingredient.name.toLowerCase().startsWith(textEditingValue.text.toLowerCase()));
+            return ingredients.where((ingredient) => ingredient.name
+                .toLowerCase()
+                .startsWith(textEditingValue.text.toLowerCase()));
           },
           onSelect: (Ingredient ingredient) {
             getAutocompleteUpsertFormFieldByName<Ingredient>('name')

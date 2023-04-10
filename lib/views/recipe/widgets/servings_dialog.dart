@@ -3,9 +3,9 @@ import 'package:get/get.dart';
 import 'package:recipes/views/recipe/models/recipe_ingredient_pm_recipe.dart';
 import 'package:recipes/views/recipe/recipe_controller/recipe_controller.dart';
 import 'package:recipes/views/recipe/widgets/servings_icon.dart';
+import 'package:recipes/widgets/common/asset_button.dart';
 import 'package:recipes/widgets/common/custom_dialog.dart';
 import 'package:recipes/widgets/common/loading_widget.dart';
-import 'package:recipes/widgets/common/svg_button.dart';
 import 'package:recipes/widgets/project/dialog_bottom.dart';
 
 class ServingsDialog extends CustomDialog<bool> {
@@ -122,10 +122,10 @@ class ServingsEditingButton extends StatelessWidget {
             ),
             child: ConstrainedBox(
               constraints: const BoxConstraints.tightFor(width: 40, height: 40),
-              child: SvgButton(
+              child: AssetButton(
                   iconColor: Get.theme.colorScheme.secondary,
                   onTap: controller.decrementTmpServings,
-                  icon: 'assets/icons/back_arrow_icon.svg'),
+                  icon: 'back_arrow_icon'),
             ),
           ),
           Container(
@@ -153,11 +153,11 @@ class ServingsEditingButton extends StatelessWidget {
             ),
             child: ConstrainedBox(
               constraints: const BoxConstraints.tightFor(width: 40, height: 40),
-              child: SvgButton(
+              child: AssetButton(
                   iconColor: Get.theme.colorScheme.secondary,
                   flip: true,
                   onTap: controller.incrementTmpServings,
-                  icon: 'assets/icons/back_arrow_icon.svg'),
+                  icon: 'back_arrow_icon'),
             ),
           )
         ],

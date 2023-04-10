@@ -6,11 +6,10 @@ import 'package:recipes/views/recipe/widgets/ingredients_tab.dart';
 import 'package:recipes/views/recipe/widgets/servings_button.dart';
 import 'package:recipes/views/recipe/widgets/servings_dialog.dart';
 import 'package:recipes/views/recipe/widgets/steps_tab.dart';
-import 'package:recipes/widgets/common/svg_button.dart';
+import 'package:recipes/widgets/common/asset_button.dart';
 import 'package:recipes/widgets/project/custom_app_bar.dart';
 import 'package:recipes/widgets/project/custom_page.dart';
 import 'package:recipes/widgets/project/hidden_title_button.dart';
-import 'package:recipes/widgets/project/select_all_button.dart';
 import 'package:recipes/widgets/project/title_app_bar_button.dart';
 
 class RecipePage extends CustomPage<RecipeController> {
@@ -35,12 +34,12 @@ class RecipePage extends CustomPage<RecipeController> {
         children: [
           BottomNavigationBarButton(
               title: 'Ingredient'.tr,
-              icon: 'assets/icons/scale_icon.svg',
+              icon: 'scale_icon',
               selected: controller.tabController.index == 0,
               onTap: () => controller.changeTab(0)),
           BottomNavigationBarButton(
             title: 'Steps'.tr,
-            icon: 'assets/icons/hat_icon.svg',
+            icon: 'hat_icon',
             selected: controller.tabController.index == 1,
             onTap: () => controller.changeTab(1),
           ),
@@ -54,10 +53,10 @@ class RecipePage extends CustomPage<RecipeController> {
       RecipeController controller, BuildContext context) {
     return controller.selectionIsActive
         ? CustomAppBar(
-            leading: SvgButton.backButton(
+            leading: AssetButton.back(
               onTap: controller.setSelectAllValue,
             ),
-            action: SelectAllButton(
+            action: AssetButton.selectAll(
                 allItemsSelected: controller.allItemsSelected,
                 onTap: controller.toggleSelectAllValue),
             title: Row(
@@ -65,13 +64,13 @@ class RecipePage extends CustomPage<RecipeController> {
               children: [
                 TitleAppBarButton(
                     title: 'Delete'.tr,
-                    icon: 'assets/icons/trash_icon.svg',
+                    icon: 'trash_icon',
                     onTap: controller.deleteSelectedItems),
                 HiddenTitleButton(
                     hidden: controller.selectionCount != 1,
                     child: TitleAppBarButton(
                         title: 'Edit'.tr,
-                        icon: 'assets/icons/edit_icon.svg',
+                        icon: 'edit_icon',
                         onTap: controller.editItem))
               ],
             ),

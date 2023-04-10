@@ -4,7 +4,7 @@ extension ServingsRecipeController on RecipeController {
   Future<void> confirmSavingServings(
       void Function([bool? result, bool forceClose]) close) async {
     servings = tmpServings;
-    close(true,true);
+    close(true, true);
     update();
   }
 

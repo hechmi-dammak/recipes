@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:recipes/helpers/theme.dart';
+import 'package:recipes/service/asset_service.dart';
 import 'package:recipes/service/image_operations.dart';
 import 'package:recipes/service/isar_service.dart';
 import 'package:recipes/service/repository/ingredient_repository.dart';
@@ -20,6 +21,8 @@ import 'package:recipes/views/recipes/recipes_page.dart';
 void main() async {
   Get.put(IsarService());
   await IsarService.find.init();
+  Get.put(AssetService());
+  await AssetService.find.init();
   runApp(const RecipesApp());
 }
 

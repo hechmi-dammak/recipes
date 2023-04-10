@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:recipes/service/asset_service.dart';
 
 class DialogBottom extends StatelessWidget {
   const DialogBottom(
@@ -16,14 +16,13 @@ class DialogBottom extends StatelessWidget {
         DialogButton(
           isLeft: true,
           onTap: onConfirm,
-          icon: SvgPicture.asset(
-            'assets/icons/confirm_icon.svg',
-            fit: BoxFit.scaleDown,
-            height: 25,
-            colorFilter: ColorFilter.mode(
-                Get.theme.colorScheme.onPrimary, BlendMode.srcIn),
-            width: 25,
-          ),
+          icon: Image(
+              image: AssetService.assets['confirm_icon']!,
+              height: 25,
+              width: 25,
+              colorBlendMode: BlendMode.srcIn,
+              color: Get.theme.colorScheme.onPrimary,
+              fit: BoxFit.contain),
           text: Text(
             'Confirm'.tr,
             style: Get.textTheme.displayMedium
@@ -34,14 +33,13 @@ class DialogBottom extends StatelessWidget {
         DialogButton(
           isRight: true,
           onTap: onCancel,
-          icon: SvgPicture.asset(
-            'assets/icons/cancel_icon.svg',
-            fit: BoxFit.scaleDown,
-            colorFilter: ColorFilter.mode(
-                Get.theme.colorScheme.onSecondary, BlendMode.srcIn),
-            height: 25,
-            width: 25,
-          ),
+          icon: Image(
+              image: AssetService.assets['cancel_icon']!,
+              height: 25,
+              width: 25,
+              colorBlendMode: BlendMode.srcIn,
+              color: Get.theme.colorScheme.onSecondary,
+              fit: BoxFit.contain),
           text: Text(
             'Cancel'.tr,
             style: Get.textTheme.displayMedium

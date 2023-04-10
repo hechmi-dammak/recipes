@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:recipes/service/asset_service.dart';
 
 class BottomNavigationBarButton extends StatelessWidget {
   const BottomNavigationBarButton({
@@ -29,11 +29,12 @@ class BottomNavigationBarButton extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                SvgPicture.asset(icon,
-                    semanticsLabel: title,
+                Image(
+                    image: AssetService.assets[icon]!,
                     height: 20,
                     width: 20,
-                    fit: BoxFit.scaleDown),
+                    semanticLabel: title,
+                    fit: BoxFit.contain),
                 const SizedBox(
                   width: 5,
                 ),
