@@ -3,10 +3,12 @@ import 'package:get/get.dart';
 
 class CustomSnackBar {
   static const Duration _duration = Duration(milliseconds: 4000);
+  static const bool _enabled = false;
 
   static void info(String text,
       {Duration duration = _duration,
       void Function(GetSnackBar snack)? onTap}) {
+    if (!_enabled) return;
     Get.snackbar('', '',
         onTap: onTap,
         snackPosition: SnackPosition.BOTTOM,
@@ -24,6 +26,7 @@ class CustomSnackBar {
   static void warning(String text,
       {Duration duration = _duration,
       void Function(GetSnackBar snack)? onTap}) {
+    if (!_enabled) return;
     Get.snackbar('', text,
         onTap: onTap,
         margin: const EdgeInsets.all(10),
@@ -47,6 +50,7 @@ class CustomSnackBar {
   static void success(String text,
       {Duration duration = _duration,
       void Function(GetSnackBar snack)? onTap}) {
+    if (!_enabled) return;
     Get.snackbar('Success', text,
         onTap: onTap,
         snackPosition: SnackPosition.BOTTOM,
@@ -70,6 +74,7 @@ class CustomSnackBar {
       {Duration duration = _duration,
       bool? isDismissible,
       void Function(GetSnackBar snack)? onTap}) {
+    if (!_enabled) return;
     Get.snackbar('', text,
         onTap: onTap,
         snackPosition: SnackPosition.BOTTOM,
