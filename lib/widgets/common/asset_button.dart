@@ -29,12 +29,13 @@ class AssetButton extends StatelessWidget {
   final bool flip;
 
   AssetButton.back({Key? key, VoidCallback? onTap})
-      : this(onTap: onTap ?? Get.back, icon: 'back_arrow_icon', key: key);
+      : this(onTap: onTap ?? Get.back, icon: 'back_arrow_icon',center: true, key: key);
 
   const AssetButton.selectAll(
       {Key? key, required VoidCallback onTap, required bool allItemsSelected})
       : this(
             onTap: onTap,
+            center: true,
             icon: allItemsSelected ? 'select_all_icon' : 'deselect_all_icon',
             key: key);
 

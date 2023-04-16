@@ -1,17 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:recipes/widgets/common/asset_button.dart';
-import 'package:recipes/widgets/common/conditional_widget.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar(
-      {super.key, this.leading, required this.title, this.action})
+      {super.key,
+      this.leading,
+      required this.title,
+      this.action,
+      this.fadeLeading,
+      this.secondLeading,
+      this.secondTitle,
+      this.secondAction,
+      this.fadeTitle,
+      this.fadeAction})
       : preferredSize = const Size.fromHeight(kToolbarHeight);
 
   final Widget? leading;
+  final Widget? secondLeading;
   final Widget title;
-  final Widget? action;
+  final Widget? secondTitle;
 
+  final Widget? action;
+  final Widget? secondAction;
+
+  final bool? fadeLeading;
+  final bool? fadeTitle;
+  final bool? fadeAction;
   @override
   final Size preferredSize;
 
@@ -28,23 +42,31 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               leading: SizedBox(
                 width: kToolbarHeight,
                 height: kToolbarHeight,
-                child: Center(
-                  child: leading ??
-                      ConditionalWidget(
-                          child: (context) => AssetButton.back(),
-                          condition: Navigator.of(context).canPop()),
-                ),
+                child: getElement(fadeLeading, leading, secondLeading),
               ),
-              middle: title,
+              middle: getElement(fadeTitle, title, secondTitle),
               trailing: SizedBox(
                 width: kToolbarHeight,
                 height: kToolbarHeight,
-                child: Center(child: action),
+                child: getElement(fadeAction, action, secondAction),
               ),
             ),
           ),
         ),
       ),
     );
+  }
+
+  Widget? getElement(bool? fade, Widget? first, Widget? second) {
+    if (fade != null) {
+      return AnimatedCrossFade(
+        firstChild: first ?? Container(),
+        secondChild: second ?? Container(),
+        crossFadeState:
+            fade ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+        duration: const Duration(milliseconds: 300),
+      );
+    }
+    return first;
   }
 }

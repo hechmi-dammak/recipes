@@ -51,41 +51,44 @@ class RecipePage extends CustomPage<RecipeController> {
   @override
   PreferredSizeWidget? appBarBuilder(
       RecipeController controller, BuildContext context) {
-    return controller.selectionIsActive
-        ? CustomAppBar(
-            leading: AssetButton.back(
-              onTap: controller.setSelectAllValue,
-            ),
-            action: AssetButton.selectAll(
-                allItemsSelected: controller.allItemsSelected,
-                onTap: controller.toggleSelectAllValue),
-            title: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TitleAppBarButton(
-                    title: 'Delete'.tr,
-                    icon: 'trash_icon',
-                    onTap: controller.deleteSelectedItems),
-                HiddenTitleButton(
-                    hidden: controller.selectionCount != 1,
-                    child: TitleAppBarButton(
-                        title: 'Edit'.tr,
-                        icon: 'edit_icon',
-                        onTap: controller.editItem))
-              ],
-            ),
-          )
-        : CustomAppBar(
-            action: controller.tabController.index == 0
-                ? ServingsButton(
-                    servings: controller.servings,
-                    onTap: () => const ServingsDialog().show())
-                : null,
-            title: Text(
-              controller.recipe?.name ?? '',
-              style: Get.textTheme.headlineLarge
-                  ?.copyWith(color: Get.theme.colorScheme.onPrimary),
-            ),
-          );
+    return CustomAppBar(
+      leading: AssetButton.back(
+        onTap:
+            controller.selectionIsActive ? controller.setSelectAllValue : null,
+      ),
+      fadeAction: !controller.selectionIsActive,
+      action: controller.tabController.index == 0
+          ? ServingsButton(
+              servings: controller.servings,
+              onTap: () => const ServingsDialog().show())
+          : Container(),
+      secondAction: AssetButton.selectAll(
+          allItemsSelected: controller.allItemsSelected,
+          onTap: controller.toggleSelectAllValue),
+      fadeTitle: !controller.selectionIsActive,
+      title: Text(
+        controller.recipe?.name ?? '',
+        style: Get.textTheme.headlineLarge
+            ?.copyWith(color: Get.theme.colorScheme.onPrimary),
+      ),
+      secondTitle: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TitleAppBarButton(
+                title: 'Delete'.tr,
+                icon: 'trash_icon',
+                onTap: controller.deleteSelectedItems),
+            HiddenTitleButton(
+                hidden: controller.selectionCount != 1,
+                child: TitleAppBarButton(
+                    title: 'Edit'.tr,
+                    icon: 'edit_icon',
+                    onTap: controller.editItem))
+          ],
+        ),
+      ),
+    );
   }
 }

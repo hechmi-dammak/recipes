@@ -17,52 +17,51 @@ class RecipeCategoriesPage extends CustomPage<RecipeCategoriesController> {
   @override
   PreferredSizeWidget? appBarBuilder(
       RecipeCategoriesController controller, BuildContext context) {
-    return controller.selectionIsActive
-        ? CustomAppBar(
-            leading: AssetButton.back(onTap: controller.setSelectAllValue),
-            action: AssetButton.selectAll(
-                allItemsSelected: controller.allItemsSelected,
-                onTap: controller.toggleSelectAllValue),
-            title: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TitleAppBarButton(
-                  title: 'Delete'.tr,
-                  icon: 'trash_icon',
-                  onTap: () {
-                    controller.deleteSelectedCategories();
-                  },
-                ),
-                HiddenTitleButton(
-                    hidden: controller.selectionCount != 1,
-                    child: TitleAppBarButton(
-                        title: 'Edit'.tr,
-                        icon: 'edit_icon',
-                        onTap: controller.editRecipeCategory)),
-                const SizedBox(
-                  width: 25,
-                ),
-                TitleAppBarButton(
-                  title: 'Share'.tr,
-                  icon: 'share_icon',
-                  onTap: () {
-                    //todo: implement share
-                  },
-                )
-              ],
+    return CustomAppBar(
+      fadeTitle: !controller.selectionIsActive,
+      fadeLeading: !controller.selectionIsActive,
+      fadeAction: !controller.selectionIsActive,
+      secondLeading: AssetButton.back(onTap: controller.setSelectAllValue),
+      secondAction: AssetButton.selectAll(
+          allItemsSelected: controller.allItemsSelected,
+          onTap: controller.toggleSelectAllValue),
+      title: Text(
+        'Categories'.tr,
+        style: Get.textTheme.headlineLarge
+            ?.copyWith(color: Get.theme.colorScheme.onPrimary),
+      ),
+      secondTitle: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TitleAppBarButton(
+              title: 'Delete'.tr,
+              icon: 'trash_icon',
+              onTap: () {
+                controller.deleteSelectedCategories();
+              },
             ),
-          )
-        : CustomAppBar(
-            leading: AssetButton(
-              onTap: () {}, //todo
-              icon: 'menu_icon',
+            HiddenTitleButton(
+                hidden: controller.selectionCount != 1,
+                child: TitleAppBarButton(
+                    title: 'Edit'.tr,
+                    icon: 'edit_icon',
+                    onTap: controller.editRecipeCategory)),
+            const SizedBox(
+              width: 25,
             ),
-            title: Text(
-              'Categories'.tr,
-              style: Get.textTheme.headlineLarge
-                  ?.copyWith(color: Get.theme.colorScheme.onPrimary),
-            ),
-          );
+            TitleAppBarButton(
+              title: 'Share'.tr,
+              icon: 'share_icon',
+              onTap: () {
+                //todo: implement share
+              },
+            )
+          ],
+        ),
+      ),
+    );
   }
 
   @override
