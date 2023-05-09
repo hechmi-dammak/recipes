@@ -14,6 +14,7 @@ class Step {
   final IsarLink<Recipe> recipe;
 
   Step({
+    this.id,
     this.instruction = '',
     IsarLink<Picture>? picture,
     IsarLink<Recipe>? recipe,
@@ -25,4 +26,23 @@ class Step {
         instruction = step.instruction,
         picture = step.picture,
         recipe = step.recipe;
+
+  Map<String, dynamic> toMap([bool withId = true]) {
+    return {
+      if (withId) 'id': id,
+      'instruction': instruction,
+      'picture': picture.value?.toMap(withId),
+    };
+  }
+
+  factory Step.fromMap(Map<String, dynamic> map) {
+    final Step step = Step(
+      id: map['id'],
+      instruction: map['instruction'],
+    );
+    if (map['picture'] != null) {
+      step.picture.value = Picture.fromMap(map['picture']);
+    }
+    return step;
+  }
 }

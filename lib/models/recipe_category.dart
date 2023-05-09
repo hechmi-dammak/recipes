@@ -23,4 +23,25 @@ class RecipeCategory {
         name = recipeCategory.name,
         description = recipeCategory.description,
         picture = recipeCategory.picture;
+
+  Map<String, dynamic> toMap([bool withId = true]) {
+    return {
+      if (withId) 'id': id,
+      'name': name,
+      'description': description,
+      'picture': picture.value?.toMap(withId),
+    };
+  }
+
+  factory RecipeCategory.fromMap(Map<String, dynamic> map) {
+    final RecipeCategory recipeCategory = RecipeCategory(
+      id: map['id'],
+      name: map['name'],
+      description: map['description'],
+    );
+    if (map['picture'] != null) {
+      recipeCategory.picture.value = Picture.fromMap(map['picture']);
+    }
+    return recipeCategory;
+  }
 }

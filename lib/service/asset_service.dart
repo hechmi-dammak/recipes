@@ -34,13 +34,14 @@ class AssetService extends GetxService {
     'assets/icons_png/used_icon.png',
   ];
 
-  Future<void> init() async {
-    Future.wait(_imageAssetsPath.map(
-        (asset) => precache(asset.split('/').last.split('.').first, asset)));
+  Future<void> init(BuildContext context) async {
+    Future.wait(_imageAssetsPath.map((asset) async {
+      precache(asset.split('/').last.split('.').first, asset, context);
+    }));
   }
 
-  Future<void> precache(String name, String asset) async {
+  Future<void> precache(String name, String asset, BuildContext context) async {
     _assets[name] = AssetImage(asset);
-    await precacheImage(_assets[name]!, Get.context!);
+    await precacheImage(_assets[name]!, context);
   }
 }

@@ -73,4 +73,32 @@ class RecipeIngredient {
         ingredient = recipeIngredient.ingredient,
         recipe = recipeIngredient.recipe,
         category = recipeIngredient.category;
+
+  Map<String, dynamic> toMap([bool withId = true]) {
+    return {
+      if (withId) 'id': id,
+      'category': category.value?.toMap(withId),
+      'ingredient': ingredient.value?.toMap(withId),
+      'quantity': quantity,
+      'measuring': measuring,
+      'description': description,
+    };
+  }
+
+  factory RecipeIngredient.fromMap(Map<String, dynamic> map) {
+    final recipeIngredient = RecipeIngredient(
+      id: map['id'],
+      quantity: map['quantity'],
+      measuring: map['measuring'],
+      description: map['description'],
+    );
+    if (map['category'] != null) {
+      recipeIngredient.category.value =
+          IngredientCategory.fromMap(map['category']);
+    }
+    if (map['ingredient'] != null) {
+      recipeIngredient.ingredient.value = Ingredient.fromMap(map['ingredient']);
+    }
+    return recipeIngredient;
+  }
 }

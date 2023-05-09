@@ -3,9 +3,9 @@ import 'package:get/get.dart';
 import 'package:recipes/helpers/form_validators.dart';
 import 'package:recipes/models/ingredient.dart';
 import 'package:recipes/models/recipe_ingredient.dart';
-import 'package:recipes/service/repository/ingredient_repository.dart';
-import 'package:recipes/service/repository/recipe_ingredient_repository.dart';
-import 'package:recipes/service/repository/recipe_repository.dart';
+import 'package:recipes/repository/ingredient_repository.dart';
+import 'package:recipes/repository/recipe_ingredient_repository.dart';
+import 'package:recipes/repository/recipe_repository.dart';
 import 'package:recipes/widgets/project/upsert_element/controllers/upsert_element_controller.dart';
 import 'package:recipes/widgets/project/upsert_element/models/autocomplete_upsert_from_field.dart';
 import 'package:recipes/widgets/project/upsert_element/models/upsert_from_field.dart';
@@ -20,6 +20,7 @@ class UpsertIngredientController extends UpsertElementController {
   List<Ingredient> ingredients = [];
 
   UpsertIngredientController({int order = 0, required this.recipeId, this.id}) {
+    title = 'Ingredient'.tr;
     formFields = [
       AutocompleteUpsertFormField<Ingredient>(
           name: 'name',

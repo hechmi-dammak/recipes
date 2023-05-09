@@ -12,7 +12,7 @@ import 'package:recipes/widgets/project/title_app_bar_button.dart';
 class RecipeCategoriesPage extends CustomPage<RecipeCategoriesController> {
   static const routeName = '/recipes-categories';
 
-  const RecipeCategoriesPage({Key? key}) : super(key: key);
+  const RecipeCategoriesPage({Key? key}) : super(key: key, hasSelection: true);
 
   @override
   PreferredSizeWidget? appBarBuilder(
@@ -31,7 +31,7 @@ class RecipeCategoriesPage extends CustomPage<RecipeCategoriesController> {
             ?.copyWith(color: Get.theme.colorScheme.onPrimary),
       ),
       secondTitle: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
+        scrollDirection: Axis.horizontal,
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [

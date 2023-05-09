@@ -1,15 +1,21 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:logger/logger.dart';
 import 'package:recipes/helpers/theme.dart';
+import 'package:recipes/repository/ingredient_category_repository.dart';
+import 'package:recipes/repository/ingredient_repository.dart';
+import 'package:recipes/repository/picture_repository.dart';
+import 'package:recipes/repository/recipe_category_repository.dart';
+import 'package:recipes/repository/recipe_ingredient_repository.dart';
+import 'package:recipes/repository/recipe_repository.dart';
+import 'package:recipes/repository/step_repository.dart';
 import 'package:recipes/service/asset_service.dart';
 import 'package:recipes/service/image_operations.dart';
 import 'package:recipes/service/isar_service.dart';
-import 'package:recipes/service/repository/ingredient_repository.dart';
-import 'package:recipes/service/repository/picture_repository.dart';
-import 'package:recipes/service/repository/recipe_category_repository.dart';
-import 'package:recipes/service/repository/recipe_ingredient_repository.dart';
-import 'package:recipes/service/repository/recipe_repository.dart';
-import 'package:recipes/service/repository/step_repository.dart';
+import 'package:recipes/service/logger_service.dart';
+import 'package:recipes/service/recipe_operations.dart';
 import 'package:recipes/service/utils_service.dart';
 import 'package:recipes/views/recipe/recipe_controller/recipe_controller.dart';
 import 'package:recipes/views/recipe/recipe_page.dart';
@@ -19,11 +25,22 @@ import 'package:recipes/views/recipes/recipes_controller.dart';
 import 'package:recipes/views/recipes/recipes_page.dart';
 
 void main() async {
+  await dependencies();
+  runZonedGuarded(() async {
+    runApp(const RecipesApp());
+  }, (error, stackTrace) {
+    LoggerService.logger?.errorStackTrace(error, stackTrace, method: 'main');
+  });
+}
+
+Future<void> dependencies() async {
+  Get.put(LoggerService());
   Get.put(IsarService());
-  await IsarService.find.init();
   Get.put(AssetService());
-  await AssetService.find.init();
-  runApp(const RecipesApp());
+  Get.put(RecipeOperations());
+  await LoggerService.find.init();
+  await IsarService.find.init();
+  await RecipeOperations.find.init();
 }
 
 class RecipesApp extends StatelessWidget {
@@ -31,11 +48,12 @@ class RecipesApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AssetService.find.init(context);
     return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).requestFocus(FocusNode());
-      },
+      onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
       child: GetMaterialApp(
+        logWriterCallback: (text, {isError = false}) =>
+            LoggerService.logger?.log(isError ? Level.error : Level.info, text),
         initialBinding: InitialBindings(),
         debugShowCheckedModeBanner: false,
         title: 'Recipes',
@@ -89,6 +107,7 @@ class InitialBindings implements Bindings {
     Get.put(RecipeRepository());
     Get.put(UtilsService());
     Get.put(RecipeCategoryRepository());
+    Get.put(IngredientCategoryRepository());
     Get.put(ImageService());
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:recipes/service/logger_service.dart';
 
 class CustomSnackBar {
   static const Duration _duration = Duration(milliseconds: 4000);
@@ -8,6 +9,7 @@ class CustomSnackBar {
   static void info(String text,
       {Duration duration = _duration,
       void Function(GetSnackBar snack)? onTap}) {
+    LoggerService.logger?.i(text);
     if (!_enabled) return;
     Get.snackbar('', '',
         onTap: onTap,
@@ -26,6 +28,7 @@ class CustomSnackBar {
   static void warning(String text,
       {Duration duration = _duration,
       void Function(GetSnackBar snack)? onTap}) {
+    LoggerService.logger?.w(text);
     if (!_enabled) return;
     Get.snackbar('', text,
         onTap: onTap,
@@ -50,6 +53,7 @@ class CustomSnackBar {
   static void success(String text,
       {Duration duration = _duration,
       void Function(GetSnackBar snack)? onTap}) {
+    LoggerService.logger?.i(text);
     if (!_enabled) return;
     Get.snackbar('Success', text,
         onTap: onTap,
@@ -74,6 +78,7 @@ class CustomSnackBar {
       {Duration duration = _duration,
       bool? isDismissible,
       void Function(GetSnackBar snack)? onTap}) {
+    LoggerService.logger?.e(text);
     if (!_enabled) return;
     Get.snackbar('', text,
         onTap: onTap,

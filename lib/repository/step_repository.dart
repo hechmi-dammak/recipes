@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 import 'package:isar/isar.dart';
 import 'package:recipes/models/step.dart';
+import 'package:recipes/repository/picture_repository.dart';
+import 'package:recipes/repository/recipe_repository.dart';
 import 'package:recipes/service/isar_service.dart';
 
 class StepRepository extends GetxService {
@@ -9,6 +11,14 @@ class StepRepository extends GetxService {
   Future<Step> save(Step step) async {
     await IsarService.isar.writeTxn(() async {
       await IsarService.isar.steps.put(step);
+    });
+    if (step.picture.value != null && step.picture.value?.id == null) {
+      await PictureRepository.find.save(step.picture.value!);
+    }
+    if (step.recipe.value != null && step.recipe.value?.id == null) {
+      await RecipeRepository.find.save(step.recipe.value!);
+    }
+    IsarService.isar.writeTxn(() async {
       await step.picture.save();
       await step.recipe.save();
     });

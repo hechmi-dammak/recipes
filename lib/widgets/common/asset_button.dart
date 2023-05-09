@@ -8,7 +8,7 @@ import 'package:recipes/widgets/common/conditional_parent_widget.dart';
 class AssetButton extends StatelessWidget {
   const AssetButton(
       {super.key,
-      required this.onTap,
+      this.onTap,
       required this.icon,
       this.center = false,
       this.iconWidth = 20,
@@ -18,7 +18,7 @@ class AssetButton extends StatelessWidget {
       this.scaleDown = true,
       this.flip = false});
 
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
   final String icon;
   final bool center;
   final bool scaleDown;
@@ -29,7 +29,11 @@ class AssetButton extends StatelessWidget {
   final bool flip;
 
   AssetButton.back({Key? key, VoidCallback? onTap})
-      : this(onTap: onTap ?? Get.back, icon: 'back_arrow_icon',center: true, key: key);
+      : this(
+            onTap: onTap ?? Get.back,
+            icon: 'back_arrow_icon',
+            center: true,
+            key: key);
 
   const AssetButton.selectAll(
       {Key? key, required VoidCallback onTap, required bool allItemsSelected})

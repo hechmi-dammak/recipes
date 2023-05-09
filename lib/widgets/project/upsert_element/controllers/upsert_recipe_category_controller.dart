@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:recipes/helpers/form_validators.dart';
 import 'package:recipes/models/recipe_category.dart';
-import 'package:recipes/service/repository/recipe_category_repository.dart';
+import 'package:recipes/repository/recipe_category_repository.dart';
 import 'package:recipes/widgets/project/upsert_element/controllers/upsert_element_controller.dart';
 import 'package:recipes/widgets/project/upsert_element/models/upsert_from_field.dart';
 
@@ -12,6 +12,7 @@ class UpsertRecipeCategoryController extends UpsertElementController {
   RecipeCategory recipeCategory = RecipeCategory();
 
   UpsertRecipeCategoryController({this.id}) {
+    title = 'Recipe Category'.tr;
     formFields = [
       TextUpsertFormField(
           name: 'name',

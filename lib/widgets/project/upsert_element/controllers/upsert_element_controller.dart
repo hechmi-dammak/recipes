@@ -10,6 +10,7 @@ abstract class UpsertElementController extends BaseController
       Get.find<UpsertElementController>();
 
   List<UpsertFormField> formFields = [];
+  String? title = '';
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 

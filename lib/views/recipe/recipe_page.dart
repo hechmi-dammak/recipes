@@ -15,7 +15,7 @@ import 'package:recipes/widgets/project/title_app_bar_button.dart';
 class RecipePage extends CustomPage<RecipeController> {
   static const routeName = '/recipes/:id';
 
-  const RecipePage({Key? key}) : super(key: key);
+  const RecipePage({Key? key}) : super(key: key, hasSelection: true);
 
   @override
   Widget bodyBuilder(RecipeController controller, BuildContext context) {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:recipes/decorator/decorators.dart';
 import 'package:recipes/helpers/getx_extension.dart';
-import 'package:recipes/service/repository/recipe_category_repository.dart';
+import 'package:recipes/repository/recipe_category_repository.dart';
 import 'package:recipes/views/recipe_categories/models/recipe_category_pm_recipe_categories.dart';
 import 'package:recipes/views/recipes/recipes_page.dart';
 import 'package:recipes/widgets/common/snack_bar.dart';

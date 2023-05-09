@@ -2,8 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import 'conditional_widget.dart';
+import 'package:recipes/widgets/common/conditional_widget.dart';
 
 abstract class CustomDialog<T> extends StatelessWidget {
   const CustomDialog(

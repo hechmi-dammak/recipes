@@ -8,7 +8,7 @@ class PictureRepository extends GetxService {
 
   Future<Picture> save(Picture picture) async {
     await IsarService.isar
-        .writeTxn(() => IsarService.isar.pictures.put(picture));
+        .writeTxn(() async => await IsarService.isar.pictures.put(picture));
     return picture;
   }
 

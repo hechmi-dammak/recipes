@@ -13,4 +13,18 @@ class Picture {
     this.id,
     required this.image,
   });
+
+  Map<String, dynamic> toMap([bool withId = true]) {
+    return {
+      if (withId) 'id': id,
+      'image': image.toList(),
+    };
+  }
+
+  factory Picture.fromMap(Map<String, dynamic> map) {
+    return Picture(
+      id: map['id'],
+      image: Uint8List.fromList(map['image'].cast<int>()),
+    );
+  }
 }

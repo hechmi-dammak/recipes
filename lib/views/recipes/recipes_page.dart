@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:recipes/views/recipe_categories/recipe_categories_page.dart';
 import 'package:recipes/views/recipes/recipes_controller.dart';
+import 'package:recipes/views/recipes/widgets/popup_menu_button.dart';
 import 'package:recipes/views/recipes/widgets/recipe_card.dart';
 import 'package:recipes/widgets/common/asset_button.dart';
 import 'package:recipes/widgets/project/add_element_card.dart';
@@ -15,7 +16,7 @@ class RecipesPage extends CustomPage<RecipesController> {
       '${RecipeCategoriesPage.routeName}/:id/recipes';
   static const routeName = '/recipes';
 
-  const RecipesPage({Key? key}) : super(key: key);
+  const RecipesPage({Key? key}) : super(key: key, hasSelection: true);
 
   @override
   PreferredSizeWidget? appBarBuilder(
@@ -26,11 +27,7 @@ class RecipesPage extends CustomPage<RecipesController> {
         onTap: controller.setSelectAllValue,
       ),
       fadeAction: !controller.selectionIsActive,
-      action: AssetButton(
-        center: true,
-        onTap: () {}, //todo
-        icon: 'menu_icon',
-      ),
+      action: const PopUpMenuButton(),
       secondAction: AssetButton.selectAll(
           allItemsSelected: controller.allItemsSelected,
           onTap: controller.toggleSelectAllValue),
@@ -61,9 +58,7 @@ class RecipesPage extends CustomPage<RecipesController> {
             TitleAppBarButton(
               title: 'Share'.tr,
               icon: 'share_icon',
-              onTap: () {
-                //todo: implement share
-              },
+              onTap: controller.shareRecipes,
             )
           ],
         ),

@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:isar/isar.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:recipes/models/ingredient.dart';
 import 'package:recipes/models/ingredient_category.dart';
 import 'package:recipes/models/picture.dart';
@@ -16,6 +17,7 @@ class IsarService extends GetxService {
   late Isar _isar;
 
   Future<void> init() async {
+    final dir = await getApplicationDocumentsDirectory();
     _isar = await Isar.open([
       IngredientSchema,
       IngredientCategorySchema,
@@ -24,6 +26,6 @@ class IsarService extends GetxService {
       RecipeSchema,
       RecipeCategorySchema,
       RecipeIngredientSchema
-    ]);
+    ], directory: dir.path);
   }
 }

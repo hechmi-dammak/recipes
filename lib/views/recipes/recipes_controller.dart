@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:recipes/decorator/decorators.dart';
 import 'package:recipes/helpers/getx_extension.dart';
-import 'package:recipes/service/repository/recipe_repository.dart';
+import 'package:recipes/repository/recipe_repository.dart';
+import 'package:recipes/service/recipe_operations.dart';
 import 'package:recipes/views/recipe/recipe_page.dart';
 import 'package:recipes/views/recipes/models/recipe_pm_recipes.dart';
 import 'package:recipes/widgets/common/snack_bar.dart';
@@ -103,5 +104,42 @@ class RecipesController extends BaseController
       ),
     ).show(false);
     if (updated ?? false) await fetchData();
+  }
+
+  Future<void> shareRecipes() async {
+    RecipeOperations.find.shareAsFile(
+        recipes:
+            getSelectedItems().map((recipe) => recipe.toMap(false)).toList());
+  }
+
+  Future<void> selectedItemMenu(int item) async {
+    switch (item) {
+      case 0:
+        RecipeOperations.find.importFromFile(
+            onStart: () async {
+              loading = true;
+            },
+            onFailure: () async {
+              loading = false;
+            },
+            onFinish: () async {
+              loading = false;
+            },
+            onSuccess: fetchData);
+        break;
+      case 1:
+        RecipeOperations.find.importFromLibrary(
+            onStart: () async {
+              loading = true;
+            },
+            onFailure: () async {
+              loading = false;
+            },
+            onFinish: () async {
+              loading = false;
+            },
+            onSuccess: fetchData);
+        break;
+    }
   }
 }

@@ -3,7 +3,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:recipes/models/picture.dart';
-import 'package:recipes/service/repository/picture_repository.dart';
+import 'package:recipes/repository/picture_repository.dart';
 import 'package:recipes/widgets/common/snack_bar.dart';
 
 class ImageService extends GetxService {

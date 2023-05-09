@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:recipes/views/recipe/models/recipe_ingredient_pm_recipe.dart';
 import 'package:recipes/views/recipe/recipe_controller/recipe_controller.dart';
-import 'package:recipes/views/recipe/widgets/servings_icon.dart';
-import 'package:recipes/widgets/common/asset_button.dart';
 import 'package:recipes/widgets/common/custom_dialog.dart';
 import 'package:recipes/widgets/common/loading_widget.dart';
 import 'package:recipes/widgets/project/dialog_bottom.dart';
+import 'package:recipes/widgets/project/servings_editing_button.dart';
 
 class ServingsDialog extends CustomDialog<bool> {
   const ServingsDialog({super.key}) : super(dismissible: false);
@@ -18,7 +17,7 @@ class ServingsDialog extends CustomDialog<bool> {
     }, builder: (controller) {
       return LoadingWidget(
         loading: controller.loading,
-        child: Column(
+        child: (context) => Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Flexible(
@@ -33,7 +32,11 @@ class ServingsDialog extends CustomDialog<bool> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const ServingsEditingButton(),
+                    ServingsEditingButton(
+                      value: controller.tmpServings,
+                      onIncrement: controller.incrementTmpServings,
+                      onDecrement: controller.decrementTmpServings,
+                    ),
                     const SizedBox(height: 15),
                     Flexible(
                       child: SingleChildScrollView(
@@ -92,77 +95,6 @@ class IngredientSummary extends StatelessWidget {
           Divider(
             thickness: 0.5,
             color: Get.theme.colorScheme.onSecondaryContainer,
-          )
-        ],
-      );
-    });
-  }
-}
-
-class ServingsEditingButton extends StatelessWidget {
-  const ServingsEditingButton({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GetBuilder<RecipeController>(builder: (controller) {
-      return Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              border: Border.all(
-                  strokeAlign: BorderSide.strokeAlignCenter,
-                  color: Get.theme.colorScheme.secondary),
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(6.5),
-                bottomLeft: Radius.circular(6.5),
-              ),
-            ),
-            child: SizedBox(
-              width: 40,
-              height: 40,
-              child: AssetButton(
-                center: true,
-                  iconColor: Get.theme.colorScheme.secondary,
-                  onTap: controller.decrementTmpServings,
-                  icon: 'back_arrow_icon'),
-            ),
-          ),
-          Container(
-            decoration: BoxDecoration(
-              border: Border.all(
-                  strokeAlign: BorderSide.strokeAlignCenter,
-                  color: Get.theme.colorScheme.secondary),
-            ),
-            child: ConstrainedBox(
-              constraints: const BoxConstraints.tightFor(width: 40, height: 40),
-              child: ServingsIcon(
-                  servings: controller.tmpServings,
-                  color: Get.theme.colorScheme.secondary),
-            ),
-          ),
-          Container(
-            decoration: BoxDecoration(
-              border: Border.all(
-                  strokeAlign: BorderSide.strokeAlignCenter,
-                  color: Get.theme.colorScheme.secondary),
-              borderRadius: const BorderRadius.only(
-                topRight: Radius.circular(6.5),
-                bottomRight: Radius.circular(6.5),
-              ),
-            ),
-            child: SizedBox(
-              width: 40,
-              height: 40,
-              child: AssetButton(
-                  iconColor: Get.theme.colorScheme.secondary,
-                  flip: true,
-                  center: true,
-                  onTap: controller.incrementTmpServings,
-                  icon: 'back_arrow_icon'),
-            ),
           )
         ],
       );

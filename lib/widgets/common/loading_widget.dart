@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class LoadingWidget extends StatelessWidget {
-  final Widget child;
+  final WidgetBuilder child;
   final bool loading;
 
   const LoadingWidget({Key? key, required this.child, required this.loading})
@@ -13,6 +13,6 @@ class LoadingWidget extends StatelessWidget {
         ? const Center(
             child: CircularProgressIndicator(),
           )
-        : child;
+        : child(context);
   }
 }

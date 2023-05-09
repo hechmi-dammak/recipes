@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
 import 'package:recipes/helpers/form_validators.dart';
 import 'package:recipes/models/step.dart';
-import 'package:recipes/service/repository/recipe_repository.dart';
-import 'package:recipes/service/repository/step_repository.dart';
+import 'package:recipes/repository/recipe_repository.dart';
+import 'package:recipes/repository/step_repository.dart';
 import 'package:recipes/widgets/project/upsert_element/controllers/upsert_element_controller.dart';
 import 'package:recipes/widgets/project/upsert_element/models/upsert_from_field.dart';
 
@@ -14,6 +14,7 @@ class UpsertStepController extends UpsertElementController {
   Step step = Step();
 
   UpsertStepController({required this.recipeId, this.id}) {
+    title = 'Step'.tr;
     formFields = [
       TextUpsertFormField(
           name: 'instruction',

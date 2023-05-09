@@ -2,13 +2,40 @@ import 'package:get/get.dart';
 import 'package:isar/isar.dart';
 import 'package:recipes/models/recipe.dart';
 import 'package:recipes/models/recipe_category.dart';
+import 'package:recipes/repository/picture_repository.dart';
+import 'package:recipes/repository/recipe_category_repository.dart';
 import 'package:recipes/service/isar_service.dart';
 import 'package:recipes/service/utils_service.dart';
 
 class RecipeRepository extends GetxService {
   static RecipeRepository get find => Get.find<RecipeRepository>();
 
-  Future<void> save(Recipe recipe) async {
+  Future<Recipe> save(Recipe recipe) async {
+    await _setUniqueName(recipe);
+    return await _save(recipe);
+  }
+
+  Future<Recipe> _save(Recipe recipe) async {
+    await IsarService.isar.writeTxn(() async {
+      await IsarService.isar.recipes.put(recipe);
+    });
+
+    if (recipe.picture.value != null && recipe.picture.value?.id == null) {
+      await PictureRepository.find.save(recipe.picture.value!);
+    }
+    if (recipe.category.value != null && recipe.category.value?.id == null) {
+      await RecipeCategoryRepository.find.save(recipe.category.value!);
+    }
+    await IsarService.isar.writeTxn(() async {
+      await recipe.picture.save();
+      await recipe.category.save();
+      await recipe.steps.save();
+      await recipe.ingredients.save();
+    });
+    return recipe;
+  }
+
+  Future<void> _setUniqueName(Recipe recipe) async {
     if (recipe.id == null) {
       recipe.name = await UtilsService.find.getUniqueName(
           recipe.name,
@@ -16,13 +43,6 @@ class RecipeRepository extends GetxService {
               .map((recipe) => recipe.name)
               .toSet());
     }
-    await IsarService.isar.writeTxn(() async {
-      await IsarService.isar.recipes.put(recipe);
-      await recipe.picture.save();
-      await recipe.category.save();
-      await recipe.steps.save();
-      await recipe.ingredients.save();
-    });
   }
 
   Future<Recipe?> findById(int? id) async {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:recipes/views/recipe/widgets/servings_icon.dart';
+import 'package:recipes/widgets/project/servings_icon.dart';
 
 class ServingsButton extends StatelessWidget {
   const ServingsButton({

@@ -1,17 +1,44 @@
 import 'package:get/get.dart';
 import 'package:isar/isar.dart';
 import 'package:recipes/models/ingredient.dart';
+import 'package:recipes/repository/picture_repository.dart';
 import 'package:recipes/service/isar_service.dart';
 
 class IngredientRepository extends GetxService {
   static IngredientRepository get find => Get.find<IngredientRepository>();
 
   Future<Ingredient> save(Ingredient ingredient) async {
+    await _replaceWithSameName(ingredient);
+    return await _save(ingredient);
+  }
+
+  Future<Ingredient> _save(Ingredient ingredient) async {
     await IsarService.isar.writeTxn(() async {
       await IsarService.isar.ingredients.put(ingredient);
+    });
+    if (ingredient.picture.value != null &&
+        ingredient.picture.value?.id == null) {
+      await PictureRepository.find.save(ingredient.picture.value!);
+    }
+    await IsarService.isar.writeTxn(() async {
       await ingredient.picture.save();
     });
+
     return ingredient;
+  }
+
+  Future<void> _replaceWithSameName(Ingredient ingredient) async {
+    if (ingredient.id == null) {
+      final List<Ingredient> ingredients = await IsarService.isar.ingredients
+          .filter()
+          .nameEqualTo(ingredient.name, caseSensitive: false)
+          .findAll();
+      if (ingredients.isNotEmpty) {
+        final Ingredient tmpIngredient = ingredients.first;
+        ingredient.id = tmpIngredient.id;
+        ingredient.picture.value ??= tmpIngredient.picture.value;
+      }
+    }
   }
 
   Future<bool> deleteById(int? id) async {

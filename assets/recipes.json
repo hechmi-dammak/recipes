@@ -1,0 +1,955 @@
+[
+  {
+    "name": "mosli",
+    "category": "lunch",
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "curukum",
+        "category": "spices",
+        "quantity": 0.25,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "salt",
+        "category": "spices",
+        "quantity": 0.25,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "tabel and kariwya",
+        "category": "spices",
+        "quantity": 0.25,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "black pepper",
+        "category": "spices",
+        "quantity": 0.25,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "chicken leg",
+        "category": "ingredient",
+        "quantity": 1.0
+      },
+      {
+        "name": "water",
+        "category": "ingredient",
+        "quantity": 3.0,
+        "measuring": "cups"
+      },
+      {
+        "name": "olive oil",
+        "category": "ingredient",
+        "quantity": 0.125,
+        "measuring": "cups"
+      },
+      {
+        "name": "potato",
+        "category": "ingredient",
+        "quantity": 0.5,
+        "size": "medium"
+      },
+      {
+        "name": "tomato",
+        "category": "ingredient",
+        "quantity": 1.0,
+        "size": "medium"
+      },
+      {
+        "name": "garlic",
+        "category": "ingredient",
+        "quantity": 0.5,
+        "measuring": "coffee spoon"
+      }
+    ]
+  },
+  {
+    "name": "chebtiya",
+    "category": "lunch",
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "paprika",
+        "category": "spices",
+        "quantity": 1.0,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "curukum",
+        "category": "spices",
+        "quantity": 0.25,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "salt",
+        "category": "spices",
+        "quantity": 0.5,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "black pepper",
+        "category": "spices",
+        "quantity": 0.25,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "egg",
+        "category": "ingredient",
+        "method": "until it becomes fluid"
+      },
+      {
+        "name": "semolina",
+        "category": "ingredient",
+        "method": "until it covers"
+      },
+      {
+        "name": "potato",
+        "category": "ingredient",
+        "quantity": 1.0,
+        "size": "medium"
+      },
+      {
+        "name": "onion",
+        "category": "ingredient",
+        "quantity": 1.0,
+        "size": "medium"
+      }
+    ]
+  },
+  {
+    "name": "torchi",
+    "category": "lunch",
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "paprika",
+        "category": "spices",
+        "quantity": 0.25,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "salt",
+        "category": "spices",
+        "quantity": 0.25,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "tabel and kariwya",
+        "category": "spices",
+        "quantity": 0.125,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "tuna",
+        "category": "ingredient",
+        "method": "on top for finish"
+      },
+      {
+        "name": "egg",
+        "category": "ingredient",
+        "quantity": 2.0,
+        "method": "boiled and cut on top for finish"
+      },
+      {
+        "name": "garlic",
+        "category": "ingredient",
+        "quantity": 0.25,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "carrot",
+        "category": "ingredient",
+        "quantity": 1.5,
+        "size": "medium"
+      },
+      {
+        "name": "lemon",
+        "category": "ingredient",
+        "quantity": 0.25,
+        "size": "medium",
+        "method": "juiced"
+      }
+    ]
+  },
+  {
+    "name": "brik 5alit",
+    "category": "lunch",
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "paprika",
+        "category": "spices",
+        "quantity": 1.0,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "curukum",
+        "category": "spices",
+        "quantity": 0.125,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "tabel and kariwya",
+        "category": "spices",
+        "quantity": 0.125,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "salt",
+        "category": "spices",
+        "quantity": 0.125,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "black pepper",
+        "category": "spices",
+        "quantity": 0.125,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "chicken or turkey",
+        "category": "ingredient",
+        "quantity": 200.0,
+        "measuring": "grams",
+        "method": "cut and boiled"
+      },
+      {
+        "name": "egg",
+        "category": "ingredient",
+        "quantity": 1.0,
+        "method": "boiled and cut(optional)"
+      },
+      {
+        "name": "egg",
+        "category": "ingredient",
+        "quantity": 3.0
+      },
+      {
+        "name": "potato",
+        "category": "ingredient",
+        "quantity": 1.0,
+        "size": "medium",
+        "method": "boiled and cut to cubes"
+      },
+      {
+        "name": "parsley",
+        "category": "ingredient",
+        "quantity": 0.5,
+        "measuring": "cups"
+      }
+    ]
+  },
+  {
+    "name": "sauce",
+    "category": "lunch",
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "paprika",
+        "category": "spices",
+        "quantity": 0.5,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "tabel and kariwya or kammoun(in case creuvette is added)",
+        "category": "spices",
+        "quantity": 0.125,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "salt",
+        "category": "spices",
+        "quantity": 0.125,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "black pepper",
+        "category": "spices",
+        "quantity": 0.125,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "onion",
+        "category": "ingredient",
+        "quantity": 0.5,
+        "size": "small",
+        "method": "(optional)"
+      },
+      {
+        "name": "tomato",
+        "category": "ingredient",
+        "quantity": 3.5,
+        "size": "medium"
+      },
+      {
+        "name": "water",
+        "category": "ingredient",
+        "quantity": 0.5,
+        "measuring": "cups"
+      },
+      {
+        "name": "olive oil",
+        "category": "ingredient",
+        "quantity": 0.125,
+        "measuring": "cups"
+      },
+      {
+        "name": "garlic",
+        "category": "ingredient",
+        "quantity": 0.25,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "pepper",
+        "category": "ingredient",
+        "quantity": 1.0,
+        "size": "medium"
+      },
+      {
+        "name": "egg",
+        "category": "ingredient",
+        "quantity": 1.0,
+        "method": "mixed a little at finish"
+      }
+    ]
+  },
+  {
+    "name": "ma9arouna",
+    "category": "lunch",
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "paprika",
+        "category": "spices",
+        "quantity": 0.5,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "tabel and kariwya ",
+        "category": "spices",
+        "quantity": 0.125,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "salt",
+        "category": "spices",
+        "quantity": 0.25,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "black pepper",
+        "category": "spices",
+        "quantity": 0.125,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "onion",
+        "category": "ingredient",
+        "quantity": 0.25,
+        "size": "small",
+        "method": "minced"
+      },
+      {
+        "name": "tomato",
+        "category": "ingredient",
+        "quantity": 1.0,
+        "size": "medium"
+      },
+      {
+        "name": "water",
+        "category": "ingredient",
+        "quantity": 1.0,
+        "measuring": "cups"
+      },
+      {
+        "name": "olive oil",
+        "category": "ingredient",
+        "quantity": 0.125,
+        "measuring": "cups"
+      },
+      {
+        "name": "garlic",
+        "category": "ingredient",
+        "quantity": 0.25,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "pepper",
+        "category": "ingredient",
+        "quantity": 0.25,
+        "size": "medium"
+      },
+      {
+        "name": "tomato paste",
+        "category": "ingredient",
+        "quantity": 1.0,
+        "measuring": "table spoon"
+      }
+    ]
+  },
+  {
+    "name": "bor8ol",
+    "category": "lunch",
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "paprika",
+        "category": "spices",
+        "quantity": 1.0,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "tabel and kariwya",
+        "category": "spices",
+        "quantity": 0.25,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "curukum",
+        "category": "spices",
+        "quantity": 0.25,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "salt",
+        "category": "spices",
+        "quantity": 0.25,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "black pepper",
+        "category": "spices",
+        "quantity": 0.25,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "9adid",
+        "category": "ingredient",
+        "quantity": 4.0
+      },
+      {
+        "name": "onion",
+        "category": "ingredient",
+        "quantity": 1.0,
+        "size": "small"
+      },
+      {
+        "name": "foul",
+        "category": "ingredient",
+        "quantity": 1.0,
+        "measuring": "cups"
+      },
+      {
+        "name": "jelbena",
+        "category": "ingredient",
+        "quantity": 1.0,
+        "measuring": "cups"
+      },
+      {
+        "name": "sel9",
+        "category": "ingredient",
+        "quantity": 1.0,
+        "measuring": "cups"
+      },
+      {
+        "name": "bor8ol",
+        "category": "ingredient",
+        "quantity": 1.0,
+        "measuring": "cups"
+      },
+      {
+        "name": "olive oil",
+        "category": "ingredient",
+        "quantity": 0.5,
+        "measuring": "cups"
+      },
+      {
+        "name": "garlic",
+        "category": "ingredient",
+        "quantity": 0.25,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "tomato paste",
+        "category": "ingredient",
+        "quantity": 0.5,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "carrot",
+        "category": "ingredient",
+        "quantity": 1.0,
+        "size": "medium"
+      },
+      {
+        "name": "parsley",
+        "category": "ingredient",
+        "quantity": 1.0,
+        "measuring": "cups"
+      }
+    ]
+  },
+  {
+    "name": "rouz(djej/chwebi)",
+    "category": "lunch",
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "paprika",
+        "category": "spices",
+        "quantity": 1.0,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "tabel and kariwya",
+        "category": "spices",
+        "quantity": 0.25,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "curukum",
+        "category": "spices",
+        "quantity": 0.5,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "salt",
+        "category": "spices",
+        "quantity": 0.5,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "black pepper",
+        "category": "spices",
+        "quantity": 0.25,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "chicken or chwebi",
+        "category": "ingredient",
+        "quantity": 200.0,
+        "measuring": "grams"
+      },
+      {
+        "name": "onion",
+        "category": "ingredient",
+        "quantity": 1.0,
+        "size": "small"
+      },
+      {
+        "name": "jelbena",
+        "category": "ingredient",
+        "quantity": 1.0,
+        "measuring": "cups"
+      },
+      {
+        "name": "sel9",
+        "category": "ingredient",
+        "quantity": 1.0,
+        "measuring": "cups"
+      },
+      {
+        "name": "rice",
+        "category": "ingredient",
+        "quantity": 1.0,
+        "measuring": "cups"
+      },
+      {
+        "name": "olive oil",
+        "category": "ingredient",
+        "quantity": 0.5,
+        "measuring": "cups"
+      },
+      {
+        "name": "garlic",
+        "category": "ingredient",
+        "quantity": 0.5,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "tomato paste",
+        "category": "ingredient",
+        "quantity": 1.0,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "carrot",
+        "category": "ingredient",
+        "quantity": 1.0,
+        "size": "medium"
+      }
+    ]
+  },
+  {
+    "name": "kamouniya",
+    "category": "lunch",
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "paprika",
+        "category": "spices",
+        "quantity": 0.375,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "kammoun",
+        "category": "spices",
+        "quantity": 0.125,
+        "measuring": "coffee spoon",
+        "method": "only in the last 2 minutes"
+      },
+      {
+        "name": "curukum",
+        "category": "spices",
+        "quantity": 0.0625,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "salt",
+        "category": "spices",
+        "quantity": 0.125,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "black pepper",
+        "category": "spices",
+        "quantity": 0.125,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "meat and liver",
+        "category": "ingredient",
+        "quantity": 125.0,
+        "measuring": "grams"
+      },
+      {
+        "name": "onion",
+        "category": "ingredient",
+        "quantity": 0.25,
+        "size": "small",
+        "method": "minced"
+      },
+      {
+        "name": "tomato",
+        "category": "ingredient",
+        "quantity": 1.0,
+        "size": "medium"
+      },
+      {
+        "name": "olive oil",
+        "category": "ingredient",
+        "quantity": 0.25,
+        "measuring": "cups"
+      },
+      {
+        "name": "garlic",
+        "category": "ingredient",
+        "quantity": 0.25,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "tomato paste",
+        "category": "ingredient",
+        "quantity": 0.25,
+        "measuring": "coffee spoon"
+      }
+    ]
+  },
+  {
+    "name": "chakchouka",
+    "category": "lunch",
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "paprika",
+        "category": "spices",
+        "quantity": 0.5,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "tabel and kariwya",
+        "category": "spices",
+        "quantity": 0.0625,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "curukum",
+        "category": "spices",
+        "quantity": 0.0625,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "salt",
+        "category": "spices",
+        "quantity": 0.125,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "black pepper",
+        "category": "spices",
+        "quantity": 0.0625,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "meat",
+        "category": "ingredient",
+        "quantity": 125.0,
+        "measuring": "grams"
+      },
+      {
+        "name": "onion",
+        "category": "ingredient",
+        "quantity": 0.25,
+        "size": "medium"
+      },
+      {
+        "name": "tomato",
+        "category": "ingredient",
+        "quantity": 0.25,
+        "size": "medium"
+      },
+      {
+        "name": "olive oil",
+        "category": "ingredient",
+        "quantity": 0.125,
+        "measuring": "cups"
+      },
+      {
+        "name": "garlic",
+        "category": "ingredient",
+        "quantity": 0.25,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "tomato paste",
+        "category": "ingredient",
+        "quantity": 0.25,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "pepper",
+        "category": "ingredient",
+        "quantity": 0.25,
+        "size": "medium"
+      },
+      {
+        "name": "jelbena",
+        "category": "ingredient",
+        "quantity": 0.25,
+        "measuring": "cups"
+      },
+      {
+        "name": "potato",
+        "category": "ingredient",
+        "quantity": 0.5,
+        "size": "small"
+      }
+    ]
+  },
+  {
+    "name": "tajin",
+    "category": "lunch",
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "paprika",
+        "category": "spices",
+        "quantity": 0.5,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "tabel and kariwya",
+        "category": "spices",
+        "quantity": 0.25,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "curukum",
+        "category": "spices",
+        "quantity": 0.5,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "salt",
+        "category": "spices",
+        "quantity": 0.125,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "black pepper",
+        "category": "spices",
+        "quantity": 0.25,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "meat and liver",
+        "category": "ingredient",
+        "quantity": 125.0,
+        "measuring": "grams"
+      },
+      {
+        "name": "potato",
+        "category": "ingredient",
+        "quantity": 0.5,
+        "size": "medium",
+        "method": "fried cubes"
+      },
+      {
+        "name": "parsley",
+        "category": "ingredient",
+        "quantity": 0.5,
+        "measuring": "cups"
+      },
+      {
+        "name": "egg",
+        "category": "ingredient",
+        "method": "until it becomes fluid"
+      }
+    ]
+  },
+  {
+    "name": "kafteji",
+    "category": "lunch",
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "paprika",
+        "category": "spices",
+        "quantity": 0.0625,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "tabel and kariwya",
+        "category": "spices",
+        "quantity": 0.0625,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "salt",
+        "category": "spices",
+        "quantity": 0.0625,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "creuvette or chicken (optional)",
+        "category": "ingredient",
+        "quantity": 125.0,
+        "measuring": "grams"
+      },
+      {
+        "name": "potato",
+        "category": "ingredient",
+        "quantity": 0.5,
+        "size": "medium",
+        "method": "fried cubes"
+      },
+      {
+        "name": "tomato",
+        "category": "ingredient",
+        "quantity": 1.0,
+        "size": "medium",
+        "method": "sauce with the spices"
+      },
+      {
+        "name": "garlic",
+        "category": "ingredient",
+        "quantity": 0.125,
+        "measuring": "coffee spoon",
+        "method": "sauce with the spices"
+      },
+      {
+        "name": "pepper",
+        "category": "ingredient",
+        "quantity": 1.0,
+        "size": "medium",
+        "method": "fried cubes"
+      },
+      {
+        "name": "pumpkin",
+        "category": "ingredient",
+        "quantity": 62.5,
+        "measuring": "grams",
+        "method": "fried cubes"
+      },
+      {
+        "name": "egg",
+        "category": "ingredient",
+        "quantity": 2.0,
+        "method": "omelette with parsley"
+      }
+    ]
+  },
+  {
+    "name": "k3aber brouklou",
+    "category": "dinner",
+    "servings": 2,
+    "ingredients": [
+      {
+        "name": "kurkum",
+        "category": "spices",
+        "quantity": 1.0,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "black peper",
+        "category": "spices",
+        "quantity": 0.5,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "paprika",
+        "category": "spices",
+        "quantity": 1.5,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "salt",
+        "category": "spices",
+        "quantity": 1.0,
+        "measuring": "coffee spoon",
+        "method": "mas7"
+      },
+      {
+        "name": "tabel and karwiya",
+        "category": "spices",
+        "quantity": 0.5,
+        "measuring": "coffee spoon"
+      },
+      {
+        "name": "chaplure",
+        "category": "ingredient",
+        "quantity": 3.0,
+        "measuring": "table spoon"
+      },
+      {
+        "name": "egg",
+        "category": "ingredient",
+        "quantity": 2.0,
+        "size": "medium"
+      },
+      {
+        "name": "parsley ",
+        "category": "ingredient",
+        "quantity": 0.25,
+        "measuring": "bundle",
+        "size": "medium"
+      },
+      {
+        "name": "potato",
+        "category": "ingredient",
+        "quantity": 2.0,
+        "size": "medium",
+        "method": "steamed"
+      },
+      {
+        "name": "cauliflower ",
+        "category": "ingredient",
+        "quantity": 1.0,
+        "size": "small",
+        "method": "steamed"
+      }
+    ]
+  }
+]
