@@ -5,7 +5,7 @@ import 'package:recipes/widgets/common/asset_button.dart';
 import 'package:recipes/widgets/common/conditional_widget.dart';
 import 'package:recipes/widgets/project/upsert_element/models/upsert_from_field.dart';
 import 'package:recipes/widgets/project/upsert_element/widgets/field_title.dart';
-import 'package:recipes/widgets/project/upsert_element/widgets/picture_upsert_form_field/picture_upsert_form_field_controller.dart';
+import 'package:recipes/widgets/project/upsert_element/widgets/field_widget/picture_upsert_form_field/picture_upsert_form_field_controller.dart';
 
 class PictureUpsertFormFieldWidget extends StatelessWidget {
   const PictureUpsertFormFieldWidget({Key? key, required this.formField})

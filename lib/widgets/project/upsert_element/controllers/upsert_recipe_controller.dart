@@ -4,6 +4,7 @@ import 'package:recipes/models/recipe.dart';
 import 'package:recipes/repository/recipe_category_repository.dart';
 import 'package:recipes/repository/recipe_repository.dart';
 import 'package:recipes/widgets/project/upsert_element/controllers/upsert_element_controller.dart';
+import 'package:recipes/widgets/project/upsert_element/models/servings_upsert_form_field.dart';
 import 'package:recipes/widgets/project/upsert_element/models/upsert_from_field.dart';
 
 class UpsertRecipeController extends UpsertElementController {
@@ -24,6 +25,8 @@ class UpsertRecipeController extends UpsertElementController {
           label: 'Description'.tr,
           maxLines: null,
           optional: true),
+      ServingsUpsertFormField(
+          name: 'servings', label: 'Servings'.tr, servings: 4),
       PictureUpsertFormField(name: 'picture', aspectRatio: 1, optional: true)
     ];
     initState(null);
@@ -43,6 +46,7 @@ class UpsertRecipeController extends UpsertElementController {
       getTextFormFieldByName('description').controller.text =
           recipe.description ?? '';
       getPictureFormFieldByName('picture').picture = recipe.picture.value;
+      getServingsUpsertFormFieldByName('servings').servings = recipe.servings;
       return;
     }
     recipe.category.value =
@@ -58,7 +62,8 @@ class UpsertRecipeController extends UpsertElementController {
       recipe
         ..name = getTextFormFieldByName('name').controller.text.trim()
         ..description = description.isEmpty ? null : description
-        ..picture.value = getPictureFormFieldByName('picture').picture;
+        ..picture.value = getPictureFormFieldByName('picture').picture
+        ..servings = getServingsUpsertFormFieldByName('servings').servings;
       await RecipeRepository.find.save(recipe);
       close(true, true);
     }

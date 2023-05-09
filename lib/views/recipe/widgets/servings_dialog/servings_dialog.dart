@@ -90,10 +90,7 @@ class IngredientSummary extends StatelessWidget {
                 ingredient.ingredient.value?.name ?? '',
                 style: Get.textTheme.bodyLarge,
               ),
-              Text(
-                  ingredient.getAmount(
-                          controller.servings, controller.recipe.servings) ??
-                      '',
+              Text(ingredient.getAmount(controller.servings) ?? '',
                   style: Get.textTheme.bodyLarge),
             ],
           ),

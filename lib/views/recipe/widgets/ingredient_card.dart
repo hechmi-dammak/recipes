@@ -65,9 +65,8 @@ class IngredientCard extends GetView<RecipeController> {
                                   ),
                                 ),
                                 ConditionalWidget(
-                                  condition: ingredient.getAmount(
-                                          controller.servings,
-                                          controller.recipe?.servings) !=
+                                  condition: ingredient
+                                          .getAmount(controller.servings) !=
                                       null,
                                   child: (context) => Positioned(
                                     left: 0,
@@ -81,9 +80,8 @@ class IngredientCard extends GetView<RecipeController> {
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 2, horizontal: 5),
                                       child: Text(
-                                        ingredient.getAmount(
-                                            controller.servings,
-                                            controller.recipe?.servings)!,
+                                        ingredient
+                                            .getAmount(controller.servings)!,
                                         textAlign: TextAlign.center,
                                         style: Get.textTheme.labelMedium
                                             ?.copyWith(

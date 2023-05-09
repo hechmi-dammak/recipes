@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:recipes/decorator/decorators.dart';
 import 'package:recipes/widgets/project/upsert_element/models/autocomplete_upsert_from_field.dart';
+import 'package:recipes/widgets/project/upsert_element/models/servings_upsert_form_field.dart';
 import 'package:recipes/widgets/project/upsert_element/models/upsert_from_field.dart';
 
 abstract class UpsertElementController extends BaseController
@@ -18,20 +19,26 @@ abstract class UpsertElementController extends BaseController
     return formFields.firstWhere((formField) => formField.name == name);
   }
 
+  ServingsUpsertFormField getServingsUpsertFormFieldByName(String name) {
+    return getCastedFormFieldByName<ServingsUpsertFormField>(name);
+  }
+
   AutocompleteUpsertFormField<T>
       getAutocompleteUpsertFormFieldByName<T extends Object>(String name) {
-    final UpsertFormField formField = _getFormFieldByName(name);
-    return formField as AutocompleteUpsertFormField<T>;
+    return getCastedFormFieldByName<AutocompleteUpsertFormField<T>>(name);
   }
 
   TextUpsertFormField getTextFormFieldByName(String name) {
-    final UpsertFormField formField = _getFormFieldByName(name);
-    return formField as TextUpsertFormField;
+    return getCastedFormFieldByName<TextUpsertFormField>(name);
   }
 
   PictureUpsertFormField getPictureFormFieldByName(String name) {
+    return getCastedFormFieldByName<PictureUpsertFormField>(name);
+  }
+
+  T getCastedFormFieldByName<T>(String name) {
     final formField = _getFormFieldByName(name);
-    return formField as PictureUpsertFormField;
+    return formField as T;
   }
 
   @override

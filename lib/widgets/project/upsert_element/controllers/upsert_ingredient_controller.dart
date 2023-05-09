@@ -16,10 +16,15 @@ class UpsertIngredientController extends UpsertElementController {
 
   final int? id;
   final int recipeId;
+  final int servings;
   RecipeIngredient recipeIngredient = RecipeIngredient();
   List<Ingredient> ingredients = [];
 
-  UpsertIngredientController({int order = 0, required this.recipeId, this.id}) {
+  UpsertIngredientController(
+      {int order = 0,
+      required this.recipeId,
+      required this.servings,
+      this.id}) {
     title = 'Ingredient'.tr;
     formFields = [
       AutocompleteUpsertFormField<Ingredient>(
@@ -68,23 +73,21 @@ class UpsertIngredientController extends UpsertElementController {
   }
 
   Future<void> fetchIngredientAndFillData() async {
-    if (id != null) {
-      recipeIngredient = await RecipeIngredientRepository.find.findById(id) ??
-          recipeIngredient;
-      getAutocompleteUpsertFormFieldByName<Ingredient>('name').selectedValue =
-          recipeIngredient.ingredient.value;
-      getAutocompleteUpsertFormFieldByName<Ingredient>('name').controller.text =
-          recipeIngredient.ingredient.value?.name ?? '';
-      getTextFormFieldByName('description').controller.text =
-          recipeIngredient.description ?? '';
-      getTextFormFieldByName('amount').controller.text =
-          recipeIngredient.amount ?? '';
-      getPictureFormFieldByName('picture').picture =
-          recipeIngredient.ingredient.value?.picture.value;
-      return;
-    }
     recipeIngredient.recipe.value =
         await RecipeRepository.find.findById(recipeId);
+    if (id == null) return;
+    recipeIngredient =
+        await RecipeIngredientRepository.find.findById(id) ?? recipeIngredient;
+    getAutocompleteUpsertFormFieldByName<Ingredient>('name').selectedValue =
+        recipeIngredient.ingredient.value;
+    getAutocompleteUpsertFormFieldByName<Ingredient>('name').controller.text =
+        recipeIngredient.ingredient.value?.name ?? '';
+    getTextFormFieldByName('description').controller.text =
+        recipeIngredient.description ?? '';
+    getTextFormFieldByName('amount').controller.text =
+        recipeIngredient.getAmount(servings) ?? '';
+    getPictureFormFieldByName('picture').picture =
+        recipeIngredient.ingredient.value?.picture.value;
   }
 
   Future<void> fetchIngredients() async {
@@ -107,7 +110,8 @@ class UpsertIngredientController extends UpsertElementController {
       recipeIngredient
         ..ingredient.value!.name = name.controller.text.trim()
         ..description = description.isEmpty ? null : description
-        ..amount = getTextFormFieldByName('amount').controller.text.trim()
+        ..setAmount(
+            getTextFormFieldByName('amount').controller.text.trim(), servings)
         ..ingredient.value!.picture.value =
             getPictureFormFieldByName('picture').picture;
       await RecipeIngredientRepository.find.save(recipeIngredient);

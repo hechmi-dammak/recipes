@@ -18,38 +18,34 @@ class RecipeIngredient {
   String? measuring;
   String? description;
 
-  @ignore
-  String? get amount {
-    final amount =
-        '${quantity == null ? '' : quantity.toString()} ${measuring ?? ''}'
-            .trim();
-    return amount.isEmpty ? null : amount;
-  }
-
-  String? getAmount(int servings, [int? recipeServings]) {
+  String? getAmount(int servings) {
     String result = '';
     if (quantity != null) {
-      final num resultQuantity =
-          ((quantity! * servings) / (recipeServings ?? 1));
-      if (resultQuantity % 1 == 0) {
+      final double resultQuantity =
+          ((quantity! * servings) / (recipe.value?.servings ?? 1));
+      if (resultQuantity.truncateToDouble() == resultQuantity) {
         result += '${resultQuantity.toInt()} ';
       } else {
-        result += '$resultQuantity ';
+        result += '${double.parse(resultQuantity.toStringAsFixed(2))} ';
       }
     }
     if (measuring != null) {
       result += '${measuring!} ';
     }
+    result = result.trim();
     return result == '' ? null : result;
   }
 
-  set amount(String? amount) {
+  void setAmount(String? amount, int servings) {
     if (amount == null || amount.isEmpty) {
       quantity = null;
       measuring = null;
       return;
     }
     quantity = double.tryParse(amount.replaceAll(RegExp(r'[^0-9\\.]'), ''));
+    if (quantity != null) {
+      quantity = ((quantity! * (recipe.value?.servings ?? 1)) / servings);
+    }
     measuring = amount.replaceAll(RegExp(r'[0-9\\.]'), '').trim();
   }
 

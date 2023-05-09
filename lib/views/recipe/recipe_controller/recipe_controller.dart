@@ -14,7 +14,6 @@ import 'package:recipes/widgets/project/upsert_element/controllers/upsert_step_c
 import 'package:recipes/widgets/project/upsert_element/upsert_element_dialog.dart';
 
 part 'ingredient_recipe_controller_part.dart';
-
 part 'step_recipe_controller_part.dart';
 
 class RecipeController extends BaseController
@@ -111,6 +110,9 @@ class RecipeController extends BaseController
       if (step.image != null) {
         await precacheImage(step.image!, Get.context!);
       }
+    }
+    if (servings == 4) {
+      servings = recipe!.servings;
     }
   }
 

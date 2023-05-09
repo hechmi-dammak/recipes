@@ -7,7 +7,8 @@ class ServingsIcon extends StatelessWidget {
   const ServingsIcon({
     super.key,
     required this.servings,
-    required this.color, this.onTap,
+    required this.color,
+    this.onTap,
   });
 
   final Color color;
