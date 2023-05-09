@@ -3,13 +3,13 @@ import 'package:get/get.dart';
 import 'package:recipes/views/recipe/recipe_controller/recipe_controller.dart';
 import 'package:recipes/views/recipe/widgets/bottom_navigation_button.dart';
 import 'package:recipes/views/recipe/widgets/ingredients_tab.dart';
-import 'package:recipes/views/recipe/widgets/servings_button.dart';
-import 'package:recipes/views/recipe/widgets/servings_dialog.dart';
 import 'package:recipes/views/recipe/widgets/steps_tab.dart';
 import 'package:recipes/widgets/common/asset_button.dart';
+import 'package:recipes/widgets/common/conditional_widget.dart';
 import 'package:recipes/widgets/project/custom_app_bar.dart';
 import 'package:recipes/widgets/project/custom_page.dart';
 import 'package:recipes/widgets/project/hidden_title_button.dart';
+import 'package:recipes/widgets/project/servings_icon.dart';
 import 'package:recipes/widgets/project/title_app_bar_button.dart';
 
 class RecipePage extends CustomPage<RecipeController> {
@@ -57,11 +57,13 @@ class RecipePage extends CustomPage<RecipeController> {
             controller.selectionIsActive ? controller.setSelectAllValue : null,
       ),
       fadeAction: !controller.selectionIsActive,
-      action: controller.tabController.index == 0
-          ? ServingsButton(
-              servings: controller.servings,
-              onTap: () => const ServingsDialog().show())
-          : Container(),
+      action: ConditionalWidget(
+        condition: controller.tabController.index == 0,
+        child: (context) => ServingsIcon(
+            color: Get.theme.colorScheme.onPrimary,
+            servings: controller.servings,
+            onTap: () => controller.showServingsDialog()),
+      ),
       secondAction: AssetButton.selectAll(
           allItemsSelected: controller.allItemsSelected,
           onTap: controller.toggleSelectAllValue),

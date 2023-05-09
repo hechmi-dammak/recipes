@@ -1,5 +1,3 @@
-import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:recipes/decorator/decorators.dart';
@@ -9,13 +7,14 @@ import 'package:recipes/repository/step_repository.dart';
 import 'package:recipes/views/recipe/models/recipe_ingredient_pm_recipe.dart';
 import 'package:recipes/views/recipe/models/recipe_pm_recipe.dart';
 import 'package:recipes/views/recipe/models/step_pm_recipe.dart';
+import 'package:recipes/views/recipe/widgets/servings_dialog/servings_dialog.dart';
 import 'package:recipes/widgets/common/snack_bar.dart';
 import 'package:recipes/widgets/project/upsert_element/controllers/upsert_ingredient_controller.dart';
 import 'package:recipes/widgets/project/upsert_element/controllers/upsert_step_controller.dart';
 import 'package:recipes/widgets/project/upsert_element/upsert_element_dialog.dart';
 
 part 'ingredient_recipe_controller_part.dart';
-part 'serving_recipe_controller_part.dart';
+
 part 'step_recipe_controller_part.dart';
 
 class RecipeController extends BaseController
@@ -41,7 +40,6 @@ class RecipeController extends BaseController
   RecipePMRecipe? recipe;
   int servings = 4;
   late TabController tabController;
-  int tmpServings = 4;
 
   @override
   Future<void> loadData() async {
@@ -146,5 +144,17 @@ class RecipeController extends BaseController
     }
     await fetchData();
     CustomSnackBar.success('Selected Items were deleted.'.tr);
+  }
+
+  void showServingsDialog() {
+    if (recipe == null) return;
+    ServingsDialog(
+      servings: servings,
+      recipe: recipe!,
+      onConfirm: (int servings) {
+        this.servings = servings;
+        update();
+      },
+    ).show();
   }
 }
