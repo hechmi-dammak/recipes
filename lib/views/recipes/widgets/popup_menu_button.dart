@@ -33,19 +33,19 @@ class PopUpMenuButton extends StatelessWidget {
                   ],
                 ),
               ),
-              // if (controller.recipes.isEmpty) //todo fix recipes.json
-              //   PopupMenuItem<int>(
-              //     value: 1,
-              //     child: Row(
-              //       children: const [
-              //         Icon(Icons.download, size: 20),
-              //         SizedBox(
-              //           width: 10,
-              //         ),
-              //         Text('Import from library'),
-              //       ],
-              //     ),
-              //   )
+              if (controller.recipes.isEmpty)
+                PopupMenuItem<int>(
+                  value: 1,
+                  child: Row(
+                    children: const [
+                      Icon(Icons.download, size: 20),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text('Import from library'),
+                    ],
+                  ),
+                )
             ];
           },
         );

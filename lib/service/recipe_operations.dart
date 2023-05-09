@@ -130,7 +130,7 @@ class RecipeOperations extends GetxService {
       final String content = await rootBundle.loadString('assets/recipes.json');
       await saveRecipesFromFileContent(content: content, onSuccess: onSuccess);
     } catch (e) {
-      CustomSnackBar.error('Failed to  import from file$e');
+      CustomSnackBar.error('Failed to  import from file $e');
       onFailure?.call();
     }
     onFinish?.call();
@@ -145,12 +145,8 @@ class RecipeOperations extends GetxService {
     try {
       await onStart?.call();
       final data = await json.decode(content);
-      final List<Recipe> recipes = [];
-      data.forEach((item) {
-        recipes.add(Recipe.fromMap(item));
-      });
-      for (var recipe in recipes) {
-        await RecipeRepository.find.save(recipe);
+      for (var item in data as List) {
+        await RecipeRepository.find.save(await Recipe.fromMap(item));
       }
       CustomSnackBar.success('Recipes are imported.');
       onSuccess?.call();

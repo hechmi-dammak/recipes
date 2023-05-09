@@ -60,7 +60,7 @@ class Recipe {
     };
   }
 
-  factory Recipe.fromMap(Map<String, dynamic> map) {
+  static Future<Recipe> fromMap(Map<String, dynamic> map) async{
     final recipe = Recipe(
       id: map['id'],
       name: map['name'],
@@ -68,20 +68,18 @@ class Recipe {
       servings: map['servings'],
     );
     if (map['ingredients'] != null) {
-      (map['ingredients'] as List)
-          .map((ingredient) => RecipeIngredient.fromMap(ingredient))
-          .forEach((ingredient) async {
-        await RecipeIngredientRepository.find.save(ingredient);
-        recipe.ingredients.add(ingredient);
-      });
+     for(var item in map['ingredients'] as List){
+       final ingredient=  RecipeIngredient.fromMap(item);
+       await RecipeIngredientRepository.find.save(ingredient);
+       recipe.ingredients.add(ingredient);
+     }
     }
     if (map['steps'] != null) {
-      (map['steps'] as List)
-          .map((step) => Step.fromMap(step))
-          .forEach((step) async {
+      for(var item in map['steps'] as List){
+        final step=  Step.fromMap(item);
         await StepRepository.find.save(step);
         recipe.steps.add(step);
-      });
+      }
     }
     if (map['category'] != null) {
       recipe.category.value = RecipeCategory.fromMap(map['category']);

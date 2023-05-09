@@ -9,6 +9,7 @@ class StepRepository extends GetxService {
   static StepRepository get find => Get.find<StepRepository>();
 
   Future<Step> save(Step step) async {
+    step.instruction = step.instruction.trim();
     await IsarService.isar.writeTxn(() async {
       await IsarService.isar.steps.put(step);
     });

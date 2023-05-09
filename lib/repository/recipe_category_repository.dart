@@ -14,6 +14,8 @@ class RecipeCategoryRepository extends GetxService {
   }
 
   Future<RecipeCategory> _save(RecipeCategory recipeCategory) async {
+    recipeCategory.name = recipeCategory.name.trim();
+    recipeCategory.description = recipeCategory.description?.trim();
     await IsarService.isar.writeTxn(() async {
       await IsarService.isar.recipeCategories.put(recipeCategory);
     });

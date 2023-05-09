@@ -14,6 +14,7 @@ class IngredientCategoryRepository extends GetxService {
 
   Future<IngredientCategory> _save(
       IngredientCategory ingredientCategory) async {
+    ingredientCategory.name=ingredientCategory.name.trim();
     await IsarService.isar.writeTxn(() async =>
         await IsarService.isar.ingredientCategories.put(ingredientCategory));
     return ingredientCategory;
@@ -25,7 +26,7 @@ class IngredientCategoryRepository extends GetxService {
       final List<IngredientCategory> ingredientCategories = await IsarService
           .isar.ingredientCategories
           .filter()
-          .nameEqualTo(ingredientCategory.name, caseSensitive: false)
+          .nameEqualTo(ingredientCategory.name.trim(), caseSensitive: false)
           .findAll();
       if (ingredientCategories.isNotEmpty) {
         ingredientCategory.id = ingredientCategories.first.id;

@@ -11,6 +11,8 @@ class RecipeIngredientRepository extends GetxService {
       Get.find<RecipeIngredientRepository>();
 
   Future<RecipeIngredient> save(RecipeIngredient recipeIngredient) async {
+    recipeIngredient.description = recipeIngredient.description?.trim();
+    recipeIngredient.measuring = recipeIngredient.measuring?.trim();
     await IsarService.isar.writeTxn(() async =>
         await IsarService.isar.recipeIngredients.put(recipeIngredient));
 
