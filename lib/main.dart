@@ -25,8 +25,8 @@ import 'package:mekla/views/recipes/recipes_controller.dart';
 import 'package:mekla/views/recipes/recipes_page.dart';
 
 void main() async {
-  await dependencies();
   runZonedGuarded(() async {
+    await dependencies();
     runApp(const RecipesApp());
   }, (error, stackTrace) {
     LoggerService.logger?.errorStackTrace(error, stackTrace, method: 'main');
@@ -60,7 +60,6 @@ class RecipesApp extends StatelessWidget {
         theme: ApplicationTheme.getTheme(),
         initialRoute: RecipesPage.routeName,
         getPages: [
-
           GetPage(
             name: RecipesPage.routeName,
             page: () => const RecipesPage(),

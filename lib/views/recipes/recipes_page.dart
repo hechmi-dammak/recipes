@@ -40,12 +40,14 @@ class RecipesPage extends CustomPage<RecipesController> {
           mainAxisSize: MainAxisSize.min,
           children: [
             TitleAppBarButton(
+                hideTitle: controller.selectionCount == 1,
                 title: 'Delete'.tr,
                 icon: 'trash_icon',
                 onTap: controller.deleteSelectedRecipes),
             HiddenTitleButton(
                 hidden: controller.selectionCount != 1,
                 child: TitleAppBarButton(
+                    hideTitle: controller.selectionCount == 1,
                     title: 'Edit'.tr,
                     icon: 'edit_icon',
                     onTap: controller.editRecipe)),
@@ -53,9 +55,19 @@ class RecipesPage extends CustomPage<RecipesController> {
               width: 25,
             ),
             TitleAppBarButton(
+              hideTitle: controller.selectionCount == 1,
               title: 'Share'.tr,
               icon: 'share_icon',
               onTap: controller.shareRecipes,
+            ),
+            const SizedBox(
+              width: 25,
+            ),
+            TitleAppBarButton(
+              hideTitle: controller.selectionCount == 1,
+              title: 'Export'.tr,
+              icon: 'export_file',
+              onTap: controller.exportRecipes,
             )
           ],
         ),

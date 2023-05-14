@@ -32,6 +32,7 @@ class AssetService extends GetxService {
     'assets/icons_png/trash_icon.png',
     'assets/icons_png/up_arrow_icon.png',
     'assets/icons_png/used_icon.png',
+    'assets/icons_png/export_file.png',
   ];
 
   Future<void> init(BuildContext context) async {

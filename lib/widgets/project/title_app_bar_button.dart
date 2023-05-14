@@ -6,11 +6,13 @@ class TitleAppBarButton extends StatelessWidget {
   const TitleAppBarButton({
     Key? key,
     required this.title,
+    this.hideTitle = false,
     required this.icon,
     required this.onTap,
   }) : super(key: key);
   final String title;
   final String icon;
+  final bool hideTitle;
   final VoidCallback onTap;
 
   @override
@@ -28,17 +30,15 @@ class TitleAppBarButton extends StatelessWidget {
                 width: 20,
                 semanticLabel: title,
                 fit: BoxFit.contain),
-            if (Get.width > 340) ...[
+            if (Get.width > 340 && !hideTitle) ...[
               const SizedBox(
                 width: 5,
               ),
-              Flexible(
-                child: Text(
-                  title,
-                  style: Get.textTheme.labelSmall?.copyWith(
-                      color: Get.theme.colorScheme.onPrimary,
-                      overflow: TextOverflow.clip),
-                ),
+              Text(
+                title,
+                style: Get.textTheme.labelSmall?.copyWith(
+                    color: Get.theme.colorScheme.onPrimary,
+                    overflow: TextOverflow.clip),
               )
             ]
           ],

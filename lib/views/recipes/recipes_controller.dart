@@ -107,7 +107,11 @@ class RecipesController extends BaseController
         recipes:
             getSelectedItems().map((recipe) => recipe.toMap(false)).toList());
   }
-
+  Future<void> exportRecipes() async {
+    RecipeOperations.find.exportToFile(
+        recipes:
+        getSelectedItems().map((recipe) => recipe.toMap(false)).toList());
+  }
   Future<void> selectedItemMenu(int item) async {
     switch (item) {
       case 0:
