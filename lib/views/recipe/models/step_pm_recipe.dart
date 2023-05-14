@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart' hide Step;
-import 'package:mekla/models/step.dart';
+import 'package:mekla/models/isar_models/step.dart';
+import 'package:mekla/models/selection_model.dart';
 
-class StepPMRecipe extends Step {
+class StepPMRecipe extends Step implements SelectionModel {
+  @override
   bool selected;
   bool used;
   int order;

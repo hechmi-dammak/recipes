@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:isar/isar.dart';
-import 'package:mekla/models/ingredient.dart';
+import 'package:mekla/models/isar_models/ingredient.dart';
+import 'package:mekla/models/isar_models/recipe_ingredient.dart';
 import 'package:mekla/repository/picture_repository.dart';
 import 'package:mekla/service/isar_service.dart';
 
@@ -29,17 +30,30 @@ class IngredientRepository extends GetxService {
   }
 
   Future<void> _replaceWithSameName(Ingredient ingredient) async {
-    if (ingredient.id == null) {
-      final List<Ingredient> ingredients = await IsarService.isar.ingredients
-          .filter()
-          .nameEqualTo(ingredient.name.trim(), caseSensitive: false)
-          .findAll();
-      if (ingredients.isNotEmpty) {
-        final Ingredient tmpIngredient = ingredients.first;
-        ingredient.id = tmpIngredient.id;
-        ingredient.picture.value ??= tmpIngredient.picture.value;
+    // if (ingredient.id == null) {
+    final List<Ingredient> ingredients = await IsarService.isar.ingredients
+        .filter()
+        .nameEqualTo(ingredient.name.trim(), caseSensitive: false)
+        .findAll();
+    if (ingredients.isNotEmpty) {
+      final Ingredient tmpIngredient = ingredients.first;
+      if (ingredient.id != null) {
+       final List<RecipeIngredient> recipeIngredients=ingredient.recipeIngredients.toList();
+        await IsarService.isar.writeTxn(() async {
+          for (RecipeIngredient recipeIngredient
+              in recipeIngredients) {
+            recipeIngredient.ingredient.value = tmpIngredient;
+            recipeIngredient.ingredient.save();
+          }
+        });
+        tmpIngredient.picture.value=ingredient.picture.value?? tmpIngredient.picture.value;
+        _save(tmpIngredient);
+        deleteById(ingredient.id);
       }
+      ingredient.id = tmpIngredient.id;
+      ingredient.picture.value ??= tmpIngredient.picture.value;
     }
+    // }
   }
 
   Future<bool> deleteById(int? id) async {

@@ -9,7 +9,7 @@ import 'package:mekla/views/recipe/models/recipe_pm_recipe.dart';
 import 'package:mekla/views/recipe/models/step_pm_recipe.dart';
 import 'package:mekla/views/recipe/widgets/servings_dialog/servings_dialog.dart';
 import 'package:mekla/widgets/common/snack_bar.dart';
-import 'package:mekla/widgets/project/upsert_element/controllers/upsert_ingredient_controller.dart';
+import 'package:mekla/widgets/project/upsert_element/controllers/upsert_recipe_ingredient_controller.dart';
 import 'package:mekla/widgets/project/upsert_element/controllers/upsert_step_controller.dart';
 import 'package:mekla/widgets/project/upsert_element/upsert_element_dialog.dart';
 

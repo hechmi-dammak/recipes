@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:mekla/helpers/form_validators.dart';
-import 'package:mekla/models/step.dart';
+import 'package:mekla/models/isar_models/step.dart';
 import 'package:mekla/repository/recipe_repository.dart';
 import 'package:mekla/repository/step_repository.dart';
 import 'package:mekla/widgets/project/upsert_element/controllers/upsert_element_controller.dart';

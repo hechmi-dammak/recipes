@@ -49,6 +49,13 @@ const IngredientSchema = CollectionSchema(
       name: r'picture',
       target: r'Picture',
       single: true,
+    ),
+    r'recipeIngredients': LinkSchema(
+      id: 5047396624582500358,
+      name: r'recipeIngredients',
+      target: r'RecipeIngredient',
+      single: false,
+      linkName: r'ingredient',
     )
   },
   embeddedSchemas: {},
@@ -109,12 +116,14 @@ Id _ingredientGetId(Ingredient object) {
 }
 
 List<IsarLinkBase<dynamic>> _ingredientGetLinks(Ingredient object) {
-  return [object.picture];
+  return [object.picture, object.recipeIngredients];
 }
 
 void _ingredientAttach(IsarCollection<dynamic> col, Id id, Ingredient object) {
   object.id = id;
   object.picture.attach(col, col.isar.collection<Picture>(), r'picture', id);
+  object.recipeIngredients.attach(
+      col, col.isar.collection<RecipeIngredient>(), r'recipeIngredients', id);
 }
 
 extension IngredientQueryWhereSort
@@ -456,6 +465,68 @@ extension IngredientQueryLinks
   QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition> pictureIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.linkLength(r'picture', 0, true, 0, true);
+    });
+  }
+
+  QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition> recipeIngredients(
+      FilterQuery<RecipeIngredient> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.link(q, r'recipeIngredients');
+    });
+  }
+
+  QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition>
+      recipeIngredientsLengthEqualTo(int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'recipeIngredients', length, true, length, true);
+    });
+  }
+
+  QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition>
+      recipeIngredientsIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'recipeIngredients', 0, true, 0, true);
+    });
+  }
+
+  QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition>
+      recipeIngredientsIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'recipeIngredients', 0, false, 999999, true);
+    });
+  }
+
+  QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition>
+      recipeIngredientsLengthLessThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'recipeIngredients', 0, true, length, include);
+    });
+  }
+
+  QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition>
+      recipeIngredientsLengthGreaterThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(
+          r'recipeIngredients', length, include, 999999, true);
+    });
+  }
+
+  QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition>
+      recipeIngredientsLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(
+          r'recipeIngredients', lower, includeLower, upper, includeUpper);
     });
   }
 }

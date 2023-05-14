@@ -7,7 +7,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart' show AsyncCallback;
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:mekla/models/recipe.dart';
+import 'package:mekla/models/isar_models/recipe.dart';
 import 'package:mekla/repository/recipe_repository.dart';
 import 'package:mekla/service/logger_service.dart';
 import 'package:mekla/views/recipes/recipes_controller.dart';

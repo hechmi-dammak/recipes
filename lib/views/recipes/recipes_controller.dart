@@ -4,6 +4,7 @@ import 'package:mekla/decorator/decorators.dart';
 import 'package:mekla/helpers/getx_extension.dart';
 import 'package:mekla/repository/recipe_repository.dart';
 import 'package:mekla/service/recipe_operations.dart';
+import 'package:mekla/views/ingredients/ingredients_page.dart';
 import 'package:mekla/views/recipe/recipe_page.dart';
 import 'package:mekla/views/recipes/models/recipe_pm_recipes.dart';
 import 'package:mekla/widgets/common/snack_bar.dart';
@@ -72,18 +73,13 @@ class RecipesController extends BaseController
     );
   }
 
-  void selectRecipe(RecipePMRecipes recipe) {
-    recipe.selected = !recipe.selected;
-    updateSelection();
-  }
-
   Future<void> deleteSelectedRecipes() async {
     loading = true;
     for (RecipePMRecipes recipe in getSelectedItems()) {
       await RecipeRepository.find.deleteById(recipe.id!);
     }
     await fetchData();
-    CustomSnackBar.success('Selected Recipe  were deleted.'.tr);
+    CustomSnackBar.success('Selected Recipes were deleted.'.tr);
   }
 
   Future<void> addRecipe() async {
@@ -139,6 +135,9 @@ class RecipesController extends BaseController
               loading = false;
             },
             onSuccess: fetchData);
+        break;
+      case 2:
+        Get.toNamed(IngredientsPage.routeName);
         break;
     }
   }

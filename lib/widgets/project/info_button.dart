@@ -27,10 +27,10 @@ class InfoButton extends StatelessWidget {
                 onTap: DescriptionDialog(title: name, description: description!)
                     .show,
                 icon: 'info_icon',
-                iconHeight: 9,
+                height: 9,
                 center: true,
-                iconWidth: 2,
-                iconColor: Get.theme.colorScheme.onPrimary,
+                width: 2,
+                color: Get.theme.colorScheme.onPrimary,
                 parentBuilder: (context, child) => SizedBox(
                   height: 34,
                   width: 32,

@@ -1,5 +1,6 @@
 import 'package:isar/isar.dart';
-import 'package:mekla/models/picture.dart';
+import 'package:mekla/models/isar_models/picture.dart';
+import 'package:mekla/models/isar_models/recipe_ingredient.dart';
 
 part 'ingredient.g.dart';
 
@@ -9,17 +10,22 @@ class Ingredient {
   @Index()
   String name;
   final IsarLink<Picture> picture;
+  @Backlink(to: 'ingredient')
+  final IsarLinks<RecipeIngredient> recipeIngredients;
 
   Ingredient({
     this.id,
     this.name = '',
     IsarLink<Picture>? picture,
-  }) : picture = picture ?? IsarLink<Picture>();
+    IsarLinks<RecipeIngredient>? recipeIngredients,
+  })  : picture = picture ?? IsarLink<Picture>(),
+        recipeIngredients = recipeIngredients ?? IsarLinks<RecipeIngredient>();
 
   Ingredient.fromCopy(Ingredient ingredient)
       : id = ingredient.id,
         name = ingredient.name,
-        picture = ingredient.picture;
+        picture = ingredient.picture,
+        recipeIngredients = ingredient.recipeIngredients;
 
   Map<String, dynamic> toMap([bool withId = true]) {
     return {

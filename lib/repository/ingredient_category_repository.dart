@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:isar/isar.dart';
-import 'package:mekla/models/ingredient_category.dart';
+import 'package:mekla/models/isar_models/ingredient_category.dart';
 import 'package:mekla/service/isar_service.dart';
 
 class IngredientCategoryRepository extends GetxService {

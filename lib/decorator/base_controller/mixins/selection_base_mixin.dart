@@ -1,4 +1,5 @@
 import 'package:mekla/decorator/controller.dart';
+import 'package:mekla/models/selection_model.dart';
 
 mixin SelectionBaseMixin on Controller {
   @override
@@ -38,6 +39,11 @@ mixin SelectionBaseMixin on Controller {
 
   @override
   void updateSelectionIsActive() {
+    throw UnimplementedError();
+  }
+
+  @override
+  void selectItem(SelectionModel item) {
     throw UnimplementedError();
   }
 }

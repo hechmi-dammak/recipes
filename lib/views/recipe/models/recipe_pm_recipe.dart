@@ -1,13 +1,12 @@
-import 'package:mekla/models/recipe.dart';
+import 'package:mekla/models/isar_models/recipe.dart';
 import 'package:mekla/views/recipe/models/recipe_ingredient_pm_recipe.dart';
 import 'package:mekla/views/recipe/models/step_pm_recipe.dart';
 
-class RecipePMRecipe extends Recipe {
-  bool selected;
+class RecipePMRecipe extends Recipe  {
   List<RecipeIngredientPMRecipe> ingredientList = [];
   List<StepPMRecipe> stepList = [];
 
-  RecipePMRecipe({this.selected = false, required Recipe recipe})
+  RecipePMRecipe({required Recipe recipe})
       : super.fromCopy(recipe) {
     ingredientList = recipe.ingredients
         .toList()

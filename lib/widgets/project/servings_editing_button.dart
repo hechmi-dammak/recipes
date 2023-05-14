@@ -35,7 +35,7 @@ class ServingsEditingButton extends StatelessWidget {
             height: 40,
             child: AssetButton(
                 center: true,
-                iconColor: Get.theme.colorScheme.secondary,
+                color: Get.theme.colorScheme.secondary,
                 onTap: onDecrement,
                 icon: 'back_arrow_icon'),
           ),
@@ -66,7 +66,7 @@ class ServingsEditingButton extends StatelessWidget {
             width: 40,
             height: 40,
             child: AssetButton(
-                iconColor: Get.theme.colorScheme.secondary,
+                color: Get.theme.colorScheme.secondary,
                 flip: true,
                 center: true,
                 onTap: onIncrement,

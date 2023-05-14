@@ -68,11 +68,7 @@ class RecipeCategoriesController extends BaseController
     }
   }
 
-  Future<void> selectCategory(
-      RecipeCategoryPMRecipeCategories recipeCategory) async {
-    recipeCategory.selected = !recipeCategory.selected;
-    updateSelection();
-  }
+
 
   Future<void> deleteSelectedCategories() async {
     loading = true;

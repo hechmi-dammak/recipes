@@ -17,6 +17,8 @@ import 'package:mekla/service/isar_service.dart';
 import 'package:mekla/service/logger_service.dart';
 import 'package:mekla/service/recipe_operations.dart';
 import 'package:mekla/service/utils_service.dart';
+import 'package:mekla/views/ingredients/ingredients_controller.dart';
+import 'package:mekla/views/ingredients/ingredients_page.dart';
 import 'package:mekla/views/recipe/recipe_controller/recipe_controller.dart';
 import 'package:mekla/views/recipe/recipe_page.dart';
 import 'package:mekla/views/recipe_categories/recipe_categories_controller.dart';
@@ -89,6 +91,13 @@ class RecipesApp extends StatelessWidget {
             binding: BindingsBuilder.put(
               () => RecipeController(
                   recipeId: int.parse(Get.parameters['id'] ?? '')),
+            ),
+          ),
+          GetPage(
+            name: IngredientsPage.routeName,
+            page: () => const IngredientsPage(),
+            binding: BindingsBuilder.put(
+              () => IngredientsController(),
             ),
           ),
         ],

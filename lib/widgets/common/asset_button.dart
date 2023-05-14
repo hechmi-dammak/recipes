@@ -11,20 +11,18 @@ class AssetButton extends StatelessWidget {
       this.onTap,
       required this.icon,
       this.center = false,
-      this.iconWidth = 20,
-      this.iconHeight = 20,
-      this.iconColor,
+      this.width = 20,
+      this.height = 20,
+      this.color,
       this.parentBuilder,
-      this.scaleDown = true,
       this.flip = false});
 
   final VoidCallback? onTap;
   final String icon;
   final bool center;
-  final bool scaleDown;
-  final double iconWidth;
-  final double iconHeight;
-  final Color? iconColor;
+  final double width;
+  final double height;
+  final Color? color;
   final ParentChildBuilder? parentBuilder;
   final bool flip;
 
@@ -65,10 +63,10 @@ class AssetButton extends StatelessWidget {
             ),
             child: Image(
                 image: AssetService.assets[icon]!,
-                height: iconHeight,
-                width: iconWidth,
+                height: height,
+                width: width,
                 colorBlendMode: BlendMode.srcIn,
-                color: iconColor,
+                color: color,
                 fit: BoxFit.contain),
           ),
         ),

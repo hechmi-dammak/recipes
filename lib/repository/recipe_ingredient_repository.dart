@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:isar/isar.dart';
-import 'package:mekla/models/recipe_ingredient.dart';
+import 'package:mekla/models/isar_models/recipe_ingredient.dart';
 import 'package:mekla/repository/ingredient_category_repository.dart';
 import 'package:mekla/repository/ingredient_repository.dart';
 import 'package:mekla/repository/recipe_repository.dart';

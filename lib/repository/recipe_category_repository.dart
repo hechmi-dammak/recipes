@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:isar/isar.dart';
-import 'package:mekla/models/recipe_category.dart';
+import 'package:mekla/models/isar_models/recipe_category.dart';
 import 'package:mekla/repository/picture_repository.dart';
 import 'package:mekla/service/isar_service.dart';
 

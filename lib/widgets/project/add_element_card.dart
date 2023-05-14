@@ -19,9 +19,9 @@ class AddElementCard extends StatelessWidget {
       onTap: onTap,
       icon: 'big_plus_icon',
       center: true,
-      iconHeight: 30,
-      iconWidth: 30,
-      iconColor: Get.theme.colorScheme.onTertiaryContainer,
+      height: 30,
+      width: 30,
+      color: Get.theme.colorScheme.onTertiaryContainer,
       parentBuilder: (context, child) => Container(
         height: height,
         decoration: BoxDecoration(

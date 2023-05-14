@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:isar/isar.dart';
-import 'package:mekla/models/picture.dart';
+import 'package:mekla/models/isar_models/picture.dart';
 import 'package:mekla/service/isar_service.dart';
 
 class PictureRepository extends GetxService {

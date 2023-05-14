@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:mekla/models/recipe_ingredient.dart';
+import 'package:mekla/models/isar_models/recipe_ingredient.dart';
+import 'package:mekla/models/selection_model.dart';
 
-class RecipeIngredientPMRecipe extends RecipeIngredient {
+class RecipeIngredientPMRecipe extends RecipeIngredient
+    implements SelectionModel {
+  @override
   bool selected;
   bool used;
   final ImageProvider? image;

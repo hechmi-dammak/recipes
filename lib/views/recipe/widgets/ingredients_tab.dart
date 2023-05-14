@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mekla/views/recipe/recipe_controller/recipe_controller.dart';
-import 'package:mekla/views/recipe/widgets/ingredient_card.dart';
+import 'package:mekla/views/recipe/widgets/recipe_ingredient_card.dart';
 import 'package:mekla/widgets/project/add_element_card.dart';
 
-class IngredientsTab extends StatelessWidget {
+class IngredientsTab extends GetView<RecipeController> {
   const IngredientsTab({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<RecipeController>(builder: (controller) {
-      return RefreshIndicator(
-        onRefresh: controller.fetchData,
-        child: LayoutBuilder(builder: (context, _) {
+    return RefreshIndicator(
+      onRefresh: controller.fetchData,
+      child: LayoutBuilder(builder: (context, _) {
+        return GetBuilder<RecipeController>(builder: (controller) {
           return GridView(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -21,7 +21,7 @@ class IngredientsTab extends StatelessWidget {
                 crossAxisSpacing: 10),
             children: [
               ...controller.recipe!.ingredientList
-                  .map((ingredient) => IngredientCard(
+                  .map((ingredient) => RecipeIngredientCard(
                         ingredient: ingredient,
                       ))
                   .toList(),
@@ -34,8 +34,8 @@ class IngredientsTab extends StatelessWidget {
               ),
             ],
           );
-        }),
-      );
-    });
+        });
+      }),
+    );
   }
 }
