@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:recipes/models/picture.dart';
-import 'package:recipes/widgets/project/upsert_element/models/upsert_from_field.dart';
+import 'package:mekla/models/picture.dart';
+import 'package:mekla/widgets/project/upsert_element/models/upsert_from_field.dart';
 
 class PictureUpsertFormField extends UpsertFormField {
   PictureUpsertFormField(

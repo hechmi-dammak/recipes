@@ -1,7 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:get/get.dart';
-import 'package:recipes/views/recipe/models/recipe_pm_recipe.dart';
+import 'package:mekla/views/recipe/models/recipe_pm_recipe.dart';
 
 class ServingsDialogController extends GetxController {
   int servings;

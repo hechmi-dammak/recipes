@@ -9,13 +9,13 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:recipes/models/recipe.dart';
-import 'package:recipes/repository/recipe_repository.dart';
-import 'package:recipes/service/logger_service.dart';
-import 'package:recipes/views/recipes/recipes_controller.dart';
-import 'package:recipes/widgets/common/snack_bar.dart';
-import 'package:recipes/widgets/project/upsert_element/controllers/create_file_name_controller.dart';
-import 'package:recipes/widgets/project/upsert_element/upsert_element_dialog.dart';
+import 'package:mekla/models/recipe.dart';
+import 'package:mekla/repository/recipe_repository.dart';
+import 'package:mekla/service/logger_service.dart';
+import 'package:mekla/views/recipes/recipes_controller.dart';
+import 'package:mekla/widgets/common/snack_bar.dart';
+import 'package:mekla/widgets/project/upsert_element/controllers/create_file_name_controller.dart';
+import 'package:mekla/widgets/project/upsert_element/upsert_element_dialog.dart';
 import 'package:share_plus/share_plus.dart';
 
 class RecipeOperations extends GetxService {

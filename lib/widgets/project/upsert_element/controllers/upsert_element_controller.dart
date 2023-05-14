@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:recipes/decorator/decorators.dart';
-import 'package:recipes/widgets/project/upsert_element/models/autocomplete_upsert_from_field.dart';
-import 'package:recipes/widgets/project/upsert_element/models/servings_upsert_form_field.dart';
-import 'package:recipes/widgets/project/upsert_element/models/upsert_from_field.dart';
+import 'package:mekla/decorator/decorators.dart';
+import 'package:mekla/widgets/project/upsert_element/models/autocomplete_upsert_from_field.dart';
+import 'package:mekla/widgets/project/upsert_element/models/servings_upsert_form_field.dart';
+import 'package:mekla/widgets/project/upsert_element/models/upsert_from_field.dart';
 
 abstract class UpsertElementController extends BaseController
     with DataFetchingDecorator, LoadingDecorator {

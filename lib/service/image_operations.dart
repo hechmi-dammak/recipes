@@ -2,9 +2,9 @@ import 'package:get/get.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:recipes/models/picture.dart';
-import 'package:recipes/repository/picture_repository.dart';
-import 'package:recipes/widgets/common/snack_bar.dart';
+import 'package:mekla/models/picture.dart';
+import 'package:mekla/repository/picture_repository.dart';
+import 'package:mekla/widgets/common/snack_bar.dart';
 
 class ImageService extends GetxService {
   static ImageService get find => Get.find<ImageService>();

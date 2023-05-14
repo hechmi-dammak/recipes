@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:recipes/widgets/common/custom_dialog.dart';
+import 'package:mekla/widgets/common/custom_dialog.dart';
 
 class DescriptionDialog extends CustomDialog<void> {
   const DescriptionDialog(

@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:recipes/decorator/controller.dart';
+import 'package:mekla/decorator/controller.dart';
 
 mixin DataFetchingBassMixin on Controller {
   @override

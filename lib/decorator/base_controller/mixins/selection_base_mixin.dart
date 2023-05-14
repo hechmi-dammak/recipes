@@ -1,4 +1,4 @@
-import 'package:recipes/decorator/controller.dart';
+import 'package:mekla/decorator/controller.dart';
 
 mixin SelectionBaseMixin on Controller {
   @override

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:recipes/views/recipe_categories/recipe_categories_page.dart';
-import 'package:recipes/views/recipes/recipes_controller.dart';
-import 'package:recipes/views/recipes/widgets/popup_menu_button.dart';
-import 'package:recipes/views/recipes/widgets/recipe_card.dart';
-import 'package:recipes/widgets/common/asset_button.dart';
-import 'package:recipes/widgets/project/add_element_card.dart';
-import 'package:recipes/widgets/project/custom_app_bar.dart';
-import 'package:recipes/widgets/project/custom_page.dart';
-import 'package:recipes/widgets/project/hidden_title_button.dart';
-import 'package:recipes/widgets/project/title_app_bar_button.dart';
+import 'package:mekla/views/recipe_categories/recipe_categories_page.dart';
+import 'package:mekla/views/recipes/recipes_controller.dart';
+import 'package:mekla/views/recipes/widgets/popup_menu_button.dart';
+import 'package:mekla/views/recipes/widgets/recipe_card.dart';
+import 'package:mekla/widgets/common/asset_button.dart';
+import 'package:mekla/widgets/project/add_element_card.dart';
+import 'package:mekla/widgets/project/custom_app_bar.dart';
+import 'package:mekla/widgets/project/custom_page.dart';
+import 'package:mekla/widgets/project/hidden_title_button.dart';
+import 'package:mekla/widgets/project/title_app_bar_button.dart';
 
 class RecipesPage extends CustomPage<RecipesController> {
   static const routeNameCategoriesRecipes =

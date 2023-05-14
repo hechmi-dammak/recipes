@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:recipes/service/asset_service.dart';
+import 'package:mekla/service/asset_service.dart';
 
 class DialogBottom extends StatelessWidget {
   const DialogBottom(

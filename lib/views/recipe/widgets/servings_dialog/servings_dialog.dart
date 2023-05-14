@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:recipes/views/recipe/models/recipe_ingredient_pm_recipe.dart';
-import 'package:recipes/views/recipe/models/recipe_pm_recipe.dart';
-import 'package:recipes/views/recipe/widgets/servings_dialog/serving_dialog_controller.dart';
-import 'package:recipes/widgets/common/custom_dialog.dart';
-import 'package:recipes/widgets/project/dialog_bottom.dart';
-import 'package:recipes/widgets/project/servings_editing_button.dart';
+import 'package:mekla/views/recipe/models/recipe_ingredient_pm_recipe.dart';
+import 'package:mekla/views/recipe/models/recipe_pm_recipe.dart';
+import 'package:mekla/views/recipe/widgets/servings_dialog/serving_dialog_controller.dart';
+import 'package:mekla/widgets/common/custom_dialog.dart';
+import 'package:mekla/widgets/project/dialog_bottom.dart';
+import 'package:mekla/widgets/project/servings_editing_button.dart';
 
 class ServingsDialog extends CustomDialog<bool> {
   const ServingsDialog(

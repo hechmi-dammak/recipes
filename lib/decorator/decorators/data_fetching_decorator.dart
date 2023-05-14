@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:recipes/decorator/controller.dart';
+import 'package:mekla/decorator/controller.dart';
 
 mixin DataFetchingDecorator on Controller {
   @override

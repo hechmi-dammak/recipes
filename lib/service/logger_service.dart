@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
-import 'package:recipes/widgets/common/snack_bar.dart';
+import 'package:mekla/widgets/common/snack_bar.dart';
 
 extension LoggerExtension on Logger {
   void errorStackTrace(Object error, StackTrace stackTrace,

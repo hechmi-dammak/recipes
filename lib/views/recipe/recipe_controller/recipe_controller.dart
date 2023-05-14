@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:recipes/decorator/decorators.dart';
-import 'package:recipes/repository/recipe_ingredient_repository.dart';
-import 'package:recipes/repository/recipe_repository.dart';
-import 'package:recipes/repository/step_repository.dart';
-import 'package:recipes/views/recipe/models/recipe_ingredient_pm_recipe.dart';
-import 'package:recipes/views/recipe/models/recipe_pm_recipe.dart';
-import 'package:recipes/views/recipe/models/step_pm_recipe.dart';
-import 'package:recipes/views/recipe/widgets/servings_dialog/servings_dialog.dart';
-import 'package:recipes/widgets/common/snack_bar.dart';
-import 'package:recipes/widgets/project/upsert_element/controllers/upsert_ingredient_controller.dart';
-import 'package:recipes/widgets/project/upsert_element/controllers/upsert_step_controller.dart';
-import 'package:recipes/widgets/project/upsert_element/upsert_element_dialog.dart';
+import 'package:mekla/decorator/decorators.dart';
+import 'package:mekla/repository/recipe_ingredient_repository.dart';
+import 'package:mekla/repository/recipe_repository.dart';
+import 'package:mekla/repository/step_repository.dart';
+import 'package:mekla/views/recipe/models/recipe_ingredient_pm_recipe.dart';
+import 'package:mekla/views/recipe/models/recipe_pm_recipe.dart';
+import 'package:mekla/views/recipe/models/step_pm_recipe.dart';
+import 'package:mekla/views/recipe/widgets/servings_dialog/servings_dialog.dart';
+import 'package:mekla/widgets/common/snack_bar.dart';
+import 'package:mekla/widgets/project/upsert_element/controllers/upsert_ingredient_controller.dart';
+import 'package:mekla/widgets/project/upsert_element/controllers/upsert_step_controller.dart';
+import 'package:mekla/widgets/project/upsert_element/upsert_element_dialog.dart';
 
 part 'ingredient_recipe_controller_part.dart';
 

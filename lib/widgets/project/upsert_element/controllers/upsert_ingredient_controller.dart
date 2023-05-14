@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:recipes/helpers/form_validators.dart';
-import 'package:recipes/models/ingredient.dart';
-import 'package:recipes/models/recipe_ingredient.dart';
-import 'package:recipes/repository/ingredient_repository.dart';
-import 'package:recipes/repository/recipe_ingredient_repository.dart';
-import 'package:recipes/repository/recipe_repository.dart';
-import 'package:recipes/widgets/project/upsert_element/controllers/upsert_element_controller.dart';
-import 'package:recipes/widgets/project/upsert_element/models/autocomplete_upsert_from_field.dart';
-import 'package:recipes/widgets/project/upsert_element/models/upsert_from_field.dart';
+import 'package:mekla/helpers/form_validators.dart';
+import 'package:mekla/models/ingredient.dart';
+import 'package:mekla/models/recipe_ingredient.dart';
+import 'package:mekla/repository/ingredient_repository.dart';
+import 'package:mekla/repository/recipe_ingredient_repository.dart';
+import 'package:mekla/repository/recipe_repository.dart';
+import 'package:mekla/widgets/project/upsert_element/controllers/upsert_element_controller.dart';
+import 'package:mekla/widgets/project/upsert_element/models/autocomplete_upsert_from_field.dart';
+import 'package:mekla/widgets/project/upsert_element/models/upsert_from_field.dart';
 
 class UpsertIngredientController extends UpsertElementController {
   static UpsertIngredientController get find =>

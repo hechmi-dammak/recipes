@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:recipes/views/recipe/recipe_controller/recipe_controller.dart';
-import 'package:recipes/views/recipe/widgets/ingredient_card.dart';
-import 'package:recipes/widgets/project/add_element_card.dart';
+import 'package:mekla/views/recipe/recipe_controller/recipe_controller.dart';
+import 'package:mekla/views/recipe/widgets/ingredient_card.dart';
+import 'package:mekla/widgets/project/add_element_card.dart';
 
 class IngredientsTab extends StatelessWidget {
   const IngredientsTab({Key? key}) : super(key: key);
