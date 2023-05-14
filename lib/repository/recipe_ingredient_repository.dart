@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 import 'package:isar/isar.dart';
+import 'package:mekla/models/isar_models/ingredient.dart';
+import 'package:mekla/models/isar_models/recipe.dart';
 import 'package:mekla/models/isar_models/recipe_ingredient.dart';
 import 'package:mekla/repository/ingredient_category_repository.dart';
 import 'package:mekla/repository/ingredient_repository.dart';
@@ -43,6 +45,30 @@ class RecipeIngredientRepository extends GetxService {
     if (id == null) return false;
     return await IsarService.isar
         .writeTxn(() => IsarService.isar.recipeIngredients.delete(id));
+  }
+
+  Future<int> deleteByRecipeId(int recipeId) async {
+    final List<RecipeIngredient> recipeIngredients = await IsarService
+        .isar.recipeIngredients
+        .filter()
+        .recipe((recipe) => recipe.idEqualTo(recipeId))
+        .findAll();
+    for (var recipeIngredient in recipeIngredients) {
+      deleteById(recipeIngredient.id);
+    }
+    return recipeIngredients.length;
+  }
+
+  Future<int> deleteByIngredientId(int ingredientId) async {
+    final List<RecipeIngredient> recipeIngredients = await IsarService
+        .isar.recipeIngredients
+        .filter()
+        .ingredient((ingredient) => ingredient.idEqualTo(ingredientId))
+        .findAll();
+    for (var recipeIngredient in recipeIngredients) {
+      deleteById(recipeIngredient.id);
+    }
+    return recipeIngredients.length;
   }
 
   Future<RecipeIngredient?> findById(int? id) async {

@@ -21,8 +21,6 @@ import 'package:mekla/views/ingredients/ingredients_controller.dart';
 import 'package:mekla/views/ingredients/ingredients_page.dart';
 import 'package:mekla/views/recipe/recipe_controller/recipe_controller.dart';
 import 'package:mekla/views/recipe/recipe_page.dart';
-import 'package:mekla/views/recipe_categories/recipe_categories_controller.dart';
-import 'package:mekla/views/recipe_categories/recipe_categories_page.dart';
 import 'package:mekla/views/recipes/recipes_controller.dart';
 import 'package:mekla/views/recipes/recipes_page.dart';
 
@@ -62,27 +60,12 @@ class RecipesApp extends StatelessWidget {
         theme: ApplicationTheme.getTheme(),
         initialRoute: RecipesPage.routeName,
         getPages: [
-          //disabled
-          GetPage(
-            name: RecipeCategoriesPage.routeName,
-            page: () => const RecipeCategoriesPage(),
-            binding: BindingsBuilder.put(
-              () => RecipeCategoriesController(),
-            ),
-          ),
+
           GetPage(
             name: RecipesPage.routeName,
             page: () => const RecipesPage(),
             binding: BindingsBuilder.put(
               () => RecipesController(),
-            ),
-          ),
-          GetPage(
-            name: RecipesPage.routeNameCategoriesRecipes,
-            page: () => const RecipesPage(),
-            binding: BindingsBuilder.put(
-              () => RecipesController(
-                  categoryId: int.parse(Get.parameters['id'] ?? '')),
             ),
           ),
           GetPage(

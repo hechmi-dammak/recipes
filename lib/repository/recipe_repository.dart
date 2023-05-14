@@ -4,6 +4,8 @@ import 'package:mekla/models/isar_models/recipe.dart';
 import 'package:mekla/models/isar_models/recipe_category.dart';
 import 'package:mekla/repository/picture_repository.dart';
 import 'package:mekla/repository/recipe_category_repository.dart';
+import 'package:mekla/repository/recipe_ingredient_repository.dart';
+import 'package:mekla/repository/step_repository.dart';
 import 'package:mekla/service/isar_service.dart';
 import 'package:mekla/service/utils_service.dart';
 
@@ -73,18 +75,23 @@ class RecipeRepository extends GetxService {
 
   Future<bool> deleteById(int? id) async {
     if (id == null) return false;
-    //todo delete instructions and ingredients
+    await StepRepository.find.deleteByRecipeId(id);
+    await RecipeIngredientRepository.find.deleteByRecipeId(id);
+
     return await IsarService.isar
         .writeTxn(() => IsarService.isar.recipes.delete(id));
   }
 
-//
-// Future<int> deleteByRecipeCategoryId(int recipeCategoryId) async {
-//   //todo: delete ingredients(only info not the element) and instructions
-//   return await (await DataBaseProvider.database).delete(
-//     tableRecipes,
-//     where: '${RecipeFields.categoryId} = ?',
-//     whereArgs: [recipeCategoryId],
-//   );
-// }
+  Future<int> deleteByRecipeCategoryId(int recipeCategoryId) async {
+    final List<Recipe> recipes = await IsarService.isar.recipes
+        .filter()
+        .category(
+            (recipeCategory) => recipeCategory.idEqualTo(recipeCategoryId))
+        .findAll();
+
+    for (var recipe in recipes) {
+      deleteById(recipe.id);
+    }
+    return recipes.length;
+  }
 }

@@ -3,6 +3,7 @@ import 'package:isar/isar.dart';
 import 'package:mekla/models/isar_models/ingredient.dart';
 import 'package:mekla/models/isar_models/recipe_ingredient.dart';
 import 'package:mekla/repository/picture_repository.dart';
+import 'package:mekla/repository/recipe_ingredient_repository.dart';
 import 'package:mekla/service/isar_service.dart';
 
 class IngredientRepository extends GetxService {
@@ -58,6 +59,8 @@ class IngredientRepository extends GetxService {
 
   Future<bool> deleteById(int? id) async {
     if (id == null) return false;
+   await RecipeIngredientRepository.find.deleteByIngredientId(id);
+
     return await IsarService.isar
         .writeTxn(() => IsarService.isar.ingredients.delete(id));
   }

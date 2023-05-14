@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:isar/isar.dart';
+import 'package:mekla/models/isar_models/recipe.dart';
 import 'package:mekla/models/isar_models/step.dart';
 import 'package:mekla/repository/picture_repository.dart';
 import 'package:mekla/repository/recipe_repository.dart';
@@ -39,5 +40,16 @@ class StepRepository extends GetxService {
 
   Future<List<Step>> findAll() async {
     return await IsarService.isar.steps.where().findAll();
+  }
+
+  Future<int> deleteByRecipeId(int recipeId) async {
+    final List<Step> steps = await IsarService.isar.steps
+        .filter()
+        .recipe((recipe) => recipe.idEqualTo(recipeId))
+        .findAll();
+    for (var step in steps) {
+      deleteById(step.id);
+    }
+    return steps.length;
   }
 }

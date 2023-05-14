@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:isar/isar.dart';
 import 'package:mekla/models/isar_models/recipe_category.dart';
 import 'package:mekla/repository/picture_repository.dart';
+import 'package:mekla/repository/recipe_repository.dart';
 import 'package:mekla/service/isar_service.dart';
 
 class RecipeCategoryRepository extends GetxService {
@@ -48,7 +49,7 @@ class RecipeCategoryRepository extends GetxService {
 
   Future<bool> deleteById(int? id) async {
     if (id == null) return false;
-    //todo delete recipes
+   await RecipeRepository.find.deleteByRecipeCategoryId(id);
     return await IsarService.isar
         .writeTxn(() => IsarService.isar.recipeCategories.delete(id));
   }

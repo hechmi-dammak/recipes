@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mekla/views/recipe_categories/recipe_categories_page.dart';
 import 'package:mekla/views/recipes/recipes_controller.dart';
 import 'package:mekla/views/recipes/widgets/popup_menu_button.dart';
 import 'package:mekla/views/recipes/widgets/recipe_card.dart';
@@ -12,8 +11,6 @@ import 'package:mekla/widgets/project/hidden_title_button.dart';
 import 'package:mekla/widgets/project/title_app_bar_button.dart';
 
 class RecipesPage extends CustomPage<RecipesController> {
-  static const routeNameCategoriesRecipes =
-      '${RecipeCategoriesPage.routeName}/:id/recipes';
   static const routeName = '/recipes';
 
   const RecipesPage({Key? key}) : super(key: key, hasSelection: true);
