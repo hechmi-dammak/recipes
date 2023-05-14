@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:isar/isar.dart';
-import 'package:recipes/models/picture.dart';
-import 'package:recipes/service/isar_service.dart';
+import 'package:mekla/models/picture.dart';
+import 'package:mekla/service/isar_service.dart';
 
 class PictureRepository extends GetxService {
   static PictureRepository get find => Get.find<PictureRepository>();

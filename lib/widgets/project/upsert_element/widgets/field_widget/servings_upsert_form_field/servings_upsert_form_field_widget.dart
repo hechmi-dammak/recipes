@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:recipes/widgets/project/servings_editing_button.dart';
-import 'package:recipes/widgets/project/upsert_element/models/servings_upsert_form_field.dart';
-import 'package:recipes/widgets/project/upsert_element/widgets/field_title.dart';
-import 'package:recipes/widgets/project/upsert_element/widgets/field_widget/servings_upsert_form_field/servings_upsert_form_field_controller.dart';
+import 'package:mekla/widgets/project/servings_editing_button.dart';
+import 'package:mekla/widgets/project/upsert_element/models/servings_upsert_form_field.dart';
+import 'package:mekla/widgets/project/upsert_element/widgets/field_title.dart';
+import 'package:mekla/widgets/project/upsert_element/widgets/field_widget/servings_upsert_form_field/servings_upsert_form_field_controller.dart';
 
 class ServingsUpsertFormFieldWidget extends StatelessWidget {
   const ServingsUpsertFormFieldWidget({Key? key, required this.formField})

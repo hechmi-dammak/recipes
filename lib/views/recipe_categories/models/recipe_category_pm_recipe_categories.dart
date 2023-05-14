@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:recipes/models/recipe_category.dart';
+import 'package:mekla/models/recipe_category.dart';
 
 class RecipeCategoryPMRecipeCategories extends RecipeCategory {
   bool selected;

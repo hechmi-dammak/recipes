@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:recipes/widgets/common/conditional_widget.dart';
-import 'package:recipes/widgets/common/custom_dialog.dart';
-import 'package:recipes/widgets/common/loading_widget.dart';
-import 'package:recipes/widgets/project/dialog_bottom.dart';
-import 'package:recipes/widgets/project/faded_scroll.dart';
-import 'package:recipes/widgets/project/upsert_element/controllers/upsert_element_controller.dart';
-import 'package:recipes/widgets/project/upsert_element/widgets/dialog_title.dart';
-import 'package:recipes/widgets/project/upsert_element/widgets/upsert_element_form.dart';
+import 'package:mekla/widgets/common/conditional_widget.dart';
+import 'package:mekla/widgets/common/custom_dialog.dart';
+import 'package:mekla/widgets/common/loading_widget.dart';
+import 'package:mekla/widgets/project/dialog_bottom.dart';
+import 'package:mekla/widgets/project/faded_scroll.dart';
+import 'package:mekla/widgets/project/upsert_element/controllers/upsert_element_controller.dart';
+import 'package:mekla/widgets/project/upsert_element/widgets/dialog_title.dart';
+import 'package:mekla/widgets/project/upsert_element/widgets/upsert_element_form.dart';
 
 class UpsertElementDialog<T extends UpsertElementController>
     extends CustomDialog<bool> {

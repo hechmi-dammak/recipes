@@ -1,6 +1,6 @@
-import 'package:recipes/models/recipe.dart';
-import 'package:recipes/views/recipe/models/recipe_ingredient_pm_recipe.dart';
-import 'package:recipes/views/recipe/models/step_pm_recipe.dart';
+import 'package:mekla/models/recipe.dart';
+import 'package:mekla/views/recipe/models/recipe_ingredient_pm_recipe.dart';
+import 'package:mekla/views/recipe/models/step_pm_recipe.dart';
 
 class RecipePMRecipe extends Recipe {
   bool selected;

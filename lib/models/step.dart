@@ -1,6 +1,6 @@
 import 'package:isar/isar.dart';
-import 'package:recipes/models/picture.dart';
-import 'package:recipes/models/recipe.dart';
+import 'package:mekla/models/picture.dart';
+import 'package:mekla/models/recipe.dart';
 
 part 'step.g.dart';
 

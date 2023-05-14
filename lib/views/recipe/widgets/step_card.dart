@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:recipes/views/recipe/models/step_pm_recipe.dart';
-import 'package:recipes/views/recipe/recipe_controller/recipe_controller.dart';
-import 'package:recipes/widgets/common/conditional_widget.dart';
+import 'package:mekla/views/recipe/models/step_pm_recipe.dart';
+import 'package:mekla/views/recipe/recipe_controller/recipe_controller.dart';
+import 'package:mekla/widgets/common/conditional_widget.dart';
 
 class StepCard extends GetView<RecipeController> {
   const StepCard({Key? key, required this.step}) : super(key: key);

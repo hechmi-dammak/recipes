@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:recipes/widgets/project/upsert_element/controllers/upsert_element_controller.dart';
-import 'package:recipes/widgets/project/upsert_element/widgets/field_widget/upsert_form_field_widget.dart';
+import 'package:mekla/widgets/project/upsert_element/controllers/upsert_element_controller.dart';
+import 'package:mekla/widgets/project/upsert_element/widgets/field_widget/upsert_form_field_widget.dart';
 
 class UpsertElementForm<T extends UpsertElementController>
     extends StatelessWidget {

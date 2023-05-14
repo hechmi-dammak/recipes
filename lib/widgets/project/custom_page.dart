@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:recipes/decorator/decorators.dart';
-import 'package:recipes/widgets/common/conditional_parent_widget.dart';
-import 'package:recipes/widgets/common/loading_widget.dart';
+import 'package:mekla/decorator/decorators.dart';
+import 'package:mekla/widgets/common/conditional_parent_widget.dart';
+import 'package:mekla/widgets/common/loading_widget.dart';
 
 abstract class CustomPage<T extends Controller> extends StatelessWidget {
   final bool hasSelection;

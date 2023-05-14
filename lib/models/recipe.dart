@@ -1,10 +1,10 @@
 import 'package:isar/isar.dart';
-import 'package:recipes/models/picture.dart';
-import 'package:recipes/models/recipe_category.dart';
-import 'package:recipes/models/recipe_ingredient.dart';
-import 'package:recipes/models/step.dart';
-import 'package:recipes/repository/recipe_ingredient_repository.dart';
-import 'package:recipes/repository/step_repository.dart';
+import 'package:mekla/models/picture.dart';
+import 'package:mekla/models/recipe_category.dart';
+import 'package:mekla/models/recipe_ingredient.dart';
+import 'package:mekla/models/step.dart';
+import 'package:mekla/repository/recipe_ingredient_repository.dart';
+import 'package:mekla/repository/step_repository.dart';
 
 part 'recipe.g.dart';
 

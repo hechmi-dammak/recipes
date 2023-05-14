@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:recipes/widgets/common/asset_button.dart';
-import 'package:recipes/widgets/project/servings_icon.dart';
+import 'package:mekla/widgets/common/asset_button.dart';
+import 'package:mekla/widgets/project/servings_icon.dart';
 
 class ServingsEditingButton extends StatelessWidget {
   const ServingsEditingButton({

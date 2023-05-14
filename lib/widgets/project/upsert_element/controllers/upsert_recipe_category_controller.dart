@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
-import 'package:recipes/helpers/form_validators.dart';
-import 'package:recipes/models/recipe_category.dart';
-import 'package:recipes/repository/recipe_category_repository.dart';
-import 'package:recipes/widgets/project/upsert_element/controllers/upsert_element_controller.dart';
-import 'package:recipes/widgets/project/upsert_element/models/upsert_from_field.dart';
+import 'package:mekla/helpers/form_validators.dart';
+import 'package:mekla/models/recipe_category.dart';
+import 'package:mekla/repository/recipe_category_repository.dart';
+import 'package:mekla/widgets/project/upsert_element/controllers/upsert_element_controller.dart';
+import 'package:mekla/widgets/project/upsert_element/models/upsert_from_field.dart';
 
 class UpsertRecipeCategoryController extends UpsertElementController {
   static UpsertRecipeCategoryController get find =>

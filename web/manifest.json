@@ -1,6 +1,6 @@
 {
-    "name": "recipes",
-    "short_name": "recipes",
+    "name": "mekla",
+    "short_name": "mekla",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

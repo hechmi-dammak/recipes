@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:recipes/decorator/decorators.dart';
-import 'package:recipes/helpers/getx_extension.dart';
-import 'package:recipes/repository/recipe_category_repository.dart';
-import 'package:recipes/views/recipe_categories/models/recipe_category_pm_recipe_categories.dart';
-import 'package:recipes/views/recipes/recipes_page.dart';
-import 'package:recipes/widgets/common/snack_bar.dart';
-import 'package:recipes/widgets/project/upsert_element/controllers/upsert_recipe_category_controller.dart';
-import 'package:recipes/widgets/project/upsert_element/upsert_element_dialog.dart';
+import 'package:mekla/decorator/decorators.dart';
+import 'package:mekla/helpers/getx_extension.dart';
+import 'package:mekla/repository/recipe_category_repository.dart';
+import 'package:mekla/views/recipe_categories/models/recipe_category_pm_recipe_categories.dart';
+import 'package:mekla/views/recipes/recipes_page.dart';
+import 'package:mekla/widgets/common/snack_bar.dart';
+import 'package:mekla/widgets/project/upsert_element/controllers/upsert_recipe_category_controller.dart';
+import 'package:mekla/widgets/project/upsert_element/upsert_element_dialog.dart';
 
 class RecipeCategoriesController extends BaseController
     with LoadingDecorator, DataFetchingDecorator, SelectionDecorator {

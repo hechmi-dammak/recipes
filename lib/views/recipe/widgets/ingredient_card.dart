@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:recipes/service/asset_service.dart';
-import 'package:recipes/views/recipe/models/recipe_ingredient_pm_recipe.dart';
-import 'package:recipes/views/recipe/recipe_controller/recipe_controller.dart';
-import 'package:recipes/widgets/common/conditional_widget.dart';
-import 'package:recipes/widgets/project/info_button.dart';
+import 'package:mekla/service/asset_service.dart';
+import 'package:mekla/views/recipe/models/recipe_ingredient_pm_recipe.dart';
+import 'package:mekla/views/recipe/recipe_controller/recipe_controller.dart';
+import 'package:mekla/widgets/common/conditional_widget.dart';
+import 'package:mekla/widgets/project/info_button.dart';
 
 class IngredientCard extends GetView<RecipeController> {
   const IngredientCard({Key? key, required this.ingredient}) : super(key: key);

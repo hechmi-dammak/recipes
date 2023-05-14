@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:recipes/views/recipe/recipe_controller/recipe_controller.dart';
-import 'package:recipes/views/recipe/widgets/step_card.dart';
-import 'package:recipes/widgets/project/add_element_card.dart';
+import 'package:mekla/views/recipe/recipe_controller/recipe_controller.dart';
+import 'package:mekla/views/recipe/widgets/step_card.dart';
+import 'package:mekla/widgets/project/add_element_card.dart';
 
 class StepsTab extends StatelessWidget {
   const StepsTab({Key? key}) : super(key: key);

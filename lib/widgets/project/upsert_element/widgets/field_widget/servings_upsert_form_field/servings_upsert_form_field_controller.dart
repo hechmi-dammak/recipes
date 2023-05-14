@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:recipes/widgets/project/upsert_element/models/servings_upsert_form_field.dart';
+import 'package:mekla/widgets/project/upsert_element/models/servings_upsert_form_field.dart';
 
 class ServingsUpsertFormFieldController extends GetxController {
   static ServingsUpsertFormFieldController get find =>

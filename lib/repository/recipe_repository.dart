@@ -1,11 +1,11 @@
 import 'package:get/get.dart';
 import 'package:isar/isar.dart';
-import 'package:recipes/models/recipe.dart';
-import 'package:recipes/models/recipe_category.dart';
-import 'package:recipes/repository/picture_repository.dart';
-import 'package:recipes/repository/recipe_category_repository.dart';
-import 'package:recipes/service/isar_service.dart';
-import 'package:recipes/service/utils_service.dart';
+import 'package:mekla/models/recipe.dart';
+import 'package:mekla/models/recipe_category.dart';
+import 'package:mekla/repository/picture_repository.dart';
+import 'package:mekla/repository/recipe_category_repository.dart';
+import 'package:mekla/service/isar_service.dart';
+import 'package:mekla/service/utils_service.dart';
 
 class RecipeRepository extends GetxService {
   static RecipeRepository get find => Get.find<RecipeRepository>();

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:recipes/widgets/common/asset_button.dart';
-import 'package:recipes/widgets/common/conditional_widget.dart';
-import 'package:recipes/widgets/project/description_dialog.dart';
+import 'package:mekla/widgets/common/asset_button.dart';
+import 'package:mekla/widgets/common/conditional_widget.dart';
+import 'package:mekla/widgets/project/description_dialog.dart';
 
 class InfoButton extends StatelessWidget {
   const InfoButton({

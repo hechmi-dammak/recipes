@@ -1,7 +1,7 @@
 import 'package:isar/isar.dart';
-import 'package:recipes/models/ingredient.dart';
-import 'package:recipes/models/ingredient_category.dart';
-import 'package:recipes/models/recipe.dart';
+import 'package:mekla/models/ingredient.dart';
+import 'package:mekla/models/ingredient_category.dart';
+import 'package:mekla/models/recipe.dart';
 
 part 'recipe_ingredient.g.dart';
 

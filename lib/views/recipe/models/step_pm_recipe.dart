@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart' hide Step;
-import 'package:recipes/models/step.dart';
+import 'package:mekla/models/step.dart';
 
 class StepPMRecipe extends Step {
   bool selected;

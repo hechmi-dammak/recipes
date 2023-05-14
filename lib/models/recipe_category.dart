@@ -1,5 +1,5 @@
 import 'package:isar/isar.dart';
-import 'package:recipes/models/picture.dart';
+import 'package:mekla/models/picture.dart';
 
 part 'recipe_category.g.dart';
 
