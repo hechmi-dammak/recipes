@@ -32,10 +32,13 @@ class TitleAppBarButton extends StatelessWidget {
               const SizedBox(
                 width: 5,
               ),
-              Text(
-                title,
-                style: Get.textTheme.labelSmall
-                    ?.copyWith(color: Get.theme.colorScheme.onPrimary),
+              Flexible(
+                child: Text(
+                  title,
+                  style: Get.textTheme.labelSmall?.copyWith(
+                      color: Get.theme.colorScheme.onPrimary,
+                      overflow: TextOverflow.clip),
+                ),
               )
             ]
           ],

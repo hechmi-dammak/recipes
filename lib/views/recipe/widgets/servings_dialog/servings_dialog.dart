@@ -86,9 +86,12 @@ class IngredientSummary extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                ingredient.ingredient.value?.name ?? '',
-                style: Get.textTheme.bodyLarge,
+              Flexible(
+                child: Text(
+                  ingredient.ingredient.value?.name ?? '',
+                  style: Get.textTheme.bodyLarge
+                      ?.copyWith(overflow: TextOverflow.ellipsis),
+                ),
               ),
               Text(ingredient.getAmount(controller.servings) ?? '',
                   style: Get.textTheme.bodyLarge),
