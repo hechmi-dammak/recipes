@@ -1,17 +1,20 @@
 import 'package:get/get.dart';
 import 'package:isar/isar.dart';
+import 'package:mekla/models/isar_models/recipe.dart';
 import 'package:mekla/models/isar_models/recipe_category.dart';
 import 'package:mekla/repository/picture_repository.dart';
 import 'package:mekla/repository/recipe_repository.dart';
+import 'package:mekla/repository/repository_service.dart';
 import 'package:mekla/service/isar_service.dart';
 
-class RecipeCategoryRepository extends GetxService {
+class RecipeCategoryRepository extends RepositoryService<RecipeCategory> {
   static RecipeCategoryRepository get find =>
       Get.find<RecipeCategoryRepository>();
 
-  Future<RecipeCategory> save(RecipeCategory recipeCategory) async {
-    await _replaceWithSameName(recipeCategory);
-    return await _save(recipeCategory);
+  @override
+  Future<RecipeCategory> save(RecipeCategory element) async {
+    await _replaceWithSameName(element);
+    return await _save(element);
   }
 
   Future<RecipeCategory> _save(RecipeCategory recipeCategory) async {
@@ -32,35 +35,34 @@ class RecipeCategoryRepository extends GetxService {
   }
 
   Future<void> _replaceWithSameName(RecipeCategory recipeCategory) async {
-    if (recipeCategory.id == null) {
-      final List<RecipeCategory> recipeCategories = await IsarService
-          .isar.recipeCategories
-          .filter()
-          .nameEqualTo(recipeCategory.name, caseSensitive: false)
-          .findAll();
-      if (recipeCategories.isNotEmpty) {
-        final RecipeCategory tmpRecipeCategory = recipeCategories.first;
-        recipeCategory.id = tmpRecipeCategory.id;
-        recipeCategory.description ??= tmpRecipeCategory.description;
-        recipeCategory.picture.value ??= tmpRecipeCategory.picture.value;
+    final List<RecipeCategory> recipeCategories = await IsarService
+        .isar.recipeCategories
+        .filter()
+        .nameEqualTo(recipeCategory.name.trim(), caseSensitive: false)
+        .findAll();
+    if (recipeCategories.isNotEmpty) {
+      final RecipeCategory tmpRecipeCategory = recipeCategories.first;
+      if (recipeCategory.id != null) {
+        final List<Recipe> recipes = await RecipeRepository.find
+            .findAllByRecipeCategoryId(recipeCategory.id);
+
+        await IsarService.isar.writeTxn(() async {
+          for (Recipe recipe in recipes) {
+            recipe.category.value = tmpRecipeCategory;
+            recipe.category.save();
+          }
+        });
+        tmpRecipeCategory.picture.value =
+            recipeCategory.picture.value ?? tmpRecipeCategory.picture.value;
+        tmpRecipeCategory.description =
+            recipeCategory.description ?? tmpRecipeCategory.description;
+        _save(tmpRecipeCategory);
+        deleteById(recipeCategory.id);
       }
+      recipeCategory.id = tmpRecipeCategory.id;
+      recipeCategory.picture.value ??= tmpRecipeCategory.picture.value;
+      recipeCategory.description ??= tmpRecipeCategory.description;
     }
-  }
-
-  Future<bool> deleteById(int? id) async {
-    if (id == null) return false;
-   await RecipeRepository.find.deleteByRecipeCategoryId(id);
-    return await IsarService.isar
-        .writeTxn(() => IsarService.isar.recipeCategories.delete(id));
-  }
-
-  Future<RecipeCategory?> findById(int? id) async {
-    if (id == null) return null;
-    return IsarService.isar.recipeCategories.get(id);
-  }
-
-  Future<List<RecipeCategory>> findAll() async {
-    return await IsarService.isar.recipeCategories.where().findAll();
   }
 
   Future<List<RecipeCategory>> findAllByNameStartWith(String name) async {
@@ -68,5 +70,11 @@ class RecipeCategoryRepository extends GetxService {
         .filter()
         .nameStartsWith(name)
         .findAll();
+  }
+
+  @override
+  Future<bool> beforeDelete(int id) async {
+    await RecipeRepository.find.deleteByRecipeCategoryId(id);
+    return true;
   }
 }

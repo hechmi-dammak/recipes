@@ -5,16 +5,17 @@ import 'package:mekla/models/isar_models/recipe_category.dart';
 import 'package:mekla/repository/picture_repository.dart';
 import 'package:mekla/repository/recipe_category_repository.dart';
 import 'package:mekla/repository/recipe_ingredient_repository.dart';
+import 'package:mekla/repository/repository_service.dart';
 import 'package:mekla/repository/step_repository.dart';
 import 'package:mekla/service/isar_service.dart';
 import 'package:mekla/service/utils_service.dart';
 
-class RecipeRepository extends GetxService {
+class RecipeRepository extends RepositoryService<Recipe> {
   static RecipeRepository get find => Get.find<RecipeRepository>();
-
-  Future<Recipe> save(Recipe recipe) async {
-    await _setUniqueName(recipe);
-    return await _save(recipe);
+  @override
+  Future<Recipe> save(Recipe element) async {
+    await _setUniqueName(element);
+    return await _save(element);
   }
 
   Future<Recipe> _save(Recipe recipe) async {
@@ -43,19 +44,11 @@ class RecipeRepository extends GetxService {
     if (recipe.id == null) {
       recipe.name = await UtilsService.find.getUniqueName(
           recipe.name,
-          (name) async => (await findAllByNameStartWith(recipe.name))
-              .map((recipe) => recipe.name)
-              .toSet());
+              (name) async =>
+              (await findAllByNameStartWith(recipe.name))
+                  .map((recipe) => recipe.name)
+                  .toSet());
     }
-  }
-
-  Future<Recipe?> findById(int? id) async {
-    if (id == null) return null;
-    return IsarService.isar.recipes.get(id);
-  }
-
-  Future<List<Recipe>> findAll() async {
-    return await IsarService.isar.recipes.where().findAll();
   }
 
   Future<List<Recipe>> findAllByRecipeCategoryId(int? id) async {
@@ -73,25 +66,21 @@ class RecipeRepository extends GetxService {
         .findAll();
   }
 
-  Future<bool> deleteById(int? id) async {
-    if (id == null) return false;
-    await StepRepository.find.deleteByRecipeId(id);
-    await RecipeIngredientRepository.find.deleteByRecipeId(id);
-
-    return await IsarService.isar
-        .writeTxn(() => IsarService.isar.recipes.delete(id));
-  }
 
   Future<int> deleteByRecipeCategoryId(int recipeCategoryId) async {
-    final List<Recipe> recipes = await IsarService.isar.recipes
-        .filter()
-        .category(
-            (recipeCategory) => recipeCategory.idEqualTo(recipeCategoryId))
-        .findAll();
+    final List<Recipe> recipes = await findAllByRecipeCategoryId(
+        recipeCategoryId);
 
     for (var recipe in recipes) {
       deleteById(recipe.id);
     }
     return recipes.length;
+  }
+
+  @override
+  Future<bool> beforeDelete(int id) async {
+    await StepRepository.find.deleteByRecipeId(id);
+    await RecipeIngredientRepository.find.deleteByRecipeId(id);
+    return true;
   }
 }

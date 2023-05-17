@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mekla/decorator/decorators.dart';
@@ -13,12 +15,14 @@ import 'package:mekla/widgets/project/upsert_element/upsert_element_dialog.dart'
 
 class RecipesController extends BaseController
     with LoadingDecorator, DataFetchingDecorator, SelectionDecorator {
-  RecipesController({this.categoryId});
+  RecipesController();
+
+  bool categorize = false;
 
   static RecipesController get find => Get.find<RecipesController>();
-
-  final int? categoryId;
   List<RecipePMRecipes> recipes = [];
+  Map<int, List<RecipePMRecipes>> recipesByCategory = {};
+  List<RecipePMRecipes> recipesWithoutCategory = [];
 
   @override
   Future<void> loadData() async {
@@ -49,21 +53,47 @@ class RecipesController extends BaseController
   }
 
   Future<void> fetchRecipes() async {
-    if (categoryId == null) {
-      recipes = (await RecipeRepository.find.findAll())
-          .map((recipe) => RecipePMRecipes(recipe: recipe))
-          .toList();
-    } else {
-      recipes =
-          (await RecipeRepository.find.findAllByRecipeCategoryId(categoryId))
-              .map((recipe) => RecipePMRecipes(recipe: recipe))
-              .toList();
-    }
+    recipes = (await RecipeRepository.find.findAll())
+        .map((recipe) => RecipePMRecipes(recipe: recipe))
+        .toList();
+
     for (RecipePMRecipes recipe in recipes) {
       if (recipe.image != null) {
         precacheImage(recipe.image!, Get.context!);
       }
     }
+    recipes.sort((a, b) {
+      return a.name.compareTo(b.name);
+    });
+    _initRecipesByCategory();
+  }
+
+  void _initRecipesByCategory() {
+    recipesByCategory = {};
+    recipesWithoutCategory = [];
+    for (var recipe in recipes) {
+      if (recipe.category.value == null) {
+        recipesWithoutCategory.add(recipe);
+      } else {
+        recipesByCategory.update(recipe.category.value!.id!, (value) {
+          value.add(recipe);
+          return value;
+        }, ifAbsent: () => List.from([recipe]));
+      }
+    }
+    recipesByCategory = SplayTreeMap.from(
+        recipesByCategory,
+        (int recipeCategory1, int recipeCategory2) =>
+            recipesByCategory[recipeCategory1]!
+                .first
+                .category
+                .value!
+                .name
+                .compareTo(recipesByCategory[recipeCategory2]!
+                    .first
+                    .category
+                    .value!
+                    .name));
   }
 
   void goToRecipe(RecipePMRecipes recipe) {
@@ -82,7 +112,7 @@ class RecipesController extends BaseController
     CustomSnackBar.success('Selected Recipes were deleted.'.tr);
   }
 
-  Future<void> addRecipe() async {
+  Future<void> addRecipe({int? categoryId}) async {
     final created = await UpsertElementDialog<UpsertRecipeController>(
       controller: UpsertRecipeController(
         categoryId: categoryId,
@@ -96,7 +126,6 @@ class RecipesController extends BaseController
     final updated = await UpsertElementDialog<UpsertRecipeController>(
       controller: UpsertRecipeController(
         id: getSelectedItems().first.id,
-        categoryId: categoryId,
       ),
     ).show(false);
     if (updated ?? false) await fetchData();
@@ -107,11 +136,13 @@ class RecipesController extends BaseController
         recipes:
             getSelectedItems().map((recipe) => recipe.toMap(false)).toList());
   }
+
   Future<void> exportRecipes() async {
     RecipeOperations.find.exportToFile(
         recipes:
-        getSelectedItems().map((recipe) => recipe.toMap(false)).toList());
+            getSelectedItems().map((recipe) => recipe.toMap(false)).toList());
   }
+
   Future<void> selectedItemMenu(int item) async {
     switch (item) {
       case 0:
@@ -144,5 +175,10 @@ class RecipesController extends BaseController
         Get.toNamed(IngredientsPage.routeName);
         break;
     }
+  }
+
+  void toggleCategorize() {
+    categorize = !categorize;
+    update();
   }
 }

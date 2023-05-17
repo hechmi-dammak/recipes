@@ -1,20 +1,25 @@
 import 'package:get/get.dart';
 import 'package:isar/isar.dart';
 import 'package:mekla/models/isar_models/ingredient_category.dart';
+import 'package:mekla/models/isar_models/recipe_ingredient.dart';
+import 'package:mekla/repository/recipe_ingredient_repository.dart';
+import 'package:mekla/repository/repository_service.dart';
 import 'package:mekla/service/isar_service.dart';
 
-class IngredientCategoryRepository extends GetxService {
+class IngredientCategoryRepository
+    extends RepositoryService<IngredientCategory> {
   static IngredientCategoryRepository get find =>
       Get.find<IngredientCategoryRepository>();
 
-  Future<IngredientCategory> save(IngredientCategory ingredientCategory) async {
-    await _replaceWithSameName(ingredientCategory);
-    return await _save(ingredientCategory);
+  @override
+  Future<IngredientCategory> save(IngredientCategory element) async {
+    await _replaceWithSameName(element);
+    return await _save(element);
   }
 
   Future<IngredientCategory> _save(
       IngredientCategory ingredientCategory) async {
-    ingredientCategory.name=ingredientCategory.name.trim();
+    ingredientCategory.name = ingredientCategory.name.trim();
     await IsarService.isar.writeTxn(() async =>
         await IsarService.isar.ingredientCategories.put(ingredientCategory));
     return ingredientCategory;
@@ -22,31 +27,33 @@ class IngredientCategoryRepository extends GetxService {
 
   Future<void> _replaceWithSameName(
       IngredientCategory ingredientCategory) async {
-    if (ingredientCategory.id == null) {
-      final List<IngredientCategory> ingredientCategories = await IsarService
-          .isar.ingredientCategories
-          .filter()
-          .nameEqualTo(ingredientCategory.name.trim(), caseSensitive: false)
-          .findAll();
-      if (ingredientCategories.isNotEmpty) {
-        ingredientCategory.id = ingredientCategories.first.id;
+    final List<IngredientCategory> ingredientCategories = await IsarService
+        .isar.ingredientCategories
+        .filter()
+        .nameEqualTo(ingredientCategory.name.trim(), caseSensitive: false)
+        .findAll();
+    if (ingredientCategories.isNotEmpty) {
+      final IngredientCategory tmpIngredientCategory =
+          ingredientCategories.first;
+      if (ingredientCategory.id != null) {
+        final List<RecipeIngredient> recipeIngredients =
+            await RecipeIngredientRepository()
+                .findAllByIngredientCategoryId(ingredientCategory.id);
+        await IsarService.isar.writeTxn(() async {
+          for (RecipeIngredient recipeIngredient in recipeIngredients) {
+            recipeIngredient.category.value = tmpIngredientCategory;
+            recipeIngredient.category.save();
+          }
+        });
+        tmpIngredientCategory.picture.value =
+            ingredientCategory.picture.value ??
+                tmpIngredientCategory.picture.value;
+        _save(tmpIngredientCategory);
+        deleteById(ingredientCategory.id);
       }
+      ingredientCategory.id = tmpIngredientCategory.id;
+      ingredientCategory.picture.value ??= tmpIngredientCategory.picture.value;
     }
-  }
-
-  Future<bool> deleteById(int? id) async {
-    if (id == null) return false;
-    return await IsarService.isar
-        .writeTxn(() => IsarService.isar.ingredientCategories.delete(id));
-  }
-
-  Future<IngredientCategory?> findById(int? id) async {
-    if (id == null) return null;
-    return IsarService.isar.ingredientCategories.get(id);
-  }
-
-  Future<List<IngredientCategory>> findAll() async {
-    return await IsarService.isar.ingredientCategories.where().findAll();
   }
 
   Future<List<IngredientCategory>> findAllByNameStartWith(String name) async {

@@ -10,6 +10,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       this.fadeLeading,
       this.secondLeading,
       this.secondTitle,
+      this.secondTitleChildren,
       this.secondAction,
       this.fadeTitle,
       this.fadeAction})
@@ -19,6 +20,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Widget? secondLeading;
   final Widget title;
   final Widget? secondTitle;
+  final List<Widget>? secondTitleChildren;
 
   final Widget? action;
   final Widget? secondAction;
@@ -44,7 +46,19 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 height: kToolbarHeight,
                 child: getElement(fadeLeading, leading, secondLeading),
               ),
-              middle: getElement(fadeTitle, title, secondTitle),
+              middle: getElement(
+                  fadeTitle,
+                  title,
+                  secondTitle ??
+                      (secondTitleChildren != null
+                          ? SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: secondTitleChildren!,
+                              ),
+                            )
+                          : null)),
               trailing: SizedBox(
                 width: kToolbarHeight,
                 height: kToolbarHeight,

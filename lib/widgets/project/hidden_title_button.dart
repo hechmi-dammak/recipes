@@ -19,18 +19,9 @@ class HiddenTitleButton extends StatelessWidget {
             ? const BoxConstraints(maxWidth: 0.0, maxHeight: 0.0)
             : const BoxConstraints(),
         child: AnimatedScale(
-          duration: const Duration(milliseconds: 200),
-          scale: hidden ? 0 : 1,
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const SizedBox(
-                width: 25,
-              ),
-              child
-            ],
-          ),
-        ),
+            duration: const Duration(milliseconds: 200),
+            scale: hidden ? 0 : 1,
+            child: child),
       ),
     );
   }

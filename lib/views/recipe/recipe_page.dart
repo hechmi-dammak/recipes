@@ -73,24 +73,19 @@ class RecipePage extends CustomPage<RecipeController> {
         style: Get.textTheme.headlineLarge
             ?.copyWith(color: Get.theme.colorScheme.onPrimary),
       ),
-      secondTitle: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TitleAppBarButton(
-                title: 'Delete'.tr,
-                icon: 'trash_icon',
-                onTap: controller.deleteSelectedItems),
-            HiddenTitleButton(
-                hidden: controller.selectionCount != 1,
-                child: TitleAppBarButton(
-                    title: 'Edit'.tr,
-                    icon: 'edit_icon',
-                    onTap: controller.editItem))
-          ],
-        ),
-      ),
+      secondTitleChildren: [
+        TitleAppBarButton(
+            isStart: true,
+            title: 'Delete'.tr,
+            icon: 'trash_icon',
+            onTap: controller.deleteSelectedItems),
+        HiddenTitleButton(
+            hidden: controller.selectionCount != 1,
+            child: TitleAppBarButton(
+                title: 'Edit'.tr,
+                icon: 'edit_icon',
+                onTap: controller.editItem))
+      ],
     );
   }
 }

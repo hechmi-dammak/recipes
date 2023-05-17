@@ -4,14 +4,16 @@ import 'package:mekla/models/isar_models/ingredient.dart';
 import 'package:mekla/models/isar_models/recipe_ingredient.dart';
 import 'package:mekla/repository/picture_repository.dart';
 import 'package:mekla/repository/recipe_ingredient_repository.dart';
+import 'package:mekla/repository/repository_service.dart';
 import 'package:mekla/service/isar_service.dart';
 
-class IngredientRepository extends GetxService {
+class IngredientRepository extends RepositoryService<Ingredient> {
   static IngredientRepository get find => Get.find<IngredientRepository>();
 
-  Future<Ingredient> save(Ingredient ingredient) async {
-    await _replaceWithSameName(ingredient);
-    return await _save(ingredient);
+  @override
+  Future<Ingredient> save(Ingredient element) async {
+    await _replaceWithSameName(element);
+    return await _save(element);
   }
 
   Future<Ingredient> _save(Ingredient ingredient) async {
@@ -31,7 +33,6 @@ class IngredientRepository extends GetxService {
   }
 
   Future<void> _replaceWithSameName(Ingredient ingredient) async {
-    // if (ingredient.id == null) {
     final List<Ingredient> ingredients = await IsarService.isar.ingredients
         .filter()
         .nameEqualTo(ingredient.name.trim(), caseSensitive: false)
@@ -39,38 +40,28 @@ class IngredientRepository extends GetxService {
     if (ingredients.isNotEmpty) {
       final Ingredient tmpIngredient = ingredients.first;
       if (ingredient.id != null) {
-       final List<RecipeIngredient> recipeIngredients=ingredient.recipeIngredients.toList();
+        final List<RecipeIngredient> recipeIngredients =
+            ingredient.recipeIngredients.toList();
         await IsarService.isar.writeTxn(() async {
-          for (RecipeIngredient recipeIngredient
-              in recipeIngredients) {
+          for (RecipeIngredient recipeIngredient in recipeIngredients) {
             recipeIngredient.ingredient.value = tmpIngredient;
             recipeIngredient.ingredient.save();
           }
         });
-        tmpIngredient.picture.value=ingredient.picture.value?? tmpIngredient.picture.value;
+        tmpIngredient.picture.value =
+            ingredient.picture.value ?? tmpIngredient.picture.value;
         _save(tmpIngredient);
         deleteById(ingredient.id);
       }
       ingredient.id = tmpIngredient.id;
       ingredient.picture.value ??= tmpIngredient.picture.value;
     }
-    // }
   }
 
-  Future<bool> deleteById(int? id) async {
-    if (id == null) return false;
-   await RecipeIngredientRepository.find.deleteByIngredientId(id);
+  @override
+  Future<bool> beforeDelete(int id) async {
+    await RecipeIngredientRepository.find.deleteByIngredientId(id);
 
-    return await IsarService.isar
-        .writeTxn(() => IsarService.isar.ingredients.delete(id));
-  }
-
-  Future<Ingredient?> findById(int? id) async {
-    if (id == null) return null;
-    return IsarService.isar.ingredients.get(id);
-  }
-
-  Future<List<Ingredient>> findAll() async {
-    return await IsarService.isar.ingredients.where().findAll();
+    return true;
   }
 }

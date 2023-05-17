@@ -120,6 +120,7 @@ class ApplicationTheme {
     final Color hintColor = Colors.black.withOpacity(0.6);
 
     return ThemeData(
+      primarySwatch: primarySwatch,
       textTheme: textTheme,
       fontFamily: 'Georgia',
       typography: typography,
@@ -198,13 +199,13 @@ class ApplicationTheme {
       tooltipTheme: TooltipThemeData(
         padding: tooltipPadding(),
         margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-        textStyle: textTheme.bodyMedium!.copyWith(
+        textStyle: textTheme.labelSmall!.copyWith(
           inherit: false,
-          color: Colors.white,
+          color: colorScheme.onPrimaryContainer,
           fontSize: tooltipFontSize(),
         ),
         decoration: BoxDecoration(
-          color: const Color(0xF0FCFCFC),
+          color: colorScheme.primaryContainer,
           borderRadius: BorderRadius.circular(4),
           border: Border.all(color: dividerColor),
         ),
@@ -222,6 +223,7 @@ class ApplicationTheme {
       0.4,
       0.5,
       0.6,
+      0.65,
       0.7,
       0.8,
       0.9

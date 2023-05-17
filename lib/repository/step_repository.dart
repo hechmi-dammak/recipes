@@ -4,12 +4,18 @@ import 'package:mekla/models/isar_models/recipe.dart';
 import 'package:mekla/models/isar_models/step.dart';
 import 'package:mekla/repository/picture_repository.dart';
 import 'package:mekla/repository/recipe_repository.dart';
+import 'package:mekla/repository/repository_service.dart';
 import 'package:mekla/service/isar_service.dart';
 
-class StepRepository extends GetxService {
+class StepRepository extends RepositoryService<Step> {
   static StepRepository get find => Get.find<StepRepository>();
 
-  Future<Step> save(Step step) async {
+  @override
+  Future<Step> save(Step element) async {
+    return await _save(element);
+  }
+
+  Future<Step> _save(Step step) async {
     step.instruction = step.instruction.trim();
     await IsarService.isar.writeTxn(() async {
       await IsarService.isar.steps.put(step);
@@ -25,21 +31,6 @@ class StepRepository extends GetxService {
       await step.recipe.save();
     });
     return step;
-  }
-
-  Future<bool> deleteById(int? id) async {
-    if (id == null) return false;
-    return await IsarService.isar
-        .writeTxn(() => IsarService.isar.steps.delete(id));
-  }
-
-  Future<Step?> findById(int? id) async {
-    if (id == null) return null;
-    return IsarService.isar.steps.get(id);
-  }
-
-  Future<List<Step>> findAll() async {
-    return await IsarService.isar.steps.where().findAll();
   }
 
   Future<int> deleteByRecipeId(int recipeId) async {

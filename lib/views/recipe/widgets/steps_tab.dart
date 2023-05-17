@@ -27,7 +27,6 @@ class StepsTab extends GetView<RecipeController> {
                     duration: const Duration(milliseconds: 300),
                     child: AddElementCard(
                       onTap: controller.addStep,
-                      semanticsLabel: 'Add Step'.tr,
                       height: Get.height * 0.2,
                     ));
               }),

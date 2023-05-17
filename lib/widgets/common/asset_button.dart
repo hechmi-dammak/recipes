@@ -15,11 +15,13 @@ class AssetButton extends StatelessWidget {
       this.height = 20,
       this.color,
       this.parentBuilder,
+      this.conditionalParent = true,
       this.flip = false});
 
   final VoidCallback? onTap;
   final String icon;
   final bool center;
+  final bool conditionalParent;
   final double width;
   final double height;
   final Color? color;
@@ -47,9 +49,8 @@ class AssetButton extends StatelessWidget {
       behavior: HitTestBehavior.opaque,
       onTap: onTap,
       child: ConditionalParentWidget(
-        condition: parentBuilder != null,
-        parentBuilder: (context, child) =>
-            parentBuilder?.call(context, child) ?? Container(),
+        condition: parentBuilder != null && conditionalParent,
+        parentBuilder: (context, child) => parentBuilder!.call(context, child),
         child: ConditionalParentWidget(
           condition: center,
           parentBuilder: (context, child) => Center(

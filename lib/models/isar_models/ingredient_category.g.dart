@@ -44,7 +44,14 @@ const IngredientCategorySchema = CollectionSchema(
       ],
     )
   },
-  links: {},
+  links: {
+    r'picture': LinkSchema(
+      id: 2424523069438075828,
+      name: r'picture',
+      target: r'Picture',
+      single: true,
+    )
+  },
   embeddedSchemas: {},
   getId: _ingredientCategoryGetId,
   getLinks: _ingredientCategoryGetLinks,
@@ -104,12 +111,13 @@ Id _ingredientCategoryGetId(IngredientCategory object) {
 
 List<IsarLinkBase<dynamic>> _ingredientCategoryGetLinks(
     IngredientCategory object) {
-  return [];
+  return [object.picture];
 }
 
 void _ingredientCategoryAttach(
     IsarCollection<dynamic> col, Id id, IngredientCategory object) {
   object.id = id;
+  object.picture.attach(col, col.isar.collection<Picture>(), r'picture', id);
 }
 
 extension IngredientCategoryQueryWhereSort
@@ -454,7 +462,21 @@ extension IngredientCategoryQueryObject
     on QueryBuilder<IngredientCategory, IngredientCategory, QFilterCondition> {}
 
 extension IngredientCategoryQueryLinks
-    on QueryBuilder<IngredientCategory, IngredientCategory, QFilterCondition> {}
+    on QueryBuilder<IngredientCategory, IngredientCategory, QFilterCondition> {
+  QueryBuilder<IngredientCategory, IngredientCategory, QAfterFilterCondition>
+      picture(FilterQuery<Picture> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.link(q, r'picture');
+    });
+  }
+
+  QueryBuilder<IngredientCategory, IngredientCategory, QAfterFilterCondition>
+      pictureIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'picture', 0, true, 0, true);
+    });
+  }
+}
 
 extension IngredientCategoryQuerySortBy
     on QueryBuilder<IngredientCategory, IngredientCategory, QSortBy> {

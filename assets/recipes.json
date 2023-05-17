@@ -2,7 +2,9 @@
   {
     "name": "mosli",
     "description": null,
-    "category": null,
+    "category": {
+      "name": "dinner"
+    },
     "servings": 1,
     "steps": [],
     "ingredients": [
@@ -132,7 +134,9 @@
   {
     "name": "chebtiya",
     "description": null,
-    "category": null,
+    "category": {
+      "name": "dinner"
+    },
     "servings": 1,
     "steps": [],
     "ingredients": [
@@ -238,7 +242,9 @@
   {
     "name": "torchi",
     "description": null,
-    "category": null,
+    "category": {
+      "name": "lunch"
+    },
     "servings": 1,
     "steps": [],
     "ingredients": [
@@ -344,7 +350,9 @@
   {
     "name": "brik",
     "description": null,
-    "category": null,
+    "category": {
+      "name": "dinner"
+    },
     "servings": 1,
     "steps": [],
     "ingredients": [
@@ -474,7 +482,9 @@
   {
     "name": "tomato sauce",
     "description": null,
-    "category": null,
+    "category": {
+      "name": "lunch"
+    },
     "servings": 1,
     "steps": [],
     "ingredients": [
@@ -616,7 +626,9 @@
   {
     "name": "tomato pasta",
     "description": null,
-    "category": null,
+    "category": {
+      "name": "lunch"
+    },
     "servings": 1,
     "steps": [],
     "ingredients": [
@@ -770,7 +782,9 @@
   {
     "name": "bor8ol",
     "description": null,
-    "category": null,
+    "category": {
+      "name": "lunch"
+    },
     "servings": 1,
     "steps": [],
     "ingredients": [
@@ -972,7 +986,9 @@
   {
     "name": "rice",
     "description": null,
-    "category": null,
+    "category": {
+      "name": "lunch"
+    },
     "servings": 1,
     "steps": [],
     "ingredients": [
@@ -1150,7 +1166,9 @@
   {
     "name": "kamouniya",
     "description": null,
-    "category": null,
+    "category": {
+      "name": "lunch"
+    },
     "servings": 1,
     "steps": [],
     "ingredients": [
@@ -1292,7 +1310,9 @@
   {
     "name": "chakchouka",
     "description": null,
-    "category": null,
+    "category": {
+      "name": "lunch"
+    },
     "servings": 1,
     "steps": [],
     "ingredients": [
@@ -1470,7 +1490,9 @@
   {
     "name": "tajin",
     "description": null,
-    "category": null,
+    "category": {
+      "name": "dinner"
+    },
     "servings": 1,
     "steps": [],
     "ingredients": [
@@ -1588,7 +1610,9 @@
   {
     "name": "kafteji",
     "description": null,
-    "category": null,
+    "category": {
+      "name": "lunch"
+    },
     "servings": 1,
     "steps": [],
     "ingredients": [
@@ -1718,7 +1742,9 @@
   {
     "name": "cauliflower balls",
     "description": null,
-    "category": null,
+    "category": {
+      "name": "dinner"
+    },
     "servings": 2,
     "steps": [],
     "ingredients": [

@@ -3,9 +3,9 @@ import 'package:get/get.dart';
 import 'package:mekla/views/ingredients/ingredients_controller.dart';
 import 'package:mekla/views/ingredients/widgets/ingredient_card.dart';
 import 'package:mekla/widgets/common/asset_button.dart';
-import 'package:mekla/widgets/project/add_element_card.dart';
 import 'package:mekla/widgets/project/custom_app_bar.dart';
 import 'package:mekla/widgets/project/custom_page.dart';
+import 'package:mekla/widgets/project/grid_cards.dart';
 import 'package:mekla/widgets/project/hidden_title_button.dart';
 import 'package:mekla/widgets/project/title_app_bar_button.dart';
 
@@ -38,6 +38,7 @@ class IngredientsPage extends CustomPage<IngredientsController> {
           mainAxisSize: MainAxisSize.min,
           children: [
             TitleAppBarButton(
+                isStart: true,
                 title: 'Delete'.tr,
                 icon: 'trash_icon',
                 onTap: controller.deleteSelectedIngredients),
@@ -55,27 +56,12 @@ class IngredientsPage extends CustomPage<IngredientsController> {
 
   @override
   Widget bodyBuilder(IngredientsController controller, BuildContext context) {
-    return LayoutBuilder(builder: (context, _) {
-      return GridView(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: (Get.width / 300).ceil(),
-            mainAxisSpacing: 10,
-            crossAxisSpacing: 10),
-        children: [
-          ...controller.ingredients
-              .map((ingredient) => IngredientCard(ingredient: ingredient))
-              .toList(),
-          AnimatedOpacity(
-            opacity: controller.selectionIsActive ? 0 : 1,
-            duration: const Duration(milliseconds: 300),
-            child: AddElementCard(
-              onTap: controller.addIngredient,
-              semanticsLabel: 'Add Recipe'.tr,
-            ),
-          ),
-        ],
-      );
-    });
+    return GridCards(
+      hideAddElement: controller.selectionIsActive,
+      addElement: controller.addIngredient,
+      children: controller.ingredients
+          .map((ingredient) => IngredientCard(ingredient: ingredient))
+          .toList(),
+    );
   }
 }

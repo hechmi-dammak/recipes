@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mekla/helpers/theme.dart';
 import 'package:mekla/views/recipes/recipes_controller.dart';
 import 'package:mekla/views/recipes/widgets/popup_menu_button.dart';
 import 'package:mekla/views/recipes/widgets/recipe_card.dart';
 import 'package:mekla/widgets/common/asset_button.dart';
-import 'package:mekla/widgets/project/add_element_card.dart';
 import 'package:mekla/widgets/project/custom_app_bar.dart';
 import 'package:mekla/widgets/project/custom_page.dart';
+import 'package:mekla/widgets/project/grid_cards.dart';
 import 'package:mekla/widgets/project/hidden_title_button.dart';
 import 'package:mekla/widgets/project/title_app_bar_button.dart';
 
@@ -20,11 +21,25 @@ class RecipesPage extends CustomPage<RecipesController> {
       RecipesController controller, BuildContext context) {
     return CustomAppBar(
       fadeLeading: !controller.selectionIsActive,
+      leading: const PopUpMenuButton(),
       secondLeading: AssetButton.back(
         onTap: controller.setSelectAllValue,
       ),
       fadeAction: !controller.selectionIsActive,
-      action: const PopUpMenuButton(),
+      action: AssetButton(
+        center: true,
+        icon: 'category_icon',
+        conditionalParent: controller.categorize,
+        parentBuilder: (context, child) => Container(
+          margin: const EdgeInsets.all(7),
+          decoration: BoxDecoration(
+              color: ApplicationTheme.createPrimarySwatch(
+                  Get.theme.primaryColor)[650],
+              borderRadius: const BorderRadius.all(Radius.circular(7))),
+          child: child,
+        ),
+        onTap: controller.toggleCategorize,
+      ),
       secondAction: AssetButton.selectAll(
           allItemsSelected: controller.allItemsSelected,
           onTap: controller.toggleSelectAllValue),
@@ -34,70 +49,69 @@ class RecipesPage extends CustomPage<RecipesController> {
         style: Get.textTheme.headlineLarge
             ?.copyWith(color: Get.theme.colorScheme.onPrimary),
       ),
-      secondTitle: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TitleAppBarButton(
+      secondTitleChildren: [
+        TitleAppBarButton(
+            isStart: true,
+            hideTitle: controller.selectionCount == 1,
+            title: 'Delete'.tr,
+            icon: 'trash_icon',
+            onTap: controller.deleteSelectedRecipes),
+        HiddenTitleButton(
+            hidden: controller.selectionCount != 1,
+            child: TitleAppBarButton(
                 hideTitle: controller.selectionCount == 1,
-                title: 'Delete'.tr,
-                icon: 'trash_icon',
-                onTap: controller.deleteSelectedRecipes),
-            HiddenTitleButton(
-                hidden: controller.selectionCount != 1,
-                child: TitleAppBarButton(
-                    hideTitle: controller.selectionCount == 1,
-                    title: 'Edit'.tr,
-                    icon: 'edit_icon',
-                    onTap: controller.editRecipe)),
-            const SizedBox(
-              width: 25,
-            ),
-            TitleAppBarButton(
-              hideTitle: controller.selectionCount == 1,
-              title: 'Share'.tr,
-              icon: 'share_icon',
-              onTap: controller.shareRecipes,
-            ),
-            const SizedBox(
-              width: 25,
-            ),
-            TitleAppBarButton(
-              hideTitle: controller.selectionCount == 1,
-              title: 'Export'.tr,
-              icon: 'export_file',
-              onTap: controller.exportRecipes,
-            )
-          ],
+                title: 'Edit'.tr,
+                icon: 'edit_icon',
+                onTap: controller.editRecipe)),
+        TitleAppBarButton(
+          hideTitle: controller.selectionCount == 1,
+          title: 'Share'.tr,
+          icon: 'share_icon',
+          onTap: controller.shareRecipes,
         ),
-      ),
+        TitleAppBarButton(
+          hideTitle: controller.selectionCount == 1,
+          title: 'Export'.tr,
+          icon: 'export_file',
+          onTap: controller.exportRecipes,
+        )
+      ],
     );
   }
 
   @override
   Widget bodyBuilder(RecipesController controller, BuildContext context) {
-    return LayoutBuilder(builder: (context, _) {
-      return GridView(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: (Get.width / 300).ceil(),
-            mainAxisSpacing: 10,
-            crossAxisSpacing: 10),
+    if (controller.categorize) {
+      return ListView(
+        shrinkWrap: true,
         children: [
-          ...controller.recipes
-              .map((recipe) => RecipeCard(recipe: recipe))
+          ...controller.recipesByCategory.entries
+              .map((entry) => GridCards(
+                  multiple: true,
+                  addElement: () =>
+                      controller.addRecipe(categoryId: entry.key),
+                  hideAddElement: controller.selectionIsActive,
+                  children: entry.value
+                      .map((recipe) => RecipeCard(recipe: recipe))
+                      .toList()))
               .toList(),
-          AnimatedOpacity(
-            opacity: controller.selectionIsActive ? 0 : 1,
-            duration: const Duration(milliseconds: 300),
-            child: AddElementCard(
-              onTap: controller.addRecipe,
-              semanticsLabel: 'Add Recipe'.tr,
-            ),
-          ),
+          GridCards(
+            multiple: true,
+            addElement: controller.addRecipe,
+            hideAddElement: controller.selectionIsActive,
+            children: controller.recipesWithoutCategory
+                .map((recipe) => RecipeCard(recipe: recipe))
+                .toList(),
+          )
         ],
       );
-    });
+    }
+    return GridCards(
+      addElement: controller.addRecipe,
+      hideAddElement: controller.selectionIsActive,
+      children: controller.recipes
+          .map((recipe) => RecipeCard(recipe: recipe))
+          .toList(),
+    );
   }
 }

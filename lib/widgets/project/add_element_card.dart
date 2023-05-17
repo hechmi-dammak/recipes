@@ -6,11 +6,9 @@ class AddElementCard extends StatelessWidget {
   const AddElementCard(
       {Key? key,
       required this.onTap,
-      required this.semanticsLabel,
       this.height})
       : super(key: key);
   final VoidCallback onTap;
-  final String semanticsLabel;
   final double? height;
 
   @override
