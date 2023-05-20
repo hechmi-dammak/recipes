@@ -4,6 +4,7 @@ import 'package:mekla/helpers/constants.dart';
 import 'package:mekla/views/recipe/models/step_pm_recipe.dart';
 import 'package:mekla/views/recipe/recipe_controller/recipe_controller.dart';
 import 'package:mekla/widgets/common/conditional_widget.dart';
+import 'package:mekla/widgets/project/selected_border.dart';
 
 class StepCard extends StatelessWidget {
   const StepCard({Key? key, required this.step}) : super(key: key);
@@ -89,18 +90,10 @@ class StepCard extends StatelessWidget {
                         ),
                       ),
                     ),
-                    ConditionalWidget(
-                      condition: step.selected,
-                      child: (context) => Container(
-                        decoration: BoxDecoration(
-                          borderRadius:
-                              BorderRadius.circular(Constants.cardBorderRadius),
-                          border: Border.all(
-                            width: Constants.selectionBorderWidth,
-                            color: Get.theme.colorScheme.primary,
-                          ),
-                        ),
-                      ),
+                    SelectedBorder(
+                      height: null,
+                      width: null,
+                      selected: step.selected,
                     ),
                   ],
                 ),

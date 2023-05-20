@@ -9,6 +9,7 @@ import 'package:mekla/widgets/common/conditional_widget.dart';
 import 'package:mekla/widgets/common/custom_animated_size.dart';
 import 'package:mekla/widgets/project/grid_cards.dart';
 import 'package:mekla/widgets/project/info_button.dart';
+import 'package:mekla/widgets/project/recipe_category_title.dart';
 
 class RecipeCategoryExpandableCard extends StatelessWidget {
   const RecipeCategoryExpandableCard({
@@ -58,24 +59,9 @@ class RecipeCategoryExpandableCard extends StatelessWidget {
                                 fit: BoxFit.cover,
                               ),
                             )),
-                    Positioned(
-                      right: 0,
-                      top: (Get.width - 2 * marginHorizontal) * splitRatio / 4,
-                      child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 10, horizontal: 12),
-                          width: (Get.width - 10) * 0.57,
-                          decoration: BoxDecoration(
-                              color: Get.theme.colorScheme.primaryContainer,
-                              borderRadius: const BorderRadius.only(
-                                topLeft: Radius.circular(20),
-                                bottomLeft: Radius.circular(20),
-                              )),
-                          child: Text(category.name,
-                              style: Get.textTheme.headlineMedium?.copyWith(
-                                  color:
-                                      Get.theme.colorScheme.onPrimaryContainer,
-                                  overflow: TextOverflow.ellipsis))),
+                    RecipeCategoryTitle(
+                      name: category.name,
+                      splitRatio: splitRatio,
                     ),
                     InfoButton(
                       name: category.name,

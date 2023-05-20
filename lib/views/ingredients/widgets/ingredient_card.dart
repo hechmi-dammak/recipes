@@ -3,7 +3,8 @@ import 'package:get/get.dart';
 import 'package:mekla/helpers/constants.dart';
 import 'package:mekla/views/ingredients/ingredients_controller.dart';
 import 'package:mekla/views/ingredients/models/ingredient_pm_ingredients.dart';
-import 'package:mekla/widgets/common/conditional_widget.dart';
+import 'package:mekla/widgets/project/conditional_image.dart';
+import 'package:mekla/widgets/project/selected_border.dart';
 
 class IngredientCard extends GetView<IngredientsController> {
   const IngredientCard({Key? key, required this.ingredient}) : super(key: key);
@@ -47,15 +48,7 @@ class IngredientCard extends GetView<IngredientsController> {
                                   decoration: BoxDecoration(
                                       color: Get.theme.colorScheme.tertiary),
                                 ),
-                                ConditionalWidget(
-                                  condition: ingredient.image != null,
-                                  child: (context) => Image(
-                                    image: ingredient.image!,
-                                    width: double.infinity,
-                                    height: double.infinity,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
+                                ConditionalImage(image: ingredient.image),
                               ],
                             ),
                           ),
@@ -74,20 +67,8 @@ class IngredientCard extends GetView<IngredientsController> {
                       )
                     ],
                   ),
-                  ConditionalWidget(
-                    condition: ingredient.selected,
-                    child: (context) => Container(
-                      width: double.infinity,
-                      height: double.infinity,
-                      decoration: BoxDecoration(
-                        borderRadius:
-                            BorderRadius.circular(Constants.cardBorderRadius),
-                        border: Border.all(
-                          width: Constants.selectionBorderWidth,
-                          color: Get.theme.colorScheme.primary,
-                        ),
-                      ),
-                    ),
+                  SelectedBorder(
+                    selected: ingredient.selected,
                   ),
                 ],
               ),

@@ -38,13 +38,10 @@ class RecipeCategoriesPage extends CustomPage<RecipeCategoriesController> {
           mainAxisSize: MainAxisSize.min,
           children: [
             TitleAppBarButton(
-              isStart: true,
-              title: 'Delete'.tr,
-              icon: 'trash_icon',
-              onTap: () {
-                controller.deleteSelectedCategories();
-              },
-            ),
+                isStart: true,
+                title: 'Delete'.tr,
+                icon: 'trash_icon',
+                onTap: controller.deleteSelectedCategories),
             HiddenTitleButton(
                 hidden: controller.selectionCount != 1,
                 child: TitleAppBarButton(

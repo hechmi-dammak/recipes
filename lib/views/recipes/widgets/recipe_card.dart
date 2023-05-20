@@ -3,8 +3,9 @@ import 'package:get/get.dart';
 import 'package:mekla/helpers/constants.dart';
 import 'package:mekla/views/recipes/models/recipe_pm_recipes.dart';
 import 'package:mekla/views/recipes/recipes_controller.dart';
-import 'package:mekla/widgets/common/conditional_widget.dart';
+import 'package:mekla/widgets/project/conditional_image.dart';
 import 'package:mekla/widgets/project/info_button.dart';
+import 'package:mekla/widgets/project/selected_border.dart';
 
 class RecipeCard extends GetView<RecipesController> {
   const RecipeCard({Key? key, required this.recipe}) : super(key: key);
@@ -32,14 +33,7 @@ class RecipeCard extends GetView<RecipesController> {
             borderRadius: BorderRadius.circular(Constants.cardBorderRadius),
             child: Stack(
               children: [
-                ConditionalWidget(
-                    condition: recipe.image != null,
-                    child: (context) => Image(
-                          image: recipe.image!,
-                          width: double.infinity,
-                          height: double.infinity,
-                          fit: BoxFit.cover,
-                        )),
+                ConditionalImage(image: recipe.image),
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Container(
@@ -59,20 +53,9 @@ class RecipeCard extends GetView<RecipesController> {
                               color: Get.theme.colorScheme.onPrimaryContainer,
                               overflow: TextOverflow.ellipsis))),
                 ),
-                ConditionalWidget(
-                    condition: recipe.selected,
-                    child: (context) => Container(
-                          width: double.infinity,
-                          height: double.infinity,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(
-                                Constants.cardBorderRadius),
-                            border: Border.all(
-                              width: Constants.selectionBorderWidth,
-                              color: Get.theme.colorScheme.primary,
-                            ),
-                          ),
-                        )),
+                SelectedBorder(
+                  selected: recipe.selected,
+                ),
                 InfoButton(
                   name: recipe.name,
                   description: recipe.description,

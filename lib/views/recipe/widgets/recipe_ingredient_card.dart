@@ -5,7 +5,9 @@ import 'package:mekla/services/asset_service.dart';
 import 'package:mekla/views/recipe/models/recipe_ingredient_pm_recipe.dart';
 import 'package:mekla/views/recipe/recipe_controller/recipe_controller.dart';
 import 'package:mekla/widgets/common/conditional_widget.dart';
+import 'package:mekla/widgets/project/conditional_image.dart';
 import 'package:mekla/widgets/project/info_button.dart';
+import 'package:mekla/widgets/project/selected_border.dart';
 
 class RecipeIngredientCard extends GetView<RecipeController> {
   const RecipeIngredientCard({Key? key, required this.ingredient})
@@ -30,8 +32,9 @@ class RecipeIngredientCard extends GetView<RecipeController> {
           borderRadius: BorderRadius.circular(Constants.cardBorderRadius),
           child: Stack(
             children: [
-              Opacity(
+              AnimatedOpacity(
                 opacity: ingredient.used ? 0.3 : 1,
+                duration: const Duration(milliseconds: 200),
                 child: Stack(
                   children: [
                     Container(
@@ -57,15 +60,7 @@ class RecipeIngredientCard extends GetView<RecipeController> {
                                     decoration: BoxDecoration(
                                         color: Get.theme.colorScheme.tertiary),
                                   ),
-                                  ConditionalWidget(
-                                    condition: ingredient.image != null,
-                                    child: (context) => Image(
-                                      image: ingredient.image!,
-                                      width: double.infinity,
-                                      height: double.infinity,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
+                                  ConditionalImage(image: ingredient.image),
                                   ConditionalWidget(
                                     condition: ingredient
                                             .getAmount(controller.servings) !=
@@ -120,21 +115,7 @@ class RecipeIngredientCard extends GetView<RecipeController> {
                         )
                       ],
                     ),
-                    ConditionalWidget(
-                      condition: ingredient.selected,
-                      child: (context) => Container(
-                        width: double.infinity,
-                        height: double.infinity,
-                        decoration: BoxDecoration(
-                          borderRadius:
-                              BorderRadius.circular(Constants.cardBorderRadius),
-                          border: Border.all(
-                            width: Constants.selectionBorderWidth,
-                            color: Get.theme.colorScheme.primary,
-                          ),
-                        ),
-                      ),
-                    ),
+                    SelectedBorder(selected: ingredient.selected)
                   ],
                 ),
               ),
