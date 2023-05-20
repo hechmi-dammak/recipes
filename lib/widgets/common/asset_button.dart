@@ -2,7 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mekla/service/asset_service.dart';
+import 'package:mekla/services/asset_service.dart';
 import 'package:mekla/widgets/common/conditional_parent_widget.dart';
 
 class AssetButton extends StatelessWidget {

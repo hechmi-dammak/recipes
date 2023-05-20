@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mekla/models/isar_models/ingredient.dart';
+import 'package:mekla/models/entities/ingredient.dart';
 import 'package:mekla/widgets/project/upsert_element/models/autocomplete_upsert_from_field.dart';
 import 'package:mekla/widgets/project/upsert_element/models/servings_upsert_form_field.dart';
 import 'package:mekla/widgets/project/upsert_element/models/upsert_from_field.dart';

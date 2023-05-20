@@ -44,12 +44,12 @@ dependencies:
   isar: ^3.1.0+1
   path_provider: ^2.0.15
   isar_flutter_libs: ^3.1.0+1
-  share_plus: ^7.0.0
+  share_plus: ^7.0.1
   file_picker: ^5.3.0
   logger: ^1.3.0
   content_resolver: ^0.3.0
   app_links: ^3.4.2
-
+  image: ^4.0.17
 dev_dependencies:
   flutter_test:
     sdk: flutter

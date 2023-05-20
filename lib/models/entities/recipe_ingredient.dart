@@ -1,12 +1,14 @@
 import 'package:isar/isar.dart';
-import 'package:mekla/models/isar_models/ingredient.dart';
-import 'package:mekla/models/isar_models/ingredient_category.dart';
-import 'package:mekla/models/isar_models/recipe.dart';
+import 'package:mekla/models/entities/ingredient.dart';
+import 'package:mekla/models/entities/ingredient_category.dart';
+import 'package:mekla/models/entities/recipe.dart';
+import 'package:mekla/models/interfaces/model_id.dart';
 
 part 'recipe_ingredient.g.dart';
 
 @collection
-class RecipeIngredient {
+class RecipeIngredient implements ModelId {
+  @override
   Id? id;
 
   //todo omitted for this iteration

@@ -1,11 +1,13 @@
 import 'package:isar/isar.dart';
-import 'package:mekla/models/isar_models/picture.dart';
-import 'package:mekla/models/isar_models/recipe.dart';
+import 'package:mekla/models/entities/picture.dart';
+import 'package:mekla/models/entities/recipe.dart';
+import 'package:mekla/models/interfaces/model_id.dart';
 
 part 'step.g.dart';
 
 @collection
-class Step {
+class Step implements ModelId {
+  @override
   Id? id;
   @Index()
   String instruction;

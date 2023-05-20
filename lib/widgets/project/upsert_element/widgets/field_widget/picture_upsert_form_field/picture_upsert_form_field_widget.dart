@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mekla/helpers/constants.dart';
 import 'package:mekla/widgets/common/asset_button.dart';
 import 'package:mekla/widgets/common/conditional_widget.dart';
 import 'package:mekla/widgets/project/upsert_element/models/upsert_from_field.dart';
@@ -30,84 +31,94 @@ class PictureUpsertFormFieldWidget extends StatelessWidget {
               AnimatedSize(
                 duration: const Duration(milliseconds: 300),
                 child: Container(
-                  height: controller.picture != null ? null : 60,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(6.5),
+                    borderRadius:
+                        BorderRadius.circular(Constants.cardBorderRadius),
                     border: Border.all(color: Get.theme.colorScheme.secondary),
                   ),
-                  child: ConditionalWidget(
-                    condition: controller.picture != null,
-                    child: (context) => AspectRatio(
-                      aspectRatio: controller.aspectRatio,
-                      child: Stack(
+                  child: AnimatedCrossFade(
+                    firstChild: SizedBox(
+                      height: 60,
+                      child: Row(
                         children: [
-                          SizedBox(
-                            height: double.infinity,
-                            width: double.infinity,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(6.5),
-                              child: Image(
-                                image: controller.formField.image!,
-                                fit: BoxFit.cover,
-                              ),
+                          Flexible(
+                            child: AssetButton(
+                              onTap: () =>
+                                  controller.pickImage(ImageSource.gallery),
+                              icon: 'gallery_icon',
+                              center: true,
+                              color: Get.theme.colorScheme.secondary,
+                              height: 30,
+                              width: 40,
                             ),
                           ),
-                          Positioned(
-                            top: 10,
-                            right: 10,
+                          VerticalDivider(
+                            indent: 7,
+                            endIndent: 7,
+                            width: 1,
+                            thickness: 1,
+                            color: Get.theme.colorScheme.secondary,
+                          ),
+                          Flexible(
                             child: AssetButton(
+                              onTap: () =>
+                                  controller.pickImage(ImageSource.camera),
+                              icon: 'camera_icon',
                               center: true,
-                              onTap: controller.setPicture,
-                              icon: 'trash_icon',
-                              height: 16,
-                              width: 14,
-                              color: Get.theme.colorScheme.onSecondary,
-                              parentBuilder: (context, child) => Container(
-                                width: 32,
-                                height: 32,
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Get.theme.colorScheme.secondary),
-                                child: child,
-                              ),
+                              color: Get.theme.colorScheme.secondary,
+                              height: 30,
+                              width: 40,
                             ),
                           )
                         ],
                       ),
                     ),
-                    secondChild: (context) => Row(
-                      children: [
-                        Flexible(
-                          child: AssetButton(
-                            onTap: () =>
-                                controller.pickImage(ImageSource.gallery),
-                            icon: 'gallery_icon',
-                            center: true,
-                            color: Get.theme.colorScheme.secondary,
-                            height: 30,
-                            width: 40,
-                          ),
+                    secondChild: ConditionalWidget(
+                      condition: controller.picture != null,
+                      child: (context) => AspectRatio(
+                        aspectRatio: controller.aspectRatio,
+                        child: Stack(
+                          children: [
+                            SizedBox(
+                              height: double.infinity,
+                              width: double.infinity,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(
+                                    Constants.cardBorderRadius),
+                                child: Image(
+                                  image: controller.formField.image!,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              top: 10,
+                              right: 10,
+                              child: AssetButton(
+                                center: true,
+                                onTap: controller.setPicture,
+                                icon: 'trash_icon',
+                                height: 16,
+                                width: 14,
+                                color: Get.theme.colorScheme.onSecondary,
+                                parentBuilder: (context, child) => Container(
+                                  width: 32,
+                                  height: 32,
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Get.theme.colorScheme.secondary),
+                                  child: child,
+                                ),
+                              ),
+                            )
+                          ],
                         ),
-                        VerticalDivider(
-                          indent: 7,
-                          endIndent: 7,
-                          width: 1,
-                          thickness: 1,
-                          color: Get.theme.colorScheme.secondary,
-                        ),
-                        Flexible(
-                          child: AssetButton(
-                            onTap: () =>
-                                controller.pickImage(ImageSource.camera),
-                            icon: 'camera_icon',
-                            center: true,
-                            color: Get.theme.colorScheme.secondary,
-                            height: 30,
-                            width: 40,
-                          ),
-                        )
-                      ],
+                      ),
                     ),
+                    crossFadeState: controller.picture == null
+                        ? CrossFadeState.showFirst
+                        : CrossFadeState.showSecond,
+                    duration: const Duration(milliseconds: 300),
                   ),
                 ),
               )

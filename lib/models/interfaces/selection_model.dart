@@ -1,4 +1,3 @@
-
 abstract class SelectionModel {
   bool get selected;
 

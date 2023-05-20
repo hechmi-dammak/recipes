@@ -1,13 +1,12 @@
-import 'package:mekla/models/isar_models/recipe.dart';
+import 'package:mekla/models/entities/recipe.dart';
 import 'package:mekla/views/recipe/models/recipe_ingredient_pm_recipe.dart';
 import 'package:mekla/views/recipe/models/step_pm_recipe.dart';
 
-class RecipePMRecipe extends Recipe  {
+class RecipePMRecipe extends Recipe {
   List<RecipeIngredientPMRecipe> ingredientList = [];
   List<StepPMRecipe> stepList = [];
 
-  RecipePMRecipe({required Recipe recipe})
-      : super.fromCopy(recipe) {
+  RecipePMRecipe({required Recipe recipe}) : super.fromCopy(recipe) {
     ingredientList = recipe.ingredients
         .toList()
         .map((recipeIngredient) =>

@@ -1,16 +1,21 @@
 import 'package:isar/isar.dart';
-import 'package:mekla/models/isar_models/picture.dart';
-import 'package:mekla/models/isar_models/recipe_category.dart';
-import 'package:mekla/models/isar_models/recipe_ingredient.dart';
-import 'package:mekla/models/isar_models/step.dart';
-import 'package:mekla/repository/recipe_ingredient_repository.dart';
-import 'package:mekla/repository/step_repository.dart';
+import 'package:mekla/helpers/constants.dart';
+import 'package:mekla/models/entities/picture.dart';
+import 'package:mekla/models/entities/recipe_category.dart';
+import 'package:mekla/models/entities/recipe_ingredient.dart';
+import 'package:mekla/models/entities/step.dart';
+import 'package:mekla/models/interfaces/model_name.dart';
+import 'package:mekla/models/interfaces/model_picture.dart';
+import 'package:mekla/repositories/recipe_ingredient_repository.dart';
+import 'package:mekla/repositories/step_repository.dart';
 
 part 'recipe.g.dart';
 
 @collection
-class Recipe {
+class Recipe implements ModelName, ModelPicture {
+  @override
   Id? id;
+  @override
   @Index()
   String name;
   String? description;
@@ -18,6 +23,7 @@ class Recipe {
   int servings;
   final IsarLinks<Step> steps;
   final IsarLinks<RecipeIngredient> ingredients;
+  @override
   final IsarLink<Picture> picture;
 
   Recipe({
@@ -25,7 +31,7 @@ class Recipe {
     this.name = '',
     this.description,
     IsarLink<RecipeCategory>? category,
-    this.servings = 4,
+    this.servings = Constants.defaultServings,
     IsarLinks<RecipeIngredient>? ingredients,
     IsarLinks<Step>? steps,
     IsarLink<Picture>? picture,
@@ -58,7 +64,7 @@ class Recipe {
     };
   }
 
-  static Future<Recipe> fromMap(Map<String, dynamic> map) async{
+  static Future<Recipe> fromMap(Map<String, dynamic> map) async {
     final recipe = Recipe(
       id: map['id'],
       name: map['name'],
@@ -66,15 +72,15 @@ class Recipe {
       servings: map['servings'],
     );
     if (map['ingredients'] != null) {
-     for(var item in map['ingredients'] as List){
-       final ingredient=  RecipeIngredient.fromMap(item);
-       await RecipeIngredientRepository.find.save(ingredient);
-       recipe.ingredients.add(ingredient);
-     }
+      for (var item in map['ingredients'] as List) {
+        final ingredient = RecipeIngredient.fromMap(item);
+        await RecipeIngredientRepository.find.save(ingredient);
+        recipe.ingredients.add(ingredient);
+      }
     }
     if (map['steps'] != null) {
-      for(var item in map['steps'] as List){
-        final step=  Step.fromMap(item);
+      for (var item in map['steps'] as List) {
+        final step = Step.fromMap(item);
         await StepRepository.find.save(step);
         recipe.steps.add(step);
       }

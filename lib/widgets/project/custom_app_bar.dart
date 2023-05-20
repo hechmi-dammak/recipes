@@ -54,6 +54,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                           ? SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
                               child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 mainAxisSize: MainAxisSize.min,
                                 children: secondTitleChildren!,
                               ),

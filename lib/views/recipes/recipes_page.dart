@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mekla/helpers/theme.dart';
+import 'package:mekla/views/recipe_categories/recipe_categories_page.dart';
 import 'package:mekla/views/recipes/recipes_controller.dart';
 import 'package:mekla/views/recipes/widgets/popup_menu_button.dart';
 import 'package:mekla/views/recipes/widgets/recipe_card.dart';
+import 'package:mekla/views/recipes/widgets/recipe_category_expandable_card.dart';
 import 'package:mekla/widgets/common/asset_button.dart';
 import 'package:mekla/widgets/project/custom_app_bar.dart';
 import 'package:mekla/widgets/project/custom_page.dart';
@@ -13,6 +15,8 @@ import 'package:mekla/widgets/project/title_app_bar_button.dart';
 
 class RecipesPage extends CustomPage<RecipesController> {
   static const routeName = '/recipes';
+  static const routeNameCategoriesRecipes =
+      '${RecipeCategoriesPage.routeName}/:id/recipes';
 
   const RecipesPage({Key? key}) : super(key: key, hasSelection: true);
 
@@ -85,15 +89,10 @@ class RecipesPage extends CustomPage<RecipesController> {
       return ListView(
         shrinkWrap: true,
         children: [
-          ...controller.recipesByCategory.entries
-              .map((entry) => GridCards(
-                  multiple: true,
-                  addElement: () =>
-                      controller.addRecipe(categoryId: entry.key),
-                  hideAddElement: controller.selectionIsActive,
-                  children: entry.value
-                      .map((recipe) => RecipeCard(recipe: recipe))
-                      .toList()))
+          ...controller.categories
+              .map((category) => RecipeCategoryExpandableCard(
+                    category: category,
+                  ))
               .toList(),
           GridCards(
             multiple: true,

@@ -1,14 +1,19 @@
 import 'package:isar/isar.dart';
-import 'package:mekla/models/isar_models/picture.dart';
-import 'package:mekla/models/isar_models/recipe_ingredient.dart';
+import 'package:mekla/models/entities/picture.dart';
+import 'package:mekla/models/entities/recipe_ingredient.dart';
+import 'package:mekla/models/interfaces/model_name.dart';
+import 'package:mekla/models/interfaces/model_picture.dart';
 
 part 'ingredient.g.dart';
 
 @collection
-class Ingredient {
+class Ingredient implements ModelName, ModelPicture {
+  @override
   Id? id;
+  @override
   @Index()
   String name;
+  @override
   final IsarLink<Picture> picture;
   @Backlink(to: 'ingredient')
   final IsarLinks<RecipeIngredient> recipeIngredients;

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mekla/service/asset_service.dart';
+import 'package:mekla/helpers/constants.dart';
+import 'package:mekla/services/asset_service.dart';
 
 class DialogBottom extends StatelessWidget {
   const DialogBottom(
@@ -80,9 +81,12 @@ class DialogButton extends StatelessWidget {
           decoration: BoxDecoration(
               color: backgroundColor,
               borderRadius: BorderRadius.only(
-                  bottomLeft: isLeft ? const Radius.circular(6.5) : Radius.zero,
-                  bottomRight:
-                      isRight ? const Radius.circular(6.5) : Radius.zero)),
+                  bottomLeft: isLeft
+                      ? const Radius.circular(Constants.cardBorderRadius)
+                      : Radius.zero,
+                  bottomRight: isRight
+                      ? const Radius.circular(Constants.cardBorderRadius)
+                      : Radius.zero)),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

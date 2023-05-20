@@ -4,23 +4,24 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 import 'package:mekla/helpers/theme.dart';
-import 'package:mekla/repository/ingredient_category_repository.dart';
-import 'package:mekla/repository/ingredient_repository.dart';
-import 'package:mekla/repository/picture_repository.dart';
-import 'package:mekla/repository/recipe_category_repository.dart';
-import 'package:mekla/repository/recipe_ingredient_repository.dart';
-import 'package:mekla/repository/recipe_repository.dart';
-import 'package:mekla/repository/step_repository.dart';
-import 'package:mekla/service/asset_service.dart';
-import 'package:mekla/service/image_operations.dart';
-import 'package:mekla/service/isar_service.dart';
-import 'package:mekla/service/logger_service.dart';
-import 'package:mekla/service/recipe_operations.dart';
-import 'package:mekla/service/utils_service.dart';
+import 'package:mekla/repositories/ingredient_category_repository.dart';
+import 'package:mekla/repositories/ingredient_repository.dart';
+import 'package:mekla/repositories/picture_repository.dart';
+import 'package:mekla/repositories/recipe_category_repository.dart';
+import 'package:mekla/repositories/recipe_ingredient_repository.dart';
+import 'package:mekla/repositories/recipe_repository.dart';
+import 'package:mekla/repositories/step_repository.dart';
+import 'package:mekla/services/asset_service.dart';
+import 'package:mekla/services/image_operations.dart';
+import 'package:mekla/services/isar_service.dart';
+import 'package:mekla/services/logger_service.dart';
+import 'package:mekla/services/recipe_operations.dart';
 import 'package:mekla/views/ingredients/ingredients_controller.dart';
 import 'package:mekla/views/ingredients/ingredients_page.dart';
 import 'package:mekla/views/recipe/recipe_controller/recipe_controller.dart';
 import 'package:mekla/views/recipe/recipe_page.dart';
+import 'package:mekla/views/recipe_categories/recipe_categories_controller.dart';
+import 'package:mekla/views/recipe_categories/recipe_categories_page.dart';
 import 'package:mekla/views/recipes/recipes_controller.dart';
 import 'package:mekla/views/recipes/recipes_page.dart';
 
@@ -68,11 +69,26 @@ class RecipesApp extends StatelessWidget {
             ),
           ),
           GetPage(
+            name: RecipesPage.routeNameCategoriesRecipes,
+            page: () => const RecipesPage(),
+            binding: BindingsBuilder.put(
+              () => RecipesController(
+                  categoryId: int.parse(Get.parameters['id'] ?? '')),
+            ),
+          ),
+          GetPage(
             name: RecipePage.routeName,
             page: () => const RecipePage(),
             binding: BindingsBuilder.put(
               () => RecipeController(
                   recipeId: int.parse(Get.parameters['id'] ?? '')),
+            ),
+          ),
+          GetPage(
+            name: RecipeCategoriesPage.routeName,
+            page: () => const RecipeCategoriesPage(),
+            binding: BindingsBuilder.put(
+              () => RecipeCategoriesController(),
             ),
           ),
           GetPage(
@@ -96,7 +112,6 @@ class InitialBindings implements Bindings {
     Get.put(IngredientRepository());
     Get.put(RecipeIngredientRepository());
     Get.put(RecipeRepository());
-    Get.put(UtilsService());
     Get.put(RecipeCategoryRepository());
     Get.put(IngredientCategoryRepository());
     Get.put(ImageService());

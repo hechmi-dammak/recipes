@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mekla/models/isar_models/picture.dart';
-import 'package:mekla/service/image_operations.dart';
+import 'package:mekla/models/entities/picture.dart';
+import 'package:mekla/services/image_operations.dart';
 import 'package:mekla/widgets/project/upsert_element/models/upsert_from_field.dart';
 
 class PictureUpsertFormFieldController extends GetxController {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mekla/widgets/common/conditional_parent_widget.dart';
 import 'package:mekla/widgets/project/add_element_card.dart';
 
 class GridCards extends StatelessWidget {
@@ -9,34 +10,52 @@ class GridCards extends StatelessWidget {
     required this.addElement,
     required this.hideAddElement,
     this.multiple = false,
+    this.paddingVertical = 20,
+    this.paddingHorizontal = 20,
+    this.crossAxisWidth = 300,
+    this.childAspectRatio = 1,
+    this.useAnimation = true,
   });
 
   final List<Widget> children;
   final VoidCallback addElement;
   final bool hideAddElement;
   final bool multiple;
+  final double paddingVertical;
+  final double paddingHorizontal;
+  final double crossAxisWidth;
+  final double childAspectRatio;
+  final bool useAnimation;
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, _) {
-      return GridView(
-        shrinkWrap: multiple,
-        physics: multiple ? const NeverScrollableScrollPhysics() : null,
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: (Get.width / 300).ceil(),
-            mainAxisSpacing: 10,
-            crossAxisSpacing: 10),
-        children: [
-          ...children,
-          AnimatedOpacity(
-            opacity: hideAddElement ? 0 : 1,
-            duration: const Duration(milliseconds: 250),
-            child: AddElementCard(
-              onTap: addElement,
-            ),
-          ),
-        ],
+      return ConditionalParentWidget(
+        condition: useAnimation,
+        parentBuilder: (BuildContext context, Widget child) {
+          return AnimatedSize(
+            duration: const Duration(milliseconds: 300),
+            child: child,
+          );
+        },
+        child: GridView(
+          shrinkWrap: multiple,
+          physics: multiple ? const NeverScrollableScrollPhysics() : null,
+          padding: EdgeInsets.symmetric(
+              horizontal: paddingHorizontal, vertical: paddingVertical),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              childAspectRatio: childAspectRatio,
+              crossAxisCount: (Get.width / crossAxisWidth).ceil(),
+              mainAxisSpacing: 10,
+              crossAxisSpacing: 10),
+          children: [
+            ...children,
+            if (!hideAddElement)
+              AddElementCard(
+                onTap: addElement,
+              ),
+          ],
+        ),
       );
     });
   }

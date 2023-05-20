@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mekla/service/asset_service.dart';
+import 'package:mekla/services/asset_service.dart';
 
 class BottomNavigationBarButton extends StatelessWidget {
   const BottomNavigationBarButton({

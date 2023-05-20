@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mekla/service/logger_service.dart';
+import 'package:mekla/services/logger_service.dart';
 
 class CustomSnackBar {
   static const Duration _duration = Duration(milliseconds: 4000);

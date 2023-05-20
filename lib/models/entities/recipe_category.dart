@@ -1,14 +1,19 @@
 import 'package:isar/isar.dart';
-import 'package:mekla/models/isar_models/picture.dart';
+import 'package:mekla/models/entities/picture.dart';
+import 'package:mekla/models/interfaces/model_name.dart';
+import 'package:mekla/models/interfaces/model_picture.dart';
 
 part 'recipe_category.g.dart';
 
 @Collection(accessor: 'recipeCategories')
-class RecipeCategory {
+class RecipeCategory implements ModelName, ModelPicture {
+  @override
   Id? id;
+  @override
   @Index()
   String name;
   String? description;
+  @override
   final IsarLink<Picture> picture;
 
   RecipeCategory({

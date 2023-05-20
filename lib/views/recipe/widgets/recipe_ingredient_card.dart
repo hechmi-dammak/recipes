@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mekla/service/asset_service.dart';
+import 'package:mekla/helpers/constants.dart';
+import 'package:mekla/services/asset_service.dart';
 import 'package:mekla/views/recipe/models/recipe_ingredient_pm_recipe.dart';
 import 'package:mekla/views/recipe/recipe_controller/recipe_controller.dart';
 import 'package:mekla/widgets/common/conditional_widget.dart';
@@ -11,9 +12,6 @@ class RecipeIngredientCard extends GetView<RecipeController> {
       : super(key: key);
 
   final RecipeIngredientPMRecipe ingredient;
-
-  static const double borderWidth = 4;
-  static const double borderRadius = 6.5;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +27,7 @@ class RecipeIngredientCard extends GetView<RecipeController> {
         },
         onLongPress: () => controller.selectItem(ingredient),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(borderRadius),
+          borderRadius: BorderRadius.circular(Constants.cardBorderRadius),
           child: Stack(
             children: [
               Opacity(
@@ -40,7 +38,8 @@ class RecipeIngredientCard extends GetView<RecipeController> {
                       width: double.infinity,
                       height: double.infinity,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(borderRadius),
+                        borderRadius:
+                            BorderRadius.circular(Constants.cardBorderRadius),
                         color: Get.theme.colorScheme.primaryContainer,
                       ),
                     ),
@@ -50,7 +49,8 @@ class RecipeIngredientCard extends GetView<RecipeController> {
                           child: Container(
                             margin: const EdgeInsets.all(10),
                             child: ClipRRect(
-                              borderRadius: BorderRadius.circular(borderRadius),
+                              borderRadius: BorderRadius.circular(
+                                  Constants.cardBorderRadius),
                               child: Stack(
                                 children: [
                                   Container(
@@ -126,9 +126,10 @@ class RecipeIngredientCard extends GetView<RecipeController> {
                         width: double.infinity,
                         height: double.infinity,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(borderRadius),
+                          borderRadius:
+                              BorderRadius.circular(Constants.cardBorderRadius),
                           border: Border.all(
-                            width: borderWidth,
+                            width: Constants.selectionBorderWidth,
                             color: Get.theme.colorScheme.primary,
                           ),
                         ),

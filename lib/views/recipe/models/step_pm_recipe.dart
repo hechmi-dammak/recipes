@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart' hide Step;
-import 'package:mekla/models/isar_models/step.dart';
-import 'package:mekla/models/selection_model.dart';
+import 'package:mekla/models/entities/step.dart';
+import 'package:mekla/models/interfaces/selection_model.dart';
 
 class StepPMRecipe extends Step implements SelectionModel {
   @override

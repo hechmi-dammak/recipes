@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mekla/helpers/constants.dart';
 import 'package:mekla/views/recipe/models/recipe_ingredient_pm_recipe.dart';
 import 'package:mekla/views/recipe/models/recipe_pm_recipe.dart';
 import 'package:mekla/views/recipe/widgets/servings_dialog/serving_dialog_controller.dart';
@@ -33,8 +34,9 @@ class ServingsDialog extends CustomDialog<bool> {
                   decoration: BoxDecoration(
                       color: Get.theme.colorScheme.primaryContainer,
                       borderRadius: const BorderRadius.only(
-                          topRight: Radius.circular(6.5),
-                          topLeft: Radius.circular(6.5))),
+                          topRight: Radius.circular(Constants.cardBorderRadius),
+                          topLeft:
+                              Radius.circular(Constants.cardBorderRadius))),
                   padding: const EdgeInsets.all(30),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mekla/helpers/constants.dart';
 
 class FadedScroll extends StatelessWidget {
   const FadedScroll({
@@ -14,7 +15,7 @@ class FadedScroll extends StatelessWidget {
     return Flexible(
       child: ClipRRect(
         borderRadius: const BorderRadius.all(
-          Radius.circular(6.5),
+          Radius.circular(Constants.cardBorderRadius),
         ),
         child: IntrinsicHeight(
           child: Stack(

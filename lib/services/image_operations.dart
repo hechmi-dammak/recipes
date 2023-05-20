@@ -1,8 +1,12 @@
+import 'dart:typed_data';
+
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image/image.dart' as imglib;
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mekla/models/isar_models/picture.dart';
-import 'package:mekla/repository/picture_repository.dart';
+import 'package:mekla/models/entities/picture.dart';
+import 'package:mekla/repositories/picture_repository.dart';
 import 'package:mekla/widgets/common/snack_bar.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -64,5 +68,25 @@ class ImageService extends GetxService {
         await Permission.storage.request();
       }
     }
+  }
+
+  List<ImageProvider> splitImage(Uint8List input) {
+    final imglib.Image? image = imglib.decodeImage(input);
+    if (image == null) return [];
+    final int width = image.width;
+    final int height = image.height;
+    final List<imglib.Image> parts = [];
+    parts.add(imglib.copyCrop(image,
+        x: 0, y: 0, width: width, height: (height * 0.8).round()));
+    parts.add(imglib.copyCrop(image,
+        x: 0,
+        y: (height * 0.8).round(),
+        width: width,
+        height: (height * 0.2).round()));
+    final List<ImageProvider> output = [];
+    for (var img in parts) {
+      output.add(MemoryImage(imglib.encodeJpg(img)));
+    }
+    return output;
   }
 }

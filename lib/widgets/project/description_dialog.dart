@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mekla/helpers/constants.dart';
 import 'package:mekla/widgets/common/custom_dialog.dart';
 
 class DescriptionDialog extends CustomDialog<void> {
@@ -14,7 +15,7 @@ class DescriptionDialog extends CustomDialog<void> {
     return Container(
       decoration: BoxDecoration(
           color: Get.theme.colorScheme.primaryContainer,
-          borderRadius: BorderRadius.circular(6.5)),
+          borderRadius: BorderRadius.circular(Constants.cardBorderRadius)),
       padding: const EdgeInsets.all(30),
       child: Column(
         mainAxisSize: MainAxisSize.min,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mekla/decorator/decorators.dart';
-import 'package:mekla/repository/ingredient_repository.dart';
+import 'package:mekla/repositories/ingredient_repository.dart';
 import 'package:mekla/views/ingredients/models/ingredient_pm_ingredients.dart';
 import 'package:mekla/widgets/common/snack_bar.dart';
 import 'package:mekla/widgets/project/upsert_element/controllers/upsert_ingredient_controller.dart';

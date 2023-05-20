@@ -1,13 +1,15 @@
 import 'package:get/get.dart';
 import 'package:isar/isar.dart';
-import 'package:mekla/models/isar_models/ingredient.dart';
-import 'package:mekla/models/isar_models/ingredient_category.dart';
-import 'package:mekla/models/isar_models/picture.dart';
-import 'package:mekla/models/isar_models/recipe.dart';
-import 'package:mekla/models/isar_models/recipe_category.dart';
-import 'package:mekla/models/isar_models/recipe_ingredient.dart';
-import 'package:mekla/models/isar_models/step.dart';
+import 'package:mekla/models/entities/ingredient.dart';
+import 'package:mekla/models/entities/ingredient_category.dart';
+import 'package:mekla/models/entities/picture.dart';
+import 'package:mekla/models/entities/recipe.dart';
+import 'package:mekla/models/entities/recipe_category.dart';
+import 'package:mekla/models/entities/recipe_ingredient.dart';
+import 'package:mekla/models/entities/step.dart';
 import 'package:path_provider/path_provider.dart';
+
+export 'package:isar/isar.dart';
 
 class IsarService extends GetxService {
   static IsarService get find => Get.find<IsarService>();

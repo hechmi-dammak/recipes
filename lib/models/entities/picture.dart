@@ -1,11 +1,13 @@
 import 'dart:typed_data';
 
 import 'package:isar/isar.dart';
+import 'package:mekla/models/interfaces/model_id.dart';
 
 part 'picture.g.dart';
 
 @collection
-class Picture {
+class Picture implements ModelId {
+  @override
   Id? id;
   Uint8List image;
 

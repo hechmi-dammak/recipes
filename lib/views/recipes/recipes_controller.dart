@@ -1,13 +1,14 @@
-import 'dart:collection';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mekla/decorator/decorators.dart';
 import 'package:mekla/helpers/getx_extension.dart';
-import 'package:mekla/repository/recipe_repository.dart';
-import 'package:mekla/service/recipe_operations.dart';
+import 'package:mekla/models/interfaces/model_name.dart';
+import 'package:mekla/repositories/recipe_repository.dart';
+import 'package:mekla/services/recipe_operations.dart';
 import 'package:mekla/views/ingredients/ingredients_page.dart';
 import 'package:mekla/views/recipe/recipe_page.dart';
+import 'package:mekla/views/recipe_categories/recipe_categories_page.dart';
+import 'package:mekla/views/recipes/models/recipe_category_pm_recipes.dart';
 import 'package:mekla/views/recipes/models/recipe_pm_recipes.dart';
 import 'package:mekla/widgets/common/snack_bar.dart';
 import 'package:mekla/widgets/project/upsert_element/controllers/upsert_recipe_controller.dart';
@@ -15,14 +16,14 @@ import 'package:mekla/widgets/project/upsert_element/upsert_element_dialog.dart'
 
 class RecipesController extends BaseController
     with LoadingDecorator, DataFetchingDecorator, SelectionDecorator {
-  RecipesController();
-
-  bool categorize = false;
+  RecipesController({this.categoryId});
 
   static RecipesController get find => Get.find<RecipesController>();
   List<RecipePMRecipes> recipes = [];
-  Map<int, List<RecipePMRecipes>> recipesByCategory = {};
   List<RecipePMRecipes> recipesWithoutCategory = [];
+  List<RecipeCategoryPMRecipes> categories = [];
+  final int? categoryId;
+  bool categorize = false;
 
   @override
   Future<void> loadData() async {
@@ -53,47 +54,50 @@ class RecipesController extends BaseController
   }
 
   Future<void> fetchRecipes() async {
-    recipes = (await RecipeRepository.find.findAll())
-        .map((recipe) => RecipePMRecipes(recipe: recipe))
-        .toList();
-
+    if (categoryId == null) {
+      recipes = (await RecipeRepository.find.findAll())
+          .map((recipe) => RecipePMRecipes(recipe: recipe))
+          .toList();
+    } else {
+      recipes =
+          (await RecipeRepository.find.findAllByRecipeCategoryId(categoryId))
+              .map((recipe) => RecipePMRecipes(recipe: recipe))
+              .toList();
+    }
     for (RecipePMRecipes recipe in recipes) {
       if (recipe.image != null) {
-        precacheImage(recipe.image!, Get.context!);
+        await precacheImage(recipe.image!, Get.context!);
       }
     }
-    recipes.sort((a, b) {
-      return a.name.compareTo(b.name);
-    });
-    _initRecipesByCategory();
+    recipes.sort(ModelName.nameComparator);
+    await _initCategories();
   }
 
-  void _initRecipesByCategory() {
-    recipesByCategory = {};
+  Future<void> _initCategories() async {
+    final Map<int, List<RecipePMRecipes>> recipesByCategoryMap = {};
     recipesWithoutCategory = [];
     for (var recipe in recipes) {
       if (recipe.category.value == null) {
         recipesWithoutCategory.add(recipe);
       } else {
-        recipesByCategory.update(recipe.category.value!.id!, (value) {
+        recipesByCategoryMap.update(recipe.category.value!.id!, (value) {
           value.add(recipe);
           return value;
         }, ifAbsent: () => List.from([recipe]));
       }
     }
-    recipesByCategory = SplayTreeMap.from(
-        recipesByCategory,
-        (int recipeCategory1, int recipeCategory2) =>
-            recipesByCategory[recipeCategory1]!
-                .first
-                .category
-                .value!
-                .name
-                .compareTo(recipesByCategory[recipeCategory2]!
-                    .first
-                    .category
-                    .value!
-                    .name));
+    categories = recipesByCategoryMap.entries
+        .map((e) => RecipeCategoryPMRecipes(
+            recipeCategory: e.value.first.category.value!, recipes: e.value))
+        .toList();
+    categories.sort(ModelName.nameComparator);
+    for (RecipeCategoryPMRecipes category in categories) {
+      if (category.image != null) {
+        for (ImageProvider image in category.image!) {
+          await precacheImage(image, Get.context!);
+        }
+      }
+    }
   }
 
   void goToRecipe(RecipePMRecipes recipe) {
@@ -147,34 +151,38 @@ class RecipesController extends BaseController
     switch (item) {
       case 0:
         RecipeOperations.find.importFromFile(
-            onStart: () async {
-              loading = true;
-            },
-            onFailure: () async {
-              loading = false;
-            },
-            onFinish: () async {
-              loading = false;
-            },
-            onSuccess: fetchData);
+          onStart: () async {
+            loading = true;
+          },
+          onFailure: () async {
+            loading = false;
+          },
+          onFinish: () async {
+            loading = false;
+          },
+        );
         break;
       case 1:
         RecipeOperations.find.importFromLibrary(
-            onStart: () async {
-              loading = true;
-            },
-            onFailure: () async {
-              loading = false;
-            },
-            onFinish: () async {
-              loading = false;
-            },
-            onSuccess: fetchData);
+          onStart: () async {
+            loading = true;
+          },
+          onFailure: () async {
+            loading = false;
+          },
+          onFinish: () async {
+            loading = false;
+          },
+        );
         break;
       case 2:
-        Get.toNamed(IngredientsPage.routeName);
+        await Get.toNamed(IngredientsPage.routeName);
+        break;
+      case 3:
+        await Get.toNamed(RecipeCategoriesPage.routeName);
         break;
     }
+    await fetchData();
   }
 
   void toggleCategorize() {

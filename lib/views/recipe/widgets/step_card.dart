@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mekla/helpers/constants.dart';
 import 'package:mekla/views/recipe/models/step_pm_recipe.dart';
 import 'package:mekla/views/recipe/recipe_controller/recipe_controller.dart';
 import 'package:mekla/widgets/common/conditional_widget.dart';
@@ -7,8 +8,6 @@ import 'package:mekla/widgets/common/conditional_widget.dart';
 class StepCard extends StatelessWidget {
   const StepCard({Key? key, required this.step}) : super(key: key);
   final StepPMRecipe step;
-  static const double borderWidth = 4;
-  static const double borderRadius = 6.5;
 
   @override
   Widget build(BuildContext context) {
@@ -27,11 +26,11 @@ class StepCard extends StatelessWidget {
           onLongPress: () => controller.selectItem(step),
           child: Container(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(borderRadius),
+              borderRadius: BorderRadius.circular(Constants.cardBorderRadius),
               color: Get.theme.colorScheme.primaryContainer,
             ),
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(borderRadius),
+              borderRadius: BorderRadius.circular(Constants.cardBorderRadius),
               child: IntrinsicHeight(
                 child: Stack(
                   children: [
@@ -81,9 +80,10 @@ class StepCard extends StatelessWidget {
                         decoration: BoxDecoration(
                           color:
                               Get.theme.colorScheme.tertiary.withOpacity(0.3),
-                          borderRadius: BorderRadius.circular(borderRadius),
+                          borderRadius:
+                              BorderRadius.circular(Constants.cardBorderRadius),
                           border: Border.all(
-                            width: borderWidth,
+                            width: Constants.selectionBorderWidth,
                             color: Get.theme.colorScheme.tertiary,
                           ),
                         ),
@@ -93,9 +93,10 @@ class StepCard extends StatelessWidget {
                       condition: step.selected,
                       child: (context) => Container(
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(borderRadius),
+                          borderRadius:
+                              BorderRadius.circular(Constants.cardBorderRadius),
                           border: Border.all(
-                            width: borderWidth,
+                            width: Constants.selectionBorderWidth,
                             color: Get.theme.colorScheme.primary,
                           ),
                         ),

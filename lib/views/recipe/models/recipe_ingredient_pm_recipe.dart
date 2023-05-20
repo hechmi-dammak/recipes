@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mekla/models/isar_models/recipe_ingredient.dart';
-import 'package:mekla/models/selection_model.dart';
+import 'package:mekla/models/entities/recipe_ingredient.dart';
+import 'package:mekla/models/interfaces/selection_model.dart';
 
 class RecipeIngredientPMRecipe extends RecipeIngredient
     implements SelectionModel {

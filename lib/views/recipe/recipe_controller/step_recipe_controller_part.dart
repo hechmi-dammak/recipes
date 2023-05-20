@@ -24,8 +24,6 @@ extension StepRecipeController on RecipeController {
     if (created ?? false) await fetchData();
   }
 
-
-
   void useStep(StepPMRecipe step) {
     step.used = !step.used;
     updateSelection();

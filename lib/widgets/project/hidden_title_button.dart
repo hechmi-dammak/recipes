@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mekla/widgets/common/custom_animated_size.dart';
 
 class HiddenTitleButton extends StatelessWidget {
   const HiddenTitleButton({
@@ -12,17 +13,11 @@ class HiddenTitleButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedSize(
+    return CustomAnimatedSize(
+      axis: Axis.horizontal,
+      hide: hidden,
       duration: const Duration(milliseconds: 200),
-      child: Container(
-        constraints: hidden
-            ? const BoxConstraints(maxWidth: 0.0, maxHeight: 0.0)
-            : const BoxConstraints(),
-        child: AnimatedScale(
-            duration: const Duration(milliseconds: 200),
-            scale: hidden ? 0 : 1,
-            child: child),
-      ),
+      child: child,
     );
   }
 }

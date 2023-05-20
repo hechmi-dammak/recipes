@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mekla/helpers/constants.dart';
 import 'package:mekla/widgets/common/conditional_widget.dart';
 import 'package:mekla/widgets/common/custom_dialog.dart';
 import 'package:mekla/widgets/common/loading_widget.dart';
@@ -26,7 +27,7 @@ class UpsertElementDialog<T extends UpsertElementController>
               decoration: BoxDecoration(
                   color: Get.theme.colorScheme.primaryContainer,
                   borderRadius: const BorderRadius.all(
-                    Radius.circular(6.5),
+                    Radius.circular(Constants.cardBorderRadius),
                   )),
               child: Column(
                 mainAxisSize: MainAxisSize.min,

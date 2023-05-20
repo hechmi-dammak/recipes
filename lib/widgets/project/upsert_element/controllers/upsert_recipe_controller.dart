@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
 import 'package:mekla/helpers/form_validators.dart';
-import 'package:mekla/models/isar_models/recipe.dart';
-import 'package:mekla/repository/recipe_category_repository.dart';
-import 'package:mekla/repository/recipe_repository.dart';
+import 'package:mekla/models/entities/recipe.dart';
+import 'package:mekla/repositories/recipe_category_repository.dart';
+import 'package:mekla/repositories/recipe_repository.dart';
 import 'package:mekla/widgets/project/upsert_element/controllers/upsert_element_controller.dart';
 import 'package:mekla/widgets/project/upsert_element/models/servings_upsert_form_field.dart';
 import 'package:mekla/widgets/project/upsert_element/models/upsert_from_field.dart';

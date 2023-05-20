@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mekla/decorator/decorators.dart';
-import 'package:mekla/repository/recipe_ingredient_repository.dart';
-import 'package:mekla/repository/recipe_repository.dart';
-import 'package:mekla/repository/step_repository.dart';
+import 'package:mekla/helpers/constants.dart';
+import 'package:mekla/repositories/recipe_ingredient_repository.dart';
+import 'package:mekla/repositories/recipe_repository.dart';
+import 'package:mekla/repositories/step_repository.dart';
 import 'package:mekla/views/recipe/models/recipe_ingredient_pm_recipe.dart';
 import 'package:mekla/views/recipe/models/recipe_pm_recipe.dart';
 import 'package:mekla/views/recipe/models/step_pm_recipe.dart';
@@ -14,7 +15,6 @@ import 'package:mekla/widgets/project/upsert_element/controllers/upsert_step_con
 import 'package:mekla/widgets/project/upsert_element/upsert_element_dialog.dart';
 
 part 'ingredient_recipe_controller_part.dart';
-
 part 'step_recipe_controller_part.dart';
 
 class RecipeController extends BaseController
@@ -38,7 +38,7 @@ class RecipeController extends BaseController
 
   final int recipeId;
   RecipePMRecipe? recipe;
-  int servings = 4;
+  int servings = Constants.defaultServings;
   bool _servingsIsSet = false;
   late TabController tabController;
 

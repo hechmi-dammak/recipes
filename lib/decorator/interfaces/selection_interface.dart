@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:mekla/models/selection_model.dart';
+import 'package:mekla/models/interfaces/selection_model.dart';
 
 abstract class SelectionInterface {
   bool get selectionIsActive;

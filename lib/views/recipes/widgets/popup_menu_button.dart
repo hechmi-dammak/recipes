@@ -76,6 +76,24 @@ class PopUpMenuButton extends GetView<RecipesController> {
                           ?.copyWith(color: Get.theme.colorScheme.secondary)),
                 ],
               ),
+            ),
+            PopupMenuItem<int>(
+              value: 3,
+              child: Row(
+                children: [
+                  AssetButton(
+                    center: true,
+                    icon: 'category_icon',
+                    color: Get.theme.colorScheme.secondary,
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Text('Recipe Categories',
+                      style: Get.textTheme.bodyLarge
+                          ?.copyWith(color: Get.theme.colorScheme.secondary)),
+                ],
+              ),
             )
           ];
         },

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mekla/helpers/constants.dart';
 import 'package:mekla/widgets/common/asset_button.dart';
 import 'package:mekla/widgets/project/servings_icon.dart';
 
@@ -26,8 +27,8 @@ class ServingsEditingButton extends StatelessWidget {
                 strokeAlign: BorderSide.strokeAlignCenter,
                 color: Get.theme.colorScheme.secondary),
             borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(6.5),
-              bottomLeft: Radius.circular(6.5),
+              topLeft: Radius.circular(Constants.cardBorderRadius),
+              bottomLeft: Radius.circular(Constants.cardBorderRadius),
             ),
           ),
           child: SizedBox(
@@ -58,8 +59,8 @@ class ServingsEditingButton extends StatelessWidget {
                 strokeAlign: BorderSide.strokeAlignCenter,
                 color: Get.theme.colorScheme.secondary),
             borderRadius: const BorderRadius.only(
-              topRight: Radius.circular(6.5),
-              bottomRight: Radius.circular(6.5),
+              topRight: Radius.circular(Constants.cardBorderRadius),
+              bottomRight: Radius.circular(Constants.cardBorderRadius),
             ),
           ),
           child: SizedBox(
