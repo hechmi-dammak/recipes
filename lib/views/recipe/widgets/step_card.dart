@@ -22,7 +22,7 @@ class StepCard extends StatelessWidget {
               controller.selectItem(step);
               return;
             }
-            controller.useStep(step);
+            controller.useItem(step);
           },
           onLongPress: () => controller.selectItem(step),
           child: Container(

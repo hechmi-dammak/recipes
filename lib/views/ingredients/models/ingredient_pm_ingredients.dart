@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:mekla/models/entities/ingredient.dart';
-import 'package:mekla/models/interfaces/selection_model.dart';
+import 'package:mekla/models/interfaces/model_image.dart';
+import 'package:mekla/models/interfaces/model_selected.dart';
 
-class IngredientPMIngredients extends Ingredient implements SelectionModel {
+class IngredientPMIngredients extends Ingredient
+    implements ModelSelected, ModelImage {
   @override
   bool selected;
+  @override
   final ImageProvider? image;
 
   IngredientPMIngredients(

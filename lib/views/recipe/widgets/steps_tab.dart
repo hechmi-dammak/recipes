@@ -25,7 +25,7 @@ class StepsTab extends GetView<RecipeController> {
               if (!controller.selectionIsActive)
                 LayoutBuilder(builder: (context, _) {
                   return AddElementCard(
-                    onTap: controller.addStep,
+                    onTap: controller.add,
                     height: Get.height * 0.2,
                   );
                 }),

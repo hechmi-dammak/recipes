@@ -18,8 +18,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
 
-class RecipeOperations extends GetxService {
-  static RecipeOperations get find => Get.find<RecipeOperations>();
+class SharingService extends GetxService {
+  static SharingService get find => Get.find<SharingService>();
 
   Future<void> init() async {
     await initDeepLinks();

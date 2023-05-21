@@ -20,84 +20,68 @@ class PopUpMenuButton extends GetView<RecipesController> {
         onSelected: (item) => controller.selectedItemMenu(item),
         itemBuilder: (BuildContext context) {
           return [
-            PopupMenuItem<int>(
+            CustomPopupMenuItem(
+              icon: Icons.upload_file_rounded,
               value: 0,
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.upload_file_rounded,
-                    size: 20,
-                    color: Get.theme.colorScheme.secondary,
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    'Import From File',
-                    style: Get.textTheme.bodyLarge
-                        ?.copyWith(color: Get.theme.colorScheme.secondary),
-                  ),
-                ],
-              ),
+              title: 'Import From File'.tr,
             ),
-            if (controller.recipes.isEmpty)
-              PopupMenuItem<int>(
+            if (controller.items.isEmpty)
+              CustomPopupMenuItem(
+                icon: Icons.download,
                 value: 1,
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.download,
-                      size: 20,
-                      color: Get.theme.colorScheme.secondary,
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Text('Import from library',
-                        style: Get.textTheme.bodyLarge
-                            ?.copyWith(color: Get.theme.colorScheme.secondary)),
-                  ],
-                ),
+                title: 'Import from library'.tr,
               ),
-            PopupMenuItem<int>(
+            CustomPopupMenuItem(
+              assetIcon: 'scale_icon',
               value: 2,
-              child: Row(
-                children: [
-                  AssetButton(
-                    center: true,
-                    icon: 'scale_icon',
-                    color: Get.theme.colorScheme.secondary,
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Text('Ingredients',
-                      style: Get.textTheme.bodyLarge
-                          ?.copyWith(color: Get.theme.colorScheme.secondary)),
-                ],
-              ),
+              title: 'Ingredients'.tr,
             ),
-            PopupMenuItem<int>(
+            CustomPopupMenuItem(
+              assetIcon: 'category_icon',
               value: 3,
-              child: Row(
-                children: [
-                  AssetButton(
-                    center: true,
-                    icon: 'category_icon',
-                    color: Get.theme.colorScheme.secondary,
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Text('Recipe Categories',
-                      style: Get.textTheme.bodyLarge
-                          ?.copyWith(color: Get.theme.colorScheme.secondary)),
-                ],
-              ),
-            )
+              title: 'Recipe Categories'.tr,
+            ),
+            CustomPopupMenuItem(
+              assetIcon: 'category_icon',
+              value: 4,
+              title: 'Ingredient Categories'.tr,
+            ),
           ];
         },
       );
     });
   }
+}
+
+class CustomPopupMenuItem extends PopupMenuItem<int> {
+  CustomPopupMenuItem(
+      {super.key,
+      String? assetIcon,
+      IconData? icon,
+      required int value,
+      required String title})
+      : super(
+            value: value,
+            child: Row(
+              children: [
+                if (assetIcon != null)
+                  AssetButton(
+                    center: true,
+                    icon: assetIcon,
+                    color: Get.theme.colorScheme.secondary,
+                  ),
+                if (icon != null)
+                  Icon(
+                    icon,
+                    size: 20,
+                    color: Get.theme.colorScheme.secondary,
+                  ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Text(title,
+                    style: Get.textTheme.bodyLarge
+                        ?.copyWith(color: Get.theme.colorScheme.secondary)),
+              ],
+            ));
 }

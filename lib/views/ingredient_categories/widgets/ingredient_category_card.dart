@@ -1,24 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mekla/helpers/constants.dart';
-import 'package:mekla/views/recipe_categories/models/recipe_category_pm_recipe_categories.dart';
-import 'package:mekla/views/recipe_categories/recipe_categories_controller.dart';
+import 'package:mekla/views/ingredient_categories/ingredient_categories_controller.dart';
+import 'package:mekla/views/ingredient_categories/models/ingredient_category_pm_ingredient_categories.dart';
 import 'package:mekla/widgets/project/category_title.dart';
 import 'package:mekla/widgets/project/conditional_image.dart';
-import 'package:mekla/widgets/project/info_button.dart';
 import 'package:mekla/widgets/project/selected_border.dart';
 
-class RecipeCategoryCard extends GetView<RecipeCategoriesController> {
-  const RecipeCategoryCard({Key? key, required this.recipeCategory})
+class IngredientCategoryCard extends GetView<IngredientCategoriesController> {
+  const IngredientCategoryCard({Key? key, required this.ingredientCategory})
       : super(key: key);
-  final RecipeCategoryPMRecipeCategories recipeCategory;
+  final IngredientCategoryPMIngredientCategories ingredientCategory;
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<RecipeCategoriesController>(builder: (controller) {
+    return GetBuilder<IngredientCategoriesController>(builder: (controller) {
       return GestureDetector(
         behavior: HitTestBehavior.opaque,
-        onTap: () => controller.selectItem(recipeCategory),
+        onTap: () => controller.selectItem(ingredientCategory),
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(Constants.cardBorderRadius),
@@ -28,14 +27,10 @@ class RecipeCategoryCard extends GetView<RecipeCategoriesController> {
             borderRadius: BorderRadius.circular(Constants.cardBorderRadius),
             child: Stack(
               children: [
-                ConditionalImage(image: recipeCategory.image),
-                CategoryTitle(name: recipeCategory.name),
+                ConditionalImage(image: ingredientCategory.image),
+                CategoryTitle(name: ingredientCategory.name),
                 SelectedBorder(
-                  selected: recipeCategory.selected,
-                ),
-                InfoButton(
-                  name: recipeCategory.name,
-                  description: recipeCategory.description,
+                  selected: ingredientCategory.selected,
                 ),
               ],
             ),

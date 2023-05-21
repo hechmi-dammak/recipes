@@ -25,7 +25,7 @@ class RecipeIngredientCard extends GetView<RecipeController> {
             controller.selectItem(ingredient);
             return;
           }
-          controller.useIngredient(ingredient);
+          controller.useItem(ingredient);
         },
         onLongPress: () => controller.selectItem(ingredient),
         child: ClipRRect(

@@ -1,5 +1,5 @@
 import 'package:mekla/decorator/controller.dart';
-import 'package:mekla/models/interfaces/selection_model.dart';
+import 'package:mekla/models/interfaces/model_selected.dart';
 
 mixin SelectionDecorator on Controller {
   bool _selectionIsActive = false;
@@ -40,7 +40,7 @@ mixin SelectionDecorator on Controller {
   }
 
   @override
-  void selectItem(SelectionModel item) {
+  void selectItem(ModelSelected item) {
     item.selected = !item.selected;
     updateSelection();
   }

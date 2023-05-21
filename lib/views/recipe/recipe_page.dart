@@ -82,9 +82,7 @@ class RecipePage extends CustomPage<RecipeController> {
         HiddenTitleButton(
             hidden: controller.selectionCount != 1,
             child: TitleAppBarButton(
-                title: 'Edit'.tr,
-                icon: 'edit_icon',
-                onTap: controller.editItem))
+                title: 'Edit'.tr, icon: 'edit_icon', onTap: controller.edit))
       ],
     );
   }

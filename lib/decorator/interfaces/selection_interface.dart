@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:mekla/models/interfaces/selection_model.dart';
+import 'package:mekla/models/interfaces/model_selected.dart';
 
 abstract class SelectionInterface {
   bool get selectionIsActive;
@@ -21,7 +21,7 @@ abstract class SelectionInterface {
 
   void updateSelection();
 
-  void selectItem(SelectionModel item);
+  void selectItem(ModelSelected item);
 
   int get selectionCount;
 }

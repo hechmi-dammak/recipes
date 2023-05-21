@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:mekla/models/entities/recipe_category.dart';
-import 'package:mekla/models/interfaces/selection_model.dart';
+import 'package:mekla/models/interfaces/model_image.dart';
+import 'package:mekla/models/interfaces/model_selected.dart';
 
 class RecipeCategoryPMRecipeCategories extends RecipeCategory
-    implements SelectionModel {
+    implements ModelSelected, ModelImage {
   @override
   bool selected;
+  @override
   final ImageProvider? image;
 
   RecipeCategoryPMRecipeCategories(

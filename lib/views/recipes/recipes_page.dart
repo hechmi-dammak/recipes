@@ -59,14 +59,14 @@ class RecipesPage extends CustomPage<RecipesController> {
             hideTitle: controller.selectionCount == 1,
             title: 'Delete'.tr,
             icon: 'trash_icon',
-            onTap: controller.deleteSelectedRecipes),
+            onTap: controller.deleteSelectedItems),
         HiddenTitleButton(
             hidden: controller.selectionCount != 1,
             child: TitleAppBarButton(
                 hideTitle: controller.selectionCount == 1,
                 title: 'Edit'.tr,
                 icon: 'edit_icon',
-                onTap: controller.editRecipe)),
+                onTap: controller.edit)),
         TitleAppBarButton(
           hideTitle: controller.selectionCount == 1,
           title: 'Share'.tr,
@@ -96,7 +96,7 @@ class RecipesPage extends CustomPage<RecipesController> {
               .toList(),
           GridCards(
             multiple: true,
-            addElement: controller.addRecipe,
+            addElement: controller.add,
             hideAddElement: controller.selectionIsActive,
             children: controller.recipesWithoutCategory
                 .map((recipe) => RecipeCard(recipe: recipe))
@@ -106,11 +106,10 @@ class RecipesPage extends CustomPage<RecipesController> {
       );
     }
     return GridCards(
-      addElement: controller.addRecipe,
+      addElement: controller.add,
       hideAddElement: controller.selectionIsActive,
-      children: controller.recipes
-          .map((recipe) => RecipeCard(recipe: recipe))
-          .toList(),
+      children:
+          controller.items.map((recipe) => RecipeCard(recipe: recipe)).toList(),
     );
   }
 }

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mekla/decorator/decorators.dart';
+import 'package:mekla/decorator/decorators/used_decorator.dart';
 import 'package:mekla/helpers/constants.dart';
 import 'package:mekla/repositories/recipe_ingredient_repository.dart';
 import 'package:mekla/repositories/recipe_repository.dart';
 import 'package:mekla/repositories/step_repository.dart';
+import 'package:mekla/services/image_service.dart';
 import 'package:mekla/views/recipe/models/recipe_ingredient_pm_recipe.dart';
 import 'package:mekla/views/recipe/models/recipe_pm_recipe.dart';
 import 'package:mekla/views/recipe/models/step_pm_recipe.dart';
@@ -22,7 +24,8 @@ class RecipeController extends BaseController
         LoadingDecorator,
         DataFetchingDecorator,
         SelectionDecorator,
-        GetSingleTickerProviderStateMixin {
+        GetSingleTickerProviderStateMixin,
+        UsedDecorator {
   RecipeController({required this.recipeId});
 
   static RecipeController get find => Get.find<RecipeController>();
@@ -90,10 +93,10 @@ class RecipeController extends BaseController
   @override
   int get selectionCount {
     if (tabController.index == 0) {
-      return getSelectedIngredients().length;
+      return _ingredientSelectionCount;
     }
     if (tabController.index == 1) {
-      return getSelectedSteps().length;
+      return _stepSelectionCount;
     }
     return 0;
   }
@@ -103,16 +106,10 @@ class RecipeController extends BaseController
 
     if (recipeModel == null) return;
     recipe = RecipePMRecipe(recipe: recipeModel);
-    for (RecipeIngredientPMRecipe ingredient in recipe!.ingredientList) {
-      if (ingredient.image != null) {
-        await precacheImage(ingredient.image!, Get.context!);
-      }
-    }
-    for (StepPMRecipe step in recipe!.stepList) {
-      if (step.image != null) {
-        await precacheImage(step.image!, Get.context!);
-      }
-    }
+
+    ImageService.find.cacheImages(recipe!.stepList);
+    ImageService.find.cacheImages(recipe!.ingredientList);
+
     if (!_servingsIsSet) {
       _servingsIsSet = true;
       servings = recipe!.servings;
@@ -130,22 +127,31 @@ class RecipeController extends BaseController
     update();
   }
 
-  void editItem() {
+  Future<void> edit() async {
     if (tabController.index == 0) {
-      editIngredient();
+      await _editIngredient();
     }
     if (tabController.index == 1) {
-      editStep();
+      await _editStep();
+    }
+  }
+
+  Future<void> add() async {
+    if (tabController.index == 0) {
+      await _addIngredient();
+    }
+    if (tabController.index == 1) {
+      await _addStep();
     }
   }
 
   Future<void> deleteSelectedItems() async {
     loading = true;
     if (tabController.index == 0) {
-      await deleteSelectedIngredients();
+      await _deleteSelectedIngredients();
     }
     if (tabController.index == 1) {
-      await deleteSelectedSteps();
+      await _deleteSelectedSteps();
     }
     await fetchData();
     CustomSnackBar.success('Selected Items were deleted.'.tr);

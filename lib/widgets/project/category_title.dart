@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class RecipeCategoryTitle extends StatelessWidget {
-  const RecipeCategoryTitle({Key? key, required this.name, this.splitRatio = 1})
+class CategoryTitle extends StatelessWidget {
+  const CategoryTitle({Key? key, required this.name, this.splitRatio = 1})
       : super(key: key);
   final String name;
   final double splitRatio;

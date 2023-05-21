@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:mekla/models/entities/recipe_category.dart';
-import 'package:mekla/models/interfaces/selection_model.dart';
-import 'package:mekla/services/image_operations.dart';
+import 'package:mekla/models/interfaces/model_images.dart';
+import 'package:mekla/models/interfaces/model_selected.dart';
+import 'package:mekla/services/image_service.dart';
 import 'package:mekla/views/recipes/models/recipe_pm_recipes.dart';
 
-class RecipeCategoryPMRecipes extends RecipeCategory implements SelectionModel {
+class RecipeCategoryPMRecipes extends RecipeCategory
+    implements ModelSelected, ModelImages {
   @override
   bool selected;
-  final List<ImageProvider>? image;
+  @override
+  final List<ImageProvider>? images;
   List<RecipePMRecipes> recipes;
 
   RecipeCategoryPMRecipes(
@@ -15,7 +18,7 @@ class RecipeCategoryPMRecipes extends RecipeCategory implements SelectionModel {
       required RecipeCategory recipeCategory,
       List<RecipePMRecipes>? recipes})
       : recipes = recipes ?? [],
-        image = recipeCategory.picture.value == null
+        images = recipeCategory.picture.value == null
             ? null
             : ImageService.find.splitImage(recipeCategory.picture.value!.image),
         super.fromCopy(recipeCategory);

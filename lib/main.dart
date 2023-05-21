@@ -12,10 +12,12 @@ import 'package:mekla/repositories/recipe_ingredient_repository.dart';
 import 'package:mekla/repositories/recipe_repository.dart';
 import 'package:mekla/repositories/step_repository.dart';
 import 'package:mekla/services/asset_service.dart';
-import 'package:mekla/services/image_operations.dart';
+import 'package:mekla/services/image_service.dart';
 import 'package:mekla/services/isar_service.dart';
 import 'package:mekla/services/logger_service.dart';
-import 'package:mekla/services/recipe_operations.dart';
+import 'package:mekla/services/sharing_service.dart';
+import 'package:mekla/views/ingredient_categories/ingredient_categories_controller.dart';
+import 'package:mekla/views/ingredient_categories/ingredient_categories_page.dart';
 import 'package:mekla/views/ingredients/ingredients_controller.dart';
 import 'package:mekla/views/ingredients/ingredients_page.dart';
 import 'package:mekla/views/recipe/recipe_controller/recipe_controller.dart';
@@ -38,10 +40,10 @@ Future<void> dependencies() async {
   Get.put(LoggerService());
   Get.put(IsarService());
   Get.put(AssetService());
-  Get.put(RecipeOperations());
+  Get.put(SharingService());
   await LoggerService.find.init();
   await IsarService.find.init();
-  await RecipeOperations.find.init();
+  await SharingService.find.init();
 }
 
 class RecipesApp extends StatelessWidget {
@@ -96,6 +98,13 @@ class RecipesApp extends StatelessWidget {
             page: () => const IngredientsPage(),
             binding: BindingsBuilder.put(
               () => IngredientsController(),
+            ),
+          ),
+          GetPage(
+            name: IngredientCategoriesPage.routeName,
+            page: () => const IngredientCategoriesPage(),
+            binding: BindingsBuilder.put(
+              () => IngredientCategoriesController(),
             ),
           ),
         ],

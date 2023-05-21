@@ -41,13 +41,13 @@ class IngredientsPage extends CustomPage<IngredientsController> {
                 isStart: true,
                 title: 'Delete'.tr,
                 icon: 'trash_icon',
-                onTap: controller.deleteSelectedIngredients),
+                onTap: controller.deleteSelectedItems),
             HiddenTitleButton(
                 hidden: controller.selectionCount != 1,
                 child: TitleAppBarButton(
                     title: 'Edit'.tr,
                     icon: 'edit_icon',
-                    onTap: controller.editIngredient)),
+                    onTap: controller.edit)),
           ],
         ),
       ),
@@ -58,8 +58,8 @@ class IngredientsPage extends CustomPage<IngredientsController> {
   Widget bodyBuilder(IngredientsController controller, BuildContext context) {
     return GridCards(
       hideAddElement: controller.selectionIsActive,
-      addElement: controller.addIngredient,
-      children: controller.ingredients
+      addElement: controller.add,
+      children: controller.items
           .map((ingredient) => IngredientCard(ingredient: ingredient))
           .toList(),
     );

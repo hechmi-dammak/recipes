@@ -6,6 +6,8 @@ import 'package:image/image.dart' as imglib;
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mekla/models/entities/picture.dart';
+import 'package:mekla/models/interfaces/model_image.dart';
+import 'package:mekla/models/interfaces/model_images.dart';
 import 'package:mekla/repositories/picture_repository.dart';
 import 'package:mekla/widgets/common/snack_bar.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -88,5 +90,23 @@ class ImageService extends GetxService {
       output.add(MemoryImage(imglib.encodeJpg(img)));
     }
     return output;
+  }
+
+  Future<void> cacheImages<T extends ModelImage>(List<T> items) async {
+    for (T item in items) {
+      if (item.image != null) {
+        await precacheImage(item.image!, Get.context!);
+      }
+    }
+  }
+
+  Future<void> cacheMultiImages<T extends ModelImages>(List<T> items) async {
+    for (T item in items) {
+      if (item.images != null) {
+        for (ImageProvider image in item.images!) {
+          await precacheImage(image, Get.context!);
+        }
+      }
+    }
   }
 }

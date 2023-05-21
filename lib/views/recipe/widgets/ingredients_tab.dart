@@ -13,7 +13,7 @@ class IngredientsTab extends GetView<RecipeController> {
         onRefresh: controller.fetchData,
         child: GetBuilder<RecipeController>(builder: (controller) {
           return GridCards(
-              addElement: controller.addIngredient,
+              addElement: controller.add,
               hideAddElement: controller.selectionIsActive,
               children: controller.recipe!.ingredientList
                   .map((ingredient) => RecipeIngredientCard(

@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart' hide Step;
 import 'package:mekla/models/entities/step.dart';
-import 'package:mekla/models/interfaces/selection_model.dart';
+import 'package:mekla/models/interfaces/model_image.dart';
+import 'package:mekla/models/interfaces/model_selected.dart';
+import 'package:mekla/models/interfaces/model_used.dart';
 
-class StepPMRecipe extends Step implements SelectionModel {
+class StepPMRecipe extends Step
+    implements ModelSelected, ModelImage, ModelUsed {
   @override
   bool selected;
+  @override
   bool used;
   int order;
+  @override
   final ImageProvider? image;
 
   StepPMRecipe(

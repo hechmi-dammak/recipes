@@ -7,9 +7,9 @@ import 'package:mekla/views/recipes/recipes_controller.dart';
 import 'package:mekla/views/recipes/widgets/recipe_card.dart';
 import 'package:mekla/widgets/common/conditional_widget.dart';
 import 'package:mekla/widgets/common/custom_animated_size.dart';
+import 'package:mekla/widgets/project/category_title.dart';
 import 'package:mekla/widgets/project/grid_cards.dart';
 import 'package:mekla/widgets/project/info_button.dart';
-import 'package:mekla/widgets/project/recipe_category_title.dart';
 
 class RecipeCategoryExpandableCard extends StatelessWidget {
   const RecipeCategoryExpandableCard({
@@ -45,7 +45,7 @@ class RecipeCategoryExpandableCard extends StatelessWidget {
                 child: Stack(
                   children: [
                     ConditionalWidget(
-                        condition: category.image != null,
+                        condition: category.images != null,
                         child: (context) => ClipRRect(
                               borderRadius: const BorderRadius.only(
                                   topLeft: Radius.circular(
@@ -53,13 +53,13 @@ class RecipeCategoryExpandableCard extends StatelessWidget {
                                   topRight: Radius.circular(
                                       Constants.cardBorderRadius)),
                               child: Image(
-                                image: category.image![0],
+                                image: category.images![0],
                                 width: double.infinity,
                                 height: double.infinity,
                                 fit: BoxFit.cover,
                               ),
                             )),
-                    RecipeCategoryTitle(
+                    CategoryTitle(
                       name: category.name,
                       splitRatio: splitRatio,
                     ),
@@ -81,8 +81,7 @@ class RecipeCategoryExpandableCard extends StatelessWidget {
                       useAnimation: !category.selected,
                       paddingHorizontal: 10,
                       multiple: true,
-                      addElement: () =>
-                          controller.addRecipe(categoryId: category.id),
+                      addElement: () => controller.add(categoryId: category.id),
                       hideAddElement: controller.selectionIsActive,
                       children: category.recipes
                           .map((recipe) => RecipeCard(recipe: recipe))
@@ -97,9 +96,9 @@ class RecipeCategoryExpandableCard extends StatelessWidget {
                       bottomLeft: Radius.circular(Constants.cardBorderRadius),
                       bottomRight: Radius.circular(Constants.cardBorderRadius)),
                   child: ConditionalWidget(
-                      condition: category.image != null,
+                      condition: category.images != null,
                       child: (context) => Image(
-                            image: category.image![1],
+                            image: category.images![1],
                             width: double.infinity,
                             fit: BoxFit.cover,
                           )),

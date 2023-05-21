@@ -1,14 +1,14 @@
 part of 'recipe_controller.dart';
 
 extension IngredientRecipeController on RecipeController {
-  int get ingredientSelectionCount => getSelectedIngredients().length;
+  int get _ingredientSelectionCount => _selectedIngredients.length;
 
-  Iterable<RecipeIngredientPMRecipe> getSelectedIngredients() {
+  Iterable<RecipeIngredientPMRecipe> get _selectedIngredients {
     if (recipe == null) return const Iterable<RecipeIngredientPMRecipe>.empty();
     return recipe!.ingredientList.where((ingredient) => ingredient.selected);
   }
 
-  Future<void> addIngredient() async {
+  Future<void> _addIngredient() async {
     final created = await UpsertElementDialog<UpsertRecipeIngredientController>(
       controller: UpsertRecipeIngredientController(
           recipeId: recipeId, servings: servings),
@@ -16,24 +16,19 @@ extension IngredientRecipeController on RecipeController {
     if (created ?? false) await fetchData();
   }
 
-  Future<void> editIngredient() async {
-    if (ingredientSelectionCount != 1) return;
+  Future<void> _editIngredient() async {
+    if (_ingredientSelectionCount != 1) return;
     final created = await UpsertElementDialog<UpsertRecipeIngredientController>(
       controller: UpsertRecipeIngredientController(
           recipeId: recipeId,
           servings: servings,
-          id: getSelectedIngredients().first.id),
+          id: _selectedIngredients.first.id),
     ).show(false);
     if (created ?? false) await fetchData();
   }
 
-  void useIngredient(RecipeIngredientPMRecipe ingredient) {
-    ingredient.used = !ingredient.used;
-    updateSelection();
-  }
-
-  Future<void> deleteSelectedIngredients() async {
-    for (RecipeIngredientPMRecipe ingredient in getSelectedIngredients()) {
+  Future<void> _deleteSelectedIngredients() async {
+    for (RecipeIngredientPMRecipe ingredient in _selectedIngredients) {
       await RecipeIngredientRepository.find.deleteById(ingredient.id!);
     }
   }
