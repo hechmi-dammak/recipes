@@ -1,57 +1,112 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:recipes/decorations/theme.dart';
-import 'package:recipes/modules/recipe_edit_page/recipe_edit_controller.dart';
-import 'package:recipes/modules/recipe_edit_page/recipe_edit_page.dart';
-import 'package:recipes/modules/recipe_info_page/recipe_info_controller.dart';
-import 'package:recipes/modules/recipe_info_page/recipe_info_page.dart';
-import 'package:recipes/modules/recipe_list_page/recipe_list_page.dart';
-import 'package:recipes/modules/recipe_list_page/recipes_list_controller.dart';
-import 'package:recipes/service/data_base_provider.dart';
-import 'package:recipes/service/image_operations.dart';
-import 'package:recipes/service/repository/ingredient_repository.dart';
-import 'package:recipes/service/repository/instruction_repository.dart';
-import 'package:recipes/service/repository/picture_repository.dart';
-import 'package:recipes/service/repository/recipe_repository.dart';
+import 'package:logger/logger.dart';
+import 'package:mekla/helpers/theme.dart';
+import 'package:mekla/repositories/ingredient_category_repository.dart';
+import 'package:mekla/repositories/ingredient_repository.dart';
+import 'package:mekla/repositories/picture_repository.dart';
+import 'package:mekla/repositories/recipe_category_repository.dart';
+import 'package:mekla/repositories/recipe_ingredient_repository.dart';
+import 'package:mekla/repositories/recipe_repository.dart';
+import 'package:mekla/repositories/step_repository.dart';
+import 'package:mekla/services/asset_service.dart';
+import 'package:mekla/services/image_service.dart';
+import 'package:mekla/services/isar_service.dart';
+import 'package:mekla/services/logger_service.dart';
+import 'package:mekla/services/sharing_service.dart';
+import 'package:mekla/views/ingredient_categories/ingredient_categories_controller.dart';
+import 'package:mekla/views/ingredient_categories/ingredient_categories_page.dart';
+import 'package:mekla/views/ingredients/ingredients_controller.dart';
+import 'package:mekla/views/ingredients/ingredients_page.dart';
+import 'package:mekla/views/recipe/recipe_controller/recipe_controller.dart';
+import 'package:mekla/views/recipe/recipe_page.dart';
+import 'package:mekla/views/recipe_categories/recipe_categories_controller.dart';
+import 'package:mekla/views/recipe_categories/recipe_categories_page.dart';
+import 'package:mekla/views/recipes/recipes_controller.dart';
+import 'package:mekla/views/recipes/recipes_page.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  runZonedGuarded(() async {
+    await dependencies();
+    runApp(const RecipesApp());
+  }, (error, stackTrace) {
+    LoggerService.logger?.errorStackTrace(error, stackTrace, method: 'main');
+  });
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+Future<void> dependencies() async {
+  Get.put(LoggerService());
+  Get.put(IsarService());
+  Get.put(AssetService());
+  Get.put(SharingService());
+  await LoggerService.find.init();
+  await IsarService.find.init();
+  await SharingService.find.init();
+}
+
+class RecipesApp extends StatelessWidget {
+  const RecipesApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    AssetService.find.init(context);
     return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).requestFocus(FocusNode());
-      },
+      onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
       child: GetMaterialApp(
+        logWriterCallback: (text, {isError = false}) =>
+            LoggerService.logger?.log(isError ? Level.error : Level.info, text),
         initialBinding: InitialBindings(),
         debugShowCheckedModeBanner: false,
         title: 'Recipes',
         theme: ApplicationTheme.getTheme(),
-        initialRoute: RecipeListPage.routeName,
+        initialRoute: RecipesPage.routeName,
         getPages: [
           GetPage(
-              name: RecipeListPage.routeName,
-              page: () {
-                return const RecipeListPage();
-              },
-              binding: BindingsBuilder.put(() {
-                return RecipesListController();
-              })),
+            name: RecipesPage.routeName,
+            page: () => const RecipesPage(),
+            binding: BindingsBuilder.put(
+              () => RecipesController(),
+            ),
+          ),
           GetPage(
-              name: RecipeInfoPage.routeName,
-              page: () => const RecipeInfoPage(),
-              binding: BindingsBuilder.put(
-                  () => RecipeInfoController(recipeId: Get.arguments))),
+            name: RecipesPage.routeNameCategoriesRecipes,
+            page: () => const RecipesPage(),
+            binding: BindingsBuilder.put(
+              () => RecipesController(
+                  categoryId: int.parse(Get.parameters['id'] ?? '')),
+            ),
+          ),
           GetPage(
-              name: RecipeEditPage.routeName,
-              page: () => RecipeEditPage(),
-              binding: BindingsBuilder.put(
-                  () => RecipeEditController(recipeId: Get.arguments)))
+            name: RecipePage.routeName,
+            page: () => const RecipePage(),
+            binding: BindingsBuilder.put(
+              () => RecipeController(
+                  recipeId: int.parse(Get.parameters['id'] ?? '')),
+            ),
+          ),
+          GetPage(
+            name: RecipeCategoriesPage.routeName,
+            page: () => const RecipeCategoriesPage(),
+            binding: BindingsBuilder.put(
+              () => RecipeCategoriesController(),
+            ),
+          ),
+          GetPage(
+            name: IngredientsPage.routeName,
+            page: () => const IngredientsPage(),
+            binding: BindingsBuilder.put(
+              () => IngredientsController(),
+            ),
+          ),
+          GetPage(
+            name: IngredientCategoriesPage.routeName,
+            page: () => const IngredientCategoriesPage(),
+            binding: BindingsBuilder.put(
+              () => IngredientCategoriesController(),
+            ),
+          ),
         ],
       ),
     );
@@ -61,12 +116,13 @@ class MyApp extends StatelessWidget {
 class InitialBindings implements Bindings {
   @override
   void dependencies() async {
-    Get.put(DataBaseProvider());
-    Get.put(InstructionRepository());
+    Get.put(StepRepository());
     Get.put(PictureRepository());
     Get.put(IngredientRepository());
+    Get.put(RecipeIngredientRepository());
     Get.put(RecipeRepository());
-    Get.put(ImageOperations());
-    await DataBaseProvider.database;
+    Get.put(RecipeCategoryRepository());
+    Get.put(IngredientCategoryRepository());
+    Get.put(ImageService());
   }
 }
