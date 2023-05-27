@@ -79,10 +79,13 @@ class ImageService extends GetxService {
     final int height = image.height;
     final List<imglib.Image> parts = [];
     parts.add(imglib.copyCrop(image,
-        x: 0, y: 0, width: width, height: (height * 0.8).round()));
+        x: 0,
+        y: (height * 0.2).round(),
+        width: width,
+        height: (height * 0.4).round()));
     parts.add(imglib.copyCrop(image,
         x: 0,
-        y: (height * 0.8).round(),
+        y: (height * 0.6).round(),
         width: width,
         height: (height * 0.2).round()));
     final List<ImageProvider> output = [];

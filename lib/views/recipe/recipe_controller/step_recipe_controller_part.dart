@@ -10,7 +10,7 @@ extension StepRecipeController on RecipeController {
 
   Future<void> _addStep() async {
     final created = await UpsertElementDialog<UpsertStepController>(
-      controller: UpsertStepController(recipeId: recipeId),
+      init: UpsertStepController(recipeId: recipeId),
     ).show(false);
     if (created ?? false) await fetchData();
   }
@@ -18,7 +18,7 @@ extension StepRecipeController on RecipeController {
   Future<void> _editStep() async {
     if (_stepSelectionCount != 1) return;
     final created = await UpsertElementDialog<UpsertStepController>(
-      controller:
+      init:
           UpsertStepController(recipeId: recipeId, id: _selectedSteps.first.id),
     ).show(false);
     if (created ?? false) await fetchData();

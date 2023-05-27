@@ -4,12 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mekla/widgets/common/conditional_widget.dart';
 
-abstract class CustomDialog<T> extends StatelessWidget {
-  const CustomDialog(
-      {super.key, this.dismissible = true, this.withKeyboard = false});
+mixin CustomDialog<T> on StatelessWidget {
+  bool get dismissible => true;
 
-  final bool dismissible;
-  final bool withKeyboard;
+  bool get withKeyboard => false;
 
   Future<T?> show([T? defaultResult]) async {
     return await Get.dialog<T>(Scaffold(
@@ -30,22 +28,26 @@ abstract class CustomDialog<T> extends StatelessWidget {
   }
 
   @protected
-  Widget buildChild(BuildContext context);
+  Widget dialogBuilder(BuildContext context);
 
-  @override
-  Widget build(BuildContext context) {
+  Widget dialogBuilderNotToOverride(BuildContext context) {
     return LayoutBuilder(builder: (context, _) {
       return ConditionalWidget(
         condition: Get.height < 450 && withKeyboard,
         child: (context) => Dialog.fullscreen(
-            backgroundColor: Colors.transparent, child: buildChild(context)),
+            backgroundColor: Colors.transparent, child: dialogBuilder(context)),
         secondChild: (context) {
           return Dialog(
               backgroundColor: Colors.transparent,
               elevation: 0,
-              child: buildChild(context));
+              child: dialogBuilder(context));
         },
       );
     });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return dialogBuilderNotToOverride(context);
   }
 }

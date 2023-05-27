@@ -10,7 +10,7 @@ extension IngredientRecipeController on RecipeController {
 
   Future<void> _addIngredient() async {
     final created = await UpsertElementDialog<UpsertRecipeIngredientController>(
-      controller: UpsertRecipeIngredientController(
+      init: UpsertRecipeIngredientController(
           recipeId: recipeId, servings: servings),
     ).show(false);
     if (created ?? false) await fetchData();
@@ -19,7 +19,7 @@ extension IngredientRecipeController on RecipeController {
   Future<void> _editIngredient() async {
     if (_ingredientSelectionCount != 1) return;
     final created = await UpsertElementDialog<UpsertRecipeIngredientController>(
-      controller: UpsertRecipeIngredientController(
+      init: UpsertRecipeIngredientController(
           recipeId: recipeId,
           servings: servings,
           id: _selectedIngredients.first.id),

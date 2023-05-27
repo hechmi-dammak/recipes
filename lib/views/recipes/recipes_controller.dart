@@ -81,7 +81,7 @@ class RecipesController extends BaseController
 
   Future<void> add({int? categoryId}) async {
     final created = await UpsertElementDialog<UpsertRecipeController>(
-      controller: UpsertRecipeController(
+      init: UpsertRecipeController(
         categoryId: categoryId,
       ),
     ).show(false);
@@ -91,7 +91,7 @@ class RecipesController extends BaseController
   Future<void> edit() async {
     if (selectionCount != 1) return;
     final updated = await UpsertElementDialog<UpsertRecipeController>(
-      controller: UpsertRecipeController(
+      init: UpsertRecipeController(
         id: selectedItems.first.id,
       ),
     ).show(false);

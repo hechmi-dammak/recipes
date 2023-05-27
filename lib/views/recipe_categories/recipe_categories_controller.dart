@@ -28,7 +28,7 @@ class RecipeCategoriesController extends BaseController
 
   Future<void> add() async {
     final created = await UpsertElementDialog<UpsertRecipeCategoryController>(
-      controller: UpsertRecipeCategoryController(),
+      init: UpsertRecipeCategoryController(),
     ).show(false);
     if (created ?? false) await fetchData();
   }
@@ -36,7 +36,7 @@ class RecipeCategoriesController extends BaseController
   Future<void> edit() async {
     if (selectionCount != 1) return;
     final updated = await UpsertElementDialog<UpsertRecipeCategoryController>(
-      controller: UpsertRecipeCategoryController(id: selectedItems.first.id),
+      init: UpsertRecipeCategoryController(id: selectedItems.first.id),
     ).show(false);
     if (updated ?? false) await fetchData();
   }

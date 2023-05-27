@@ -40,7 +40,7 @@ class SharingService extends GetxService {
       AsyncCallback? onFinish}) async {
     onStart?.call();
     await UpsertElementDialog<CreateFileNameController>(
-      controller: CreateFileNameController(onConfirm: (String fileName) async {
+      init: CreateFileNameController(onConfirm: (String fileName) async {
         try {
           await requestStoragePermissions();
           final String? fileDirectory = await FilePicker.platform
@@ -73,7 +73,7 @@ class SharingService extends GetxService {
       AsyncCallback? onFinish}) async {
     onStart?.call();
     await UpsertElementDialog<CreateFileNameController>(
-      controller: CreateFileNameController(onConfirm: (String fileName) async {
+      init: CreateFileNameController(onConfirm: (String fileName) async {
         try {
           await requestStoragePermissions();
           final tempDir = await getTemporaryDirectory();

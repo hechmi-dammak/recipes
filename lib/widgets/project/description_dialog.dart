@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:mekla/helpers/constants.dart';
 import 'package:mekla/widgets/common/custom_dialog.dart';
 
-class DescriptionDialog extends CustomDialog<void> {
+class DescriptionDialog extends StatelessWidget with CustomDialog<void> {
   const DescriptionDialog(
       {super.key, required this.description, required this.title});
 
@@ -11,7 +11,7 @@ class DescriptionDialog extends CustomDialog<void> {
   final String title;
 
   @override
-  Widget buildChild(BuildContext context) {
+  Widget dialogBuilder(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
           color: Get.theme.colorScheme.primaryContainer,
