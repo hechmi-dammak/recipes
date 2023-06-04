@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mekla/helpers/constants.dart';
+
 import 'package:mekla/views/recipe/models/recipe_ingredient_pm_recipe.dart';
-import 'package:mekla/views/recipe/models/recipe_pm_recipe.dart';
 import 'package:mekla/views/recipe/widgets/servings_dialog/serving_dialog_controller.dart';
 import 'package:mekla/widgets/common/custom_dialog.dart';
 import 'package:mekla/widgets/common/getx/get_builder_view.dart';
@@ -14,19 +14,18 @@ class ServingsDialog extends StatelessWidget
   const ServingsDialog(
       {required this.servings,
       required this.onConfirm,
-      required this.recipe,
+      required this.ingredientList,
       super.key});
 
   final int servings;
   final void Function(int servings) onConfirm;
-  final RecipePMRecipe recipe;
-
+  final List<RecipeIngredientPMRecipe> ingredientList;
   @override
   bool get dismissible => false;
 
   @override
   ServingsDialogController get init => ServingsDialogController(
-      servings: servings, onConfirm: onConfirm, recipe: recipe);
+      servings: servings, onConfirm: onConfirm, ingredientList: ingredientList);
 
   @override
   Widget dialogBuilder(BuildContext context) {
@@ -60,7 +59,7 @@ class ServingsDialog extends StatelessWidget
                   child: SingleChildScrollView(
                     child: Column(
                         mainAxisSize: MainAxisSize.min,
-                        children: controller.recipe.ingredientList
+                        children: controller.ingredientList
                             .map((ingredient) =>
                                 IngredientSummary(ingredient: ingredient))
                             .toList()),

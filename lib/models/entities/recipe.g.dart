@@ -123,7 +123,7 @@ Recipe _recipeDeserialize(
     description: reader.readStringOrNull(offsets[0]),
     id: id,
     name: reader.readStringOrNull(offsets[1]) ?? '',
-    servings: reader.readLongOrNull(offsets[2]) ?? 4,
+    servings: reader.readLongOrNull(offsets[2]) ?? Constants.defaultServings,
   );
   return object;
 }
@@ -140,7 +140,7 @@ P _recipeDeserializeProp<P>(
     case 1:
       return (reader.readStringOrNull(offset) ?? '') as P;
     case 2:
-      return (reader.readLongOrNull(offset) ?? 4) as P;
+      return (reader.readLongOrNull(offset) ?? Constants.defaultServings) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }

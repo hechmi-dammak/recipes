@@ -2,7 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:image/image.dart' as imglib;
+import 'package:image/image.dart' as img_lib;
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mekla/models/entities/picture.dart';
@@ -73,24 +73,24 @@ class ImageService extends GetxService {
   }
 
   List<ImageProvider> splitImage(Uint8List input) {
-    final imglib.Image? image = imglib.decodeImage(input);
+    final img_lib.Image? image = img_lib.decodeImage(input);
     if (image == null) return [];
     final int width = image.width;
     final int height = image.height;
-    final List<imglib.Image> parts = [];
-    parts.add(imglib.copyCrop(image,
+    final List<img_lib.Image> parts = [];
+    parts.add(img_lib.copyCrop(image,
         x: 0,
         y: (height * 0.2).round(),
         width: width,
         height: (height * 0.4).round()));
-    parts.add(imglib.copyCrop(image,
+    parts.add(img_lib.copyCrop(image,
         x: 0,
         y: (height * 0.6).round(),
         width: width,
         height: (height * 0.2).round()));
     final List<ImageProvider> output = [];
     for (var img in parts) {
-      output.add(MemoryImage(imglib.encodeJpg(img)));
+      output.add(MemoryImage(img_lib.encodeJpg(img)));
     }
     return output;
   }

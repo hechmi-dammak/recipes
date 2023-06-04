@@ -10,7 +10,10 @@ class StepRepository extends RepositoryService<Step> {
   static StepRepository get find => Get.find<StepRepository>();
 
   @override
-  Future<Step> save(Step element) async {
+  Future<Step?> save(Step? element) async {
+    if (element == null) {
+      return null;
+    }
     return await saveInternal(element);
   }
 
@@ -20,11 +23,9 @@ class StepRepository extends RepositoryService<Step> {
     await IsarService.isar.writeTxn(() async {
       await IsarService.isar.steps.put(element);
     });
-    if (element.picture.value != null && element.picture.value?.id == null) {
-      await PictureRepository.find.save(element.picture.value!);
-    }
-    if (element.recipe.value != null && element.recipe.value?.id == null) {
-      await RecipeRepository.find.save(element.recipe.value!);
+    await PictureRepository.find.save(element.picture.value);
+    if (element.recipe.value?.id == null) {
+      await RecipeRepository.find.save(element.recipe.value);
     }
     IsarService.isar.writeTxn(() async {
       await element.picture.save();

@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mekla/helpers/theme.dart';
 import 'package:mekla/services/asset_service.dart';
 import 'package:mekla/widgets/common/conditional_parent_widget.dart';
 
@@ -42,6 +43,29 @@ class AssetButton extends StatelessWidget {
             center: true,
             icon: allItemsSelected ? 'select_all_icon' : 'deselect_all_icon',
             key: key);
+
+  AssetButton.toggleButton(
+      {Key? key,
+      required VoidCallback onTap,
+      required String icon,
+      required bool active})
+      : this(
+          key: key,
+          center: true,
+          icon: icon,
+          parentBuilder: (context, child) => Container(
+            width: kToolbarHeight - 14,
+            height: kToolbarHeight - 14,
+            decoration: active
+                ? BoxDecoration(
+                    color: ApplicationTheme.createPrimarySwatch(
+                        Get.theme.primaryColor)[650],
+                    borderRadius: const BorderRadius.all(Radius.circular(7)))
+                : null,
+            child: child,
+          ),
+          onTap: onTap,
+        );
 
   @override
   Widget build(BuildContext context) {

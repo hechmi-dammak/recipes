@@ -58,11 +58,27 @@ class RecipePage extends CustomPage<RecipeController> {
       ),
       fadeAction: !controller.selectionIsActive,
       action: ConditionalWidget(
+        animated: true,
         condition: controller.tabController.index == 0,
-        child: (context) => ServingsIcon(
-            color: Get.theme.colorScheme.onPrimary,
-            servings: controller.servings,
-            onTap: () => controller.showServingsDialog()),
+        child: (context) => Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            AssetButton.toggleButton(
+                onTap: controller.toggleCategorize,
+                icon: 'category_icon',
+                active: controller.categorize),
+            const SizedBox(
+              width: 7,
+            ),
+            ServingsIcon(
+                color: Get.theme.colorScheme.onPrimary,
+                servings: controller.servings,
+                onTap: () => controller.showServingsDialog()),
+            const SizedBox(
+              width: 7,
+            ),
+          ],
+        ),
       ),
       secondAction: AssetButton.selectAll(
           allItemsSelected: controller.allItemsSelected,

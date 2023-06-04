@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:mekla/helpers/form_validators.dart';
 import 'package:mekla/models/entities/ingredient.dart';
 import 'package:mekla/models/entities/recipe_ingredient.dart';
+import 'package:mekla/repositories/ingredient_category_repository.dart';
 import 'package:mekla/repositories/ingredient_repository.dart';
 import 'package:mekla/repositories/recipe_ingredient_repository.dart';
 import 'package:mekla/repositories/recipe_repository.dart';
@@ -16,12 +17,16 @@ class UpsertRecipeIngredientController extends UpsertElementController {
 
   final int? id;
   final int recipeId;
+  final int? categoryId;
   final int servings;
   RecipeIngredient recipeIngredient = RecipeIngredient();
   List<Ingredient> ingredients = [];
 
   UpsertRecipeIngredientController(
-      {required this.recipeId, required this.servings, this.id}) {
+      {this.categoryId,
+      required this.recipeId,
+      required this.servings,
+      this.id}) {
     title = 'Ingredient'.tr;
     formFields = [
       AutocompleteUpsertFormField<Ingredient>(
@@ -70,21 +75,25 @@ class UpsertRecipeIngredientController extends UpsertElementController {
   }
 
   Future<void> fetchIngredientAndFillData() async {
+    if(id!=null){
+      recipeIngredient =
+          await RecipeIngredientRepository.find.findById(id) ?? recipeIngredient;
+      getAutocompleteUpsertFormFieldByName<Ingredient>('name').selectedValue =
+          recipeIngredient.ingredient.value;
+      getAutocompleteUpsertFormFieldByName<Ingredient>('name').controller.text =
+          recipeIngredient.ingredient.value?.name ?? '';
+      getTextFormFieldByName('description').controller.text =
+          recipeIngredient.description ?? '';
+      getTextFormFieldByName('amount').controller.text =
+          recipeIngredient.getAmount(servings) ?? '';
+      getPictureFormFieldByName('picture').picture =
+          recipeIngredient.ingredient.value?.picture.value;
+      return;
+    }
     recipeIngredient.recipe.value =
         await RecipeRepository.find.findById(recipeId);
-    if (id == null) return;
-    recipeIngredient =
-        await RecipeIngredientRepository.find.findById(id) ?? recipeIngredient;
-    getAutocompleteUpsertFormFieldByName<Ingredient>('name').selectedValue =
-        recipeIngredient.ingredient.value;
-    getAutocompleteUpsertFormFieldByName<Ingredient>('name').controller.text =
-        recipeIngredient.ingredient.value?.name ?? '';
-    getTextFormFieldByName('description').controller.text =
-        recipeIngredient.description ?? '';
-    getTextFormFieldByName('amount').controller.text =
-        recipeIngredient.getAmount(servings) ?? '';
-    getPictureFormFieldByName('picture').picture =
-        recipeIngredient.ingredient.value?.picture.value;
+    recipeIngredient.category.value =
+    await IngredientCategoryRepository.find.findById(categoryId);
   }
 
   Future<void> fetchIngredients() async {

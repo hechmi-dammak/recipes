@@ -19,6 +19,7 @@ class IngredientCategoryCard extends StatelessWidget
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () => controller.selectItem(ingredientCategory),
+      onLongPress: () => controller.selectItem(ingredientCategory),
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(Constants.cardBorderRadius),

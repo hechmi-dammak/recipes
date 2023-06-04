@@ -17,7 +17,7 @@ class StepsTab extends StatelessWidget with GetBuilderView<RecipeController> {
         child: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
           children: [
-            ...controller.recipe!.stepList
+            ...controller.stepList
                 .map((step) => StepCard(
                       step: step,
                     ))

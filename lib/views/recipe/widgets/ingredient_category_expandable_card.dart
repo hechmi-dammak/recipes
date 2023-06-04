@@ -2,33 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mekla/helpers/constants.dart';
 import 'package:mekla/helpers/theme.dart';
-import 'package:mekla/views/recipes/models/recipe_category_pm_recipes.dart';
-import 'package:mekla/views/recipes/recipes_controller.dart';
-import 'package:mekla/views/recipes/widgets/recipe_card.dart';
+import 'package:mekla/views/recipe/models/ingredient_category_pm_recipes.dart';
+import 'package:mekla/views/recipe/recipe_controller/recipe_controller.dart';
+import 'package:mekla/views/recipe/widgets/recipe_ingredient_card.dart';
 import 'package:mekla/widgets/common/conditional_widget.dart';
 import 'package:mekla/widgets/common/custom_animated_size.dart';
 import 'package:mekla/widgets/common/getx/get_builder_view.dart';
 import 'package:mekla/widgets/common/getx/get_layout_builder_view.dart';
 import 'package:mekla/widgets/project/category_title.dart';
 import 'package:mekla/widgets/project/grid_cards.dart';
-import 'package:mekla/widgets/project/info_button.dart';
 
-class RecipeCategoryExpandableCard extends StatelessWidget
+class IngredientCategoryExpandableCard extends StatelessWidget
     with
-        GetBuilderView<RecipesController>,
-        GetLayoutBuilderView<RecipesController> {
-  const RecipeCategoryExpandableCard({
+        GetBuilderView<RecipeController>,
+        GetLayoutBuilderView<RecipeController> {
+  const IngredientCategoryExpandableCard({
     super.key,
     required this.category,
   });
 
-  final RecipeCategoryPMRecipes category;
+  final IngredientCategoryPMRecipe category;
   static const double marginHorizontal = 10;
 
   static const double splitRatio = 2 / 3;
 
   @override
-  Widget getLayoutBuilder(BuildContext context, RecipesController controller,
+  Widget getLayoutBuilder(BuildContext context, RecipeController controller,
       BoxConstraints constraints) {
     final width = (Get.width - 2 * marginHorizontal);
     final height = width * 3 / 10;
@@ -70,10 +69,6 @@ class RecipeCategoryExpandableCard extends StatelessWidget
                     name: category.name,
                     splitRatio: splitRatio,
                   ),
-                  InfoButton(
-                    name: category.name,
-                    description: category.description,
-                  ),
                 ],
               ),
             ),
@@ -88,10 +83,11 @@ class RecipeCategoryExpandableCard extends StatelessWidget
                     useAnimation: false,
                     paddingHorizontal: 10,
                     multiple: true,
-                    addElement: () => controller.add(categoryId: category.id),
+                    addElement: () => controller.addIngredient(categoryId: category.id),
                     hideAddElement: controller.selectionIsActive,
-                    children: category.recipes
-                        .map((recipe) => RecipeCard(recipe: recipe))
+                    children: category.ingredients
+                        .map((ingredient) =>
+                            RecipeIngredientCard(ingredient: ingredient))
                         .toList()),
               ),
             ),

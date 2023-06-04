@@ -4,14 +4,13 @@ extension IngredientRecipeController on RecipeController {
   int get _ingredientSelectionCount => _selectedIngredients.length;
 
   Iterable<RecipeIngredientPMRecipe> get _selectedIngredients {
-    if (recipe == null) return const Iterable<RecipeIngredientPMRecipe>.empty();
-    return recipe!.ingredientList.where((ingredient) => ingredient.selected);
+    return ingredientList.where((ingredient) => ingredient.selected);
   }
 
-  Future<void> _addIngredient() async {
+  Future<void> addIngredient({int? categoryId}) async {
     final created = await UpsertElementDialog<UpsertRecipeIngredientController>(
       init: UpsertRecipeIngredientController(
-          recipeId: recipeId, servings: servings),
+          categoryId: categoryId, recipeId: recipeId, servings: servings),
     ).show(false);
     if (created ?? false) await fetchData();
   }
@@ -31,5 +30,10 @@ extension IngredientRecipeController on RecipeController {
     for (RecipeIngredientPMRecipe ingredient in _selectedIngredients) {
       await RecipeIngredientRepository.find.deleteById(ingredient.id!);
     }
+  }
+
+  void toggleCategorize() {
+    categorize = !categorize;
+    update();
   }
 }

@@ -14,7 +14,10 @@ class RecipeIngredientRepository extends RepositoryService<RecipeIngredient> {
       Get.find<RecipeIngredientRepository>();
 
   @override
-  Future<RecipeIngredient> save(RecipeIngredient element) async {
+  Future<RecipeIngredient?> save(RecipeIngredient? element) async {
+    if (element == null) {
+      return null;
+    }
     return await saveInternal(element);
   }
 
@@ -25,16 +28,14 @@ class RecipeIngredientRepository extends RepositoryService<RecipeIngredient> {
     await IsarService.isar.writeTxn(
         () async => await IsarService.isar.recipeIngredients.put(element));
 
-    if (element.category.value != null && element.category.value?.id == null) {
-      await IngredientCategoryRepository.find.save(element.category.value!);
-    }
-    if (element.ingredient.value != null &&
-        element.ingredient.value?.id == null) {
-      await IngredientRepository.find.save(element.ingredient.value!);
+    if (element.category.value?.id == null) {
+      await IngredientCategoryRepository.find.save(element.category.value);
     }
 
-    if (element.recipe.value != null && element.recipe.value?.id == null) {
-      await RecipeRepository.find.save(element.recipe.value!);
+    await IngredientRepository.find.save(element.ingredient.value);
+
+    if (element.recipe.value?.id == null) {
+      await RecipeRepository.find.save(element.recipe.value);
     }
     await IsarService.isar.writeTxn(() async {
       await element.category.save();

@@ -3,12 +3,14 @@ import 'package:get/get.dart';
 import 'package:mekla/decorator/decorators.dart';
 import 'package:mekla/decorator/decorators/used_decorator.dart';
 import 'package:mekla/helpers/constants.dart';
+import 'package:mekla/models/entities/recipe.dart';
+import 'package:mekla/models/interfaces/model_name.dart';
 import 'package:mekla/repositories/recipe_ingredient_repository.dart';
 import 'package:mekla/repositories/recipe_repository.dart';
 import 'package:mekla/repositories/step_repository.dart';
 import 'package:mekla/services/image_service.dart';
+import 'package:mekla/views/recipe/models/ingredient_category_pm_recipes.dart';
 import 'package:mekla/views/recipe/models/recipe_ingredient_pm_recipe.dart';
-import 'package:mekla/views/recipe/models/recipe_pm_recipe.dart';
 import 'package:mekla/views/recipe/models/step_pm_recipe.dart';
 import 'package:mekla/views/recipe/widgets/servings_dialog/servings_dialog.dart';
 import 'package:mekla/widgets/common/snack_bar.dart';
@@ -17,6 +19,7 @@ import 'package:mekla/widgets/project/upsert_element/controllers/upsert_step_con
 import 'package:mekla/widgets/project/upsert_element/upsert_element_dialog.dart';
 
 part 'ingredient_recipe_controller_part.dart';
+
 part 'step_recipe_controller_part.dart';
 
 class RecipeController extends BaseController
@@ -40,10 +43,15 @@ class RecipeController extends BaseController
   }
 
   final int recipeId;
-  RecipePMRecipe? recipe;
+  Recipe? recipe;
   int servings = Constants.defaultServings;
   bool _servingsIsSet = false;
   late TabController tabController;
+  bool categorize = false;
+  List<RecipeIngredientPMRecipe> ingredientsWithoutCategory = [];
+  List<IngredientCategoryPMRecipe> categories = [];
+  List<RecipeIngredientPMRecipe> ingredientList = [];
+  List<StepPMRecipe> stepList = [];
 
   @override
   Future<void> loadData() async {
@@ -52,14 +60,13 @@ class RecipeController extends BaseController
 
   @override
   void setSelectAllValue([bool value = false]) {
-    if (recipe == null) return;
     if (tabController.index == 0) {
-      for (var ingredient in recipe!.ingredientList) {
+      for (var ingredient in ingredientList) {
         ingredient.selected = value;
       }
     }
     if (tabController.index == 1) {
-      for (var step in recipe!.stepList) {
+      for (var step in stepList) {
         step.selected = value;
       }
     }
@@ -68,24 +75,22 @@ class RecipeController extends BaseController
 
   @override
   bool get selectionIsActiveFallBack {
-    if (recipe == null) return false;
     if (tabController.index == 0) {
-      return recipe!.ingredientList.any((ingredient) => ingredient.selected);
+      return ingredientList.any((ingredient) => ingredient.selected);
     }
     if (tabController.index == 1) {
-      return recipe!.stepList.any((step) => step.selected);
+      return stepList.any((step) => step.selected);
     }
     return false;
   }
 
   @override
   bool get allItemsSelectedFallBack {
-    if (recipe == null) return false;
     if (tabController.index == 0) {
-      return recipe!.ingredientList.every((ingredient) => ingredient.selected);
+      return ingredientList.every((ingredient) => ingredient.selected);
     }
     if (tabController.index == 1) {
-      return recipe!.stepList.every((step) => step.selected);
+      return stepList.every((step) => step.selected);
     }
     return false;
   }
@@ -102,18 +107,51 @@ class RecipeController extends BaseController
   }
 
   Future<void> fetchRecipe() async {
-    final recipeModel = await RecipeRepository.find.findById(recipeId);
-
-    if (recipeModel == null) return;
-    recipe = RecipePMRecipe(recipe: recipeModel);
-
-    ImageService.find.cacheImages(recipe!.stepList);
-    ImageService.find.cacheImages(recipe!.ingredientList);
+    recipe = await RecipeRepository.find.findById(recipeId);
+    if (recipe == null) return;
+    ingredientList = recipe!.ingredients
+        .toList()
+        .map((recipeIngredient) =>
+            RecipeIngredientPMRecipe(recipeIngredient: recipeIngredient))
+        .toList();
+    stepList = recipe!.steps
+        .toList()
+        .asMap()
+        .entries
+        .map((entry) => StepPMRecipe(order: entry.key + 1, step: entry.value))
+        .toList();
+    ImageService.find.cacheImages(stepList);
+    ImageService.find.cacheImages(ingredientList);
 
     if (!_servingsIsSet) {
       _servingsIsSet = true;
       servings = recipe!.servings;
     }
+    await _initCategories();
+  }
+
+  Future<void> _initCategories() async {
+    final Map<int, List<RecipeIngredientPMRecipe>> ingredientsByCategoryMap =
+        {};
+    ingredientsWithoutCategory = [];
+    for (var ingredient in ingredientList) {
+      if (ingredient.category.value == null) {
+        ingredientsWithoutCategory.add(ingredient);
+      } else {
+        ingredientsByCategoryMap.update(ingredient.category.value!.id!,
+            (value) {
+          value.add(ingredient);
+          return value;
+        }, ifAbsent: () => List.from([ingredient]));
+      }
+    }
+    categories = ingredientsByCategoryMap.entries
+        .map((e) => IngredientCategoryPMRecipe(
+            ingredientCategory: e.value.first.category.value!,
+            ingredients: e.value))
+        .toList();
+    categories.sort(ModelName.nameComparator);
+    await ImageService.find.cacheMultiImages(categories);
   }
 
   @override
@@ -138,7 +176,7 @@ class RecipeController extends BaseController
 
   Future<void> add() async {
     if (tabController.index == 0) {
-      await _addIngredient();
+      await addIngredient();
     }
     if (tabController.index == 1) {
       await _addStep();
@@ -157,11 +195,10 @@ class RecipeController extends BaseController
     CustomSnackBar.success('Selected Items were deleted.'.tr);
   }
 
-  void showServingsDialog() {
-    if (recipe == null) return;
-    ServingsDialog(
+  Future<void> showServingsDialog() async {
+    await ServingsDialog(
       servings: servings,
-      recipe: recipe!,
+      ingredientList: ingredientList,
       onConfirm: (int servings) {
         this.servings = servings;
         update();

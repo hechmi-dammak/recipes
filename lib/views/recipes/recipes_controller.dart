@@ -69,7 +69,7 @@ class RecipesController extends BaseController
             recipeCategory: e.value.first.category.value!, recipes: e.value))
         .toList();
     categories.sort(ModelName.nameComparator);
-    ImageService.find.cacheMultiImages(categories);
+    await ImageService.find.cacheMultiImages(categories);
   }
 
   void goToRecipe(RecipePMRecipes recipe) {

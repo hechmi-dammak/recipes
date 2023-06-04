@@ -4,8 +4,7 @@ extension StepRecipeController on RecipeController {
   int get _stepSelectionCount => _selectedSteps.length;
 
   Iterable<StepPMRecipe> get _selectedSteps {
-    if (recipe == null) return const Iterable<StepPMRecipe>.empty();
-    return recipe!.stepList.where((step) => step.selected);
+    return stepList.where((step) => step.selected);
   }
 
   Future<void> _addStep() async {

@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:mekla/models/entities/ingredient_category.dart';
 import 'package:mekla/models/entities/recipe_ingredient.dart';
 import 'package:mekla/repositories/abstracts/repository_service_with_name.dart';
+import 'package:mekla/repositories/picture_repository.dart';
 import 'package:mekla/repositories/recipe_ingredient_repository.dart';
 import 'package:mekla/services/isar_service.dart';
 
@@ -11,7 +12,10 @@ class IngredientCategoryRepository
       Get.find<IngredientCategoryRepository>();
 
   @override
-  Future<IngredientCategory> save(IngredientCategory element) async {
+  Future<IngredientCategory?> save(IngredientCategory? element) async {
+    if (element == null) {
+      return null;
+    }
     await replaceWithSameName(element);
     return await saveInternal(element);
   }
@@ -21,6 +25,8 @@ class IngredientCategoryRepository
     element.name = element.name.trim();
     await IsarService.isar.writeTxn(
         () async => await IsarService.isar.ingredientCategories.put(element));
+    PictureRepository.find.save(element.picture.value);
+    await IsarService.isar.writeTxn(() async => await element.picture.save());
     return element;
   }
 

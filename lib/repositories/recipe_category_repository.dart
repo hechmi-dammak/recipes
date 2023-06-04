@@ -12,7 +12,10 @@ class RecipeCategoryRepository
       Get.find<RecipeCategoryRepository>();
 
   @override
-  Future<RecipeCategory> save(RecipeCategory element) async {
+  Future<RecipeCategory?> save(RecipeCategory? element) async {
+    if (element == null) {
+      return null;
+    }
     await replaceWithSameName(element);
     return await saveInternal(element);
   }
@@ -24,9 +27,7 @@ class RecipeCategoryRepository
     await IsarService.isar.writeTxn(() async {
       await IsarService.isar.recipeCategories.put(element);
     });
-    if (element.picture.value != null && element.picture.value?.id == null) {
-      await PictureRepository.find.save(element.picture.value!);
-    }
+      await PictureRepository.find.save(element.picture.value);
     await IsarService.isar.writeTxn(() async {
       await element.picture.save();
     });

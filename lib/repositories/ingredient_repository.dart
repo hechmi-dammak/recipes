@@ -10,7 +10,10 @@ class IngredientRepository extends RepositoryServiceWithName<Ingredient> {
   static IngredientRepository get find => Get.find<IngredientRepository>();
 
   @override
-  Future<Ingredient> save(Ingredient element) async {
+  Future<Ingredient?> save(Ingredient? element) async {
+    if (element == null) {
+      return null;
+    }
     await replaceWithSameName(element);
     return await saveInternal(element);
   }
@@ -21,9 +24,7 @@ class IngredientRepository extends RepositoryServiceWithName<Ingredient> {
     await IsarService.isar.writeTxn(() async {
       await IsarService.isar.ingredients.put(element);
     });
-    if (element.picture.value != null && element.picture.value?.id == null) {
-      await PictureRepository.find.save(element.picture.value!);
-    }
+    await PictureRepository.find.save(element.picture.value);
     await IsarService.isar.writeTxn(() async {
       await element.picture.save();
     });

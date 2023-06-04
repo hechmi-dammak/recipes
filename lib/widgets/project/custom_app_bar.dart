@@ -33,6 +33,22 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    final actionResult = getElement(fadeAction, action, secondAction);
+    final titleResult = getElement(
+        fadeTitle,
+        title,
+        secondTitle ??
+            (secondTitleChildren != null
+                ? SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: secondTitleChildren!,
+                    ),
+                  )
+                : null));
+    final leadingResult = getElement(fadeLeading, leading, secondLeading);
     return Material(
       color: Get.theme.primaryColor,
       child: Semantics(
@@ -41,30 +57,33 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           bottom: false,
           child: ClipRect(
             child: NavigationToolbar(
-              leading: SizedBox(
-                width: kToolbarHeight,
-                height: kToolbarHeight,
-                child: getElement(fadeLeading, leading, secondLeading),
-              ),
-              middle: getElement(
-                  fadeTitle,
-                  title,
-                  secondTitle ??
-                      (secondTitleChildren != null
-                          ? SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                mainAxisSize: MainAxisSize.min,
-                                children: secondTitleChildren!,
-                              ),
-                            )
-                          : null)),
-              trailing: SizedBox(
-                width: kToolbarHeight,
-                height: kToolbarHeight,
-                child: getElement(fadeAction, action, secondAction),
-              ),
+              leading: leadingResult == null
+                  ? null
+                  : Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          constraints: const BoxConstraints(
+                              minWidth: kToolbarHeight,
+                              minHeight: kToolbarHeight),
+                          child: Center(child: leadingResult),
+                        ),
+                      ],
+                    ),
+              middle: titleResult,
+              trailing: actionResult == null
+                  ? null
+                  : Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          constraints: const BoxConstraints(
+                              minWidth: kToolbarHeight,
+                              minHeight: kToolbarHeight),
+                          child: Center(child: actionResult),
+                        ),
+                      ],
+                    ),
             ),
           ),
         ),
@@ -74,12 +93,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   Widget? getElement(bool? fade, Widget? first, Widget? second) {
     if (fade != null) {
-      return AnimatedCrossFade(
-        firstChild: first ?? Container(),
-        secondChild: second ?? Container(),
-        crossFadeState:
-            fade ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+      return AnimatedSwitcher(
         duration: const Duration(milliseconds: 300),
+        child: fade ? first : second ?? Container(),
       );
     }
     return first;

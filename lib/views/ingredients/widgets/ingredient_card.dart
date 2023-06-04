@@ -17,9 +17,8 @@ class IngredientCard extends StatelessWidget
   Widget getBuilder(BuildContext context, controller) {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
-      onTap: () {
-        controller.selectItem(ingredient);
-      },
+      onTap: () => controller.selectItem(ingredient),
+      onLongPress: () => controller.selectItem(ingredient),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(Constants.cardBorderRadius),
         child: Stack(

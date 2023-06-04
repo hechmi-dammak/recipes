@@ -1,15 +1,15 @@
 import 'dart:math' as math;
 
 import 'package:get/get.dart';
-import 'package:mekla/views/recipe/models/recipe_pm_recipe.dart';
+import 'package:mekla/views/recipe/models/recipe_ingredient_pm_recipe.dart';
 
 class ServingsDialogController extends GetxController {
   int servings;
   final void Function(int servings) onConfirm;
-  final RecipePMRecipe recipe;
+  final List<RecipeIngredientPMRecipe> ingredientList;
 
   ServingsDialogController({
-    required this.recipe,
+    required this.ingredientList,
     required this.servings,
     required this.onConfirm,
   });

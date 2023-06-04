@@ -40,8 +40,9 @@ class PictureUpsertFormFieldWidget extends StatelessWidget
               borderRadius: BorderRadius.circular(Constants.cardBorderRadius),
               border: Border.all(color: Get.theme.colorScheme.secondary),
             ),
-            child: AnimatedCrossFade(
-              firstChild: SizedBox(
+            child: ConditionalWidget(
+              animated: true,
+              child: (context) => SizedBox(
                 height: 60,
                 child: Row(
                   children: [
@@ -75,7 +76,7 @@ class PictureUpsertFormFieldWidget extends StatelessWidget
                   ],
                 ),
               ),
-              secondChild: ConditionalWidget(
+              secondChild: (context) => ConditionalWidget(
                 condition: controller.picture != null,
                 child: (context) => AspectRatio(
                   aspectRatio: controller.aspectRatio,
@@ -117,10 +118,7 @@ class PictureUpsertFormFieldWidget extends StatelessWidget
                   ),
                 ),
               ),
-              crossFadeState: controller.picture == null
-                  ? CrossFadeState.showFirst
-                  : CrossFadeState.showSecond,
-              duration: const Duration(milliseconds: 300),
+              condition: controller.picture == null,
             ),
           ),
         )

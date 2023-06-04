@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mekla/helpers/theme.dart';
 import 'package:mekla/views/recipe_categories/recipe_categories_page.dart';
 import 'package:mekla/views/recipes/recipes_controller.dart';
 import 'package:mekla/views/recipes/widgets/popup_menu_button.dart';
 import 'package:mekla/views/recipes/widgets/recipe_card.dart';
 import 'package:mekla/views/recipes/widgets/recipe_category_expandable_card.dart';
 import 'package:mekla/widgets/common/asset_button.dart';
+import 'package:mekla/widgets/common/conditional_widget.dart';
 import 'package:mekla/widgets/project/custom_app_bar.dart';
 import 'package:mekla/widgets/project/custom_page.dart';
 import 'package:mekla/widgets/project/grid_cards.dart';
@@ -30,20 +30,10 @@ class RecipesPage extends CustomPage<RecipesController> {
         onTap: controller.setSelectAllValue,
       ),
       fadeAction: !controller.selectionIsActive,
-      action: AssetButton(
-        center: true,
-        icon: 'category_icon',
-        conditionalParent: controller.categorize,
-        parentBuilder: (context, child) => Container(
-          margin: const EdgeInsets.all(7),
-          decoration: BoxDecoration(
-              color: ApplicationTheme.createPrimarySwatch(
-                  Get.theme.primaryColor)[650],
-              borderRadius: const BorderRadius.all(Radius.circular(7))),
-          child: child,
-        ),
-        onTap: controller.toggleCategorize,
-      ),
+      action: AssetButton.toggleButton(
+          onTap: controller.toggleCategorize,
+          icon: 'category_icon',
+          active: controller.categorize),
       secondAction: AssetButton.selectAll(
           allItemsSelected: controller.allItemsSelected,
           onTap: controller.toggleSelectAllValue),
@@ -85,8 +75,9 @@ class RecipesPage extends CustomPage<RecipesController> {
 
   @override
   Widget bodyBuilder(RecipesController controller, BuildContext context) {
-    if (controller.categorize) {
-      return ListView(
+    return ConditionalWidget(
+      condition: controller.categorize,
+      child: (context) => ListView(
         shrinkWrap: true,
         children: [
           ...controller.categories
@@ -103,13 +94,14 @@ class RecipesPage extends CustomPage<RecipesController> {
                 .toList(),
           )
         ],
-      );
-    }
-    return GridCards(
-      addElement: controller.add,
-      hideAddElement: controller.selectionIsActive,
-      children:
-          controller.items.map((recipe) => RecipeCard(recipe: recipe)).toList(),
+      ),
+      secondChild: (context) => GridCards(
+        addElement: controller.add,
+        hideAddElement: controller.selectionIsActive,
+        children: controller.items
+            .map((recipe) => RecipeCard(recipe: recipe))
+            .toList(),
+      ),
     );
   }
 }

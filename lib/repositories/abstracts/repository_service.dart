@@ -3,7 +3,10 @@ import 'package:get/get.dart';
 import 'package:mekla/services/isar_service.dart';
 
 abstract class RepositoryService<T> extends GetxService {
-  Future<T> save(T element) async {
+  Future<T?> save(T? element) async {
+    if(element==null) {
+      return null;
+    }
     return await saveInternal(element);
   }
 
